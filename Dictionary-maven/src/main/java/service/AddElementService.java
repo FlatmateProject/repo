@@ -16,35 +16,37 @@ public class AddElementService extends AbstractService<WordEntity> {
 	
 	public static final String EMPTY_EXAMPLES = "Lista przykładów nie może być pusta";
 	
-	private String word;
+	private String wordName;
 
 	private Set<String> translations = new HashSet<String>();
 
 	private Set<String> examples = new HashSet<String>();
+	
+	private WordEntity word;
 
 	@Override
 	protected WordEntity runService(ServiceContext serviceContext) throws ServiceException, DaoException {
 		
-		result = getDictionaryDao().saveElement(word, translations, examples);
+		word = getDictionaryDao().saveElement(wordName, translations, examples);
 		
-		return result;
+		return word;
 	}
 
 	public void validation() throws ServiceException {
 		
-		restrictionIsNotNullAndEmpty(word, EMPTY_WORD);
+		restrictionIsNotNullAndEmpty(wordName, EMPTY_WORD);
 		
 		restrictionIsNotNullAndEmpty(translations, EMPTY_TRANSLATIONS);
 		
 		restrictionIsNotNullAndEmpty(examples, EMPTY_EXAMPLES);
 	}
 
-	public String getWord() {
-		return word;
+	public String getWordName() {
+		return wordName;
 	}
 
-	public void setWord(String word) {
-		this.word = word;
+	public void setWordName(String word) {
+		this.wordName = reduceWhitespace(wordName);
 	}
 
 	public Set<String> getTranslations() {
@@ -52,7 +54,7 @@ public class AddElementService extends AbstractService<WordEntity> {
 	}
 
 	public void setTranslations(Set<String> translations) {
-		this.translations = translations;
+		this.translations = reduceWhitespace(translations);
 	}
 
 	public Set<String> getExamples() {
@@ -60,7 +62,7 @@ public class AddElementService extends AbstractService<WordEntity> {
 	}
 
 	public void setExamples(Set<String> examples) {
-		this.examples = examples;
+		this.examples = reduceWhitespace(examples);
 	}
 
 }

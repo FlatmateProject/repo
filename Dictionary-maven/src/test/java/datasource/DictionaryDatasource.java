@@ -1,10 +1,9 @@
 package datasource;
 
-import exception.DaoException;
-import exception.ServiceException;
 import hibernate.WordEntity;
+import exception.DatasourceException;
 
 public interface DictionaryDatasource {
 
-	public WordEntity createWord() throws ServiceException, DaoException, Exception;
+	public WordEntity createWord() throws DatasourceException;
 }

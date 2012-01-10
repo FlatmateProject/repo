@@ -38,7 +38,7 @@ public class AddElementServiceTest extends AbstractServiceTest {
 				translations.add("pyskować");
 				examples.add("How dare you answer back like that?!");
 
-				service.setWord(wordName);
+				service.setWordName(wordName);
 				service.setTranslations(translations);
 				service.setExamples(examples);
 			}
@@ -73,7 +73,7 @@ public class AddElementServiceTest extends AbstractServiceTest {
 
 				wordName = "";
 				
-				service.setWord(wordName);
+				service.setWordName(wordName);
 				
 			}
 

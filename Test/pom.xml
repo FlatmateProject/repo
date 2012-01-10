@@ -18,13 +18,15 @@
 					<encoding>UTF-8</encoding>
 					<source>1.6</source>
 					<target>1.6</target>
+					<pde>true</pde>
+	
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>J2EERepo</groupId>
+			<groupId>repo</groupId>
 			<artifactId>Dictionary-maven</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
