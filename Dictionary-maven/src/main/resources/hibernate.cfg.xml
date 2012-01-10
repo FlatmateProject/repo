@@ -11,7 +11,7 @@
 		<property name="hibernate.format_sql">true</property>
 		<property name="show_sql">true</property>
 		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
-		<property name="hibernate.hbm2ddl.auto">create</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
 		<!-- Mapping files hibernatetutorial -->
 		<mapping resource="baseStructure.hbm.xml" />
 	</session-factory>
