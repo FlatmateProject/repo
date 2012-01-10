@@ -3,15 +3,11 @@ package service;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.jboss.system.ServiceContext;
-
 import com.mchange.util.AssertException;
-
 import dao.HibernateUtil;
 import datasource.DictionaryDatasource;
 import datasource.DictionarytDatasourceImpl;
 import exception.DatasourceException;
-import service.AbstractProvider;
-import service.AbstractService;
 
 public abstract class AbstractServiceTest {
 

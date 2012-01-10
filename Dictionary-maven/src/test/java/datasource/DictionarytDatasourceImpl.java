@@ -21,7 +21,7 @@ public class DictionarytDatasourceImpl extends AbstractDatasource implements Dic
 		Set<String> examples = generator.randomExamples();
 		
 		AddElementService service = getService(AddElementService.class);
-		
+		restrictionIsNotNull(service, "Nie udało się utworzyć usługi");
 		wordName = generator.randomWord();
 
 		service.setWord(wordName);

@@ -2,6 +2,7 @@ package datasource;
 
 import org.hibernate.Session;
 import exception.DatasourceException;
+import exception.ServiceException;
 import service.AbstractProvider;
 import service.AbstractService;
 
@@ -72,6 +73,13 @@ public abstract class  AbstractDatasource {
 		} catch (Exception e) {
 			throw new DatasourceException(e.getMessage());
 		}
+	}
+	
+	public boolean restrictionIsNotNull(Object object, String message) throws DatasourceException {
+		if (object == null) {
+			throw new ServiceException(message);
+		}
+		return true;
 	}
 	
 }
