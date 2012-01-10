@@ -1,5 +1,6 @@
 package service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import manager.ServiceManager;
@@ -20,8 +21,6 @@ public abstract class AbstractService<T> {
 	
 	private ServiceManager serviceManager;
 
-	protected T result = null;
-
 	protected abstract T runService(ServiceContext serviceContext) throws ServiceException, DaoException;
 	
 	public abstract void validation() throws ServiceException;
@@ -39,15 +38,15 @@ public abstract class AbstractService<T> {
 			
 			validation();
 
-			result = runService(serviceContext);
+			T result = runService(serviceContext);
 			
 			finalizeFields();
+			
+			return result;
 			
 		} catch (Exception e) {
 			throw new ServiceException(e);
 		}
-
-		return result;
 	}
 	
 	private void finalizeFields() {
@@ -55,7 +54,7 @@ public abstract class AbstractService<T> {
 		dictionaryDao = null;
 	}
 
-	public DictionaryDao getDictionaryDao() {
+	protected DictionaryDao getDictionaryDao() {
 		return dictionaryDao;
 	}
 
@@ -69,36 +68,48 @@ public abstract class AbstractService<T> {
 		}
 	}
 	
-	public ServiceManager getServiceManager() {
+	protected ServiceManager getServiceManager() {
 		return serviceManager;
 	}
 	
-	public boolean restrictionIsNotNull(Object object, String message) throws ServiceException {
+	protected String reduceWhitespace(String text) {
+		return text.replaceAll("\\s+", " ");
+	}
+	
+	protected Set<String> reduceWhitespace(Set<String> sentences) {
+		Set<String> result = new HashSet<String>();
+		for(String s : sentences){
+			result.add(reduceWhitespace(s));
+		}
+		return result;
+	}
+	
+	protected boolean restrictionIsNotNull(Object object, String message) throws ServiceException {
 		if (object == null) {
 			throw new ServiceException(message);
 		}
 		return true;
 	}
 	
-	public boolean restrictionIsNotEmpty(String object, String message) throws ServiceException {
+	protected boolean restrictionIsNotEmpty(String object, String message) throws ServiceException {
 		if (object.isEmpty()) {
 			throw new ServiceException(message);
 		}
 		return true;
 	}
 	
-	public boolean restrictionIsNotEmpty(Set<?> object, String message) throws ServiceException {
+	protected boolean restrictionIsNotEmpty(Set<?> object, String message) throws ServiceException {
 		if (object.isEmpty()) {
 			throw new ServiceException(message);
 		}
 		return true;
 	}
 	
-	public boolean restrictionIsNotNullAndEmpty(String object, String message) throws ServiceException {
+	protected boolean restrictionIsNotNullAndEmpty(String object, String message) throws ServiceException {
 		return restrictionIsNotNull(object, message) && restrictionIsNotEmpty(object, message);
 	}
 	
-	public boolean restrictionIsNotNullAndEmpty(Set<?> object, String message) throws ServiceException {
+	protected boolean restrictionIsNotNullAndEmpty(Set<?> object, String message) throws ServiceException {
 		return restrictionIsNotNull(object, message) && restrictionIsNotEmpty(object, message);
 	}
 }

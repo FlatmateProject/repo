@@ -63,4 +63,11 @@ public abstract class AbstractServiceManager {
 		}
 	}
 	
+	public boolean restrictionIsNotNull(Object object, String message) throws ServiceException {
+		if (object == null) {
+			throw new ServiceException(message);
+		}
+		return true;
+	}
+	
 }

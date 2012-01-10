@@ -68,4 +68,9 @@ public class WordEntity {
 		return true;
 	}
 
+	public Set<TranslationEntity> addTranslations(Set<String> translationNames) {
+		translations.addAll(TranslationEntity.Factory.createTranslations(translationNames, this));
+		return translations;
+	}
+
 }

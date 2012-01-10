@@ -49,13 +49,16 @@
       <subitem label="44. FacadeUtil tworzyć sesje na fasadzie co sprawi ze każda usługa zewnętrzna bedzie pracowała na osobnej sesji hibernatowej"></subitem>   
       <subitem label="38. AbstractTest i AbstractDaoTest rollback  po każdym  tescie, gdyż testy zawsze pracuja na pustej bazie."></subitem>
       <subitem label="40. Add new class ServiceManager which allows to call service in other service."></subitem>
-      <subitem label="41. AbstractService add field ServiceManager."></subitem>     
+      <subitem label="41. AbstractService add field ServiceManager."></subitem>
+      <subitem label="18. Dodanie pola log do wszystkich klas, co pozwoli pozbyć się warningu przy uruchamianiu aplikacji. log4j:WARN No appenders could be found for logger (org.hibernate.cfg.Environment)."></subitem>     
    </item>
    <item title="iteration_2">
       <description>iteration_2</description>  
-      <subitem label="18. Dodanie pola log do wszystkich klas, co pozwoli pozbyć się warningu przy uruchamianiu aplikacji. log4j:WARN No appenders could be found for logger (org.hibernate.cfg.Environment)."></subitem>
       <subitem label="33. Stworzyć servis FindElementService"></subitem>
       <subitem label="51. Walidacja Stringów podawanych do servisu AddElementService. Usunięcie wszystkich zbędnych białych znaków."></subitem>
+      <subitem
+            label="52. Add service AddTranslationToWord.">
+      </subitem>
       <subitem
             label="53. AbstractDatasource AbstractMenager Dodać metode restrictionIfNotNull dla wyniku wywołania servisu.">
       </subitem>

@@ -12,7 +12,7 @@ public class DictionaryBeanFacade implements DictionaryEndPoint {
 	public boolean addElement(String wordName, Set<String> translations, Set<String> examples) {
 		AddElementService service = FacadeUtil.getService(AddElementService.class);
 		
-		service.setWord(wordName);
+		service.setWordName(wordName);
 		service.setTranslations(translations);
 		service.setExamples(examples);
 		WordEntity result = FacadeUtil.executeService(service);
