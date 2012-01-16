@@ -1,6 +1,6 @@
 package exception;
 
-public class ServiceException extends Exception{
+public class ApplicationException extends Exception{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -8,15 +8,15 @@ public class ServiceException extends Exception{
 
 	private Exception parentException;
 	
-	public ServiceException(String message) {
+	public ApplicationException(String message) {
 		this(message, null);
 	}
 	
-	public ServiceException(Exception e) {
+	public ApplicationException(Exception e) {
 		this(null, e);
 	}
 	
-	public ServiceException(String message, Exception e) {
+	public ApplicationException(String message, Exception e) {
 		super(message +" : "+ (e != null ? e.getMessage() : ""));
 		this.message = message;
 		this.parentException = e; 
@@ -32,5 +32,5 @@ public class ServiceException extends Exception{
 	public Exception getParentException() {
 		return parentException;
 	}
-	
+
 }

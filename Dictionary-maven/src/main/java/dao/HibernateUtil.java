@@ -40,7 +40,6 @@ public class HibernateUtil {
 			return;
 		}
 		try {
-		//session.flush();
 		session.close();
 		session = null;
 		} catch (Exception e) {

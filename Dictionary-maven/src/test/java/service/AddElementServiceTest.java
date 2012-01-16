@@ -21,7 +21,7 @@ public class AddElementServiceTest extends AbstractServiceTest {
 	}
 
 	@Test
-	public void test_add_element() {
+	public void testSuccess_add_element() {
 		patternTestMethod(new TestPattern<AddElementService, WordEntity>() {
 
 			private String wordName;

@@ -57,18 +57,12 @@
       <subitem label="51. Walidacja Stringów podawanych do servisu AddElementService. Usunięcie wszystkich zbędnych białych znaków."></subitem>
       <subitem label="53. AbstractDatasource AbstractMenager Dodać metode restrictionIfNotNull dla wyniku wywołania servisu."></subitem>
       <subitem label="52. Add service AddTranslationToWord."></subitem>     
+      <subitem label="55. Refactoring classes *Exception. Invoke one constructor in anather."></subitem>  
+      <subitem label="54. Refaktoryzacja FacadeUtils."></subitem>
+      <subitem label="56. Separate session have to be created in AbstractDataSource. This session will be independent from session in services."></subitem>
    </item>
    <item title="iteration_2">
       <description>iteration_2</description>
-      <subitem
-            label="54. Refaktoryzacja FacadeUtils.">
-      </subitem>
-      <subitem
-            label="55. Refactoring classes *Exception. Invoke one construc
-      <subitem
-            label="56. Separate session have to be created in AbstractDataSource. This session will be independent from session in services.">
-      </subitem>tor in anather.">
-      </subitem>  
-
+      
    </item>   
 </cheatsheet>

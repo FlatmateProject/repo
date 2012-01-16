@@ -1,8 +1,10 @@
 package fasade;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.jboss.system.ServiceContext;
 import dao.HibernateUtil;
+import exception.ApplicationException;
 import service.AbstractProvider;
 import service.AbstractService;
 
@@ -13,47 +15,45 @@ public class FacadeUtil {
 	private final static AbstractProvider serviceProvider = createServiceProvider();
 	
 	@SuppressWarnings("unchecked")
-	public static <T> T getService(Class<?> serviceName) {
+	public static <T> T getService(Class<?> serviceName) throws ApplicationException {
 		try {		
 			return (T) serviceProvider.getInstance(serviceName);
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new ApplicationException("Nie udało sie utworzyc uslugi", e);
 		}
-		
-		return null;
 	}
 
-	public static <T> T executeService(AbstractService<T> service)  {
-		T result = null;
+	public static <T> T executeService(AbstractService<T> service) throws ApplicationException {
 		try {
 			Session session = HibernateUtil.getSession();
-			session.beginTransaction();
-			service.setSession(session);
-			
-			result = service.executeService(serviceContext);
-			
-			commit(session);
-			
+			Transaction transaction = session.beginTransaction();
+			return executeService(service, session, transaction);
 		} catch (Exception e) {
-			rollback(service.getSession());
-			e.printStackTrace();
-		}finally {
-			HibernateUtil.closeSession(service.getSession());
+			throw new ApplicationException(e);
 		}
-		return result;
 	}
 	
 	
-	private static void commit(Session session) throws Exception {
-		session.connection().commit();
-	}
-
-	private static void rollback(Session session) {
+	@SuppressWarnings("unchecked")
+	private static <T> T executeService(AbstractService<?> service,	Session session, Transaction transaction) throws ApplicationException {
 		try {
-			session.connection().rollback();
+			session = HibernateUtil.getSession();
+
+			service.setSession(session);
+
+			T result = (T) service.executeService(serviceContext);
+
+			transaction.commit();
+
+			return result;
+
 		} catch (Exception e) {
-			e.printStackTrace();
+			transaction.rollback();
+			throw new ApplicationException(e);
+		} finally {
+			HibernateUtil.closeSession(session);
 		}
+
 	}
 	
 	private static AbstractProvider createServiceProvider() {

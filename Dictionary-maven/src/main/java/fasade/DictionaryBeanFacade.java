@@ -5,11 +5,13 @@ import hibernate.WordEntity;
 import java.util.Set;
 
 import service.AddElementService;
+import exception.ApplicationException;
 
 public class DictionaryBeanFacade implements DictionaryEndPoint {
 
 	@Override
-	public boolean addElement(String wordName, Set<String> translations, Set<String> examples) {
+	public boolean addElement(String wordName, Set<String> translations, Set<String> examples) throws ApplicationException {
+		
 		AddElementService service = FacadeUtil.getService(AddElementService.class);
 		
 		service.setWordName(wordName);
