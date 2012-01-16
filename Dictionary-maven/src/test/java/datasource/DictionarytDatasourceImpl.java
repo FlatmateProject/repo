@@ -1,5 +1,6 @@
 package datasource;
 
+import hibernate.TranslationEntity;
 import hibernate.WordEntity;
 import java.util.Set;
 
@@ -24,4 +25,11 @@ public class DictionarytDatasourceImpl extends AbstractDatasource implements Dic
 		
 		return execute(service);
 	}
+
+	@Override
+	public TranslationEntity createTranslation(WordEntity word) throws DatasourceException {
+		return TranslationEntity.Factory.createTranslation(generator.randomWord(), word); 
+	}
+	
+	
 }

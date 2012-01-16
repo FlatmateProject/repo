@@ -13,7 +13,7 @@ public class ApplicationException extends Exception{
 	}
 	
 	public ApplicationException(Exception e) {
-		this(null, e);
+		this(e.getMessage(), e);
 	}
 	
 	public ApplicationException(String message, Exception e) {

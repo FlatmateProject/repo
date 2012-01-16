@@ -23,11 +23,12 @@ public class FacadeUtil {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T> T executeService(AbstractService<T> service) throws ApplicationException {
 		try {
 			Session session = HibernateUtil.getSession();
 			Transaction transaction = session.beginTransaction();
-			return executeService(service, session, transaction);
+			return (T)executeService(service, session, transaction);
 		} catch (Exception e) {
 			throw new ApplicationException(e);
 		}

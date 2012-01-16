@@ -39,7 +39,7 @@ public abstract class AbstractDatasource {
 		try {
 			Session session = HibernateUtil.getSession();
 			Transaction transaction = session.beginTransaction();
-			return execute(service, session, transaction);
+			return (T) execute(service, session, transaction);
 		} catch (Exception e) {
 			throw new DatasourceException(e);
 		}

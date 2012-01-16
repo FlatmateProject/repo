@@ -13,7 +13,7 @@ public class ServiceException extends Exception{
 	}
 	
 	public ServiceException(Exception e) {
-		this(null, e);
+		this(e.getMessage(), e);
 	}
 	
 	public ServiceException(String message, Exception e) {

@@ -63,6 +63,8 @@
    </item>
    <item title="iteration_2">
       <description>iteration_2</description>
-      
+      <subitem
+            label="57. Add service GetRandomElementList.">
+      </subitem>
    </item>   
 </cheatsheet>

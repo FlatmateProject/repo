@@ -68,4 +68,8 @@ public class TranslationEntity {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return translationName;
+	}
 }

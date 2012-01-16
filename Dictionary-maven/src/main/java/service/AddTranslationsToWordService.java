@@ -14,7 +14,9 @@ public class AddTranslationsToWordService extends AbstractService<WordEntity> {
 
 	private String WORD_NOT_FOUND = "Podane słowo nie istnieje";
 	
-	public static final String EMPTY_TRANSLATIONS = "Lista tłumaczeń nie może być pusta";
+	private String EMPTY_WORD = "Słowo nie może być puste";
+	
+	private static final String EMPTY_TRANSLATIONS = "Lista tłumaczeń nie może być pusta";
 	
 	private String wordName;
 
@@ -36,7 +38,17 @@ public class AddTranslationsToWordService extends AbstractService<WordEntity> {
 
 	@Override
 	public void validation() throws ServiceException {
+		restrictionIsNotNullAndEmpty(wordName, EMPTY_WORD);
 		restrictionIsNotNullAndEmpty(translations, EMPTY_TRANSLATIONS);
+	}
+
+
+	public void setWordName(String wordName) {
+		this.wordName = wordName;
+	}
+
+	public void setTranslations(Set<String> translations) {
+		this.translations = translations;
 	}
 
 }

@@ -9,7 +9,7 @@ public class DaoException extends Exception {
 	private Exception parentException;
 
 	public DaoException(Exception e) {
-		this(null, e);
+		this(e.getMessage(), e);
 	}
 	
 	public DaoException(String message, Exception e) {
