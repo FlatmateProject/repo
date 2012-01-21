@@ -46,7 +46,7 @@ public class AddElementService extends AbstractService<WordEntity> {
 	}
 
 	public void setWordName(String word) {
-		this.wordName = reduceWhitespace(wordName);
+		this.wordName = reduceWhitespace(word);
 	}
 
 	public Set<String> getTranslations() {

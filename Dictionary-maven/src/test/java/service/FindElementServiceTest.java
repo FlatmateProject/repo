@@ -11,6 +11,7 @@ import exception.DatasourceException;
 
 import service.FindElementService;
 
+
 public class FindElementServiceTest extends AbstractServiceTest {
 	
 	final Logger log = LogManager.getLogger(FindElementServiceTest.class);
@@ -18,7 +19,6 @@ public class FindElementServiceTest extends AbstractServiceTest {
 	private void patternTestMethod(TestPattern<FindElementService, WordEntity> testPattern) {
 		patternTestMethod(testPattern, FindElementService.class);
 	}
-	
 	
 	
 	@Test
@@ -36,7 +36,7 @@ public class FindElementServiceTest extends AbstractServiceTest {
 			@Override
 			public void assertResult(WordEntity result) {
 				assertNotNull(result);
-				assertTrue(result.getWordName().equals(word));			
+				assertTrue(result.getWordName().equals(word.getWordName()));			
 			}
 
 			@Override

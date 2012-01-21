@@ -68,5 +68,8 @@ public class ExampleEntity {
 		return true;
 	}
 
-
+	@Override
+	public String toString() {
+		return exampleName;
+	}
 }

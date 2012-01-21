@@ -37,7 +37,7 @@ public abstract class AbstractServiceTest {
 			
 			transaction = session.beginTransaction();
 			
-			dictionaryDatasource = new DictionarytDatasourceImpl(session);
+			dictionaryDatasource = new DictionarytDatasourceImpl();
 			
 			AbstractService<T> service = serviceProvider.getInstance(serviceName);
 			service.setSession(session);
