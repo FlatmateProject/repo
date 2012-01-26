@@ -2,6 +2,8 @@ package examples;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import exception.ApplicationException;
 import fasade.DictionaryBeanFacade;
 import fasade.DictionaryEndPoint;
 
@@ -9,7 +11,7 @@ import fasade.DictionaryEndPoint;
 public class AddElement {
 
 
-	public static void main(String[] args) 
+	public static void main(String[] args) throws ApplicationException 
 	{
 		String wordName;
 
