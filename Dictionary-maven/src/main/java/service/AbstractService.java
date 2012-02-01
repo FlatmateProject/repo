@@ -112,4 +112,10 @@ public abstract class AbstractService<T> {
 	protected boolean restrictionIsNotNullAndEmpty(Set<?> object, String message) throws ServiceException {
 		return restrictionIsNotNull(object, message) && restrictionIsNotEmpty(object, message);
 	}
+	protected boolean restrictionIsNotNegativeValue(int value, String message) throws ServiceException {
+		if (value <= 0 ) {
+			throw new ServiceException(message);
+		}
+		return true;
+	}
 }

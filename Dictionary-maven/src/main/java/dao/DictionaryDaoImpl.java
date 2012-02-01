@@ -1,12 +1,20 @@
 package dao;
 
+
+import hibernate.ExampleEntity;
+import hibernate.TranslationEntity;
+import hibernate.WordEntity;
+
+import java.util.List;
 import java.util.Set;
+
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+
 import exception.DaoException;
-import hibernate.*;
 
 public class DictionaryDaoImpl extends AbstractDao implements DictionaryDao {
 
@@ -25,7 +33,7 @@ public class DictionaryDaoImpl extends AbstractDao implements DictionaryDao {
 		}
 	}
 
-
+	
 	@Override
 	public WordEntity findWord(String word) throws DaoException {
 		try {
@@ -59,6 +67,16 @@ public class DictionaryDaoImpl extends AbstractDao implements DictionaryDao {
 	public Set<TranslationEntity> addTranslationsToWord(Set<String> translationNames, String wordName)throws DaoException {
 		
 		return null;
+	}
+
+	@Override
+	public List<WordEntity> getRandomWords(int limit) throws DaoException {
+		try {
+			Query query = getSession().createQuery("SELECT * FROM 'Word' ORDER BY RAND() LIMIT " + limit);
+			return query.list();
+		} catch (HibernateException e) {
+			throw new DaoException(e);
+		}
 	}
 
 }
