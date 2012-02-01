@@ -3,7 +3,7 @@
    "http://www.springframework.org/dtd/spring-beans.dtd">
  
 <beans>
-  <bean id="hello" class="uk.co.pookey.SayHello">
-    <property name="name" value="Pookey" />
+  <bean id="AddElement" class="service.AddElementService">
+    <property name="wordName" value="siema" />
   </bean>
 </beans>

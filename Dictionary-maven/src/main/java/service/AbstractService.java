@@ -5,9 +5,7 @@ import java.util.Set;
 
 import manager.ServiceManager;
 import manager.ServiceManagerImpl;
-
 import org.hibernate.Session;
-import org.jboss.system.ServiceContext;
 import dao.DictionaryDao;
 import dao.DictionaryDaoImpl;
 import exception.DaoException;

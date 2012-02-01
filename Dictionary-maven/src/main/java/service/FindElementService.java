@@ -1,7 +1,5 @@
 package service;
 
-import org.jboss.system.ServiceContext;
-
 import exception.DaoException;
 import exception.ServiceException;
 import hibernate.WordEntity;
