@@ -10,6 +10,8 @@ public class FactoryMethodTest {
 		Spanish
 	}
 	
+	
+	
 	public FactoryMethodTest(LANGUAGE language) {
 		System.out.println(language.name());
 		message = createMessage(language);

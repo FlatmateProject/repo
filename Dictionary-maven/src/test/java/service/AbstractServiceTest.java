@@ -2,7 +2,6 @@ package service;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.jboss.system.ServiceContext;
 import com.mchange.util.AssertException;
 import dao.HibernateUtil;
 import datasource.DictionaryDatasource;

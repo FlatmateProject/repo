@@ -2,17 +2,23 @@ package fasade;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.jboss.system.ServiceContext;
-import dao.HibernateUtil;
-import exception.ApplicationException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.core.io.ClassPathResource;
+
 import service.AbstractProvider;
 import service.AbstractService;
+import service.ServiceContext;
+import dao.HibernateUtil;
+import exception.ApplicationException;
 
 public class FacadeUtil {
 
 	private final static ServiceContext serviceContext = new ServiceContext();
 
 	private final static AbstractProvider serviceProvider = createServiceProvider();
+	
+	private static BeanFactory factory = new XmlBeanFactory(new ClassPathResource("application-context.xml"));
 	
 	@SuppressWarnings("unchecked")
 	public static <T> T getService(Class<?> serviceName) throws ApplicationException {
@@ -78,5 +84,8 @@ public class FacadeUtil {
 
 		};
 	}
-
+	
+	public static Object getBean(String beanName) {
+		return factory.getBean(beanName);
+	}
 }

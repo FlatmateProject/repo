@@ -4,8 +4,6 @@ import java.util.Set;
 
 import hibernate.WordEntity;
 
-import org.jboss.system.ServiceContext;
-
 import exception.DaoException;
 import exception.ServiceException;
 import service.AbstractService;
