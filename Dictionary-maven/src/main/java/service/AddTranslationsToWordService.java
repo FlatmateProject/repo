@@ -2,6 +2,8 @@ package service;
 
 import java.util.Set;
 
+import org.springframework.context.ApplicationContext;
+
 import hibernate.WordEntity;
 
 import exception.DaoException;
@@ -24,9 +26,9 @@ public class AddTranslationsToWordService extends AbstractService<WordEntity> {
 
 	
 	@Override
-	protected WordEntity runService(ServiceContext serviceContext) throws ServiceException, DaoException {
+	protected WordEntity runService(ApplicationContext serviceContext) throws ServiceException, DaoException {
 		
-		word = getServiceManager().invoceElementWord(wordName);
+		word = getServiceManager().invokeFindElementWord(wordName);
 		restrictionIsNotNull(word, WORD_NOT_FOUND);
 		
 		word.addTranslations(translations);

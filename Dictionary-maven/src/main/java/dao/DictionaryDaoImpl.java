@@ -11,16 +11,11 @@ import java.util.Set;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import exception.DaoException;
 
 public class DictionaryDaoImpl extends AbstractDao implements DictionaryDao {
-
-	public DictionaryDaoImpl(Session session) {
-		super(session);
-	}
 
 	@Override
 	public WordEntity saveElement(String wordName, Set<String> translations, Set<String> examples) throws DaoException {		
@@ -69,6 +64,7 @@ public class DictionaryDaoImpl extends AbstractDao implements DictionaryDao {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<WordEntity> getRandomWords(int limit) throws DaoException {
 		try {

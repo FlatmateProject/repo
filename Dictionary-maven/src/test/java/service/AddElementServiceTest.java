@@ -54,7 +54,6 @@ public class AddElementServiceTest extends AbstractServiceTest {
 
 			@Override
 			public boolean assertException(Exception exception) {
-				
 				return false;
 			}
 
@@ -86,7 +85,9 @@ public class AddElementServiceTest extends AbstractServiceTest {
 			@Override
 			public boolean assertException(Exception exception) {
 				assertTrue(exception instanceof ServiceException);
-				assertEquals(AddElementService.EMPTY_WORD, ((ServiceException)exception).getMessage());
+				ServiceException serviceException = (ServiceException) exception;
+				
+				assertEquals(AddElementService.EMPTY_WORD, serviceException.getErrorMessage());
 				return true;
 			}
 		});

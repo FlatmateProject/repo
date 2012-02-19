@@ -2,13 +2,20 @@ package service;
 
 
 import hibernate.WordEntity;
+
 import java.util.HashSet;
 import java.util.Set;
+
+import org.apache.log4j.Logger;
+import org.springframework.context.ApplicationContext;
+
 import exception.DaoException;
 import exception.ServiceException;
 
 public class AddElementService extends AbstractService<WordEntity> {
 
+	private Logger log = Logger.getLogger(AddElementService.class);
+	
 	public static final String EMPTY_WORD = "Słow nie możę być puste";
 	
 	public static final String EMPTY_TRANSLATIONS = "Lista tłumaczeń nie może być pusta";
@@ -24,10 +31,11 @@ public class AddElementService extends AbstractService<WordEntity> {
 	private WordEntity word;
 
 	@Override
-	protected WordEntity runService(ServiceContext serviceContext) throws ServiceException, DaoException {
+	protected WordEntity runService(ApplicationContext serviceContext) throws ServiceException, DaoException {
 		
 		word = getDictionaryDao().saveElement(wordName, translations, examples);
-		
+		log.info("wordName: "+ word.getWordName());
+		log.info("session: "+ getSession());
 		return word;
 	}
 
@@ -63,5 +71,4 @@ public class AddElementService extends AbstractService<WordEntity> {
 	public void setExamples(Set<String> examples) {
 		this.examples = reduceWhitespace(examples);
 	}
-
 }

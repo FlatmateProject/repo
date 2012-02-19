@@ -6,10 +6,6 @@ public abstract class AbstractDao {
 
 	private Session session;
 
-	public AbstractDao(Session session) {
-		this.session = session;
-	}
-
 	public Session getSession() {
 		return this.session;
 	}

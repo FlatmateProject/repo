@@ -1,22 +1,26 @@
 package service;
 
+import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.mchange.util.AssertException;
-import dao.HibernateUtil;
+
+import datasource.AbstractDatasource;
 import datasource.DictionaryDatasource;
-import datasource.DictionarytDatasourceImpl;
 import exception.DatasourceException;
 
 public abstract class AbstractServiceTest {
 
 	private AbstractProvider serviceProvider = createServiceProvider();
 
+	private ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application-context.xml");
+	
 	protected DictionaryDatasource  dictionaryDatasource;
 
 	private Transaction transaction;
-
-	private Session session;
 	
 	public interface TestPattern<S, R> {
 
@@ -27,20 +31,21 @@ public abstract class AbstractServiceTest {
 		public abstract boolean assertException(Exception exception);
 	}
 	
+	private void initializeDatasource() {
+		dictionaryDatasource = (DictionaryDatasource)applicationContext.getBean("myDictionarytDatasource");
+		((AbstractDatasource)dictionaryDatasource).setApplicationContext(applicationContext);
+	}
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public <T> void patternTestMethod(TestPattern testPattern, Class<?> serviceName) {
 		
 		try {
-			
-			session = HibernateUtil.getSession();
-			
-			transaction = session.beginTransaction();
-			
-			dictionaryDatasource = new DictionarytDatasourceImpl();
-			
-			AbstractService<T> service = serviceProvider.getInstance(serviceName);
-			service.setSession(session);
+			initializeDatasource();
 
+			AbstractService<T> service = serviceProvider.getInstance(serviceName);
+			
+			transaction = beginTransaction(service.getSession());
+			
 			testPattern.initialize(service);
 
 			T result = (T) serviceProvider.execute(service);
@@ -58,10 +63,13 @@ public abstract class AbstractServiceTest {
 				throw new AssertException(e.getMessage());
 			}
 		} finally {
-			session.clear();
 			transaction = null;
-			HibernateUtil.closeSession(session);
 		}
+	}
+
+	private Transaction beginTransaction(Session session) {
+		session.setFlushMode(FlushMode.COMMIT);
+		return session.beginTransaction();
 	}
 
 	private AbstractProvider createServiceProvider() {
@@ -73,14 +81,13 @@ public abstract class AbstractServiceTest {
 			@SuppressWarnings("unchecked")
 			@Override
 			public <T> T getInstance(Class<?> serviceName) throws Exception {
-				return (T) serviceName.newInstance();
+				return (T) applicationContext.getBean("my" + serviceName.getSimpleName());
 			}
 
 			@SuppressWarnings("unchecked")
 			@Override
 			public <T> T execute(AbstractService<?> service) throws Exception {
-				ServiceContext context = new ServiceContext();
-				return (T) service.executeService(context);
+				return (T) service.executeService(applicationContext);
 			}
 
 		};

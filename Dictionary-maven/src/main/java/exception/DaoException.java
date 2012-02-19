@@ -13,7 +13,7 @@ public class DaoException extends Exception {
 	}
 	
 	public DaoException(String message, Exception e) {
-		super(message +" : "+ (e != null ? e.getMessage() : ""));
+		super(e != null ? e.getMessage() : message);
 		this.message = message;
 		this.parentException = e; 
 		if (e != null) {

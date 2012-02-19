@@ -17,7 +17,7 @@ public class ApplicationException extends Exception{
 	}
 	
 	public ApplicationException(String message, Exception e) {
-		super(message +" : "+ (e != null ? e.getMessage() : ""));
+		super(e != null ? e.getMessage() : message);
 		this.message = message;
 		this.parentException = e; 
 		if (e != null) {

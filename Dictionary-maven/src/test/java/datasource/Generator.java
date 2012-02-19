@@ -2,7 +2,7 @@ package datasource;
 
 import java.util.Set;
 
-public interface AbstractGenerator {
+public interface Generator {
 	
 	String randomWord();
 

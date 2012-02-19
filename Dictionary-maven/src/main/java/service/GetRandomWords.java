@@ -4,6 +4,8 @@ import hibernate.WordEntity;
 
 import java.util.List;
 
+import org.springframework.context.ApplicationContext;
+
 import exception.DaoException;
 import exception.ServiceException;
 
@@ -15,7 +17,7 @@ public class GetRandomWords extends AbstractService<List<WordEntity>> {
 	private List<WordEntity> result;
 
 	@Override
-	protected List<WordEntity> runService(ServiceContext serviceContext)throws ServiceException, DaoException {
+	protected List<WordEntity> runService(ApplicationContext serviceContext)throws ServiceException, DaoException {
 		result = getDictionaryDao().getRandomWords(limit);	
 		
 		restrictionIsNotNull(result, EMPTY_RESULT);

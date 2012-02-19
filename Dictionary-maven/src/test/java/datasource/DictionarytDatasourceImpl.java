@@ -4,6 +4,9 @@ import hibernate.TranslationEntity;
 import hibernate.WordEntity;
 import java.util.Set;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import service.AddElementService;
 import exception.DatasourceException;
 
@@ -31,5 +34,13 @@ public class DictionarytDatasourceImpl extends AbstractDatasource implements Dic
 		return TranslationEntity.Factory.createTranslation(generator.randomWord(), word); 
 	}
 	
+	public static void main(String[] args) throws DatasourceException{
+		ApplicationContext context= new ClassPathXmlApplicationContext("application-context.xml");
+		
+		DictionarytDatasourceImpl ds = new DictionarytDatasourceImpl();
+		ds.setApplicationContext(context);
+		
+		ds.createWord();
+	}
 	
 }

@@ -1,50 +1,34 @@
 package manager;
 
 import org.hibernate.Session;
+import org.springframework.context.ApplicationContext;
+
+import service.AbstractService;
+import dao.DictionaryDao;
 import exception.DatasourceException;
 import exception.ServiceException;
-import service.AbstractProvider;
-import service.AbstractService;
 
 public abstract class AbstractServiceManager {
 
-	private Session session; 
+	private ApplicationContext applicationContext;
 	
-	public AbstractProvider serviceIntProvider = createServiceIntProvider();
+	private Session session;
 	
-	public AbstractServiceManager(Session session) {
-		this.session = session;
-	}
-
-
-	private AbstractProvider createServiceIntProvider() {
-		if (serviceIntProvider  != null) {
-			return serviceIntProvider;
-		}
-		return new AbstractProvider() {
-
-			@SuppressWarnings("unchecked")
-			@Override
-			public <T> T getInstance(Class<?> serviceName) throws Exception {
-				return (T) serviceName.newInstance();
-			}
-
-			@SuppressWarnings("unchecked")
-			@Override
-			public <T> T execute(AbstractService<?> service) throws Exception {
-				return (T) service.executeService(null);
-			}
-
-		};
+	private DictionaryDao dictionaryDao; 
+	
+	private void initializeService(AbstractService<?> service) {
+		service.setSession(session);
+		service.setDictionaryDao(dictionaryDao);
+		service.setServiceManager((ServiceManager)this);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public <T> T execute(AbstractService<T> service) throws ServiceException {
 
 		try {
-			service.setSession(session);
 			
-			T result = (T)serviceIntProvider.execute(service);
+			initializeService(service);
+			
+			T result = (T)service.executeService(applicationContext);
 
 			return result;
 
@@ -56,8 +40,7 @@ public abstract class AbstractServiceManager {
 	@SuppressWarnings("unchecked")
 	public <T> T getService(Class<?> serviceName) throws ServiceException {
 		try {
-			
-			return (T)serviceIntProvider.getInstance(serviceName);
+			return (T)serviceName.newInstance();
 		} catch (Exception e) {
 			throw new DatasourceException("Nie udało sie utworzyć usługi", e);
 		}
@@ -69,5 +52,20 @@ public abstract class AbstractServiceManager {
 		}
 		return true;
 	}
-	
+
+	public Session getSession() {
+		return session;
+	}
+
+	public void setSession(Session session) {
+		this.session = session;
+	}
+
+	public void setDictionaryDao(DictionaryDao dictionaryDao) {
+		this.dictionaryDao = dictionaryDao;
+	}
+
+	public void setApplicationContext(ApplicationContext applicationContext) {
+		this.applicationContext = applicationContext;
+	}
 }

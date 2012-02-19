@@ -29,7 +29,7 @@ public class AddTranslationsToWordServiceTest extends AbstractServiceTest {
 
 			private WordEntity word;
 			
-			private Set<String> translations = new HashSet<String>();
+			private Set<String> translationNames = new HashSet<String>();
 			
 			private TranslationEntity translation;
 			
@@ -39,9 +39,9 @@ public class AddTranslationsToWordServiceTest extends AbstractServiceTest {
 				word = dictionaryDatasource.createWord();
 				translation = dictionaryDatasource.createTranslation(word);
 				
-				translations.add(translation.getTranslationName());
+				translationNames.add(translation.getTranslationName());
 				service.setWordName(word.getWordName());
-				service.setTranslations(translations);
+				service.setTranslations(translationNames);
 			}
 
 			@Override

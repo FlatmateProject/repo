@@ -1,17 +1,23 @@
 package dao;
 
-import java.lang.reflect.Constructor;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import com.mchange.util.AssertException;
-import exception.DaoException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import service.AbstractProvider;
 import service.AbstractService;
+
+import com.mchange.util.AssertException;
+
+import exception.DaoException;
 
 public abstract class  AbstractDaoTest {
 
 	private AbstractProvider daoProvider = createDaoProvider();
-
+	
+	private ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application-context.xml");
+	
 	private Session session;
 
 	private Transaction transaction;
@@ -29,12 +35,14 @@ public abstract class  AbstractDaoTest {
 	public <T, X> void patternTestMethod(TestDaoPattern testDaoPattern, Class<?> serviceName) {
 		
 		try {
-			session = HibernateUtil.getSession();
+
+			T dao = (T) daoProvider.getInstance(serviceName);
+			
+			session = (Session)applicationContext.getBean("mySession");
+			((AbstractDao)dao).setSession(session);
 
 			transaction = session.beginTransaction();
 			
-			T dao = (T) daoProvider.getInstance(serviceName);
-
 			X result = (X) testDaoPattern.initialize(dao);
 
 			testDaoPattern.assertResult(result);
@@ -50,8 +58,9 @@ public abstract class  AbstractDaoTest {
 				throw new AssertException(e.getMessage());
 			}
 		} finally {
-			session.clear();
-			HibernateUtil.closeSession(session);
+			transaction = null;
+			session.close();
+			session = null;
 		}
 	}
 
@@ -64,8 +73,7 @@ public abstract class  AbstractDaoTest {
 			@SuppressWarnings("unchecked")
 			@Override
 			public <T> T getInstance(Class<?> serviceName) throws Exception {
-				Constructor<T> constructor = (Constructor<T>) serviceName.getConstructor(Session.class);
-				return (T) constructor.newInstance(session);
+				return (T) applicationContext.getBean("my" + serviceName.getSimpleName());
 			}
 
 			@Override

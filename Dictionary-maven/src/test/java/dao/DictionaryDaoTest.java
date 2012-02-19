@@ -14,7 +14,7 @@ public class DictionaryDaoTest extends AbstractDaoTest {
 	final Logger log = LogManager.getLogger(DictionaryDaoTest.class);
 	
 	private void patternTestMethod(TestDaoPattern<DictionaryDao, ?> testDaoPattern) {
-		patternTestMethod(testDaoPattern, DictionaryDaoImpl.class);
+		patternTestMethod(testDaoPattern, DictionaryDao.class);
 	}
 
 	@Test
@@ -60,7 +60,6 @@ public class DictionaryDaoTest extends AbstractDaoTest {
 		});
 	}
 
-	//we test on empty data base
 	@Test
 	public void test_findWord() {
 		patternTestMethod(new TestDaoPattern<DictionaryDao, WordEntity>() {
@@ -77,7 +76,7 @@ public class DictionaryDaoTest extends AbstractDaoTest {
 
 			@Override
 			public void assertResult(WordEntity result) {
-				assertNotNull(result);
+				assertNull(result);
 			}
 
 			@Override

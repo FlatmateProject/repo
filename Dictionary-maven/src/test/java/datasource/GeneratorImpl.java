@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-public class GeneratorImpl implements AbstractGenerator {
+public class GeneratorImpl implements Generator {
 
 	private Random rand = new Random();
 	
@@ -47,6 +47,10 @@ public class GeneratorImpl implements AbstractGenerator {
 			set.add(randomString(rand.nextInt(5), minLength));
 		}
 		return set;
+	}
+
+	public void setRand(Random rand) {
+		this.rand = rand;
 	}
 	
 }

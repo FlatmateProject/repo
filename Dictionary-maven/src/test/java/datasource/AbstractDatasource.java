@@ -1,43 +1,32 @@
 package datasource;
 
+import manager.ServiceManager;
+
+import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.context.ApplicationContext;
 
-import service.AbstractProvider;
 import service.AbstractService;
-import dao.HibernateUtil;
+import dao.DictionaryDao;
 import exception.DatasourceException;
 
 public abstract class AbstractDatasource {
 	
-	public AbstractProvider datasourceProvider = createDatasourceProvider();
+	private ApplicationContext applicationContext;
 	
-	protected AbstractGenerator generator = new GeneratorImpl();
+	protected Generator generator;
 	
-	private AbstractProvider createDatasourceProvider() {
-		if (datasourceProvider  != null) {
-			return datasourceProvider;
-		}
-		return new AbstractProvider() {
-
-			@SuppressWarnings("unchecked")
-			@Override
-			public <T> T getInstance(Class<?> serviceName) throws Exception {
-				return (T) serviceName.newInstance();
-			}
-
-			@SuppressWarnings("unchecked")
-			@Override
-			public <T> T execute(AbstractService<?> service) throws Exception {
-				return (T) service.executeService(null);
-			}
-
-		};
+	private void initializeService(AbstractService<?> service, Session session) {
+		service.setSession(session);
+		service.setDictionaryDao((DictionaryDao)applicationContext.getBean("myDictionaryDao"));
+		service.setServiceManager((ServiceManager)applicationContext.getBean("myServiceManager"));
 	}
 	
 	public <T> T execute(AbstractService<T> service) throws DatasourceException {
 		try {
-			Session session = HibernateUtil.getSession();
+			Session session = (Session)applicationContext.getBean("mySession");
+			session.setFlushMode(FlushMode.COMMIT);
 			Transaction transaction = session.beginTransaction();
 			return (T) execute(service, session, transaction);
 		} catch (Exception e) {
@@ -45,13 +34,13 @@ public abstract class AbstractDatasource {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	private <T> T execute(AbstractService<T> service, Session session, Transaction transaction) throws DatasourceException {
 
 		try {
-			service.setSession(session);
 			
-			T result = (T) datasourceProvider.execute(service);
+			initializeService(service, session);
+			
+			T result = (T)service.executeService(applicationContext);
 
 			transaction.commit();
 
@@ -61,15 +50,14 @@ public abstract class AbstractDatasource {
 			transaction.rollback();
 			throw new DatasourceException(e.getMessage());
 		} finally {
-			HibernateUtil.closeSession(session);
+			session.close();
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	public <T> T getService(Class<?> serviceName) throws DatasourceException {
 		try {
-			
-			return (T) datasourceProvider.getInstance(serviceName);
+			return (T)serviceName.newInstance();
 		} catch (Exception e) {
 			throw new DatasourceException("Nie udało sie utworzyć usługi", e);
 		}
@@ -83,4 +71,11 @@ public abstract class AbstractDatasource {
 		return true;
 	}
 	
+	public void setApplicationContext(ApplicationContext context) {
+		this.applicationContext = context;
+	}
+
+	public void setGenerator(Generator generator) {
+		this.generator = generator;
+	}
 }

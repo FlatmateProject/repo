@@ -3,11 +3,14 @@ package service;
 import java.util.HashSet;
 import java.util.Set;
 
+import manager.AbstractServiceManager;
 import manager.ServiceManager;
-import manager.ServiceManagerImpl;
+
 import org.hibernate.Session;
+import org.springframework.context.ApplicationContext;
+
+import dao.AbstractDao;
 import dao.DictionaryDao;
-import dao.DictionaryDaoImpl;
 import exception.DaoException;
 import exception.ServiceException;
 
@@ -19,26 +22,25 @@ public abstract class AbstractService<T> {
 	
 	private ServiceManager serviceManager;
 
-	protected abstract T runService(ServiceContext serviceContext) throws ServiceException, DaoException;
+	protected abstract T runService(ApplicationContext serviceContext) throws ServiceException, DaoException;
 	
 	public abstract void validation() throws ServiceException;
 	        
 	
-	private void initializeFields() throws ServiceException {
-		dictionaryDao = new DictionaryDaoImpl(session);
-		serviceManager = new ServiceManagerImpl(session);
+	private void initializeFields(ApplicationContext applicationContext) throws ServiceException {
+		((AbstractDao)dictionaryDao).setSession(session);
+		((AbstractServiceManager)serviceManager).setSession(session);
+		((AbstractServiceManager)serviceManager).setApplicationContext(applicationContext);
 	}
 	
-	public T executeService(ServiceContext serviceContext) throws ServiceException {
+	public T executeService(ApplicationContext applicationContext) throws ServiceException {
 		try {
 			
-			initializeFields();
+			initializeFields(applicationContext);
 			
 			validation();
 
-			T result = runService(serviceContext);
-			
-			finalizeFields();
+			T result = runService(applicationContext);
 			
 			return result;
 			
@@ -46,30 +48,7 @@ public abstract class AbstractService<T> {
 			throw new ServiceException(e);
 		}
 	}
-	
-	private void finalizeFields() {
-		session = null;
-		dictionaryDao = null;
-	}
 
-	protected DictionaryDao getDictionaryDao() {
-		return dictionaryDao;
-	}
-
-	public Session getSession() {
-		return session;
-	}
-
-	public void setSession(Session session) {
-		if (this.session == null) {
-			this.session = session;
-		}
-	}
-	
-	protected ServiceManager getServiceManager() {
-		return serviceManager;
-	}
-	
 	protected String reduceWhitespace(String text) {
 		return text.replaceAll("\\s+", " ");
 	}
@@ -115,5 +94,29 @@ public abstract class AbstractService<T> {
 			throw new ServiceException(message);
 		}
 		return true;
+	}
+
+	protected DictionaryDao getDictionaryDao() {
+		return dictionaryDao;
+	}
+	
+	public void setDictionaryDao(DictionaryDao dictionaryDao) {
+		this.dictionaryDao = dictionaryDao;
+	}
+	
+	protected ServiceManager getServiceManager() {
+		return serviceManager;
+	}
+	
+	public void setServiceManager(ServiceManager serviceManager) {
+		this.serviceManager = serviceManager;
+	}
+
+	public Session getSession() {
+		return session;
+	}
+
+	public void setSession(Session session) {
+		this.session = session;
 	}
 }
