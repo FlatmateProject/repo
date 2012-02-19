@@ -8,7 +8,7 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>Dictionary-maven</module>
-		<module>Test</module>
+		<module>TestClient</module>
 	</modules>
 	<dependencies>
 		<dependency>
