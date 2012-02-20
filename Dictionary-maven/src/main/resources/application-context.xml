@@ -78,4 +78,7 @@
 	
 	<bean id="myAddTranslationsToWordService" parent="myAbstractService" class="service.AddTranslationsToWordService" scope="prototype">
 	</bean>
+	
+	<bean id="myAddExamplesToWordService" parent="myAbstractService" class="service.AddExamplesToWordService" scope="prototype">
+	</bean>
 </beans>

@@ -73,4 +73,8 @@ public class WordEntity {
 		return translations;
 	}
 
+	public Set<ExampleEntity> addExamples(Set<String> exampleNames) {
+		examples.addAll(ExampleEntity.Factory.createExamples(exampleNames, this));
+		return examples;
+	}
 }
