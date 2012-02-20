@@ -63,8 +63,10 @@
    </item>
    <item title="iteration_2">
       <description>iteration_2</description>
-      <subitem
-            label="57. Add service GetRandomElementList.">
-      </subitem>
+      <subitem label="57. Add service GetRandomElementList"></subitem>
+      <subitem label="58. Add service DeleteElementService"></subitem>
+      <subitem label="59. Add service DeleteElementsService"></subitem>
+      <subitem label="60. Add service UpdateElementsService"></subitem>
+      <subitem label="61. Add service AddExamplesToWordService"></subitem>
    </item>   
 </cheatsheet>
