@@ -68,5 +68,6 @@
       <subitem label="59. Add service DeleteElementsService"></subitem>
       <subitem label="60. Add service UpdateElementsService"></subitem>
       <subitem label="61. Add service AddExamplesToWordService"></subitem>
+      <subitem label="62. Create new facade and dao"></subitem>
    </item>   
 </cheatsheet>
