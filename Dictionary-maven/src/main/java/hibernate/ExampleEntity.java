@@ -3,8 +3,11 @@ package hibernate;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 public class ExampleEntity {
-	
+
 	private long id;
 	private String exampleName;
 	private WordEntity word;
@@ -18,7 +21,7 @@ public class ExampleEntity {
 	}
 
 	private ExampleEntity() {
-		
+
 	}
 
 	public WordEntity getWord() {
@@ -26,14 +29,16 @@ public class ExampleEntity {
 	}
 
 	public static final class Factory {
-		public static ExampleEntity createExample(String exampleName, WordEntity word) {
+		public static ExampleEntity createExample(String exampleName,
+				WordEntity word) {
 			ExampleEntity example = new ExampleEntity();
 			example.exampleName = exampleName;
 			example.word = word;
 			return example;
 		}
 
-		public static Set<ExampleEntity> createExamples(Set<String> exampleNames, WordEntity word) {
+		public static Set<ExampleEntity> createExamples(
+				Set<String> exampleNames, WordEntity word) {
 			Set<ExampleEntity> examples = new HashSet<ExampleEntity>();
 			for (String exampleName : exampleNames) {
 				examples.add(createExample(exampleName, word));
@@ -44,28 +49,20 @@ public class ExampleEntity {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((exampleName == null) ? 0 : exampleName.hashCode());
-		return result;
+		 return new HashCodeBuilder()  
+		 	.append(exampleName)   
+		    .toHashCode(); 
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
+	public boolean equals(Object object) {
+		if (object == null || object instanceof ExampleEntity == false) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ExampleEntity other = (ExampleEntity) obj;
-		if (exampleName == null) {
-			if (other.exampleName != null)
-				return false;
-		} else if (!exampleName.equals(other.exampleName))
-			return false;
-		return true;
+		}
+		ExampleEntity obj = (ExampleEntity) object;
+		return new EqualsBuilder()
+			.append(exampleName, obj.exampleName)
+			.isEquals();
 	}
 
 	@Override

@@ -2,6 +2,9 @@ package hibernate;
 
 import java.util.*;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 public class WordEntity {
 
 	private long id;
@@ -44,29 +47,22 @@ public class WordEntity {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((wordName == null) ? 0 : wordName.hashCode());
-		return result;
+		 return new HashCodeBuilder()  
+		 	.append(wordName)   
+		    .toHashCode(); 
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
+	public boolean equals(Object object) {
+		if (object == null || object instanceof WordEntity == false) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		WordEntity other = (WordEntity) obj;
-		if (wordName == null) {
-			if (other.wordName != null)
-				return false;
-		} else if (!wordName.equals(other.wordName))
-			return false;
-		return true;
+		}
+		WordEntity obj = (WordEntity) object;
+		return new EqualsBuilder()
+			.append(wordName, obj.wordName)
+			.isEquals();
 	}
+
 
 	public Set<TranslationEntity> addTranslations(Set<String> translationNames) {
 		translations.addAll(TranslationEntity.Factory.createTranslations(translationNames, this));

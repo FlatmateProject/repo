@@ -3,6 +3,9 @@ package hibernate;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 public class TranslationEntity {
 
 	private long id;
@@ -44,28 +47,20 @@ public class TranslationEntity {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((translationName == null) ? 0 : translationName.hashCode());
-		return result;
+		 return new HashCodeBuilder()  
+		 	.append(translationName)   
+		    .toHashCode(); 
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
+	public boolean equals(Object object) {
+		if (object == null || object instanceof TranslationEntity == false) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TranslationEntity other = (TranslationEntity) obj;
-		if (translationName == null) {
-			if (other.translationName != null)
-				return false;
-		} else if (!translationName.equals(other.translationName))
-			return false;
-		return true;
+		}
+		TranslationEntity obj = (TranslationEntity) object;
+		return new EqualsBuilder()
+			.append(translationName, obj.translationName)
+			.isEquals();
 	}
 
 	@Override
