@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import exception.ApplicationException;
-import fasade.DictionaryBeanFacade;
-import fasade.DictionaryEndPoint;
+import facade.DictionaryBeanFacade;
+import facade.DictionaryEndPoint;
 
 
 public class AddElement {

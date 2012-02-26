@@ -1,4 +1,4 @@
-package fasade;
+package facade;
 
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
