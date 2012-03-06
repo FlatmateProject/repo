@@ -14,8 +14,8 @@ import service.AddElementService;
 import exception.ApplicationException;
 
 @Stateless
-@WebService(endpointInterface = "facade.DictionaryEndPoint",serviceName="DictionaryEndPoint")
-@SOAPBinding(style = javax.jws.soap.SOAPBinding.Style.DOCUMENT)
+@WebService(name="Dictionary", endpointInterface = "facade.DictionaryEndPoint", serviceName="DictionaryEndPoint")
+@SOAPBinding(style = javax.jws.soap.SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL)
 public class DictionaryBeanFacade implements DictionaryEndPoint {
 	
 	@WebMethod()

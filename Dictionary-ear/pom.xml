@@ -33,11 +33,14 @@
 				<artifactId>maven-ear-plugin</artifactId>
 				<version>2.7</version>
 				<configuration>
+					<version>6</version>
+					<defaultLibBundleDir>Dictionary-maven-lib</defaultLibBundleDir>
 					<displayName>Dictionary</displayName>
 					<modules>
 						<ejbModule>
 							<groupId>${project.groupId}</groupId>
 							<artifactId>Dictionary-maven</artifactId>
+							<bundleFileName>Dictionary-maven.jar</bundleFileName>
 						</ejbModule>
 					</modules>
 				</configuration>
