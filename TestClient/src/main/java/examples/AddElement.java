@@ -26,7 +26,7 @@ public class AddElement {
 			
 		DictionaryEndPoint dictionary = new DictionaryBeanFacade();
 		
-		boolean result = dictionary.addElement(wordName, translations, examples);
+		boolean result = dictionary.addWord(wordName, translations, examples);
 		
 		System.out.println("addElement result: " + result);
 		

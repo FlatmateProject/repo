@@ -9,7 +9,7 @@ public class ServiceManagerImpl extends AbstractServiceManager implements Servic
 	@Override
 	public WordEntity invokeFindElementWord(String wordName) throws ServiceException {
 		FindElementService service = getService(FindElementService.class);
-		service.setWord(wordName);
+		service.setWordName(wordName);
 		return execute(service);
 	}
 

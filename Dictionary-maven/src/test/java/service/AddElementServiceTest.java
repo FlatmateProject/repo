@@ -19,13 +19,13 @@ public class AddElementServiceTest extends AbstractServiceTest {
 	
 	final Logger log = LogManager.getLogger(AddElementServiceTest.class);
 	
-	private void patternTestMethod(TestPattern<AddElementService, WordEntity> testPattern) {
-		patternTestMethod(testPattern, AddElementService.class);
+	private void patternTestMethod(TestPattern<AddWordService, WordEntity> testPattern) {
+		patternTestMethod(testPattern, AddWordService.class);
 	}
 
 	@Test
 	public void testSuccess_add_element() {
-		patternTestMethod(new TestPattern<AddElementService, WordEntity>() {
+		patternTestMethod(new TestPattern<AddWordService, WordEntity>() {
 
 			private String wordName;
 
@@ -34,7 +34,7 @@ public class AddElementServiceTest extends AbstractServiceTest {
 			private Set<String> examples = new HashSet<String>();
 
 			@Override
-			public void initialize(AddElementService service) throws DatasourceException {
+			public void initialize(AddWordService service) throws DatasourceException {
 				 
 				wordName = "answer back";
 				translations.add("oopowiadać niegrzecznie");
@@ -66,12 +66,12 @@ public class AddElementServiceTest extends AbstractServiceTest {
 	
 	@Test
 	public void testError_add_element_EMPTY_WORD() {
-		patternTestMethod(new TestPattern<AddElementService, WordEntity>() {
+		patternTestMethod(new TestPattern<AddWordService, WordEntity>() {
 			
 			private String wordName;
 
 			@Override
-			public void initialize(AddElementService service) throws DatasourceException {
+			public void initialize(AddWordService service) throws DatasourceException {
 
 				wordName = "";
 				
@@ -90,7 +90,7 @@ public class AddElementServiceTest extends AbstractServiceTest {
 				assertTrue(exception instanceof ServiceException);
 				ServiceException serviceException = (ServiceException) exception;
 				
-				assertEquals(AddElementService.EMPTY_WORD, serviceException.getErrorMessage());
+				assertEquals(AddWordService.EMPTY_WORD, serviceException.getErrorMessage());
 				return true;
 			}
 		});
