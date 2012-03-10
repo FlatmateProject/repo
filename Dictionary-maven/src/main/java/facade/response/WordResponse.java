@@ -7,7 +7,7 @@ import java.util.Set;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlRootElement(name = "WordItem")
+@XmlRootElement(name = "WordResponse")
 @XmlType(propOrder={})
 public class WordResponse implements Serializable {
 
