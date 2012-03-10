@@ -28,4 +28,12 @@ public interface DictionaryEndPoint {
 	@WebResult(name="result")
 	WordResponse findWord(
 		@WebParam(name="wordName") String wordName) throws ApplicationException;
+	
+	//AddExamplesToWordService
+	@WebMethod(action="findElement")
+	@WebResult(name="result")
+	WordResponse addTranslations(
+		@WebParam(name="wordName") String wordName,
+		@WebParam(name="translations") Set<String> translations)throws ApplicationException;
+	
 }

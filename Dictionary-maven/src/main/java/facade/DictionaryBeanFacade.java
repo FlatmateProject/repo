@@ -35,6 +35,6 @@ public class DictionaryBeanFacade implements DictionaryEndPoint {
 		return ResponseFactory.createWordItem(result);
 	}
 	
-//AddExamplesToWordService
+
 	
 }

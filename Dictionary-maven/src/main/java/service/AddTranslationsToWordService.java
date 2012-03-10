@@ -20,10 +20,9 @@ public class AddTranslationsToWordService extends AbstractService<WordEntity> {
 	
 	private String wordName;
 
-	private WordEntity word;
-
 	private Set<String> translations;
-
+	
+	private WordEntity word;
 	
 	@Override
 	protected WordEntity runService(ApplicationContext serviceContext) throws ServiceException, DaoException {
