@@ -6,6 +6,7 @@ import java.util.Set;
 import exception.ApplicationException;
 import facade.DictionaryBeanFacade;
 import facade.DictionaryEndPoint;
+import facade.response.WordResponse;
 
 
 public class AddElement {
@@ -26,7 +27,7 @@ public class AddElement {
 			
 		DictionaryEndPoint dictionary = new DictionaryBeanFacade();
 		
-		boolean result = dictionary.addWord(wordName, translations, examples);
+		WordResponse result = dictionary.addWord(wordName, translations, examples);
 		
 		System.out.println("addElement result: " + result);
 		

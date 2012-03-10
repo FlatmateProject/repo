@@ -70,7 +70,7 @@
 		</property>
 	</bean>
 
-	<bean id="myAddElementService" parent="myAbstractService" class="service.AddElementService" scope="prototype">
+	<bean id="myAddWordService" parent="myAbstractService" class="service.AddWordService" scope="prototype">
 	</bean>
 	
 	<bean id="myFindElementService" parent="myAbstractService" class="service.FindElementService" scope="prototype">

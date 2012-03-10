@@ -69,6 +69,6 @@
       <subitem label="60. Add service UpdateElementsService"></subitem>
       <subitem label="61. Add service AddExamplesToWordService"></subitem>
       <subitem label="62. Create new facade and dao"></subitem>
-      <subitem label="63. Move error messeges with service to ENUM"></subitem>
+      <subitem label="63. Move error messages with service to ENUM"></subitem>
    </item>   
 </cheatsheet>

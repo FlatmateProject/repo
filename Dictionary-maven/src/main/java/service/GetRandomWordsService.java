@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext;
 import exception.DaoException;
 import exception.ServiceException;
 
-public class GetRandomWords extends AbstractService<List<WordEntity>> {
+public class GetRandomWordsService extends AbstractService<List<WordEntity>> {
 	
 	public static final String EMPTY_RESULT = "Szukane słowo nie istnieje";
 	public static final String NEGATIVE_VALUE = "Limit mniejszy niż zero o o o o";
@@ -27,7 +27,6 @@ public class GetRandomWords extends AbstractService<List<WordEntity>> {
 
 	@Override
 	public void validation() throws ServiceException {
-		// TODO Auto-generated method stub
 		restrictionIsNotNegativeValue(limit, NEGATIVE_VALUE);
 	}
 

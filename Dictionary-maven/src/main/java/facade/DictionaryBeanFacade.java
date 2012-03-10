@@ -8,6 +8,8 @@ import javax.ejb.Stateless;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import service.AddExamplesToWordService;
+import service.AddTranslationsToWordService;
 import service.AddWordService;
 import service.FindElementService;
 import exception.ApplicationException;
@@ -25,14 +27,32 @@ public class DictionaryBeanFacade implements DictionaryEndPoint {
 		service.setTranslations(translations);
 		service.setExamples(examples);
 		WordEntity result = FacadeUtil.executeService(service);
-		return ResponseFactory.createWordItem(result);
+		return ResponseFactory.createWordResponse(result);
 	}
 	
 	public WordResponse findWord(String wordName) throws ApplicationException {
 		FindElementService service = FacadeUtil.getService(FindElementService.class);
 		service.setWordName(wordName);
 		WordEntity result = FacadeUtil.executeService(service);
-		return ResponseFactory.createWordItem(result);
+		return ResponseFactory.createWordResponse(result);
+	}
+
+	@Override
+	public WordResponse addTranslations(String wordName, Set<String> translations) throws ApplicationException {
+		AddTranslationsToWordService service = FacadeUtil.getService(AddTranslationsToWordService.class);
+		service.setWordName(wordName);
+		service.setTranslations(translations);
+		WordEntity result = FacadeUtil.executeService(service);
+		return ResponseFactory.createWordResponse(result);
+	}
+
+	@Override
+	public WordResponse addExamples(String wordName, Set<String> examples) throws ApplicationException {
+		AddExamplesToWordService service = FacadeUtil.getService(AddExamplesToWordService.class);
+		service.setWordName(wordName);
+		service.setExamples(examples);
+		WordEntity result = FacadeUtil.executeService(service);
+		return ResponseFactory.createWordResponse(result);
 	}
 	
 
