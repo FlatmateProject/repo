@@ -1,11 +1,15 @@
 package manager;
 
+import static service.ERROR_MESSAGE.CREATE_SERVICE_ERROR;
+import static service.ERROR_MESSAGE.EXECUTE_SERVICE_ERROR;
+
 import org.hibernate.Session;
 import org.springframework.context.ApplicationContext;
 
 import service.AbstractService;
+import service.ERROR_MESSAGE;
 import dao.DictionaryDao;
-import exception.DatasourceException;
+import exception.MyException;
 import exception.ServiceException;
 
 public abstract class AbstractServiceManager {
@@ -32,8 +36,10 @@ public abstract class AbstractServiceManager {
 
 			return result;
 
-		} catch (Exception e) {
-			throw new ServiceException(e.getMessage());
+		} catch (MyException e) {
+			throw new ServiceException(e.getErrorMessage(), e);
+		}catch (Exception e) {
+			throw new ServiceException(EXECUTE_SERVICE_ERROR, e);
 		}
 	}
 	
@@ -42,13 +48,13 @@ public abstract class AbstractServiceManager {
 		try {
 			return (T)serviceName.newInstance();
 		} catch (Exception e) {
-			throw new DatasourceException("Nie udało sie utworzyć usługi", e);
+			throw new ServiceException(CREATE_SERVICE_ERROR, e);
 		}
 	}
 	
-	public boolean restrictionIsNotNull(Object object, String message) throws ServiceException {
+	public boolean restrictionIsNotNull(Object object, ERROR_MESSAGE errorMessage) throws ServiceException {
 		if (object == null) {
-			throw new ServiceException(message);
+			throw new ServiceException(errorMessage);
 		}
 		return true;
 	}

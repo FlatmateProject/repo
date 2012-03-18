@@ -2,15 +2,17 @@ package service;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
 import hibernate.ExampleEntity;
 import hibernate.WordEntity;
 
 import java.util.HashSet;
 import java.util.Set;
 
+
 import org.junit.Test;
 
-import exception.DatasourceException;
+import exception.ServiceException;
 
 public class AddExamplesToWordServiceTest extends AbstractServiceTest {
 	
@@ -29,7 +31,7 @@ public class AddExamplesToWordServiceTest extends AbstractServiceTest {
 			private ExampleEntity example;
 			
 			@Override
-			public void initialize(AddExamplesToWordService service) throws DatasourceException {
+			public void initialize(AddExamplesToWordService service) throws ServiceException {
 				word = dictionaryDatasource.createWord();
 				example = dictionaryDatasource.createExample(word);
 				

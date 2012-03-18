@@ -2,17 +2,19 @@ package service;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
 import hibernate.TranslationEntity;
 import hibernate.WordEntity;
 
 import java.util.HashSet;
 import java.util.Set;
 
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
-import exception.DatasourceException;
+import exception.ServiceException;
 
 public class AddTranslationsToWordServiceTest extends AbstractServiceTest {
 	
@@ -34,7 +36,7 @@ public class AddTranslationsToWordServiceTest extends AbstractServiceTest {
 			private TranslationEntity translation;
 			
 			@Override
-			public void initialize(AddTranslationsToWordService service) throws DatasourceException {
+			public void initialize(AddTranslationsToWordService service) throws ServiceException {
 				
 				word = dictionaryDatasource.createWord();
 				translation = dictionaryDatasource.createTranslation(word);

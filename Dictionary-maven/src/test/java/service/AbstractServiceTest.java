@@ -10,7 +10,7 @@ import com.mchange.util.AssertException;
 
 import datasource.AbstractDatasource;
 import datasource.DictionaryDatasource;
-import exception.DatasourceException;
+import exception.ServiceException;
 
 public abstract class AbstractServiceTest {
 
@@ -24,7 +24,7 @@ public abstract class AbstractServiceTest {
 	
 	public interface TestPattern<S, R> {
 
-		public abstract void initialize(S service) throws DatasourceException;
+		public abstract void initialize(S service) throws ServiceException;
 
 		public abstract void assertResult(R result);
 		

@@ -1,5 +1,6 @@
 package facade;
 
+
 import hibernate.WordEntity;
 
 import java.util.Set;
@@ -7,6 +8,7 @@ import java.util.Set;
 import javax.ejb.Stateless;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+
 
 import service.AddExamplesToWordService;
 import service.AddTranslationsToWordService;

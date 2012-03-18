@@ -1,5 +1,6 @@
 package service;
 
+
 import hibernate.ExampleEntityTest;
 import hibernate.TranslationEntityTest;
 import hibernate.WordEntityTest;
@@ -13,7 +14,7 @@ import dao.DictionaryDaoTest;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 	//service
-	AddElementServiceTest.class,
+	AddWordServiceTest.class,
 	AddExamplesToWordServiceTest.class,
 	AddTranslationsToWordServiceTest.class,
 	FindElementServiceTest.class,

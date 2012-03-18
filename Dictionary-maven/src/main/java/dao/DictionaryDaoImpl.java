@@ -1,12 +1,14 @@
 package dao;
 
 
+
 import hibernate.ExampleEntity;
 import hibernate.TranslationEntity;
 import hibernate.WordEntity;
 
 import java.util.List;
 import java.util.Set;
+
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;

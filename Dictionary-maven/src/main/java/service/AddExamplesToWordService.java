@@ -1,22 +1,20 @@
 package service;
 
-import java.util.Set;
-
-import org.springframework.context.ApplicationContext;
+import static service.ERROR_MESSAGE.EMPTY_EXAMPLES;
+import static service.ERROR_MESSAGE.EMPTY_WORD;
+import static service.ERROR_MESSAGE.WORD_NOT_FOUND;
 
 import hibernate.WordEntity;
 
+import java.util.Set;
+
+
+import org.springframework.context.ApplicationContext;
+
 import exception.DaoException;
 import exception.ServiceException;
-import service.AbstractService;
 
 public class AddExamplesToWordService extends AbstractService<WordEntity> {
-
-	public static final String WORD_NOT_FOUND = "Podane słowo nie istnieje";
-	
-	public static final String EMPTY_WORD = "Słowo nie może być puste";
-	
-	public static final String EMPTY_EXAMPLES = "Lista przykładów nie może być pusta";
 	
 	private String wordName;
 

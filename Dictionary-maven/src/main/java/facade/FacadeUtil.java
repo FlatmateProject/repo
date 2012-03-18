@@ -1,5 +1,8 @@
 package facade;
 
+import static service.ERROR_MESSAGE.CREATE_SERVICE_ERROR;
+import static service.ERROR_MESSAGE.EXECUTE_SERVICE_ERROR;
+
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -9,6 +12,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import service.AbstractProvider;
 import service.AbstractService;
 import exception.ApplicationException;
+import exception.MyException;
 
 public class FacadeUtil {
 	
@@ -21,7 +25,7 @@ public class FacadeUtil {
 		try {		
 			return (T) serviceProvider.getInstance(serviceName);
 		} catch (Exception e) {
-			throw new ApplicationException("Nie udało sie utworzyc uslugi", e);
+			throw new ApplicationException(CREATE_SERVICE_ERROR, e);
 		}
 	}
 
@@ -31,14 +35,16 @@ public class FacadeUtil {
 			Session session = service.getSession();
 			session.setFlushMode(FlushMode.COMMIT);
 			return (T)executeService(service, session.beginTransaction());
+		} catch (MyException e) {
+			throw new ApplicationException(e.getErrorMessage(), e);
 		} catch (Exception e) {
-			throw new ApplicationException(e);
+			throw new ApplicationException(EXECUTE_SERVICE_ERROR, e);
 		}
 	}
 	
 	
 	@SuppressWarnings("unchecked")
-	private static <T> T executeService(AbstractService<?> service, Transaction transaction) throws ApplicationException {
+	private static <T> T executeService(AbstractService<?> service, Transaction transaction) throws Exception {
 		try {
 
 			T result = (T) serviceProvider.execute(service);
@@ -47,9 +53,11 @@ public class FacadeUtil {
 
 			return result;
 
-		} catch (Exception e) {
+		} catch (MyException e) {
 			transaction.rollback();
-			throw new ApplicationException(e);
+			throw new ApplicationException(e.getErrorMessage(), e);
+		}catch (Exception e) {
+			throw new ApplicationException(EXECUTE_SERVICE_ERROR, e);
 		}
 
 	}

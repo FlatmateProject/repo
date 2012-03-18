@@ -4,14 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import hibernate.WordEntity;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
-import exception.DatasourceException;
 import exception.ServiceException;
-
-import service.FindElementService;
 
 
 public class FindElementServiceTest extends AbstractServiceTest {
@@ -30,7 +28,7 @@ public class FindElementServiceTest extends AbstractServiceTest {
 			WordEntity word;
 			
 			@Override
-			public void initialize(FindElementService service) throws DatasourceException {
+			public void initialize(FindElementService service) throws ServiceException {
 				word = dictionaryDatasource.createWord();	
 				service.setWordName(word.getWordName());
 			}
@@ -53,7 +51,7 @@ public class FindElementServiceTest extends AbstractServiceTest {
 		patternTestMethod(new TestPattern<FindElementService, WordEntity>() {
 			
 			@Override
-			public void initialize(FindElementService service) throws DatasourceException {
+			public void initialize(FindElementService service) throws ServiceException {
 				service.setWordName("not exist element");
 			}
 
@@ -66,7 +64,7 @@ public class FindElementServiceTest extends AbstractServiceTest {
 				assertTrue(exception instanceof ServiceException);
 				ServiceException serviceException = (ServiceException) exception;
 				
-				assertEquals(FindElementService.WORD_NOT_EXIST, serviceException.getErrorMessage());
+				assertEquals(ERROR_MESSAGE.WORD_NOT_FOUND, serviceException.getErrorMessage());
 				return true;
 			}
 		});

@@ -2,8 +2,11 @@ package dao;
 
 import static org.junit.Assert.*;
 import hibernate.WordEntity;
+
 import java.util.HashSet;
 import java.util.Set;
+
+
 import org.junit.Test;
 import exception.DaoException;
 import org.apache.log4j.Logger;

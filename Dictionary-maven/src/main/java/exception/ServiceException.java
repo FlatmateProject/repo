@@ -1,36 +1,21 @@
 package exception;
 
-public class ServiceException extends Exception{
+import static service.ERROR_MESSAGE.EXECUTE_SERVICE_ERROR;
+import service.ERROR_MESSAGE;
+public class ServiceException extends MyException {
 
 	private static final long serialVersionUID = 1L;
-	
-	private String message;
 
-	private Exception parentException;
-	
-	public ServiceException(String message) {
-		this(message, null);
+	public ServiceException(ERROR_MESSAGE errorMessage) {
+		super(errorMessage, null);
 	}
 	
 	public ServiceException(Exception e) {
-		this(e.getMessage(), e);
+		super(EXECUTE_SERVICE_ERROR, e, e.getMessage());
 	}
 	
-	public ServiceException(String message, Exception e) {
-		super(e != null ? e.getMessage() : message);
-		this.message = message;
-		this.parentException = e; 
-		if (e != null) {
-			e.printStackTrace();
-		}
-	}
-	
-	public String getErrorMessage() {
-		return message;
-	}
-
-	public Exception getParentException() {
-		return parentException;
+	public ServiceException(ERROR_MESSAGE errorMessage, Exception e) {
+		super(errorMessage, e);
 	}
 	
 }

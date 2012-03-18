@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jboss.home>C:\jboss\jboss-6.1.0</jboss.home>
+		<jboss.home>C:\jboss\jboss-6.1.0\</jboss.home>
 	</properties>
 	<groupId>repo</groupId>
 	<artifactId>repo</artifactId>

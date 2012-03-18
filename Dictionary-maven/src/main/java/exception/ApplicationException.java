@@ -1,38 +1,26 @@
 package exception;
 
+import static service.ERROR_MESSAGE.EXECUTE_SERVICE_ERROR;
+
 import java.io.Serializable;
 
-public class ApplicationException extends Exception implements Serializable{
+import service.ERROR_MESSAGE;
+
+public class ApplicationException extends MyException implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String message;
-
-	private Exception parentException;
-	
-	public ApplicationException(String message) {
-		this(message, null);
+	public ApplicationException(ERROR_MESSAGE errorMessage) {
+		this(errorMessage, null);
 	}
 	
 	public ApplicationException(Exception e) {
-		this(e.getMessage(), e);
+		super(EXECUTE_SERVICE_ERROR, e, e.getMessage());
 	}
 	
-	public ApplicationException(String message, Exception e) {
-		super(e != null ? e.getMessage() : message);
-		this.message = message;
-		this.parentException = e; 
-		if (e != null) {
-			e.printStackTrace();
-		}
-	}
-	
-	public String getErrorMessage() {
-		return message;
-	}
+	public ApplicationException(ERROR_MESSAGE errorMessage, Exception e) {
+		super(errorMessage, e);
 
-	public Exception getParentException() {
-		return parentException;
 	}
 
 }

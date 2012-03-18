@@ -1,8 +1,12 @@
 package service;
 
+import static service.ERROR_MESSAGE.EMPTY_WORD;
+import static service.ERROR_MESSAGE.LIMIT_NEGATIVE_VALUE;
+
 import hibernate.WordEntity;
 
 import java.util.List;
+
 
 import org.springframework.context.ApplicationContext;
 
@@ -11,8 +15,6 @@ import exception.ServiceException;
 
 public class GetRandomWordsService extends AbstractService<List<WordEntity>> {
 	
-	public static final String EMPTY_RESULT = "Szukane słowo nie istnieje";
-	public static final String NEGATIVE_VALUE = "Limit mniejszy niż zero o o o o";
 	private int limit = 1;
 	private List<WordEntity> result;
 
@@ -20,14 +22,14 @@ public class GetRandomWordsService extends AbstractService<List<WordEntity>> {
 	protected List<WordEntity> runService(ApplicationContext serviceContext)throws ServiceException, DaoException {
 		result = getDictionaryDao().getRandomWords(limit);	
 		
-		restrictionIsNotNull(result, EMPTY_RESULT);
+		restrictionIsNotNull(result, EMPTY_WORD);
 		
 		return result;
 	}
 
 	@Override
 	public void validation() throws ServiceException {
-		restrictionIsNotNegativeValue(limit, NEGATIVE_VALUE);
+		restrictionIsNotNegativeValue(limit, LIMIT_NEGATIVE_VALUE);
 	}
 
 	public int getLimit() {

@@ -1,9 +1,11 @@
 package dao;
 
+import hibernate.*;
+
 import java.util.List;
 import java.util.Set;
+
 import exception.DaoException;
-import hibernate.*;
 
 public interface DictionaryDao {
 

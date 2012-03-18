@@ -1,22 +1,20 @@
 package service;
 
-import java.util.Set;
-
-import org.springframework.context.ApplicationContext;
+import static service.ERROR_MESSAGE.EMPTY_WORD;
+import static service.ERROR_MESSAGE.EMPTY_TRANSLATIONS;
+import static service.ERROR_MESSAGE.WORD_NOT_FOUND;
 
 import hibernate.WordEntity;
 
+import java.util.Set;
+
+
+import org.springframework.context.ApplicationContext;
+
 import exception.DaoException;
 import exception.ServiceException;
-import service.AbstractService;
 
 public class AddTranslationsToWordService extends AbstractService<WordEntity> {
-
-	private String WORD_NOT_FOUND = "Podane słowo nie istnieje";
-	
-	private String EMPTY_WORD = "Słowo nie może być puste";
-	
-	private static final String EMPTY_TRANSLATIONS = "Lista tłumaczeń nie może być pusta";
 	
 	private String wordName;
 

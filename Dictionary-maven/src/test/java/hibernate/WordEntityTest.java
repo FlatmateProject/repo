@@ -1,7 +1,11 @@
 package hibernate;
 
 import static org.junit.Assert.*;
+import hibernate.WordEntity;
+
 import java.util.HashSet;
+
+
 import org.junit.Test;
 
 public class WordEntityTest extends EntityTest {

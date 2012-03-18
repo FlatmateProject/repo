@@ -1,6 +1,8 @@
 package hibernate;
 
 import static org.junit.Assert.*;
+import hibernate.ExampleEntity;
+
 import org.junit.Test;
 
 public class ExampleEntityTest extends EntityTest {

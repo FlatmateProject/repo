@@ -1,32 +1,23 @@
 package exception;
 
-public class DaoException extends Exception {
+import service.ERROR_MESSAGE;
+import static service.ERROR_MESSAGE.HIBERNATE_ERROR;;
+
+public class DaoException extends MyException {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String message;
+	public DaoException(ERROR_MESSAGE errorMessage) {
+		super(errorMessage, null);
+	}
 	
-	private Exception parentException;
-
 	public DaoException(Exception e) {
-		this(e.getMessage(), e);
+		super(HIBERNATE_ERROR, e, e.getMessage());
 	}
 	
-	public DaoException(String message, Exception e) {
-		super(e != null ? e.getMessage() : message);
-		this.message = message;
-		this.parentException = e; 
-		if (e != null) {
-			e.printStackTrace();
-		}
+	public DaoException(ERROR_MESSAGE errorMessage, Exception e) {
+		super(errorMessage, e);
 	}
 
-	public String getErrorMessage() {
-		return message;
-	}
-
-	public Exception getParentException() {
-		return parentException;
-	}
 
 }

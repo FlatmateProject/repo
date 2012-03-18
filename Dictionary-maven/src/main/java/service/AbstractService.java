@@ -12,7 +12,10 @@ import org.springframework.context.ApplicationContext;
 import dao.AbstractDao;
 import dao.DictionaryDao;
 import exception.DaoException;
+import exception.MyException;
 import exception.ServiceException;
+
+import static service.ERROR_MESSAGE.EXECUTE_SERVICE_ERROR;
 
 public abstract class AbstractService<T> {
 
@@ -44,8 +47,10 @@ public abstract class AbstractService<T> {
 			
 			return result;
 			
-		} catch (Exception e) {
-			throw new ServiceException(e);
+		} catch (MyException e) {
+			throw new ServiceException(e.getErrorMessage(), e);
+		}catch (Exception e) {
+			throw new ServiceException(EXECUTE_SERVICE_ERROR, e);
 		}
 	}
 
@@ -61,37 +66,37 @@ public abstract class AbstractService<T> {
 		return result;
 	}
 	
-	protected boolean restrictionIsNotNull(Object object, String message) throws ServiceException {
+	protected boolean restrictionIsNotNull(Object object, ERROR_MESSAGE errorMessage) throws ServiceException {
 		if (object == null) {
-			throw new ServiceException(message);
+			throw new ServiceException(errorMessage);
 		}
 		return true;
 	}
 	
-	protected boolean restrictionIsNotEmpty(String object, String message) throws ServiceException {
+	protected boolean restrictionIsNotEmpty(String object, ERROR_MESSAGE errorMessage) throws ServiceException {
 		if (object.isEmpty()) {
-			throw new ServiceException(message);
+			throw new ServiceException(errorMessage);
 		}
 		return true;
 	}
 	
-	protected boolean restrictionIsNotEmpty(Set<?> object, String message) throws ServiceException {
+	protected boolean restrictionIsNotEmpty(Set<?> object, ERROR_MESSAGE errorMessage) throws ServiceException {
 		if (object.isEmpty()) {
-			throw new ServiceException(message);
+			throw new ServiceException(errorMessage);
 		}
 		return true;
 	}
 	
-	protected boolean restrictionIsNotNullAndEmpty(String object, String message) throws ServiceException {
-		return restrictionIsNotNull(object, message) && restrictionIsNotEmpty(object, message);
+	protected boolean restrictionIsNotNullAndEmpty(String object, ERROR_MESSAGE errorMessage) throws ServiceException {
+		return restrictionIsNotNull(object, errorMessage) && restrictionIsNotEmpty(object, errorMessage);
 	}
 	
-	protected boolean restrictionIsNotNullAndEmpty(Set<?> object, String message) throws ServiceException {
-		return restrictionIsNotNull(object, message) && restrictionIsNotEmpty(object, message);
+	protected boolean restrictionIsNotNullAndEmpty(Set<?> object, ERROR_MESSAGE errorMessage) throws ServiceException {
+		return restrictionIsNotNull(object, errorMessage) && restrictionIsNotEmpty(object, errorMessage);
 	}
-	protected boolean restrictionIsNotNegativeValue(int value, String message) throws ServiceException {
+	protected boolean restrictionIsNotNegativeValue(int value, ERROR_MESSAGE errorMessage) throws ServiceException {
 		if (value <= 0 ) {
-			throw new ServiceException(message);
+			throw new ServiceException(errorMessage);
 		}
 		return true;
 	}

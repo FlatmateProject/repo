@@ -1,5 +1,7 @@
 package hibernate;
 
+import hibernate.TranslationEntity;
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 

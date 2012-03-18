@@ -12,12 +12,11 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
-import exception.DatasourceException;
 import exception.ServiceException;
 
-public class AddElementServiceTest extends AbstractServiceTest {
+public class AddWordServiceTest extends AbstractServiceTest {
 	
-	final Logger log = LogManager.getLogger(AddElementServiceTest.class);
+	final Logger log = LogManager.getLogger(AddWordServiceTest.class);
 	
 	private void patternTestMethod(TestPattern<AddWordService, WordEntity> testPattern) {
 		patternTestMethod(testPattern, AddWordService.class);
@@ -34,7 +33,7 @@ public class AddElementServiceTest extends AbstractServiceTest {
 			private Set<String> examples = new HashSet<String>();
 
 			@Override
-			public void initialize(AddWordService service) throws DatasourceException {
+			public void initialize(AddWordService service) throws ServiceException {
 				 
 				wordName = "answer back";
 				translations.add("oopowiadać niegrzecznie");
@@ -71,7 +70,7 @@ public class AddElementServiceTest extends AbstractServiceTest {
 			private String wordName;
 
 			@Override
-			public void initialize(AddWordService service) throws DatasourceException {
+			public void initialize(AddWordService service) throws ServiceException {
 
 				wordName = "";
 				
@@ -90,7 +89,7 @@ public class AddElementServiceTest extends AbstractServiceTest {
 				assertTrue(exception instanceof ServiceException);
 				ServiceException serviceException = (ServiceException) exception;
 				
-				assertEquals(AddWordService.EMPTY_WORD, serviceException.getErrorMessage());
+				assertEquals(ERROR_MESSAGE.EMPTY_WORD, serviceException.getErrorMessage());
 				return true;
 			}
 		});

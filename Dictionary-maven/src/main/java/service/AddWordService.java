@@ -1,6 +1,10 @@
 package service;
 
 
+import static service.ERROR_MESSAGE.EMPTY_EXAMPLES;
+import static service.ERROR_MESSAGE.EMPTY_TRANSLATIONS;
+import static service.ERROR_MESSAGE.EMPTY_WORD;
+import static service.ERROR_MESSAGE.WORD_IS_NULL;
 import hibernate.WordEntity;
 
 import java.util.HashSet;
@@ -13,14 +17,6 @@ import exception.DaoException;
 import exception.ServiceException;
 
 public class AddWordService extends AbstractService<WordEntity> {
-
-	private Logger log = Logger.getLogger(AddWordService.class);
-	
-	public static final String EMPTY_WORD = "Słow nie możę być puste";
-	
-	public static final String EMPTY_TRANSLATIONS = "Lista tłumaczeń nie może być pusta";
-	
-	public static final String EMPTY_EXAMPLES = "Lista przykładów nie może być pusta";
 	
 	private String wordName;
 
@@ -34,8 +30,8 @@ public class AddWordService extends AbstractService<WordEntity> {
 	protected WordEntity runService(ApplicationContext serviceContext) throws ServiceException, DaoException {
 		
 		word = getDictionaryDao().saveElement(wordName, translations, examples);
-		log.info("wordName: "+ word.getWordName());
-		log.info("session: "+ getSession());
+		restrictionIsNotNull(word, WORD_IS_NULL);
+		
 		return word;
 	}
 
