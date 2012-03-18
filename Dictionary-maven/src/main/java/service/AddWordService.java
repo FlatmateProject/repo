@@ -10,7 +10,6 @@ import hibernate.WordEntity;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 
 import exception.DaoException;
