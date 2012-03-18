@@ -15,7 +15,7 @@ public class ApplicationException extends MyException implements Serializable {
 	}
 	
 	public ApplicationException(Exception e) {
-		super(EXECUTE_SERVICE_ERROR, e, e.getMessage());
+		super(EXECUTE_SERVICE_ERROR, e);
 	}
 	
 	public ApplicationException(ERROR_MESSAGE errorMessage, Exception e) {

@@ -11,7 +11,7 @@ public class ServiceException extends MyException {
 	}
 	
 	public ServiceException(Exception e) {
-		super(EXECUTE_SERVICE_ERROR, e, e.getMessage());
+		super(EXECUTE_SERVICE_ERROR, e);
 	}
 	
 	public ServiceException(ERROR_MESSAGE errorMessage, Exception e) {

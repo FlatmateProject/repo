@@ -12,7 +12,7 @@ public class DaoException extends MyException {
 	}
 	
 	public DaoException(Exception e) {
-		super(HIBERNATE_ERROR, e, e.getMessage());
+		super(HIBERNATE_ERROR, e);
 	}
 	
 	public DaoException(ERROR_MESSAGE errorMessage, Exception e) {

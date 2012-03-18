@@ -24,7 +24,7 @@ public enum ERROR_MESSAGE {
 	}
 
 	public void setMessage(String message) {
-		this.message += message;
+		this.message += " : " + message;
 	}
 	
 	public String toString() {

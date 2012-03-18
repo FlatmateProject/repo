@@ -15,13 +15,9 @@ public abstract class MyException extends Exception{
 		this.errorMessage = errorMessage;
 		this.parentException = e; 
 		if (e != null) {
+			errorMessage.setMessage(e.getMessage());
 			e.printStackTrace();
 		}
-	}
-	
-	public MyException(ERROR_MESSAGE errorMessage, Exception e, String message){
-		this(errorMessage, e);
-		errorMessage.setMessage(e.getMessage());
 	}
 	
 	public ERROR_MESSAGE getErrorMessage() {
