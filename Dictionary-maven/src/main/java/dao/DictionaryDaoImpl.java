@@ -5,12 +5,10 @@ import hibernate.ExampleEntity;
 import hibernate.TranslationEntity;
 import hibernate.WordEntity;
 
-import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 
 import exception.DaoException;
@@ -63,16 +61,4 @@ public class DictionaryDaoImpl extends AbstractDao implements DictionaryDao {
 		
 		return null;
 	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<WordEntity> getRandomWords(int limit) throws DaoException {
-		try {
-			Query query = getSession().createQuery("SELECT * FROM 'Word' ORDER BY RAND() LIMIT " + limit);
-			return query.list();
-		} catch (HibernateException e) {
-			throw new DaoException(e);
-		}
-	}
-
 }

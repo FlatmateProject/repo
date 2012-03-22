@@ -20,6 +20,7 @@ public abstract class AbstractDatasource {
 	private void initializeService(AbstractService<?> service, Session session) {
 		service.setSession(session);
 		service.setDictionaryDao((DictionaryDao)applicationContext.getBean("myDictionaryDao"));
+		service.setDictionaryDao((DictionaryDao)applicationContext.getBean("myClientDao"));
 		service.setServiceManager((ServiceManager)applicationContext.getBean("myServiceManager"));
 	}
 	

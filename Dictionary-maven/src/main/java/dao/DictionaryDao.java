@@ -1,9 +1,12 @@
 package dao;
 
-import java.util.List;
+import hibernate.ExampleEntity;
+import hibernate.TranslationEntity;
+import hibernate.WordEntity;
+
 import java.util.Set;
+
 import exception.DaoException;
-import hibernate.*;
 
 public interface DictionaryDao {
 
@@ -18,7 +21,5 @@ public interface DictionaryDao {
 	public Set<ExampleEntity> addExamplesToWord(Set<String> exampleNames, String wordName) throws DaoException;
 	
 	public WordEntity findWord(String word) throws DaoException;
-	
-	public List<WordEntity> getRandomWords(int limit) throws DaoException;
 
 }

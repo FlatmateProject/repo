@@ -18,7 +18,7 @@ public class GetRandomWords extends AbstractService<List<WordEntity>> {
 
 	@Override
 	protected List<WordEntity> runService(ApplicationContext serviceContext)throws ServiceException, DaoException {
-		result = getDictionaryDao().getRandomWords(limit);	
+		result = getClientDao().getRandomWords(limit);	
 		
 		restrictionIsNotNull(result, EMPTY_RESULT);
 		
