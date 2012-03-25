@@ -1,6 +1,6 @@
 package manager;
 
-import hibernate.WordEntity;
+import model.WordEntity;
 import exception.ServiceException;
 
 public interface ServiceManager {

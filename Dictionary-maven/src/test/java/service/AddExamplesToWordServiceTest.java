@@ -3,15 +3,15 @@ package service;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import hibernate.ExampleEntity;
-import hibernate.WordEntity;
-
 import java.util.HashSet;
 import java.util.Set;
 
+import model.ExampleEntity;
+import model.WordEntity;
 
 import org.junit.Test;
 
+import exception.MyException;
 import exception.ServiceException;
 
 public class AddExamplesToWordServiceTest extends AbstractServiceTest {
@@ -48,7 +48,7 @@ public class AddExamplesToWordServiceTest extends AbstractServiceTest {
 			}
 
 			@Override
-			public boolean assertException(Exception exception) {
+			public boolean assertException(MyException exception) {
 				return false;
 			}
 		});

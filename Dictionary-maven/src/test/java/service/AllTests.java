@@ -1,9 +1,10 @@
 package service;
 
 
-import hibernate.ExampleEntityTest;
-import hibernate.TranslationEntityTest;
-import hibernate.WordEntityTest;
+
+import model.ExampleEntityTest;
+import model.TranslationEntityTest;
+import model.WordEntityTest;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

@@ -3,10 +3,11 @@ package service;
 import static service.ERROR_MESSAGE.EMPTY_WORD;
 import static service.ERROR_MESSAGE.LIMIT_NEGATIVE_VALUE;
 
-import hibernate.WordEntity;
 
 import java.util.List;
 
+
+import model.WordEntity;
 
 import org.springframework.context.ApplicationContext;
 

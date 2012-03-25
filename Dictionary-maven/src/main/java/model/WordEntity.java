@@ -1,4 +1,4 @@
-package hibernate;
+package model;
 
 import java.util.*;
 

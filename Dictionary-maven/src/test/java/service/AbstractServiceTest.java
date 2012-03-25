@@ -10,6 +10,7 @@ import com.mchange.util.AssertException;
 
 import datasource.AbstractDatasource;
 import datasource.DictionaryDatasource;
+import exception.MyException;
 import exception.ServiceException;
 
 public abstract class AbstractServiceTest {
@@ -28,7 +29,7 @@ public abstract class AbstractServiceTest {
 
 		public abstract void assertResult(R result);
 		
-		public abstract boolean assertException(Exception exception);
+		public abstract boolean assertException(MyException exception);
 	}
 	
 	private void initializeDatasource() {
@@ -58,7 +59,7 @@ public abstract class AbstractServiceTest {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-			if (!testPattern.assertException(e)) {
+			if (!testPattern.assertException((MyException)e)) {
 				e.printStackTrace();
 				throw new AssertException(e.getMessage());
 			}

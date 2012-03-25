@@ -11,6 +11,7 @@ import service.AbstractService;
 import com.mchange.util.AssertException;
 
 import exception.DaoException;
+import exception.MyException;
 
 public abstract class  AbstractDaoTest {
 
@@ -28,7 +29,7 @@ public abstract class  AbstractDaoTest {
 
 		public abstract void assertResult(R result);
 		
-		public abstract boolean assertException(Exception exception);
+		public abstract boolean assertException(MyException exception);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -53,7 +54,7 @@ public abstract class  AbstractDaoTest {
 			if(transaction != null){
 				transaction.rollback();
 			}
-			if (!testDaoPattern.assertException(e)) {
+			if (!testDaoPattern.assertException((MyException)e)) {
 				e.printStackTrace();
 				throw new AssertException(e.getMessage());
 			}

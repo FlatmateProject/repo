@@ -1,16 +1,21 @@
 package dao;
 
-import static org.junit.Assert.*;
-import hibernate.WordEntity;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import model.WordEntity;
 
-import org.junit.Test;
-import exception.DaoException;
-import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.junit.Test;
+
+import exception.DaoException;
+import exception.MyException;
 
 public class DictionaryDaoTest extends AbstractDaoTest {
 	
@@ -55,7 +60,7 @@ public class DictionaryDaoTest extends AbstractDaoTest {
 			}
 
 			@Override
-			public boolean assertException(Exception exception) {
+			public boolean assertException(MyException exception) {
 				return false;
 			}
 
@@ -82,8 +87,7 @@ public class DictionaryDaoTest extends AbstractDaoTest {
 			}
 
 			@Override
-			public boolean assertException(Exception exception) {
-				
+			public boolean assertException(MyException exception) {
 				return false;
 			}
 		});

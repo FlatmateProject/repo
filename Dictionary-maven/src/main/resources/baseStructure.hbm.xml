@@ -4,7 +4,7 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping default-access="field">
 
-	<class name="hibernate.WordEntity" table="WORD">
+	<class name="model.WordEntity" table="WORD">
 		<id name="id" type="long" column="wordId">
 			<generator class="increment" />
 		</id>
@@ -14,34 +14,34 @@
 			<key>
 				<column name="IdWord" not-null="true" />
 			</key>
-			<one-to-many class="hibernate.TranslationEntity" />
+			<one-to-many class="model.TranslationEntity" />
 		</set>
 
 		<set name="examples" table="EXAMPLE" cascade="all">
 			<key>
 				<column name="IdWord" not-null="true" />
 			</key>
-			<one-to-many class="hibernate.ExampleEntity" />
+			<one-to-many class="model.ExampleEntity" />
 		</set>
 
 	</class>
 
-	<class name="hibernate.TranslationEntity" table="TRANSLATION">
+	<class name="model.TranslationEntity" table="TRANSLATION">
 		<id name="id" type="long" column="ID">
 			<generator class="increment" />
 		</id>
 
 		<property name="translationName" column="TRANSLATION_Name" type="string" length="40" not-null="true"/>
-		<many-to-one name="word" class="hibernate.WordEntity" column="IdWord" not-null="true" />
+		<many-to-one name="word" class="model.WordEntity" column="IdWord" not-null="true" />
 	</class>
 
-	<class name="hibernate.ExampleEntity" table="EXAMPLE">
+	<class name="model.ExampleEntity" table="EXAMPLE">
 		<id name="id" type="long" column="ID">
 			<generator class="increment" />
 		</id>
 
 		<property name="exampleName" column="EXAMPLE_Name" type="string" length="100" not-null="true"/>
-		<many-to-one name="word" class="hibernate.WordEntity" column="IdWord" not-null="true" />
+		<many-to-one name="word" class="model.WordEntity" column="IdWord" not-null="true" />
 	</class>
 
 </hibernate-mapping>

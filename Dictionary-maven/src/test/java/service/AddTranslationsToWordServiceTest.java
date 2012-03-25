@@ -3,17 +3,17 @@ package service;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import hibernate.TranslationEntity;
-import hibernate.WordEntity;
-
 import java.util.HashSet;
 import java.util.Set;
 
+import model.TranslationEntity;
+import model.WordEntity;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
+import exception.MyException;
 import exception.ServiceException;
 
 public class AddTranslationsToWordServiceTest extends AbstractServiceTest {
@@ -54,7 +54,7 @@ public class AddTranslationsToWordServiceTest extends AbstractServiceTest {
 			}
 
 			@Override
-			public boolean assertException(Exception exception) {
+			public boolean assertException(MyException exception) {
 				return false;
 			}
 		});

@@ -1,7 +1,8 @@
-package hibernate;
+package model;
 
 import static org.junit.Assert.*;
-import hibernate.ExampleEntity;
+
+import model.ExampleEntity;
 
 import org.junit.Test;
 

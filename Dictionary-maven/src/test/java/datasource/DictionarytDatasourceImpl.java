@@ -1,11 +1,12 @@
 package datasource;
 
 
-import hibernate.ExampleEntity;
-import hibernate.TranslationEntity;
-import hibernate.WordEntity;
 
 import java.util.Set;
+
+import model.ExampleEntity;
+import model.TranslationEntity;
+import model.WordEntity;
 
 import service.AddWordService;
 import exception.ServiceException;

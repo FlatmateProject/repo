@@ -3,12 +3,13 @@ package service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import hibernate.WordEntity;
+import model.WordEntity;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
+import exception.MyException;
 import exception.ServiceException;
 
 
@@ -40,7 +41,7 @@ public class FindElementServiceTest extends AbstractServiceTest {
 			}
 
 			@Override
-			public boolean assertException(Exception exception) {
+			public boolean assertException(MyException exception) {
 				return false;
 			}
 		});
@@ -60,7 +61,7 @@ public class FindElementServiceTest extends AbstractServiceTest {
 			}
 
 			@Override
-			public boolean assertException(Exception exception) {
+			public boolean assertException(MyException exception) {
 				assertTrue(exception instanceof ServiceException);
 				ServiceException serviceException = (ServiceException) exception;
 				

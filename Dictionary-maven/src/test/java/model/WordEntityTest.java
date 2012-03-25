@@ -1,10 +1,11 @@
-package hibernate;
+package model;
 
 import static org.junit.Assert.*;
-import hibernate.WordEntity;
 
 import java.util.HashSet;
 
+
+import model.WordEntity;
 
 import org.junit.Test;
 

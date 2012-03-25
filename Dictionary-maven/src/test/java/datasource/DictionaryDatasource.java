@@ -1,8 +1,8 @@
 package datasource;
 
-import hibernate.ExampleEntity;
-import hibernate.TranslationEntity;
-import hibernate.WordEntity;
+import model.ExampleEntity;
+import model.TranslationEntity;
+import model.WordEntity;
 import exception.ServiceException;
 
 public interface DictionaryDatasource {

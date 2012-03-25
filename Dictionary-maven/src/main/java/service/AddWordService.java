@@ -5,10 +5,11 @@ import static service.ERROR_MESSAGE.EMPTY_EXAMPLES;
 import static service.ERROR_MESSAGE.EMPTY_TRANSLATIONS;
 import static service.ERROR_MESSAGE.EMPTY_WORD;
 import static service.ERROR_MESSAGE.WORD_IS_NULL;
-import hibernate.WordEntity;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import model.WordEntity;
 
 import org.springframework.context.ApplicationContext;
 

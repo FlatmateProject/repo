@@ -4,10 +4,11 @@ import static service.ERROR_MESSAGE.EMPTY_WORD;
 import static service.ERROR_MESSAGE.EMPTY_TRANSLATIONS;
 import static service.ERROR_MESSAGE.WORD_NOT_FOUND;
 
-import hibernate.WordEntity;
 
 import java.util.Set;
 
+
+import model.WordEntity;
 
 import org.springframework.context.ApplicationContext;
 

@@ -1,9 +1,10 @@
 package dao;
 
-import hibernate.*;
 
 import java.util.List;
 import java.util.Set;
+
+import model.*;
 
 import exception.DaoException;
 
