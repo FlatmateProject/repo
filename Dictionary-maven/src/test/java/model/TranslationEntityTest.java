@@ -1,6 +1,5 @@
 package model;
 
-
 import model.TranslationEntity;
 
 import org.junit.Test;

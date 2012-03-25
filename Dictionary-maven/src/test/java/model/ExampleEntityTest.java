@@ -1,7 +1,6 @@
 package model;
 
 import static org.junit.Assert.*;
-
 import model.ExampleEntity;
 
 import org.junit.Test;
