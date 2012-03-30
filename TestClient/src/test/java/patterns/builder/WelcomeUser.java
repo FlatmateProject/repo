@@ -1,45 +1,13 @@
-package builder;
+package patterns.builder;
 
 public class WelcomeUser {
 	
-	private enum LANGUAGE {
-		Polish
-		English
-		Spanish(new SpanishConstructor());
-		
-		private MessageConstructor constructor;
 
-		LANGUAGE(MessageConstructor constructor) {
-			this.constructor = constructor;
-		}
-
-		public MessageConstructor getConstructor() {
-			return constructor;
-		}	
-	}
-	
-	
-	private enum NUMBER {
-		Polish(new Long(0)),
-		English(new Long(1)),
-		Spanish(new Long(2));
-		
-		private Long constructor;
-
-		NUMBER(Long constructor) {
-			this.constructor = constructor;
-		}
-
-		public Long getConstructor() {
-			return constructor;
-		}	
-	}
-	
-	private class MessageConstructor {
+	private abstract class MessageConstructor {
 
 		protected String message;
 
-		public void appendUserName(String userName){}
+		public abstract void appendUserName(String userName);
 
 		public String resultMessage() {
 			return message;
@@ -81,11 +49,7 @@ public class WelcomeUser {
 	}
 	
 	public void test() {
-		
-		LANGUAGE type = LANGUAGE.English;
-		
-		type.getConstructor();
-		
+
 		String welcomeMessage = null;
 		
 		String userName = "Piotro";
