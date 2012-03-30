@@ -1,19 +1,16 @@
-package localfactorymethod;
+package patterns.localfactorymethod;
 
-public class FactoryMethodTest {
+public class FactoryMethod {
 
 	private AbstractMessage message;
 	
-	private enum LANGUAGE {
+	public enum LANGUAGE {
 		Polish,
 		English,
 		Spanish
 	}
 	
-	
-	
-	public FactoryMethodTest(LANGUAGE language) {
-		System.out.println(language.name());
+	public FactoryMethod(LANGUAGE language) {
 		message = createMessage(language);
 	}
 	
@@ -28,19 +25,15 @@ public class FactoryMethodTest {
 		return null;
 	}
 	
-	public void showMessage() {
-		System.out.println(message.getMessage() +"\n");
+	public String append(String message) {
+		return this.message.append(message);
 	}
 
 	private abstract class AbstractMessage {
 
 		protected String message;
 
-		abstract String append(String message);
-
-		public String getMessage() {
-			return message;
-		}
+		abstract public String append(String message);
 	}
 	
 	private class PolishMessage extends AbstractMessage {
@@ -51,7 +44,7 @@ public class FactoryMethodTest {
 
 		@Override
 		public String append(String message) {
-			this.message = "\"" + message + "\"";
+			this.message += " \"" + message + "\"";
 			return this.message;
 		}
 
@@ -64,8 +57,8 @@ public class FactoryMethodTest {
 		}
 
 		@Override
-		String append(String message) {
-			this.message = "'" + message + "'";
+		public String append(String message) {
+			this.message += " '" + message + "'";
 			return this.message;
 		}
 	}
@@ -77,25 +70,9 @@ public class FactoryMethodTest {
 		}
 
 		@Override
-		String append(String message) {
-			this.message = "?" + message + "?";
+		public String append(String message) {
+			this.message += " ?" + message + "?";
 			return this.message;
 		}
 	}
-	
-	public static void main(String[] args) {
-		
-		FactoryMethodTest test = null;
-		
-		test = new FactoryMethodTest(LANGUAGE.Polish);
-		test.showMessage();
-
-		test = new FactoryMethodTest(LANGUAGE.English);
-		test.showMessage();
-		
-		test = new FactoryMethodTest(LANGUAGE.Spanish);
-		test.showMessage();
-		
-	}
-
 }

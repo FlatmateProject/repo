@@ -18,7 +18,7 @@ public class WelcomeUserTest {
 			}
 			
 			@Override
-			public Object expectedInvitation() {
+			public String expectedInvocation() {
 				return "Witaj";
 			}
 		}.execute();
@@ -34,7 +34,7 @@ public class WelcomeUserTest {
 			}
 			
 			@Override
-			public Object expectedInvitation() {
+			public String expectedInvocation() {
 				return "Hello";
 			}
 		}.execute();
@@ -50,7 +50,7 @@ public class WelcomeUserTest {
 			}
 			
 			@Override
-			public Object expectedInvitation() {
+			public String expectedInvocation() {
 				return "Hola";
 			}
 		}.execute();
@@ -60,7 +60,7 @@ public class WelcomeUserTest {
 
 		protected WelcomeUser welcome;
 
-		public abstract Object expectedInvitation();
+		public abstract String expectedInvocation();
 
 		public abstract MessageConstructor getConstructor();
 		
@@ -70,15 +70,11 @@ public class WelcomeUserTest {
 		
 		public void execute(){
 			
-			String userName = getUserName();
-			
 			welcome = new WelcomeUser();
-			String result = welcome.constructMessage(getConstructor(), userName);
+			String result = welcome.constructMessage(getConstructor(), getUserName());
 			
-			assertEquals(expectedInvitation() + " " + getUserName(), result);
+			assertEquals(expectedInvocation() +" " + getUserName(), result);
 		}
-
-
 	}
 
 }

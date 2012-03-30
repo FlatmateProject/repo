@@ -7,8 +7,8 @@ public class EnglishMessage extends AbstractMessage {
 	}
 
 	@Override
-	String append(String message) {
-		this.message = "'" + message + "'";
+	public String append(String message) {
+		this.message += " '" + message + "'";
 		return this.message;
 	}
 }

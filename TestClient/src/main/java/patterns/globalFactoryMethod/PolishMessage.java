@@ -8,7 +8,7 @@ public class PolishMessage extends AbstractMessage {
 
 	@Override
 	public String append(String message) {
-		this.message = "\"" + message + "\"";
+		this.message += " \"" + message + "\"";
 		return this.message;
 	}
 
