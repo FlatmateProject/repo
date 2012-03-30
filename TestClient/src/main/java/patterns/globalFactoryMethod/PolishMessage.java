@@ -1,4 +1,4 @@
-package globalfactorymethod;
+package patterns.globalFactoryMethod;
 
 public class PolishMessage extends AbstractMessage {
 
