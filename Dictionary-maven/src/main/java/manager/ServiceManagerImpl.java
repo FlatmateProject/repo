@@ -1,14 +1,14 @@
 package manager;
 
 import model.WordEntity;
-import service.FindElementService;
+import service.FindWordService;
 import exception.ServiceException;
 
 public class ServiceManagerImpl extends AbstractServiceManager implements ServiceManager {
 
 	@Override
-	public WordEntity invokeFindElementWord(String wordName) throws ServiceException {
-		FindElementService service = getService(FindElementService.class);
+	public WordEntity invokeFindWord(String wordName) throws ServiceException {
+		FindWordService service = getService(FindWordService.class);
 		service.setWordName(wordName);
 		return execute(service);
 	}

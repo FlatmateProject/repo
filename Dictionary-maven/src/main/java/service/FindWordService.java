@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContext;
 import exception.DaoException;
 import exception.ServiceException;
 
-public class FindElementService extends AbstractService<WordEntity> {
+public class FindWordService extends AbstractService<WordEntity> {
 	
 	private String wordName;
 	private WordEntity result;
@@ -28,7 +28,6 @@ public class FindElementService extends AbstractService<WordEntity> {
 
 	@Override
 	public void validation() throws ServiceException {
-		
 		restrictionIsNotNullAndEmpty(wordName, EMPTY_WORD);
 	}
 	

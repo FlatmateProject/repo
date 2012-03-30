@@ -73,7 +73,7 @@
 	<bean id="myAddWordService" parent="myAbstractService" class="service.AddWordService" scope="prototype">
 	</bean>
 	
-	<bean id="myFindElementService" parent="myAbstractService" class="service.FindElementService" scope="prototype">
+	<bean id="myFindWordService" parent="myAbstractService" class="service.FindWordService" scope="prototype">
 	</bean>
 	
 	<bean id="myAddTranslationsToWordService" parent="myAbstractService" class="service.AddTranslationsToWordService" scope="prototype">

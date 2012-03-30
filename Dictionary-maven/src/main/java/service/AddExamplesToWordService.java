@@ -27,7 +27,7 @@ public class AddExamplesToWordService extends AbstractService<WordEntity> {
 	@Override
 	protected WordEntity runService(ApplicationContext serviceContext) throws ServiceException, DaoException {
 		
-		word = getServiceManager().invokeFindElementWord(wordName);
+		word = getServiceManager().invokeFindWord(wordName);
 		restrictionIsNotNull(word, WORD_NOT_FOUND);
 		
 		word.addExamples(examples);

@@ -17,19 +17,19 @@ public class FindElementServiceTest extends AbstractServiceTest {
 	
 	final Logger log = LogManager.getLogger(FindElementServiceTest.class);
 	
-	private void patternTestMethod(TestPattern<FindElementService, WordEntity> testPattern) {
-		patternTestMethod(testPattern, FindElementService.class);
+	private void patternTestMethod(TestPattern<FindWordService, WordEntity> testPattern) {
+		patternTestMethod(testPattern, FindWordService.class);
 	}
 	
 	
 	@Test
 	public void test_find_element() {
-		patternTestMethod(new TestPattern<FindElementService, WordEntity>() {
+		patternTestMethod(new TestPattern<FindWordService, WordEntity>() {
 
 			WordEntity word;
 			
 			@Override
-			public void initialize(FindElementService service) throws ServiceException {
+			public void initialize(FindWordService service) throws ServiceException {
 				word = dictionaryDatasource.createWord();	
 				service.setWordName(word.getWordName());
 			}
@@ -49,10 +49,10 @@ public class FindElementServiceTest extends AbstractServiceTest {
 	
 	@Test
 	public void test_element_not_exist() {
-		patternTestMethod(new TestPattern<FindElementService, WordEntity>() {
+		patternTestMethod(new TestPattern<FindWordService, WordEntity>() {
 			
 			@Override
-			public void initialize(FindElementService service) throws ServiceException {
+			public void initialize(FindWordService service) throws ServiceException {
 				service.setWordName("not exist element");
 			}
 

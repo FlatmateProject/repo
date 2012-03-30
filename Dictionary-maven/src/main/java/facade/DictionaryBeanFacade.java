@@ -14,7 +14,7 @@ import model.WordEntity;
 import service.AddExamplesToWordService;
 import service.AddTranslationsToWordService;
 import service.AddWordService;
-import service.FindElementService;
+import service.FindWordService;
 import exception.ApplicationException;
 import facade.response.ResponseFactory;
 import facade.response.WordResponse;
@@ -34,7 +34,7 @@ public class DictionaryBeanFacade implements DictionaryEndPoint {
 	}
 	
 	public WordResponse findWord(String wordName) throws ApplicationException {
-		FindElementService service = FacadeUtil.getService(FindElementService.class);
+		FindWordService service = FacadeUtil.getService(FindWordService.class);
 		service.setWordName(wordName);
 		WordEntity result = FacadeUtil.executeService(service);
 		return ResponseFactory.createWordResponse(result);

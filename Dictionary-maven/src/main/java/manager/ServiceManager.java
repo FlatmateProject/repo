@@ -5,6 +5,6 @@ import exception.ServiceException;
 
 public interface ServiceManager {
 
-	WordEntity invokeFindElementWord(String wordName) throws ServiceException;
+	WordEntity invokeFindWord(String wordName) throws ServiceException;
 
 }
