@@ -3,13 +3,11 @@ package service;
 import java.util.HashSet;
 import java.util.Set;
 
-import manager.AbstractServiceManager;
 import manager.ServiceManager;
 
 import org.hibernate.Session;
 import org.springframework.context.ApplicationContext;
 
-import dao.AbstractDao;
 import dao.DictionaryDao;
 import exception.DaoException;
 import exception.MyException;
@@ -31,9 +29,9 @@ public abstract class AbstractService<T> {
 	        
 	
 	private void initializeFields(ApplicationContext applicationContext) throws ServiceException {
-		((AbstractDao)dictionaryDao).setSession(session);
-		((AbstractServiceManager)serviceManager).setSession(session);
-		((AbstractServiceManager)serviceManager).setApplicationContext(applicationContext);
+		dictionaryDao.setSession(session);
+		serviceManager.setSession(session);
+		serviceManager.setApplicationContext(applicationContext);
 	}
 	
 	public T executeService(ApplicationContext applicationContext) throws ServiceException {

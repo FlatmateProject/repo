@@ -29,7 +29,10 @@ import dao.DictionaryDaoTest;
 	ExampleEntityTest.class,
 	TranslationEntityTest.class,
 	WordEntityTest.class,
-	ClientEntityTest.class
+	ClientEntityTest.class,
+	
+	//mock service
+	FindWordServiceTestMock.class
 	
 })
 public class AllTests {

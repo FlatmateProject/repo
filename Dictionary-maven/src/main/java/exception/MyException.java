@@ -11,13 +11,17 @@ public abstract class MyException extends Exception{
 	private Exception parentException;
 
 	public MyException(ERROR_MESSAGE errorMessage, Exception e) {
-		super(e);
+		super((e != null ? e.getMessage() : errorMessage.getMessage()));
 		this.errorMessage = errorMessage;
 		this.parentException = e; 
 		if (e != null) {
 			errorMessage.setMessage(e.getMessage());
 			e.printStackTrace();
-		}
+	}
+//		else{
+//			errorMessage.setMessage(this.getMessage());
+//			this.printStackTrace();
+//		}
 	}
 	
 	public ERROR_MESSAGE getErrorMessage() {

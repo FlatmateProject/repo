@@ -41,7 +41,7 @@ public class FindWordService extends AbstractService<WordEntity> {
 
 	@Override
 	public void validation() throws ServiceException {
-		if(wordName == null && wordId <= 0){
+		if(wordName == null && wordId <= 0) {
 			throw new ServiceException(EMPTY_PARAMETERS_LIST);
 		}
 	}

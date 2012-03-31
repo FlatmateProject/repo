@@ -8,7 +8,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.mchange.util.AssertException;
 
-import datasource.AbstractDatasource;
 import datasource.DictionaryDatasource;
 import exception.MyException;
 import exception.ServiceException;
@@ -23,7 +22,7 @@ public abstract class AbstractServiceTest {
 
 	private Transaction transaction;
 	
-	public interface TestPattern<S, R> {
+	public interface TestPattern<S extends AbstractService<?>, R> {
 
 		public abstract void initialize(S service) throws ServiceException;
 
@@ -34,7 +33,7 @@ public abstract class AbstractServiceTest {
 	
 	private void initializeDatasource() {
 		dictionaryDatasource = (DictionaryDatasource)applicationContext.getBean("myDictionarytDatasource");
-		((AbstractDatasource)dictionaryDatasource).setApplicationContext(applicationContext);
+		dictionaryDatasource.setApplicationContext(applicationContext);
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })

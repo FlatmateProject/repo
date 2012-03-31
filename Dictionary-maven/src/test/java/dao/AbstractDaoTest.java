@@ -33,14 +33,14 @@ public abstract class  AbstractDaoTest {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public <T, X> void patternTestMethod(TestDaoPattern testDaoPattern, Class<?> serviceName) {
+	public <T extends AbstractDao, X> void patternTestMethod(TestDaoPattern testDaoPattern, Class<?> serviceName) {
 		
 		try {
 
 			T dao = (T) daoProvider.getInstance(serviceName);
 			
 			session = (Session)applicationContext.getBean("mySession");
-			((AbstractDao)dao).setSession(session);
+			dao.setSession(session);
 
 			transaction = session.beginTransaction();
 			
