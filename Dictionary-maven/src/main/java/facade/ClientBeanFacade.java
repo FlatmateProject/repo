@@ -9,7 +9,7 @@ import javax.ejb.Stateless;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import model.WordEntity;
+import model.dictionary.WordEntity;
 
 
 import service.GetRandomWordsService;

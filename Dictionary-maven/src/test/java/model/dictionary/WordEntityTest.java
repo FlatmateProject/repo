@@ -1,10 +1,12 @@
-package model;
+package model.dictionary;
 
 import static org.junit.Assert.*;
 import java.util.HashSet;
 
 
-import model.WordEntity;
+
+import model.EntityTest;
+import model.dictionary.WordEntity;
 
 import org.junit.Test;
 

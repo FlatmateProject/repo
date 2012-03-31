@@ -6,8 +6,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashSet;
 import java.util.Set;
 
-import model.ExampleEntity;
-import model.WordEntity;
+import model.dictionary.ExampleEntity;
+import model.dictionary.WordEntity;
 
 import org.junit.Test;
 

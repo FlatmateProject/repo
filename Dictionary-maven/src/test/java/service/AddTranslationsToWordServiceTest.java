@@ -6,8 +6,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashSet;
 import java.util.Set;
 
-import model.TranslationEntity;
-import model.WordEntity;
+import model.dictionary.TranslationEntity;
+import model.dictionary.WordEntity;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

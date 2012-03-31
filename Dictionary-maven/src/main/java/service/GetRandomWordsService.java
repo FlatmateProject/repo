@@ -7,7 +7,7 @@ import static service.ERROR_MESSAGE.LIMIT_NEGATIVE_VALUE;
 import java.util.List;
 
 
-import model.WordEntity;
+import model.dictionary.WordEntity;
 
 import org.springframework.context.ApplicationContext;
 

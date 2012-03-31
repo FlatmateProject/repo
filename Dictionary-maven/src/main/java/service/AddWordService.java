@@ -9,7 +9,7 @@ import static service.ERROR_MESSAGE.WORD_IS_NULL;
 import java.util.HashSet;
 import java.util.Set;
 
-import model.WordEntity;
+import model.dictionary.WordEntity;
 
 import org.springframework.context.ApplicationContext;
 

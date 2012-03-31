@@ -1,6 +1,8 @@
-package model;
+package model.dictionary;
 
-import model.TranslationEntity;
+
+import model.EntityTest;
+import model.dictionary.TranslationEntity;
 
 import org.junit.Test;
 import static org.junit.Assert.*;

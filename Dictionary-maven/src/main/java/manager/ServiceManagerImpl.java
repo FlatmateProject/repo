@@ -1,6 +1,6 @@
 package manager;
 
-import model.WordEntity;
+import model.dictionary.WordEntity;
 import service.FindWordService;
 import exception.ServiceException;
 

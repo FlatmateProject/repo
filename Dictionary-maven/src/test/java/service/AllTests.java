@@ -2,9 +2,10 @@ package service;
 
 
 
-import model.ExampleEntityTest;
-import model.TranslationEntityTest;
-import model.WordEntityTest;
+import model.client.ClientEntityTest;
+import model.dictionary.ExampleEntityTest;
+import model.dictionary.TranslationEntityTest;
+import model.dictionary.WordEntityTest;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -26,7 +27,8 @@ import dao.DictionaryDaoTest;
 	//entity
 	ExampleEntityTest.class,
 	TranslationEntityTest.class,
-	WordEntityTest.class
+	WordEntityTest.class,
+	ClientEntityTest.class
 	
 })
 public class AllTests {

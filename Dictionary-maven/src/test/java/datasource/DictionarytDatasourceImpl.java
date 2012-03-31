@@ -4,9 +4,9 @@ package datasource;
 
 import java.util.Set;
 
-import model.ExampleEntity;
-import model.TranslationEntity;
-import model.WordEntity;
+import model.dictionary.ExampleEntity;
+import model.dictionary.TranslationEntity;
+import model.dictionary.WordEntity;
 
 import service.AddWordService;
 import exception.ServiceException;

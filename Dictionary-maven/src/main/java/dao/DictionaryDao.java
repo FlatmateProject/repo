@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Set;
 
 import model.*;
+import model.dictionary.ExampleEntity;
+import model.dictionary.TranslationEntity;
+import model.dictionary.WordEntity;
 
 import exception.DaoException;
 

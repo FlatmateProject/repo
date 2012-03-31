@@ -1,8 +1,8 @@
 package datasource;
 
-import model.ExampleEntity;
-import model.TranslationEntity;
-import model.WordEntity;
+import model.dictionary.ExampleEntity;
+import model.dictionary.TranslationEntity;
+import model.dictionary.WordEntity;
 import exception.ServiceException;
 
 public interface DictionaryDatasource {

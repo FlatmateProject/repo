@@ -3,7 +3,8 @@ package service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import model.WordEntity;
+
+import model.dictionary.WordEntity;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

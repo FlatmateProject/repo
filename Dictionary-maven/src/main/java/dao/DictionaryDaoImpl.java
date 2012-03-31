@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Set;
 
 
-import model.ExampleEntity;
-import model.TranslationEntity;
-import model.WordEntity;
+import model.dictionary.ExampleEntity;
+import model.dictionary.TranslationEntity;
+import model.dictionary.WordEntity;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;

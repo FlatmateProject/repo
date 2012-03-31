@@ -1,7 +1,10 @@
-package model;
+package model.dictionary;
 
 import static org.junit.Assert.*;
-import model.ExampleEntity;
+
+
+import model.EntityTest;
+import model.dictionary.ExampleEntity;
 
 import org.junit.Test;
 
