@@ -13,6 +13,6 @@ import patterns.localFactoryMethod.LocalFactoryMethodTest;
 	GlobalFactoryMethodTest.class,
 	LocalFactoryMethodTest.class
 })
-public class AllTests {
+public class AllTestsPatterns {
 
 }
