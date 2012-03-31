@@ -7,7 +7,7 @@ import exception.ServiceException;
 public class ServiceManagerImpl extends AbstractServiceManager implements ServiceManager {
 
 	@Override
-	public WordEntity invokeFindWord(String wordName) throws ServiceException {
+	public WordEntity invokeFindWord(String wordName, long wordId) throws ServiceException {
 		FindWordService service = getService(FindWordService.class);
 		service.setWordName(wordName);
 		return execute(service);

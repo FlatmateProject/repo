@@ -1,11 +1,7 @@
 package dao;
 
-
-
-
 import java.util.List;
 import java.util.Set;
-
 
 import model.dictionary.ExampleEntity;
 import model.dictionary.TranslationEntity;
@@ -33,46 +29,52 @@ public class DictionaryDaoImpl extends AbstractDao implements DictionaryDao {
 
 	
 	@Override
-	public WordEntity findWord(String word) throws DaoException {
+	public WordEntity findWordByName(String wordName) throws DaoException {
 		try {
 			Criteria crit = getSession().createCriteria(WordEntity.class);
-			crit.add(Restrictions.eq("wordName", word));
+			crit.add(Restrictions.eq("wordName", wordName));
 			return (WordEntity) crit.uniqueResult();
 		} catch (HibernateException e) {
 			throw new DaoException(e);
 		}
 	}
 
-	@Override
-	public ExampleEntity addExampleToWord(String exampleName, String wordName) throws DaoException {
-		
-		return null;
-	}
 
-	@Override
-	public Set<ExampleEntity> addExamplesToWord(Set<String> examples, String wordName) throws DaoException {
-
-		return null;
-	}
-
-	@Override
-	public TranslationEntity addTranslationToWord(String translationName, String wordName) throws DaoException {
-	
-		return null;
-	}
-
-	@Override
-	public Set<TranslationEntity> addTranslationsToWord(Set<String> translationNames, String wordName)throws DaoException {
-		
-		return null;
-	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<WordEntity> getRandomWords(int limit) throws DaoException {
 		try {
 			Query query = getSession().createQuery("SELECT * FROM 'Word' ORDER BY RAND() LIMIT " + limit);
-			return query.list();
+			return (List<WordEntity>)query.list();
+		} catch (HibernateException e) {
+			throw new DaoException(e);
+		}
+	}
+
+
+	@Override
+	public void delete(WordEntity word) throws DaoException {
+		try {
+			for(TranslationEntity translation : word.getTranslations()) {
+				getSession().delete(translation);
+			}
+			for(ExampleEntity example : word.getExamples()) {
+				getSession().delete(example);
+			}
+			getSession().delete(word);
+		} catch (HibernateException e) {
+			throw new DaoException(e);
+		}
+	}
+
+
+	@Override
+	public WordEntity findWordById(long wordId) throws DaoException {
+		try {
+			Criteria crit = getSession().createCriteria(WordEntity.class);
+			crit.add(Restrictions.eq("id", wordId));
+			return (WordEntity) crit.uniqueResult();
 		} catch (HibernateException e) {
 			throw new DaoException(e);
 		}

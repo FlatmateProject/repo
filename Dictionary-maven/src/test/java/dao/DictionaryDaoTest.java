@@ -68,7 +68,7 @@ public class DictionaryDaoTest extends AbstractDaoTest {
 	}
 
 	@Test
-	public void test_findWord() {
+	public void test_findWordByName() {
 		patternTestMethod(new TestDaoPattern<DictionaryDao, WordEntity>() {
 
 			private String wordName;
@@ -78,7 +78,7 @@ public class DictionaryDaoTest extends AbstractDaoTest {
 				
 				wordName = "xxx";
 				
-				return dao.findWord(wordName);
+				return dao.findWordByName(wordName);
 			}
 
 			@Override
@@ -93,4 +93,29 @@ public class DictionaryDaoTest extends AbstractDaoTest {
 		});
 	}
 	
+	@Test
+	public void test_findWordById() {
+		patternTestMethod(new TestDaoPattern<DictionaryDao, WordEntity>() {
+
+			private long wordId;
+			
+			@Override
+			public WordEntity initialize(DictionaryDao dao) throws DaoException{
+				
+				wordId = 0;
+				
+				return dao.findWordById(wordId);
+			}
+
+			@Override
+			public void assertResult(WordEntity result) {
+				assertNull(result);
+			}
+
+			@Override
+			public boolean assertException(MyException exception) {
+				return false;
+			}
+		});
+	}
 }

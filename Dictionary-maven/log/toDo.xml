@@ -60,11 +60,11 @@
       <subitem label="55. Refactoring classes *Exception. Invoke one constructor in anather."></subitem>  
       <subitem label="54. Refaktoryzacja FacadeUtils."></subitem>
       <subitem label="56. Separate session have to be created in AbstractDataSource. This session will be independent from session in services."></subitem>
+      <subitem label="57. Add service GetRandomElementList"></subitem>
+      <subitem label="58. Add service DeleteElementService"></subitem>
    </item>
    <item title="iteration_2">
       <description>iteration_2</description>
-      <subitem label="57. Add service GetRandomElementList"></subitem>
-      <subitem label="58. Add service DeleteElementService"></subitem>
       <subitem label="59. Add service DeleteElementsService"></subitem>
       <subitem label="60. Add service UpdateElementsService"></subitem>
       <subitem label="61. Add service AddExamplesToWordService"></subitem>

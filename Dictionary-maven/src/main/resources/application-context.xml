@@ -81,4 +81,7 @@
 	
 	<bean id="myAddExamplesToWordService" parent="myAbstractService" class="service.AddExamplesToWordService" scope="prototype">
 	</bean>
+	
+	<bean id="myDeleteWordService" parent="myAbstractService" class="service.DeleteWordService" scope="prototype">
+	</bean>
 </beans>

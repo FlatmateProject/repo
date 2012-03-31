@@ -1,12 +1,6 @@
 package service;
 
-import static service.ERROR_MESSAGE.EMPTY_EXAMPLES;
-import static service.ERROR_MESSAGE.EMPTY_WORD;
-import static service.ERROR_MESSAGE.WORD_NOT_FOUND;
-
-
 import java.util.Set;
-
 
 import model.dictionary.WordEntity;
 
@@ -14,6 +8,10 @@ import org.springframework.context.ApplicationContext;
 
 import exception.DaoException;
 import exception.ServiceException;
+
+import static service.ERROR_MESSAGE.EMPTY_EXAMPLES;
+import static service.ERROR_MESSAGE.EMPTY_PARAMETERS_LIST;
+import static service.ERROR_MESSAGE.WORD_NOT_FOUND;
 
 public class AddExamplesToWordService extends AbstractService<WordEntity> {
 	
@@ -23,11 +21,13 @@ public class AddExamplesToWordService extends AbstractService<WordEntity> {
 
 	private Set<String> examples;
 
+	private long wordId;
+
 	
 	@Override
 	protected WordEntity runService(ApplicationContext serviceContext) throws ServiceException, DaoException {
 		
-		word = getServiceManager().invokeFindWord(wordName);
+		word = getServiceManager().invokeFindWord(wordName, wordId);
 		restrictionIsNotNull(word, WORD_NOT_FOUND);
 		
 		word.addExamples(examples);
@@ -37,7 +37,9 @@ public class AddExamplesToWordService extends AbstractService<WordEntity> {
 
 	@Override
 	public void validation() throws ServiceException {
-		restrictionIsNotNullAndEmpty(wordName, EMPTY_WORD);
+		if(wordName == null && wordId <= 0){
+			throw new ServiceException(EMPTY_PARAMETERS_LIST);
+		}
 		restrictionIsNotNullAndEmpty(examples, EMPTY_EXAMPLES);
 	}
 
@@ -48,6 +50,10 @@ public class AddExamplesToWordService extends AbstractService<WordEntity> {
 
 	public void setExamples(Set<String> examples) {
 		this.examples = examples;
+	}
+
+	public void setWordId(long wordId) {
+		this.wordId = wordId;
 	}
 
 }

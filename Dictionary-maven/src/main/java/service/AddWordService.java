@@ -3,7 +3,7 @@ package service;
 
 import static service.ERROR_MESSAGE.EMPTY_EXAMPLES;
 import static service.ERROR_MESSAGE.EMPTY_TRANSLATIONS;
-import static service.ERROR_MESSAGE.EMPTY_WORD;
+import static service.ERROR_MESSAGE.EMPTY_WORD_NAME;
 import static service.ERROR_MESSAGE.WORD_IS_NULL;
 
 import java.util.HashSet;
@@ -37,7 +37,7 @@ public class AddWordService extends AbstractService<WordEntity> {
 
 	public void validation() throws ServiceException {
 		
-		restrictionIsNotNullAndEmpty(wordName, EMPTY_WORD);
+		restrictionIsNotNullAndEmpty(wordName, EMPTY_WORD_NAME);
 		
 		restrictionIsNotNullAndEmpty(translations, EMPTY_TRANSLATIONS);
 		

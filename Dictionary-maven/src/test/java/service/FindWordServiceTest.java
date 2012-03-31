@@ -14,9 +14,9 @@ import exception.MyException;
 import exception.ServiceException;
 
 
-public class FindElementServiceTest extends AbstractServiceTest {
+public class FindWordServiceTest extends AbstractServiceTest {
 	
-	final Logger log = LogManager.getLogger(FindElementServiceTest.class);
+	final Logger log = LogManager.getLogger(FindWordServiceTest.class);
 	
 	private void patternTestMethod(TestPattern<FindWordService, WordEntity> testPattern) {
 		patternTestMethod(testPattern, FindWordService.class);
@@ -24,7 +24,7 @@ public class FindElementServiceTest extends AbstractServiceTest {
 	
 	
 	@Test
-	public void test_find_element() {
+	public void test_find_element_by_name() {
 		patternTestMethod(new TestPattern<FindWordService, WordEntity>() {
 
 			WordEntity word;
@@ -33,6 +33,31 @@ public class FindElementServiceTest extends AbstractServiceTest {
 			public void initialize(FindWordService service) throws ServiceException {
 				word = dictionaryDatasource.createWord();	
 				service.setWordName(word.getWordName());
+			}
+
+			@Override
+			public void assertResult(WordEntity result) {
+				assertNotNull(result);
+				assertTrue(result.getWordName().equals(word.getWordName()));			
+			}
+
+			@Override
+			public boolean assertException(MyException exception) {
+				return false;
+			}
+		});
+	}
+	
+	@Test
+	public void test_find_element_by_id() {
+		patternTestMethod(new TestPattern<FindWordService, WordEntity>() {
+
+			WordEntity word;
+			
+			@Override
+			public void initialize(FindWordService service) throws ServiceException {
+				word = dictionaryDatasource.createWord();	
+				service.setWordId(word.getId());
 			}
 
 			@Override

@@ -19,7 +19,8 @@ import dao.DictionaryDaoTest;
 	AddWordServiceTest.class,
 	AddExamplesToWordServiceTest.class,
 	AddTranslationsToWordServiceTest.class,
-	FindElementServiceTest.class,
+	FindWordServiceTest.class,
+	DeleteWordServiceTest.class,
 	
 	//dao
 	DictionaryDaoTest.class,

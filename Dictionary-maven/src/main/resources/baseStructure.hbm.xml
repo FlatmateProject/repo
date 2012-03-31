@@ -10,14 +10,14 @@
 		</id>
 		<property name="wordName" column="WORD_Name" type="string" length="30" not-null="true" unique="true"/>
 
-		<set name="translations" table="TRANSLATION" cascade="all">
+		<set name="translations" table="TRANSLATION" cascade="save-update, delete">
 			<key>
 				<column name="IdWord" not-null="true" />
 			</key>
 			<one-to-many class="model.dictionary.TranslationEntity" />
 		</set>
 
-		<set name="examples" table="EXAMPLE" cascade="all">
+		<set name="examples" table="EXAMPLE" cascade="save-update, delete">
 			<key>
 				<column name="IdWord" not-null="true" />
 			</key>

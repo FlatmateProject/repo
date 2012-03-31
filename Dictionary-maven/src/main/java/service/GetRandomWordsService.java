@@ -1,6 +1,6 @@
 package service;
 
-import static service.ERROR_MESSAGE.EMPTY_WORD;
+import static service.ERROR_MESSAGE.EMPTY_WORD_NAME;
 import static service.ERROR_MESSAGE.LIMIT_NEGATIVE_VALUE;
 
 
@@ -23,7 +23,7 @@ public class GetRandomWordsService extends AbstractService<List<WordEntity>> {
 	protected List<WordEntity> runService(ApplicationContext serviceContext)throws ServiceException, DaoException {
 		result = getDictionaryDao().getRandomWords(limit);	
 		
-		restrictionIsNotNull(result, EMPTY_WORD);
+		restrictionIsNotNull(result, EMPTY_WORD_NAME);
 		
 		return result;
 	}

@@ -91,7 +91,7 @@ public class AddWordServiceTest extends AbstractServiceTest {
 				assertTrue(exception instanceof ServiceException);
 				ServiceException serviceException = (ServiceException) exception;
 				
-				assertEquals(ERROR_MESSAGE.EMPTY_WORD, serviceException.getErrorMessage());
+				assertEquals(ERROR_MESSAGE.EMPTY_WORD_NAME, serviceException.getErrorMessage());
 				return true;
 			}
 		});
