@@ -2,7 +2,6 @@ package service;
 
 import model.dictionary.WordEntity;
 
-import org.easymock.EasyMock;
 import org.junit.Test;
 
 import exception.DaoException;
@@ -14,6 +13,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class FindWordServiceTestMock extends AbstractServiceTestMock{
 
+	@Mock
 	private WordEntity word;
 	
 	private String wordName = "carry out";
@@ -25,9 +25,6 @@ public class FindWordServiceTestMock extends AbstractServiceTestMock{
 	public void testShouldFindWordByName() throws DaoException, ServiceException {
 		//given
 		FindWordService service = getService(FindWordService.class);
-		
-		word = EasyMock.createMock(WordEntity.class);
-		replay(word);
 		
 		expect(dictionaryDao.findWordByName(wordName)).andReturn(word);
 		replay(dictionaryDao);
@@ -45,9 +42,6 @@ public class FindWordServiceTestMock extends AbstractServiceTestMock{
 
 		//given
 		FindWordService service = getService(FindWordService.class);
-		
-		word = EasyMock.createMock(WordEntity.class);
-		replay(word);
 		
 		expect(dictionaryDao.findWordById(wordId)).andReturn(word);
 		replay(dictionaryDao);
