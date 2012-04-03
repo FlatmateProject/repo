@@ -53,7 +53,6 @@ public class DictionaryDaoTest extends AbstractDaoTest {
 
 			@Override
 			public boolean assertException(Exception exception) {
-				
 				return false;
 			}
 

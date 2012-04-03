@@ -4,8 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import exception.ApplicationException;
-import fasade.DictionaryBeanFacade;
-import fasade.DictionaryEndPoint;
+import facade.DictionaryBeanFacade;
+import facade.DictionaryEndPoint;
+import facade.response.WordResponse;
 
 
 public class AddElement {
@@ -26,7 +27,7 @@ public class AddElement {
 			
 		DictionaryEndPoint dictionary = new DictionaryBeanFacade();
 		
-		boolean result = dictionary.addElement(wordName, translations, examples);
+		WordResponse result = dictionary.addWord(wordName, translations, examples);
 		
 		System.out.println("addElement result: " + result);
 		

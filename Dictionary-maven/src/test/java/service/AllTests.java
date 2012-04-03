@@ -1,3 +1,5 @@
+package service;
+
 import hibernate.ExampleEntityTest;
 import hibernate.TranslationEntityTest;
 import hibernate.WordEntityTest;
@@ -7,10 +9,6 @@ import org.junit.runners.Suite;
 
 import dao.DictionaryDaoTest;
 
-import service.AddElementServiceTest;
-import service.AddExamplesToWordServiceTest;
-import service.AddTranslationsToWordServiceTest;
-import service.FindElementServiceTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({

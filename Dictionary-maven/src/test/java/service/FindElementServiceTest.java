@@ -32,7 +32,7 @@ public class FindElementServiceTest extends AbstractServiceTest {
 			@Override
 			public void initialize(FindElementService service) throws DatasourceException {
 				word = dictionaryDatasource.createWord();	
-				service.setWord(word.getWordName());
+				service.setWordName(word.getWordName());
 			}
 
 			@Override
@@ -54,7 +54,7 @@ public class FindElementServiceTest extends AbstractServiceTest {
 			
 			@Override
 			public void initialize(FindElementService service) throws DatasourceException {
-				service.setWord("not exist element");
+				service.setWordName("not exist element");
 			}
 
 			@Override

@@ -11,14 +11,14 @@ public class FindElementService extends AbstractService<WordEntity> {
 	
 	public static final String EMPTY_WORD = "Słow nie możę być puste";
 	public static final String WORD_NOT_EXIST = "Szukane słowo nie istnieje";
-	private String word;
+	private String wordName;
 	private WordEntity result;
 	
 
 	@Override
 	protected WordEntity runService(ApplicationContext serviceContext) throws ServiceException, DaoException {
 		
-		result = getDictionaryDao().findWord(word);	
+		result = getDictionaryDao().findWord(wordName);	
 		restrictionIsNotNull(result, WORD_NOT_EXIST);
 		
 		return result;
@@ -27,14 +27,14 @@ public class FindElementService extends AbstractService<WordEntity> {
 	@Override
 	public void validation() throws ServiceException {
 		
-		restrictionIsNotNullAndEmpty(word, EMPTY_WORD);
+		restrictionIsNotNullAndEmpty(wordName, EMPTY_WORD);
 	}
 	
-	public String getWord() {
-		return word;
+	public String getWordName() {
+		return wordName;
 	}
 
-	public void setWord(String word) {
-		this.word = word;
+	public void setWordName(String wordName) {
+		this.wordName = wordName;
 	}
 }
