@@ -5,7 +5,7 @@
 
 	<bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/hibernate" />
+		<property name="url" value="jdbc:mysql://localhost:3306/test" />
 		<property name="username" value="user" />
 		<property name="password" value="woda13" />
 	</bean>
@@ -51,8 +51,12 @@
 	<bean id="myDictionaryDao" class="dao.DictionaryDaoImpl" parent="myAbstractDao" scope="prototype">
 	</bean>
 	
+	<bean id="myClientDao" class="dao.ClientDaoImpl" parent="myAbstractDao" scope="prototype">
+	</bean>
+	
 	<bean id="myAbstractServiceManager" class="manager.AbstractServiceManager" scope="prototype" abstract="true">
 		<property name="dictionaryDao" ref="myDictionaryDao" />
+		<property name="clientDao" ref="myClientDao" />
 	</bean>
 
 	<bean id="myServiceManager" class="manager.ServiceManagerImpl" parent="myAbstractServiceManager" scope="prototype">
@@ -64,6 +68,9 @@
 		</property>
 		<property name="dictionaryDao">
 			<ref bean="myDictionaryDao"/>
+		</property>
+		<property name="clientDao">
+			<ref bean="myClientDao"/>
 		</property>
 		<property name="serviceManager">
 			<ref bean="myServiceManager"/>

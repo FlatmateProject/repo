@@ -1,5 +1,7 @@
 package service;
 
+import static service.ERROR_MESSAGE.EXECUTE_SERVICE_ERROR;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,12 +10,11 @@ import manager.ServiceManager;
 import org.hibernate.Session;
 import org.springframework.context.ApplicationContext;
 
+import dao.ClientDao;
 import dao.DictionaryDao;
 import exception.DaoException;
 import exception.MyException;
 import exception.ServiceException;
-
-import static service.ERROR_MESSAGE.EXECUTE_SERVICE_ERROR;
 
 public abstract class AbstractService<T> {
 
@@ -21,6 +22,8 @@ public abstract class AbstractService<T> {
 
 	private DictionaryDao dictionaryDao;
 	
+	private ClientDao clientDao;
+
 	private ServiceManager serviceManager;
 
 	protected abstract T runService(ApplicationContext serviceContext) throws ServiceException, DaoException;
@@ -30,6 +33,7 @@ public abstract class AbstractService<T> {
 	
 	private void initializeFields(ApplicationContext applicationContext) throws ServiceException {
 		dictionaryDao.setSession(session);
+		clientDao.setSession(session);
 		serviceManager.setSession(session);
 		serviceManager.setApplicationContext(applicationContext);
 	}
@@ -105,6 +109,14 @@ public abstract class AbstractService<T> {
 	
 	public void setDictionaryDao(DictionaryDao dictionaryDao) {
 		this.dictionaryDao = dictionaryDao;
+	}
+	
+	public ClientDao getClientDao() {
+		return clientDao;
+	}
+
+	public void setClientDao(ClientDao clientDao) {
+		this.clientDao = clientDao;
 	}
 	
 	protected ServiceManager getServiceManager() {

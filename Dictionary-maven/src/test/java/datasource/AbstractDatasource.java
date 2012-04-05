@@ -11,6 +11,7 @@ import org.springframework.context.ApplicationContext;
 
 import service.AbstractService;
 import service.ERROR_MESSAGE;
+import dao.ClientDao;
 import dao.DictionaryDao;
 import exception.MyException;
 import exception.ServiceException;
@@ -24,6 +25,7 @@ public abstract class AbstractDatasource {
 	private void initializeService(AbstractService<?> service, Session session) {
 		service.setSession(session);
 		service.setDictionaryDao((DictionaryDao)applicationContext.getBean("myDictionaryDao"));
+		service.setClientDao((ClientDao)applicationContext.getBean("myClientDao"));
 		service.setServiceManager((ServiceManager)applicationContext.getBean("myServiceManager"));
 	}
 	

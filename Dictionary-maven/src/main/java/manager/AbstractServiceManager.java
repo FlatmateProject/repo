@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationContext;
 
 import service.AbstractService;
 import service.ERROR_MESSAGE;
+import dao.ClientDao;
 import dao.DictionaryDao;
 import exception.MyException;
 import exception.ServiceException;
@@ -18,11 +19,14 @@ public abstract class AbstractServiceManager {
 	
 	private Session session;
 	
-	private DictionaryDao dictionaryDao; 
+	private DictionaryDao dictionaryDao;
+	
+	private ClientDao clientDao;
 	
 	private void initializeService(AbstractService<?> service) {
 		service.setSession(session);
 		service.setDictionaryDao(dictionaryDao);
+		service.setClientDao(clientDao);
 		service.setServiceManager((ServiceManager)this);
 	}
 	
@@ -73,5 +77,9 @@ public abstract class AbstractServiceManager {
 
 	public void setApplicationContext(ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
+	}
+
+	public void setClientDao(ClientDao clientDao) {
+		this.clientDao = clientDao;
 	}
 }
