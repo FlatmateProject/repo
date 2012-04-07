@@ -15,7 +15,7 @@
 		<property name="dataSource" ref="myDataSource" />
 		<property name="mappingResources">
 			<list>
-				<value>./baseStructure.hbm.xml</value>
+				<value>./dictionary.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

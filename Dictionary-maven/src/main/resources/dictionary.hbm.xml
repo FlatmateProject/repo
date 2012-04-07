@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping default-access="field">
+
+	<class name="model.dictionary.WordEntity" table="word">
+		<id name="id" type="long" column="word_id">
+			<generator class="increment" />
+		</id>
+		<property name="wordName" column="word_name" type="string" length="30" not-null="true" unique="true"/>
+
+		<set name="translations" table="translation" cascade="all">
+			<key>
+				<column name="word_id" not-null="true" />
+			</key>
+			<one-to-many class="model.dictionary.TranslationEntity" />
+		</set>
+
+		<set name="examples" table="EXAMPLE" cascade="all">
+			<key>
+				<column name="word_id" not-null="true" />
+			</key>
+			<one-to-many class="model.dictionary.ExampleEntity" />
+		</set>
+
+	</class>
+
+	<class name="model.dictionary.TranslationEntity" table="translation">
+		<id name="id" type="long" column="translation_id">
+			<generator class="increment" />
+		</id>
+
+		<property name="translationName" column="translation_name" type="string" length="40" not-null="true"/>
+		
+		<many-to-one name="word" class="model.dictionary.WordEntity" column="word_id" not-null="true" />
+	</class>
+
+	<class name="model.dictionary.ExampleEntity" table="example">
+		<id name="id" type="long" column="example_id">
+			<generator class="increment" />
+		</id>
+
+		<property name="exampleName" column="example_name" type="string" length="100" not-null="true"/>
+		
+		<many-to-one name="word" class="model.dictionary.WordEntity" column="word_id" not-null="true" />
+	</class>
+
+</hibernate-mapping>
