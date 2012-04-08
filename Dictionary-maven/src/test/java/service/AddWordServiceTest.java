@@ -64,7 +64,7 @@ public class AddWordServiceTest extends AbstractServiceTest {
 		});
 
 	}
-	
+		
 	@Test
 	public void testError_add_element_EMPTY_WORD() {
 		patternTestMethod(new TestPattern<AddWordService, WordEntity>() {
