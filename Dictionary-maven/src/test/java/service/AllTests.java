@@ -33,7 +33,7 @@ import dao.DictionaryDaoTest;
 	WordEntityTest.class,
 	ClientEntityTest.class,
 	
-	//mock service
+	//test based on mocks
 	FindWordServiceTestMock.class
 	
 })
