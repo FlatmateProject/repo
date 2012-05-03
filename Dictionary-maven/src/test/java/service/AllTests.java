@@ -10,6 +10,7 @@ import model.dictionary.WordEntityTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+import dao.ClientDaoTest;
 import dao.DictionaryDaoTest;
 
 
@@ -24,6 +25,7 @@ import dao.DictionaryDaoTest;
 	
 	//dao
 	DictionaryDaoTest.class,
+	ClientDaoTest.class,
 	
 	//entity
 	ExampleEntityTest.class,
