@@ -54,7 +54,7 @@ public abstract class  AbstractDaoTest {
 			if(transaction != null){
 				transaction.rollback();
 			}
-			if (!testDaoPattern.assertException((MyException)e)) {
+			if (e instanceof MyException == false || !testDaoPattern.assertException((MyException)e)) {
 				e.printStackTrace();
 				throw new AssertException(e.getMessage());
 			}

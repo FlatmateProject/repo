@@ -58,7 +58,8 @@ public abstract class AbstractServiceTest {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-			if (!testPattern.assertException((MyException)e)) {
+
+			if (e instanceof MyException == false || !testPattern.assertException((MyException)e)) {
 				e.printStackTrace();
 				throw new AssertException(e.getMessage());
 			}

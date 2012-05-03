@@ -1,4 +1,4 @@
-package model;
+package service;
 
 import org.springframework.context.ApplicationContext;
 
