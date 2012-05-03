@@ -16,6 +16,7 @@ import dao.DictionaryDaoTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+	
 	//service
 	AddWordServiceTest.class,
 	AddExamplesToWordServiceTest.class,
