@@ -11,7 +11,8 @@ import patterns.localFactoryMethod.LocalFactoryMethodTest;
 @Suite.SuiteClasses({
 	WelcomeUserTest.class,
 	GlobalFactoryMethodTest.class,
-	LocalFactoryMethodTest.class
+	LocalFactoryMethodTest.class,
+	SingletonTest.class
 })
 public class AllTestsPatterns {
 
