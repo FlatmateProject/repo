@@ -2,7 +2,7 @@ package patterns.builder;
 
 import org.junit.Test;
 
-import patterns.builder.WelcomeUserConstructor.MessageBuilder;
+import patterns.builder.WelcomeUserConstructor.AbstractMessageBuilder;
 
 import static org.junit.Assert.assertEquals;
 
@@ -13,8 +13,8 @@ public class WelcomeUserConstructorTest {
 		new MessageConstructorTest() {
 			
 			@Override
-			public MessageBuilder getConstructor() {
-				return welcome.new PolishBuilder();
+			public AbstractMessageBuilder getConstructor() {
+				return welcome.new PolishMessageBuilder();
 			}
 			
 			@Override
@@ -29,8 +29,8 @@ public class WelcomeUserConstructorTest {
 		new MessageConstructorTest() {
 			
 			@Override
-			public MessageBuilder getConstructor() {
-				return welcome.new EnglishBuilder();
+			public AbstractMessageBuilder getConstructor() {
+				return welcome.new EnglishMessageBuilder();
 			}
 			
 			@Override
@@ -45,8 +45,8 @@ public class WelcomeUserConstructorTest {
 		new MessageConstructorTest() {
 			
 			@Override
-			public MessageBuilder getConstructor() {
-				return welcome.new SpanishBuilder();
+			public AbstractMessageBuilder getConstructor() {
+				return welcome.new SpanishMessageBuilder();
 			}
 			
 			@Override
@@ -62,7 +62,7 @@ public class WelcomeUserConstructorTest {
 
 		public abstract String expectedInvocation();
 
-		public abstract MessageBuilder getConstructor();
+		public abstract AbstractMessageBuilder getConstructor();
 		
 		public String getUserName(){
 			return "Piotro";
