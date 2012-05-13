@@ -13,8 +13,8 @@ public class WelcomeUserConstructorTest {
 		new MessageConstructorTest() {
 			
 			@Override
-			public AbstractMessageBuilder getConstructor() {
-				return welcome.new PolishMessageBuilder();
+			public AbstractMessageBuilder getBuilder() {
+				return constructor.new PolishMessageBuilder();
 			}
 			
 			@Override
@@ -29,8 +29,8 @@ public class WelcomeUserConstructorTest {
 		new MessageConstructorTest() {
 			
 			@Override
-			public AbstractMessageBuilder getConstructor() {
-				return welcome.new EnglishMessageBuilder();
+			public AbstractMessageBuilder getBuilder() {
+				return constructor.new EnglishMessageBuilder();
 			}
 			
 			@Override
@@ -45,8 +45,8 @@ public class WelcomeUserConstructorTest {
 		new MessageConstructorTest() {
 			
 			@Override
-			public AbstractMessageBuilder getConstructor() {
-				return welcome.new SpanishMessageBuilder();
+			public AbstractMessageBuilder getBuilder() {
+				return constructor.new SpanishMessageBuilder();
 			}
 			
 			@Override
@@ -58,11 +58,11 @@ public class WelcomeUserConstructorTest {
 	
 	private abstract class MessageConstructorTest {
 
-		protected WelcomeUserConstructor welcome;
+		protected WelcomeUserConstructor constructor;
 
 		public abstract String expectedInvocation();
 
-		public abstract AbstractMessageBuilder getConstructor();
+		public abstract AbstractMessageBuilder getBuilder();
 		
 		public String getUserName(){
 			return "Piotro";
@@ -70,10 +70,10 @@ public class WelcomeUserConstructorTest {
 		
 		public void execute(){
 			
-			welcome = new WelcomeUserConstructor();
-			String result = welcome.constructMessage(getConstructor(), getUserName());
+			constructor = new WelcomeUserConstructor();
+			String result = constructor.constructMessage(getBuilder(), getUserName());
 			
-			assertEquals(expectedInvocation() +" " + getUserName(), result);
+			assertEquals(expectedInvocation() + " " + getUserName(), result);
 		}
 	}
 

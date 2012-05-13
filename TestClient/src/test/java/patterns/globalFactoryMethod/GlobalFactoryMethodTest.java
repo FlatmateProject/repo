@@ -1,10 +1,8 @@
 package patterns.globalFactoryMethod;
 
-import org.junit.Test;
-
-import patterns.builder.WelcomeUserConstructor;
-
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 public class GlobalFactoryMethodTest {
 
@@ -58,7 +56,7 @@ public class GlobalFactoryMethodTest {
 	
 	private abstract class MessageTest {
 
-		protected WelcomeUserConstructor welcome;
+		protected WelcomeUser welcome;
 
 		public abstract String expectedMessage();
 

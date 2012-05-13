@@ -72,4 +72,5 @@
   <classpathentry kind="var" path="M2_REPO/xfire/xfire-jsr181-api/1.0-M1/xfire-jsr181-api-1.0-M1.jar"/>
   <classpathentry kind="var" path="M2_REPO/junit/junit/4.10/junit-4.10.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/pl/pragmatists/JUnitParams/0.4.0/JUnitParams-0.4.0.jar"/>
 </classpath>
