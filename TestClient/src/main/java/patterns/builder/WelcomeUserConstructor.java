@@ -1,10 +1,10 @@
 package patterns.builder;
 
 
-public class WelcomeUser {
+public class WelcomeUserConstructor {
 	
 
-	public abstract class MessageConstructor {
+	public abstract class MessageBuilder {
 
 		protected String message;
 		
@@ -15,7 +15,7 @@ public class WelcomeUser {
 		}
 	}
 	
-	public class PolishConstructor extends MessageConstructor {
+	public class PolishBuilder extends MessageBuilder {
 
 		@Override
 		public void appendUserName(String userName) {
@@ -24,7 +24,7 @@ public class WelcomeUser {
 
 	}
 	
-	public class EnglishConstructor extends MessageConstructor {
+	public class EnglishBuilder extends MessageBuilder {
 
 		@Override
 		public void appendUserName(String userName) {
@@ -32,7 +32,7 @@ public class WelcomeUser {
 		}
 	}
 	
-	public class SpanishConstructor extends MessageConstructor {
+	public class SpanishBuilder extends MessageBuilder {
 		
 		@Override
 		public void appendUserName(String userName) {
@@ -40,7 +40,7 @@ public class WelcomeUser {
 		}
 	}
 	
-	public String constructMessage(MessageConstructor constructor, String userName) {
+	public String constructMessage(MessageBuilder constructor, String userName) {
 		constructor.appendUserName(userName);
 		return constructor.resultMessage(); 
 	}

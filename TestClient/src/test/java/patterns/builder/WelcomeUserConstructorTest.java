@@ -2,19 +2,19 @@ package patterns.builder;
 
 import org.junit.Test;
 
-import patterns.builder.WelcomeUser.MessageConstructor;
+import patterns.builder.WelcomeUserConstructor.MessageBuilder;
 
 import static org.junit.Assert.assertEquals;
 
-public class WelcomeUserTest {
+public class WelcomeUserConstructorTest {
 
 	@Test
 	public void testShouldConstractPolishMessage() {
 		new MessageConstructorTest() {
 			
 			@Override
-			public MessageConstructor getConstructor() {
-				return welcome.new PolishConstructor();
+			public MessageBuilder getConstructor() {
+				return welcome.new PolishBuilder();
 			}
 			
 			@Override
@@ -29,8 +29,8 @@ public class WelcomeUserTest {
 		new MessageConstructorTest() {
 			
 			@Override
-			public MessageConstructor getConstructor() {
-				return welcome.new EnglishConstructor();
+			public MessageBuilder getConstructor() {
+				return welcome.new EnglishBuilder();
 			}
 			
 			@Override
@@ -45,8 +45,8 @@ public class WelcomeUserTest {
 		new MessageConstructorTest() {
 			
 			@Override
-			public MessageConstructor getConstructor() {
-				return welcome.new SpanishConstructor();
+			public MessageBuilder getConstructor() {
+				return welcome.new SpanishBuilder();
 			}
 			
 			@Override
@@ -58,11 +58,11 @@ public class WelcomeUserTest {
 	
 	private abstract class MessageConstructorTest {
 
-		protected WelcomeUser welcome;
+		protected WelcomeUserConstructor welcome;
 
 		public abstract String expectedInvocation();
 
-		public abstract MessageConstructor getConstructor();
+		public abstract MessageBuilder getConstructor();
 		
 		public String getUserName(){
 			return "Piotro";
@@ -70,7 +70,7 @@ public class WelcomeUserTest {
 		
 		public void execute(){
 			
-			welcome = new WelcomeUser();
+			welcome = new WelcomeUserConstructor();
 			String result = welcome.constructMessage(getConstructor(), getUserName());
 			
 			assertEquals(expectedInvocation() +" " + getUserName(), result);
