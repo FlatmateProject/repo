@@ -21,6 +21,11 @@
 			<version>4.10</version>
 			<type>jar</type>
 		</dependency>
+		<dependency>
+			<groupId>pl.pragmatists</groupId>
+			<artifactId>JUnitParams</artifactId>
+			<version>0.4.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

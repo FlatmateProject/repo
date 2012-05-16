@@ -2,7 +2,7 @@ package patterns.localFactoryMethod;
 
 import org.junit.Test;
 
-import patterns.builder.WelcomeUser;
+import patterns.builder.WelcomeUserConstructor;
 import patterns.localfactorymethod.FactoryMethod;
 import patterns.localfactorymethod.FactoryMethod.LANGUAGE;
 
@@ -59,7 +59,7 @@ public class LocalFactoryMethodTest {
 	
 	private abstract class MessageTest {
 
-		protected WelcomeUser welcome;
+		protected WelcomeUserConstructor welcome;
 
 		public abstract String expectedMessage();
 

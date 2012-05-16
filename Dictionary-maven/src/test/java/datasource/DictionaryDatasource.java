@@ -1,6 +1,6 @@
 package datasource;
 
-import model.AddApplicationContext;
+import service.AddApplicationContext;
 import model.dictionary.ExampleEntity;
 import model.dictionary.TranslationEntity;
 import model.dictionary.WordEntity;

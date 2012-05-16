@@ -2,19 +2,19 @@ package patterns.builder;
 
 import org.junit.Test;
 
-import patterns.builder.WelcomeUser.MessageConstructor;
+import patterns.builder.WelcomeUserConstructor.AbstractMessageBuilder;
 
 import static org.junit.Assert.assertEquals;
 
-public class WelcomeUserTest {
+public class WelcomeUserConstructorTest {
 
 	@Test
 	public void testShouldConstractPolishMessage() {
 		new MessageConstructorTest() {
 			
 			@Override
-			public MessageConstructor getConstructor() {
-				return welcome.new PolishConstructor();
+			public AbstractMessageBuilder getBuilder() {
+				return constructor.new PolishMessageBuilder();
 			}
 			
 			@Override
@@ -29,8 +29,8 @@ public class WelcomeUserTest {
 		new MessageConstructorTest() {
 			
 			@Override
-			public MessageConstructor getConstructor() {
-				return welcome.new EnglishConstructor();
+			public AbstractMessageBuilder getBuilder() {
+				return constructor.new EnglishMessageBuilder();
 			}
 			
 			@Override
@@ -45,8 +45,8 @@ public class WelcomeUserTest {
 		new MessageConstructorTest() {
 			
 			@Override
-			public MessageConstructor getConstructor() {
-				return welcome.new SpanishConstructor();
+			public AbstractMessageBuilder getBuilder() {
+				return constructor.new SpanishMessageBuilder();
 			}
 			
 			@Override
@@ -58,11 +58,11 @@ public class WelcomeUserTest {
 	
 	private abstract class MessageConstructorTest {
 
-		protected WelcomeUser welcome;
+		protected WelcomeUserConstructor constructor;
 
 		public abstract String expectedInvocation();
 
-		public abstract MessageConstructor getConstructor();
+		public abstract AbstractMessageBuilder getBuilder();
 		
 		public String getUserName(){
 			return "Piotro";
@@ -70,10 +70,10 @@ public class WelcomeUserTest {
 		
 		public void execute(){
 			
-			welcome = new WelcomeUser();
-			String result = welcome.constructMessage(getConstructor(), getUserName());
+			constructor = new WelcomeUserConstructor();
+			String result = constructor.constructMessage(getBuilder(), getUserName());
 			
-			assertEquals(expectedInvocation() +" " + getUserName(), result);
+			assertEquals(expectedInvocation() + " " + getUserName(), result);
 		}
 	}
 

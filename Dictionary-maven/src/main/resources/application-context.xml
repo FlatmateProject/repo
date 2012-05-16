@@ -5,7 +5,7 @@
 
 	<bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/test" />
+		<property name="url" value="jdbc:mysql://localhost:3306/hibernate" />
 		<property name="username" value="user" />
 		<property name="password" value="woda13" />
 	</bean>

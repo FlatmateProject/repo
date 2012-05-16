@@ -1,6 +1,7 @@
 package service;
 
 import manager.ServiceManager;
+import dao.ClientDao;
 import dao.DictionaryDao;
 import exception.ServiceException;
 
@@ -12,6 +13,9 @@ public abstract class AbstractServiceTestMock {
 	protected DictionaryDao dictionaryDao;
 
 	@Mock
+	protected ClientDao clientDao;
+	
+	@Mock
 	protected ServiceManager serviceManager;
 
 	private <S extends AbstractService<?>> void setup(S service) {
@@ -21,13 +25,15 @@ public abstract class AbstractServiceTestMock {
 		// mocks dependencies
 		dictionaryDao.setSession(null);
 
+		clientDao.setSession(null);
+		
 		serviceManager.setSession(null);
 		serviceManager.setApplicationContext(null);
 
 		// inject dependency into service
 		service.setDictionaryDao(dictionaryDao);
+		service.setClientDao(clientDao);
 		service.setServiceManager(serviceManager);
-		serviceManager.setApplicationContext(null);
 	}
 
 	protected <S extends AbstractService<?>> S getService(Class<? extends AbstractService<?>> className) {

@@ -1,6 +1,6 @@
 package manager;
 
-import model.AddApplicationContext;
+import service.AddApplicationContext;
 import model.AddSesion;
 import model.dictionary.WordEntity;
 import exception.ServiceException;
