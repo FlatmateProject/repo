@@ -1,19 +1,19 @@
-package patterns.abstractFactory.advert;
+package patterns.abstractFactory.publicity;
 
 import patterns.abstractFactory.PaymentHandler;
-import patterns.abstractFactory.model.AdvertEntity;
+import patterns.abstractFactory.model.PublicityEntity;
 import patterns.abstractFactory.payments.PAYMENTS_STATUS;
 import patterns.abstractFactory.payments.PaymentsRequest;
 import patterns.abstractFactory.payments.PaymentsResult;
 
-public class AdvertPaymentHandler implements PaymentHandler {
+public class PublicityPaymentHandler implements PaymentHandler {
 
 	@Override
 	public PaymentsResult executePayment(PaymentsRequest request) {
-		AdvertEntity advert = (AdvertEntity) request.getObject();
+		PublicityEntity publicity = (PublicityEntity) request.getObject();
 		long amount = request.getAmount();
-		PAYMENTS_STATUS status = advert.pay();
-		return new PaymentsResult(advert, status, amount);
+		PAYMENTS_STATUS status = publicity.pay();
+		return new PaymentsResult(publicity, status, amount);
 	}
 
 }

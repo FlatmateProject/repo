@@ -1,19 +1,19 @@
-package patterns.abstractFactory.advert;
+package patterns.abstractFactory.publicity;
 
 import patterns.abstractFactory.ConfirmationHandle;
-import patterns.abstractFactory.model.AdvertEntity;
+import patterns.abstractFactory.model.PublicityEntity;
 import patterns.abstractFactory.payments.PAYMENTS_STATUS;
 import patterns.abstractFactory.payments.PaymentsRequest;
 import patterns.abstractFactory.payments.PaymentsResult;
 
-public class AdvertConfirmationHandler implements ConfirmationHandle {
+public class PublicityConfirmationHandler implements ConfirmationHandle {
 
 	@Override
 	public PaymentsResult executeConfirmation(PaymentsRequest request) {
-		AdvertEntity advert = (AdvertEntity) request.getObject();
+		PublicityEntity publicity = (PublicityEntity) request.getObject();
 		long amount = request.getAmount();
-		PAYMENTS_STATUS status = advert.work();
-		return new PaymentsResult(advert, status, amount);
+		PAYMENTS_STATUS status = publicity.work();
+		return new PaymentsResult(publicity, status, amount);
 	}
 
 }

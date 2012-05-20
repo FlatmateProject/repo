@@ -2,7 +2,7 @@ package exception;
 
 import service.ERROR_MESSAGE;
 
-public abstract class MyException extends Exception{
+public abstract class MyException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 	

@@ -10,9 +10,10 @@ public class PaymentsResult {
 	
 	private long amount;
 	
-	public PaymentsResult(ObjectEntity object, PAYMENTS_STATUS status) {
+	public PaymentsResult(ObjectEntity object, PAYMENTS_STATUS status, long amount) {
 		this.object = object;
 		this.paymentStatus = status;
+		this.amount = amount;
 	}
 	
 	public ObjectEntity getObject(){

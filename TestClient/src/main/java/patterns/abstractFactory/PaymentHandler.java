@@ -7,5 +7,4 @@ import patterns.abstractFactory.payments.PaymentsResult;
 public interface PaymentHandler {
 
 	PaymentsResult executePayment(PaymentsRequest request);
-
 }
