@@ -10,7 +10,7 @@ import org.hibernate.Query;
 import exception.DaoException;
 
 
-public class ClientDaoImpl extends AbstractDao implements ClientDao{
+public class ClientDaoImpl extends AbstractDao implements ClientDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
