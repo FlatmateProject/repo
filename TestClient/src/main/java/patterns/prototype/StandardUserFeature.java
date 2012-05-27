@@ -2,28 +2,23 @@ package patterns.prototype;
 
 public class StandardUserFeature extends UserFeature {
 
-	private StandardUserFeature(){
-		
+	private StandardUserFeature() {
+		this.transferLimit = true;
+		this.parralelDownloads = 1;
+		this.haveToWait = true;
+		this.dailyLimit = true;
+		this.sslProtection = false;
+		this.option = OPTION.STANDARD;
 	}
 	
-	public static StandardUserFeature order(long userId){
+	public static StandardUserFeature order(UserFeatureOrderState state){
 		StandardUserFeature feature = new StandardUserFeature();
-		feature.userId = userId;
-		setupStandard(feature);
+		feature.saveState(state);
 		return feature;
 	}
 
 	@Override
 	public UserFeature switchOption() {
-		PremiumUserFeature feature = PremiumUserFeature.order(this.userId);
-		return feature;
-	}
-	
-	private static void setupStandard(UserFeature feature) {
-		feature.transferLimit = true;
-		feature.parralelDownload = 1;
-		feature.haveToWait = true;
-		feature.dailyLimit = false;
-		feature.sslProtection = false;
+		return PremiumUserFeature.order(buildUserFeatureOrderState());
 	}
 }

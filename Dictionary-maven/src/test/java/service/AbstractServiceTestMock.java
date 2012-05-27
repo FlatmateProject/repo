@@ -18,7 +18,7 @@ public abstract class AbstractServiceTestMock {
 	@Mock
 	protected ServiceManager serviceManager;
 
-	private <S extends AbstractService<?>> void setup(S service) {
+	private <S extends AbstractService<? extends Object>> void setup(S service) {
 
 		createReflectionMocks();
 
@@ -36,7 +36,7 @@ public abstract class AbstractServiceTestMock {
 		service.setServiceManager(serviceManager);
 	}
 
-	protected <S extends AbstractService<?>> S getService(Class<? extends AbstractService<?>> className) {
+	protected <S extends AbstractService<? extends Object>> S getService(Class<? extends AbstractService<?>> className) {
 		S service = getInstance(className);
 		setup(service);
 		return service;
