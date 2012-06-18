@@ -1,45 +1,41 @@
 package patterns.prototype;
 
-import static org.junit.Assert.*;
-
+import org.jboss.logging.Logger;
 import org.junit.Test;
 
 import patterns.globalFactoryMethod.LANGUAGE;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 public class UserFeaturesHistoryTest {
 
-	@Test
-	public void testShouldContainThreeFeaturesInCorrectOrder(){
-		//given
-		int i = 0;
-		long userId = 0;
-		String accountName = "spoko";
-		LANGUAGE language = LANGUAGE.Polish;
-		UserFeaturesHistory history = new UserFeaturesHistory();
+	private static Logger log = Logger.getLogger(UserFeaturesHistoryTest.class);
 
-		//when
-		UserFeatureOrderState request = new UserFeatureOrderState(userId, accountName, language);
-		
+	@Test
+	public void testShouldContainThreeFeaturesInCorrectOrder() {
+		// given
+		int i = 0;
+		UserFeaturesHistory history = new UserFeaturesHistory();
+		UserFeatureOrderState request = new UserFeatureOrderState(0L, "spoko", LANGUAGE.Polish);
+
+		// when
 		StandardUserFeature standard = StandardUserFeature.order(request);
 		history.addFeature(standard);
 		PremiumUserFeature premium = (PremiumUserFeature) standard.switchOption();
 		history.addFeature(premium);
-		StandardUserFeature standardAgain = (StandardUserFeature) premium.switchOption(); 
+		StandardUserFeature standardAgain = (StandardUserFeature) premium.switchOption();
 		history.addFeature(standardAgain);
-		UserFeature[] exceptedFeatures = {standard, premium, standardAgain};
-		
-		//then
+		UserFeature[] exceptedFeatures = { standard, premium, standardAgain };
+
+		// then
 		assertNotNull(history);
 		assertEquals(3, history.historySize());
-		for(UserFeature feature : history.getFeatures()){
-			assertEquals(userId, feature.getUserId());
-			assertEquals(accountName, feature.getAccountName());
-			assertEquals(language, feature.getLanguage());
-			assertEquals(exceptedFeatures[i].getParralelDownloads(), feature.getParralelDownloads());
-			assertEquals(exceptedFeatures[i].isDailyLimit(), feature.isDailyLimit());
-			assertEquals(exceptedFeatures[i].isHaveToWait(), feature.isHaveToWait());
-			assertEquals(exceptedFeatures[i].isSslProtection(), feature.isSslProtection());
-			assertEquals(exceptedFeatures[i].isTransferLimit(), feature.isTransferLimit());
+		for (UserFeature feature : history.getFeatures()) {
+			log.info("expected: " + exceptedFeatures[i]);
+			log.info("actual:   " + feature);
+			assertEquals(exceptedFeatures[i], feature);
 			assertTrue(history.contains(feature));
 			if (feature.isPremium()) {
 				assertPremium(feature);
@@ -49,16 +45,16 @@ public class UserFeaturesHistoryTest {
 			i++;
 		}
 	}
-	
-	private void assertPremium(UserFeature premium){
+
+	private void assertPremium(UserFeature premium) {
 		assertEquals(false, premium.isTransferLimit());
 		assertEquals(UserFeature.PREMIUM_USER_DOWNLOAD_LIMIT, premium.getParralelDownloads());
 		assertEquals(false, premium.isHaveToWait());
 		assertEquals(false, premium.isDailyLimit());
 		assertEquals(true, premium.isSslProtection());
 	}
-	
-	private void assertStandard(UserFeature standard){
+
+	private void assertStandard(UserFeature standard) {
 		assertEquals(true, standard.isTransferLimit());
 		assertEquals(1, standard.getParralelDownloads());
 		assertEquals(true, standard.isHaveToWait());

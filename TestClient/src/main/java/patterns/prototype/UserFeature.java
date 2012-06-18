@@ -1,5 +1,10 @@
 package patterns.prototype;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 import patterns.globalFactoryMethod.LANGUAGE;
 
 public abstract class UserFeature {
@@ -82,5 +87,44 @@ public abstract class UserFeature {
 
 	public LANGUAGE getLanguage() {
 		return language;
+	}
+	
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder()//
+				.append(userId)//
+				.append(accountName)//
+				.append(language)//
+				.append(transferLimit)//
+				.append(parralelDownloads)//
+				.append(haveToWait)//
+				.append(dailyLimit)//
+				.append(sslProtection)
+				.append(option)
+				.toHashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null || obj instanceof UserFeature == false){
+			return false;
+		}
+		UserFeature object = (UserFeature) obj;
+		return new EqualsBuilder()//
+		.append(userId, object.userId)//
+		.append(accountName, object.accountName)//
+		.append(language, object.language)//
+		.append(transferLimit, object.transferLimit)//
+		.append(parralelDownloads, object.parralelDownloads)//
+		.append(haveToWait, object.haveToWait)//
+		.append(dailyLimit, object.dailyLimit)//
+		.append(sslProtection, object.sslProtection)
+		.append(option, object.option)//
+		.isEquals();
+	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this,	ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }
