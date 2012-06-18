@@ -1,19 +1,13 @@
-package repo;
+package gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,11 +32,21 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
+
+import repo.GuestBook;
+import repo.Kantor;
+import repo.Login;
+import repo.Manager;
+import repo.Reception;
+import repo.Rezervation;
+import repo.Schedule;
+import repo.Singleton;
+import repo.Statistic;
+import repo.Validation;
 
 public class GUI extends JFrame implements ComponentListener {
 
@@ -55,7 +59,6 @@ public class GUI extends JFrame implements ComponentListener {
 	private Color buttonColor = new Color(174, 205, 214);
 	private Color callendarColor = new Color(255, 255, 255);
 
-	private Statistic sta;
 	private Schedule sch = new Schedule();
 	private GuestBook gue = new GuestBook();
 	private Kantor cantor = new Kantor();
@@ -337,31 +340,7 @@ public class GUI extends JFrame implements ComponentListener {
 
 	// statistic
 	private JPanel staPanel;
-	private JButton staExec;
-	private JLabel staTitleLabel;
-	private JLabel staTypeLabel;
-	private JLabel staSubLabel;
-	private JLabel staMonthLabel;
-	private JLabel staYearLabel;
-	private JLabel staMonthLabelFrom;
-	private JLabel staYearLabelFrom;
-	private JLabel staMonthLabelTo;
-	private JLabel staYearLabelTo;
-	private JLabel staClassLabel;
-	private JLabel staServeLabel;
-	private JComboBox staChooseType;
-	private JComboBox staChooseSubFin;
-	private JComboBox staChooseSubHot;
-	private JComboBox staChooseMonth;
-	private JComboBox staChooseYear;
-	private JComboBox staChooseMonth2;
-	private JComboBox staChooseYear2;
-	private JComboBox staChooseClass;
-	private JComboBox staChooseServe;
-	private JScrollPane staRaportScroll;
-	private JTextPane staRaportText;
-	private GraphDraw staMem;
-	private Singleton db;
+
 
 	// Manager
 	private Manager man = new Manager();
@@ -407,466 +386,7 @@ public class GUI extends JFrame implements ComponentListener {
 
 	// Personnel manager
 	private JPanel mgpPanel;
-	private JPanel mgpServe[];
-	private JComboBox mgpChooseType;
-	private JComboBox mgpChooseAdd;
-	private JComboBox mgpChooseDel;
-	private JComboBox mgpChooseMonth;
-	private JComboBox mgpChooseEmployee;
-	private JLabel mgpTitle;
-	private JLabel mgpTypeLabel;
-	private JLabel mgpMonthLabel;
-	private JLabel mgpCalMonthLabel;
-	private JLabel mgpSubTitle[];
-	private JLabel mgpAddLabel[];
-	private JLabel mgpDelLabel[];
-	private JLabel mgpDayLabel[];
-	private JTextField mgpAddEmploy[];
-	private JTextField mgpDelEmploy[];
-	private JButton mgpAdd;
-	private JButton mgpFind;
-	private JButton mgpDel;
-	private JButton mgpCreat;
-	private JButton mgpDays[];
-	private JButton mgpPrev;
-	private JButton mgpNext;
-	private JTable mgpTable;
-	private JScrollPane mgpSchedScroll;
-	private JScrollPane mgpRaportScroll;
-	private JScrollPane mgpTableScroll;
-	private JList mgpSchedText;
-	private JTextPane mgpRaportText;
 
-	private PersonnelManager mgp;
-
-	private String mgpColsName[];
-	private String mgpMatrix[][];
-	private boolean mgpIndel = false;
-	private final String[] dayOfWeek = { "Pn", "Wt", "�r", "Cz", "Pt", "So",
-			"Nd" };
-	private final String[] monthOfYear = { "Stycze�", "Luty", "Marzec",
-			"Kwiecie�", "Maj", "Czerwiec", "Lipiec", "Sierpie�", "Wrzesie�",
-			"Pa�dziernik", "Listopad", "Grudzie�" };
-	private final int[] dayInMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31,
-			30, 31 };
-	private int mgpDay = schCalendar.get(Calendar.DAY_OF_MONTH);
-	private int mgpMonth = schCalendar.get(Calendar.MONTH);
-	private int mgpYear = schCalendar.get(Calendar.YEAR);
-	private int mgpClickCount = 0;
-
-	private void createComboBoxStat() {
-		try {
-			staChooseClass = new JComboBox();
-			staChooseServe = new JComboBox();
-			staChooseClass.setBounds(500, 60, 230, 20);
-			staChooseServe.setBounds(500, 60, 230, 20);
-			staChooseClass.setVisible(false);
-			staChooseServe.setVisible(false);
-			ResultSet reSet = db.query("SELECT opis FROM klasy");
-			if (reSet != null) {
-				while (reSet.next())
-					staChooseClass.addItem(reSet.getString(1));
-				staChooseClass.setSelectedIndex(0);
-				staPanel.add(staChooseClass);
-			}
-			reSet = db.query("SELECT typ FROM uslugi GROUP BY typ");
-			if (reSet != null) {
-				while (reSet.next())
-					staChooseServe.addItem(reSet.getString(1));
-				staChooseServe.setSelectedIndex(0);
-				staPanel.add(staChooseServe);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void createManagerPPanel() throws SQLException {
-		int i = 0;
-		ResultSet rset = null;
-		Font font = null;
-
-		mgp = new PersonnelManager();
-
-		mgpPanel = new JPanel();
-		mgpPanel.setBounds(0, 0, this.getWidth(), this.getHeight());
-		mgpPanel.setLayout(null);
-		mgpPanel.setBackground(bgColor);
-		mgpPanel.setVisible(true);
-
-		font = new Font("arial", Font.BOLD, 20);
-		mgpTitle = new JLabel("Manager personalny");
-		mgpTitle.setBounds(20, 5, 300, 20);
-		mgpTitle.setFont(font);
-		mgpPanel.add(mgpTitle);
-
-		mgpServe = new JPanel[4];
-		mgpSubTitle = new JLabel[4];
-		mgpSubTitle[0] = new JLabel("Grafik misi�czny");
-		mgpSubTitle[1] = new JLabel("Dodaj pracownika");
-		mgpSubTitle[2] = new JLabel("Usu� pracownika");
-		mgpSubTitle[3] = new JLabel("Raport p�ac");
-		font = new Font("arial", Font.BOLD, 15);
-		for (i = 0; i < mgpServe.length; i++) {
-			mgpServe[i] = new JPanel();
-			mgpServe[i].setLayout(null);
-			mgpServe[i].setBackground(bgColor);
-			mgpServe[i].setVisible(false);
-			mgpSubTitle[i].setBounds(20, 5, 300, 20);
-			mgpSubTitle[i].setFont(font);
-			mgpServe[i].add(mgpSubTitle[i]);
-			mgpPanel.add(mgpServe[i]);
-		}
-		mgpServe[0].setVisible(true);
-
-		mgpAddEmploy = new JTextField[8];
-		mgpDelEmploy = new JTextField[4];
-		mgpAddLabel = new JLabel[9];
-		mgpDelLabel = new JLabel[4];
-		mgpColsName = new String[4];
-		rset = db.query("SHOW COLUMNS FROM pracownicy");
-		System.out.println("SHOW COLUMNS FROM pracownicy");
-		if (rset != null) {
-			for (i = 0; i < 8 && rset.next(); i++) {
-				mgpAddEmploy[i] = new JTextField();
-				mgpAddLabel[i] = new JLabel(rset.getString(1));
-				mgpAddLabel[i].setBounds(20, 40 + i * 25, 100, 20);
-				mgpAddEmploy[i].setBounds(130, 40 + i * 25, 200, 20);
-				mgpServe[1].add(mgpAddEmploy[i]);
-				mgpServe[1].add(mgpAddLabel[i]);
-			}
-			rset.beforeFirst();
-			for (i = 0; i < 3 && rset.next(); i++) {
-				mgpDelEmploy[i] = new JTextField();
-				mgpDelLabel[i] = new JLabel(rset.getString(1));
-				mgpColsName[i] = rset.getString(1);
-				mgpDelEmploy[i].setBounds(130, 40 + i * 25, 200, 20);
-				mgpDelLabel[i].setBounds(20, 40 + i * 25, 100, 20);
-				mgpServe[2].add(mgpDelLabel[i]);
-				mgpServe[2].add(mgpDelEmploy[i]);
-			}
-		}
-		mgpAddLabel[8] = new JLabel("STANOWISKO");
-		mgpAddLabel[8].setBounds(20, 40 + 8 * 25, 100, 20);
-		mgpDelLabel[3] = new JLabel("STANOWISKO");
-		mgpDelLabel[3].setBounds(20, 40 + 3 * 25, 100, 20);
-		mgpServe[1].add(mgpAddLabel[8]);
-		mgpServe[2].add(mgpDelLabel[3]);
-		mgpColsName[3] = "STANOWISKO";
-		mgpChooseAdd = new JComboBox();
-		mgpChooseAdd.setBounds(130, 40 + 8 * 25, 200, 20);
-		mgpChooseDel = new JComboBox();
-		mgpChooseDel.setBounds(130, 40 + 3 * 25, 200, 20);
-		rset = db.query("SELECT nazwa FROM stanowiska");
-		if (rset != null) {
-			mgpChooseDel.addItem("");
-			while (rset.next()) {
-				mgpChooseAdd.addItem(rset.getString(1));
-				mgpChooseDel.addItem(rset.getString(1));
-			}
-			mgpChooseAdd.setSelectedIndex(0);
-			mgpChooseDel.setSelectedIndex(0);
-			mgpServe[1].add(mgpChooseAdd);
-			mgpServe[2].add(mgpChooseDel);
-		}
-
-		mgpSchedText = new JList();
-		mgpSchedScroll = new JScrollPane(mgpSchedText);
-		mgpServe[0].add(mgpSchedScroll);
-
-		rset = db
-				.query("SELECT imie, nazwisko, idp_pesel FROM pracownicy WHERE id_stanowiska=1");
-		System.out
-				.println("SELECT imie, nazwisko, idp_pesel FROM pracownicy WHERE id_stanowiska=1");
-		mgpChooseEmployee = new JComboBox();
-		if (rset != null) {
-			System.out.println("in costam lipa");
-			mgpChooseEmployee.setBounds(0, 0, 120, 20);
-			while (rset.next()) {
-				mgpChooseEmployee.addItem(rset.getString(1) + " "
-						+ rset.getString(2) + " " + rset.getString(3));
-				System.out.println(rset.getString(1) + " " + rset.getString(2));
-			}
-			mgpChooseEmployee.setVisible(false);
-			mgpSchedText.add(mgpChooseEmployee);
-		}
-		font = new Font("arial", Font.ROMAN_BASELINE, 15);
-		mgpAdd = new JButton("Dodaj");
-		mgpAdd.setBounds(340, 40, 100, 40);
-		mgpAdd.setFont(font);
-		mgpServe[1].add(mgpAdd);
-
-		mgpFind = new JButton("Znajdz");
-		mgpFind.setBounds(340, 40, 100, 40);
-		mgpFind.setFont(font);
-		mgpServe[2].add(mgpFind);
-
-		mgpCreat = new JButton("Wykonaj");
-		mgpCreat.setBounds(160, 40, 100, 40);
-		mgpCreat.setFont(font);
-		mgpServe[3].add(mgpCreat);
-
-		mgpDel = new JButton("Usu�");
-		mgpDel.setFont(font);
-
-		// mgpDel.setBounds(505,165,107,40);
-		mgpDel.setVisible(false);
-		mgpServe[2].add(mgpDel);
-
-		mgpPrev = new JButton("Poprzedni");
-		mgpServe[0].add(mgpPrev);
-
-		mgpNext = new JButton("Nast�pny");
-		mgpServe[0].add(mgpNext);
-
-		mgpTableScroll = new JScrollPane();
-		// mgpTableScroll.setBounds(20,165,473,382);
-		mgpTableScroll.setVisible(false);
-		mgpServe[2].add(mgpTableScroll);
-
-		mgpTypeLabel = new JLabel("Wybirz czynno��");
-		mgpTypeLabel.setBounds(20, 40, 300, 20);
-		mgpTypeLabel.setFont(font);
-		mgpChooseType = new JComboBox();
-		mgpChooseType.setBounds(20, 60, 230, 20);
-		// ///////////////////------------b
-		mgpChooseType.addItem("Tw�rz grafik");
-		mgpChooseType.addItem("Usu� grafik");
-		mgpChooseType.addItem("Pokaz grafik");
-		mgpChooseType.addItem("Dodaj pracownika");
-		mgpChooseType.addItem("Usu� pracownika");
-		mgpChooseType.addItem("Raport p�ac");
-		mgpChooseType.setSelectedIndex(2);
-		// ///////////////////------------e
-		mgpPanel.add(mgpChooseType);
-		mgpPanel.add(mgpTypeLabel);
-
-		mgpMonthLabel = new JLabel("Wybirz miesi�c");
-		mgpMonthLabel.setBounds(20, 40, 300, 20);
-		mgpMonthLabel.setFont(font);
-		mgpChooseMonth = new JComboBox();
-		mgpChooseMonth.setBounds(20, 60, 130, 20);
-		mgpChooseMonth.addItem("Stycze�");
-		mgpChooseMonth.addItem("Luty");
-		mgpChooseMonth.addItem("Marzec");
-		mgpChooseMonth.addItem("Kwiecie�");
-		mgpChooseMonth.addItem("Maj");
-		mgpChooseMonth.addItem("Czerwiec");
-		mgpChooseMonth.addItem("Lipiec");
-		mgpChooseMonth.addItem("Sierpie�");
-		mgpChooseMonth.addItem("Wrzesie�");
-		mgpChooseMonth.addItem("Pa�dziernik");
-		mgpChooseMonth.addItem("Listopad");
-		mgpChooseMonth.addItem("Grudzie�");
-		mgpChooseMonth.setSelectedIndex(0);
-		mgpServe[3].add(mgpChooseMonth);
-		mgpServe[3].add(mgpMonthLabel);
-
-		mgpRaportText = new JTextPane();
-		mgpRaportScroll = new JScrollPane(mgpRaportText);
-		mgpServe[3].add(mgpRaportScroll);
-		mgpRaportScroll.setBounds(20, 90, 592, 457);
-		mgpRaportText.setSize(592, 457);
-
-		mgpCalMonthLabel = new JLabel();
-		mgpServe[0].add(mgpCalMonthLabel);
-		mgpDays = new JButton[31];
-		for (i = 0; i < mgpDays.length; i++) {
-			mgpDays[i] = new JButton(String.valueOf(i + 1));
-			mgpDays[i].setBackground(Color.WHITE);
-			mgpServe[0].add(mgpDays[i]);
-		}
-		mgpDayLabel = new JLabel[7];
-		for (i = 0; i < mgpDayLabel.length; i++) {
-			mgpDayLabel[i] = new JLabel(dayOfWeek[i]);
-			mgpServe[0].add(mgpDayLabel[i]);
-		}
-
-		// add(mgpPanel);
-	}
-
-	public void createStatistic() throws SQLException {
-		Color color = new Color(0, 150, 0);
-		Font font = new Font("arial", Font.ROMAN_BASELINE, 15);
-
-		staMem = new GraphDraw();
-		sta = new Statistic();
-
-		staPanel = new JPanel();
-		staPanel.setBounds(0, 0, 900, 650);
-		staPanel.setLayout(null);
-		staPanel.setBackground(color);
-		staPanel.setVisible(true);
-
-		staExec = new JButton("Wykonaj");
-		staExec.setBounds(380, 60, 100, 60);
-		staExec.setFont(font);
-		staExec.setVisible(true);
-		staPanel.add(staExec);
-
-		staChooseType = new JComboBox();
-		staChooseType.setBounds(20, 60, 230, 20);
-		staChooseType.addItem("hotelowe");
-		staChooseType.addItem("finansowe");
-		staChooseType.setSelectedIndex(0);
-		staPanel.add(staChooseType);
-
-		staChooseSubHot = new JComboBox();
-		staChooseSubHot.setBounds(20, 100, 230, 20);
-		staChooseSubHot.addItem("Raportu z wykorzystania klas pokoi");
-		staChooseSubHot.addItem("Raportu z wykorzystania pokoi w klasie");
-		staChooseSubHot.addItem("Raportu z wykorzystania typ�w us�ug");
-		staChooseSubHot.addItem("Raportu z wybranej uslugi");
-		staChooseSubHot.setSelectedIndex(0);
-		staPanel.add(staChooseSubHot);
-
-		staChooseMonth = new JComboBox();
-		staChooseMonth.setBounds(260, 100, 100, 20);
-		staChooseMonth.addItem("Stycze�");
-		staChooseMonth.addItem("Luty");
-		staChooseMonth.addItem("Marzec");
-		staChooseMonth.addItem("Kwiecie�");
-		staChooseMonth.addItem("Maj");
-		staChooseMonth.addItem("Czerwiec");
-		staChooseMonth.addItem("Lipiec");
-		staChooseMonth.addItem("Sierpie�");
-		staChooseMonth.addItem("Wrzesie�");
-		staChooseMonth.addItem("Pa�dziernik");
-		staChooseMonth.addItem("Listopad");
-		staChooseMonth.addItem("Grudzie�");
-		staChooseMonth.setSelectedIndex(0);
-		staPanel.add(staChooseMonth);
-
-		staChooseMonth2 = new JComboBox();
-		staChooseMonth2.setBounds(260, 60, 100, 20);
-		staChooseMonth2.addItem("Stycze�");
-		staChooseMonth2.addItem("Luty");
-		staChooseMonth2.addItem("Marzec");
-		staChooseMonth2.addItem("Kwiecie�");
-		staChooseMonth2.addItem("Maj");
-		staChooseMonth2.addItem("Czerwiec");
-		staChooseMonth2.addItem("Lipiec");
-		staChooseMonth2.addItem("Sierpie�");
-		staChooseMonth2.addItem("Wrzesie�");
-		staChooseMonth2.addItem("Pa�dziernik");
-		staChooseMonth2.addItem("Listopad");
-		staChooseMonth2.addItem("Grudzie�");
-		staChooseMonth2.setSelectedIndex(0);
-		staChooseMonth2.setVisible(false);
-		staPanel.add(staChooseMonth2);
-
-		staChooseSubFin = new JComboBox();
-		staChooseSubFin.setBounds(20, 100, 230, 20);
-		staChooseSubFin.addItem("Bilansu z miesi�cy");
-		staChooseSubFin.addItem("Bilansu z lat");
-		staChooseSubFin.setSelectedIndex(0);
-		staChooseSubFin.setVisible(false);
-		staPanel.add(staChooseSubFin);
-
-		staChooseYear = new JComboBox();
-		staChooseYear.setBounds(260, 60, 100, 20);
-		staChooseYear.addItem("2010");
-		staChooseYear.addItem("2011");
-		staChooseYear.addItem("2012");
-		staChooseYear.addItem("2013");
-		staChooseYear.addItem("2014");
-		staChooseYear.addItem("2015");
-		staChooseYear.addItem("2016");
-		staChooseYear.setSelectedIndex(0);
-		staPanel.add(staChooseYear);
-
-		staChooseYear2 = new JComboBox();
-		staChooseYear2.setBounds(260, 100, 100, 20);
-		staChooseYear2.addItem("2010");
-		staChooseYear2.addItem("2011");
-		staChooseYear2.addItem("2012");
-		staChooseYear2.addItem("2013");
-		staChooseYear2.addItem("2014");
-		staChooseYear2.addItem("2015");
-		staChooseYear2.addItem("2016");
-		staChooseYear2.setSelectedIndex(0);
-		staChooseYear2.setVisible(false);
-		staPanel.add(staChooseYear2);
-
-		createComboBoxStat();
-
-		font = new Font("arial", Font.BOLD, 20);
-		staTitleLabel = new JLabel("Statystyki");
-		staTitleLabel.setBounds(20, 5, 100, 20);
-		staTitleLabel.setFont(font);
-		staPanel.add(staTitleLabel);
-
-		font = new Font("arial", Font.ROMAN_BASELINE, 15);
-		staTypeLabel = new JLabel("Wybierz rodzaj staStatystyk");
-		staTypeLabel.setBounds(20, 45, 200, 15);
-		staTypeLabel.setFont(font);
-		staPanel.add(staTypeLabel);
-
-		staSubLabel = new JLabel("Wybierz jedna");
-		staSubLabel.setBounds(20, 85, 100, 15);
-		staSubLabel.setFont(font);
-		staPanel.add(staSubLabel);
-
-		staMonthLabel = new JLabel("Wybierz miesi�c");
-		staMonthLabel.setBounds(260, 85, 200, 15);
-		staMonthLabel.setFont(font);
-		staPanel.add(staMonthLabel);
-
-		staYearLabel = new JLabel("Wybierz rok");
-		staYearLabel.setBounds(260, 45, 100, 15);
-		staYearLabel.setFont(font);
-		staPanel.add(staYearLabel);
-
-		staClassLabel = new JLabel("Wybierz klas� pokuju");
-		staClassLabel.setBounds(500, 45, 200, 15);
-		staClassLabel.setFont(font);
-		staClassLabel.setVisible(false);
-		staPanel.add(staClassLabel);
-
-		staServeLabel = new JLabel("Wybierz typ us�ugi");
-		staServeLabel.setBounds(500, 45, 200, 15);
-		staServeLabel.setFont(font);
-		staServeLabel.setVisible(false);
-		staPanel.add(staServeLabel);
-
-		staMonthLabelFrom = new JLabel("Miesi�cy od");
-		staMonthLabelFrom.setBounds(260, 45, 200, 15);
-		staMonthLabelFrom.setFont(font);
-		staMonthLabelFrom.setVisible(false);
-		staPanel.add(staMonthLabelFrom);
-
-		staYearLabelFrom = new JLabel("Lata od");
-		staYearLabelFrom.setBounds(260, 45, 200, 15);
-		staYearLabelFrom.setFont(font);
-		staYearLabelFrom.setVisible(false);
-		staPanel.add(staYearLabelFrom);
-
-		staMonthLabelTo = new JLabel("do");
-		staMonthLabelTo.setBounds(260, 85, 200, 15);
-		staMonthLabelTo.setFont(font);
-		staMonthLabelTo.setVisible(false);
-		staPanel.add(staMonthLabelTo);
-
-		staYearLabelTo = new JLabel("do");
-		staYearLabelTo.setBounds(260, 85, 200, 15);
-		staYearLabelTo.setFont(font);
-		staYearLabelTo.setVisible(false);
-		staPanel.add(staYearLabelTo);
-
-		staRaportText = new JTextPane();
-		staRaportText.setBounds(20, 130, 360, 444);
-		staRaportText.setFont(font);
-
-		staRaportScroll = new JScrollPane(staRaportText);
-		staRaportScroll.setVisible(false);
-		staPanel.add(staRaportScroll);
-
-		staMem.setBackground(Color.WHITE);
-		staMem.setVisible(false);
-		staPanel.add(staMem);
-
-		add(staPanel);
-	}
 
 	private JTable manGenTable(String name) {
 		String manData[][] = man.createTable(name);
@@ -1918,44 +1438,38 @@ public class GUI extends JFrame implements ComponentListener {
 		setMinimumSize(new Dimension(1024, 768));
 
 		Singleton.getInstance();
-
-		createCantor();
-		createSchedule();
-		createReception();
-		createRezervation();
-		createManager();
-		createGuestBook();
-		try {
-			createStatistic();
-			createManagerPPanel();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+//
+//		createCantor();
+//		createSchedule();
+//		createReception();
+//		createRezervation();
+//		createManager();
+//		createGuestBook();
+		staPanel = new StatisticPanel();
+		add(staPanel);
+		mgpPanel = new EmployeeManagerPanel();
+		add(mgpPanel);
+		
 		jtp.setBounds(0, 0, getWidth(), getHeight());
-		jtp.addTab("Kantor", canPanel);
-		jtp.addTab("Grafik", schPanel);
-		jtp.addTab("Recepcja", recPanel);
-		jtp.addTab("Rezerwacje", rezPanel);
-		jtp.addTab("Ksi�ga go�ci", guePanelCl);
+//		jtp.addTab("Kantor", canPanel);
+//		jtp.addTab("Grafik", schPanel);
+//		jtp.addTab("Recepcja", recPanel);
+//		jtp.addTab("Rezerwacje", rezPanel);
+//		jtp.addTab("Ksi�ga go�ci", guePanelCl);
 		jtp.addTab("Manager", manPanel);
 		jtp.addTab("Statystyka", staPanel);
-		jtp.addTab("Menad�er personelu", mgpPanel);
+//		jtp.addTab("Menad�er personelu", mgpPanel);
 
 		add(jtp);
 
-		addEvent();
-		addStatEvent();
-		addManagerPEvent();
+//		addEvent();
+//		addManagerPEvent();
 
 		setVisible(true);
 	}
 
 	public GUI() {
 		super();
-		db = Singleton.getInstance();
-		// createLogin();
 		try {
 			UIManager
 					.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -1974,343 +1488,9 @@ public class GUI extends JFrame implements ComponentListener {
 		});
 	}
 
-	private void addManagerPEvent() {
-		mgpSchedText.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				int a = (e.getY() / 18) * 18;
-				int i = mgpSchedText.getSelectedIndex();
-				String s = (String) mgpSchedText.getSelectedValue();
-				if (i > 0 && s.charAt(0) == '[') {
-					mgpChooseEmployee.setBounds(0, a, 250, 18);
-					System.out.println(e.getX() + " " + a);
-					mgpChooseEmployee.setVisible(true);
-				} else
-					mgpChooseEmployee.setVisible(false);
-			}
-		});
-
-		// ///////////////-------------------b
-		mgpChooseType.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
-				boolean ret = false;
-				int i = 0;
-				mgpChooseEmployee.setVisible(false);
-				if ((i = mgpChooseType.getSelectedIndex()) == 0) {
-					if (++mgpClickCount == 2) {
-						mgpClickCount = 0;
-						ret = mgp.createSchedule(mgpMonth + 1);
-						System.out.println((mgpMonth + 1));
-						if (ret)
-							JOptionPane.showMessageDialog(mgpPanel,
-									"Stworzono grafik");
-						else
-							JOptionPane.showMessageDialog(mgpPanel,
-									"Grafik na ten miesiac juz istnieje");
-						mgpChooseType.setSelectedIndex(2);
-					}
-				} else if (i == 1) {
-					if (++mgpClickCount == 2) {
-						mgpClickCount = 0;
-						ret = mgp.delSchedule(mgpMonth + 1);
-						if (ret)
-							JOptionPane.showMessageDialog(mgpPanel,
-									"Usunieto grafik");
-						else
-							JOptionPane.showMessageDialog(mgpPanel,
-									"Grafik na ten miesiac nie istnieje");
-						mgpChooseType.setSelectedIndex(2);
-					}
-				} else {
-					for (i = 0; i < mgpServe.length; i++)
-						if (mgpChooseType.getSelectedIndex() == (i + 2))
-							mgpServe[i].setVisible(true);
-						else
-							mgpServe[i].setVisible(false);
-				}
-			}
-		});
-
-		// ////////////////////////-------------------e
-		for (int i = 0; i < 31; i++)
-			mgpDays[i].addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e) {
-					JButton tmp = (JButton) e.getSource();
-					System.out.println("dzien: " + tmp.getText());
-					mgpDay = Integer.valueOf(tmp.getText());
-					mgpSchedText.setListData(mgp.getDaySchedule(mgpYear + "/"
-							+ (mgpMonth + 1) + "/" + mgpDay));
-					mgpChooseEmployee.setVisible(false);
-				}
-			});
-		mgpNext.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (++mgpMonth > 11) {
-					mgpYear++;
-					mgpMonth = 0;
-				}
-				resizePersonelMenager();
-			}
-		});
-		mgpPrev.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (--mgpMonth < 0) {
-					mgpYear--;
-					mgpMonth = 11;
-				}
-				resizePersonelMenager();
-			}
-		});
-		// ///////////////////-------------b
-		mgpAdd.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				boolean ret = false;
-				int i = 0;
-				String msg = "";
-				if (!Validation.isPesel(mgpAddEmploy[0].getText()))
-					msg += "Pole PESEL ma nieprawid�ow� warto��\n";
-				for (i = 1; i < 6; i++)
-					if (mgpAddEmploy[i].getText().equals(""))
-						msg += "Nie wype�ni�es pola "
-								+ mgpAddLabel[i].getText() + "\n";
-				if (!Validation.isNumber(mgpAddEmploy[7].getText()))
-					msg += "Pole NR_LOKALU ma nieprawid�ow� warto��\n";
-				if (msg == "") {
-					ret = mgp.addEmployee(mgpAddEmploy[0].getText(),
-							mgpAddEmploy[1].getText(),
-							mgpAddEmploy[2].getText(),
-							mgpAddEmploy[3].getText(),
-							mgpAddEmploy[4].getText(),
-							mgpAddEmploy[5].getText(),
-							mgpAddEmploy[6].getText(),
-							mgpAddEmploy[7].getText(),
-							(String) mgpChooseAdd.getSelectedItem());
-					if (ret) {
-						if (mgpChooseAdd.getSelectedIndex() == 0) {
-							mgpChooseEmployee.addItem(mgpAddEmploy[1].getText()
-									+ " " + mgpAddEmploy[2].getText() + " "
-									+ mgpAddEmploy[0].getText());
-
-							System.out.println("ok dziala: "
-									+ mgpAddEmploy[1].getText() + " "
-									+ mgpAddEmploy[2].getText() + " "
-									+ mgpAddEmploy[0].getText());
-						} else
-							System.out.println("lipa "
-									+ mgpChooseAdd.getSelectedIndex());
-					} else
-						JOptionPane.showMessageDialog(mgpServe[1],
-								"Osoba o podanych danych jest ju� w systemie");
-
-				} else
-					JOptionPane.showMessageDialog(mgpServe[1], "B��d!\n" + msg);
-			}
-		});
-		// /////////////////////////////////////----e
-		// //////////////-----------------------b
-		mgpChooseEmployee.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
-				if (++mgpClickCount == 2) {
-					if (!mgpIndel) {
-						mgpClickCount = 0;
-						String s = (String) mgpSchedText.getSelectedValue();
-						String z = (String) mgpChooseEmployee.getSelectedItem();
-						int ind = z.lastIndexOf(" ");
-						System.out.println("index: "
-								+ mgpSchedText.getSelectedIndex());
-						mgpChooseEmployee.setVisible(false);
-						System.out.println("pesel: "
-								+ z.substring(ind, z.length()));
-						System.out.println("dane: " + z.substring(0, ind));
-						mgpSchedText.setListData(mgp.updateSchedule(
-								mgpSchedText.getSelectedIndex(),
-								z.substring(0, ind), mgpYear + "/"
-										+ (mgpMonth + 1) + "/" + mgpDay,
-								z.substring(ind + 1, z.length()),
-								s.substring(1, s.indexOf(" "))));
-
-						mgpSchedText.repaint();
-					} else
-						mgpIndel = false;
-				}
-			}
-		});
-		// //////////////////////////////----------------e
-		// ///////////////////------------b
-		mgpDel.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				int i = mgpTable.getSelectedRow();
-
-				boolean ret = false;
-				String s = "";
-				if (i != -1) {
-					System.out.println("table index: " + i);
-					s = (String) mgpTable.getValueAt(i, 1) + " "
-							+ (String) mgpTable.getValueAt(i, 2) + " "
-							+ (String) mgpTable.getValueAt(i, 0);
-					System.out.println("table selected item: " + s);
-					ret = mgp.delEmployee((String) mgpTable.getValueAt(i, 0));
-					mgpIndel = true;
-					if (ret) {
-						// mgpTable.removeRowSelectionInterval(i,i);
-						// mgpServe[2].remove(mgpTableScroll);
-
-					}
-					for (i = 0; i < mgpChooseEmployee.getItemCount(); i++) {
-						if (mgpChooseEmployee.getItemAt(i).equals(s)) {
-							System.out.println("is equla: " + i);
-							mgpChooseEmployee.removeItemAt(i);
-						}
-
-					}
-					mgpTableScroll.repaint();
-				}
-			}
-		});
-		// ///////////////////////////-----------------e
-		mgpFind.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				int i = (mgpServe[2].getWidth() - 40);
-				mgpMatrix = mgp.findEmployee(mgpDelEmploy[0].getText(),
-						mgpDelEmploy[1].getText(), mgpDelEmploy[2].getText(),
-						(String) mgpChooseDel.getSelectedItem());
-				mgpServe[2].remove(mgpTableScroll);
-				mgpTable = new JTable(mgpMatrix, mgpColsName);
-				mgpTable.setFillsViewportHeight(true);
-				mgpTableScroll = new JScrollPane(mgpTable);
-				mgpTableScroll.setBounds(20, 165, (int) (i * 0.8),
-						mgpServe[2].getHeight() - 175);
-				mgpTable.setSize((int) (i * 0.8), mgpServe[2].getHeight() - 175);
-				mgpServe[2].add(mgpTableScroll);
-				mgpServe[2].repaint();
-				if (mgp.getRowCount() > 0)
-					mgpDel.setVisible(true);
-				if (!mgpDelEmploy[0].getText().equals("")
-						&& !Validation.isPesel(mgpDelEmploy[0].getText()))
-					JOptionPane.showMessageDialog(mgpServe[1],
-							"Pole PESEL ma nieprawid�ow� warto��\n");
-			}
-		});
-		mgpCreat.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				mgpRaportText.setText("Raport z zarobk�w za miesi�c "
-						+ mgpChooseMonth.getSelectedItem()
-						+ "\n"
-						+ mgp.getPaysRaport(mgpChooseMonth.getSelectedIndex() + 1));
-				mgpRaportText.setVisible(true);
-
-			}
-		});
-	}
-
+	
 	private void addStatEvent() {
-		staExec.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				staMem.setVisible(false);
-				if (staChooseType.getSelectedIndex() == 0)
-					sta.hotel(staChooseSubHot.getSelectedIndex(),
-							staChooseMonth.getSelectedIndex() + 1,
-							staChooseYear.getSelectedIndex() + 2010,
-							(String) staChooseClass.getSelectedItem(),
-							(String) staChooseServe.getSelectedItem());
-				else
-					sta.finance(staChooseSubFin.getSelectedIndex(),
-							staChooseMonth2.getSelectedIndex() + 1,
-							staChooseMonth.getSelectedIndex() + 1,
-							staChooseYear.getSelectedIndex() + 2010,
-							staChooseYear2.getSelectedIndex() + 2010);
-				staMem.setArray(sta.getArrayResult());
-				staRaportText.setText(sta.getTextResult());
-				staMem.setVisible(true);
-				staRaportScroll.setVisible(true);
-			}
-		});
-		staChooseType.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
-				if (staChooseType.getSelectedIndex() == 0) {
-					staYearLabel.setLocation(260, 45);
-					staYearLabel.setVisible(true);
-					staChooseYear.setLocation(260, 60);
-					staChooseYear.setVisible(true);
-					staChooseYear2.setVisible(false);
-					staChooseSubHot.setVisible(true);
-					staChooseSubFin.setVisible(false);
-					staChooseMonth.setVisible(true);
-					staChooseMonth2.setVisible(false);
-					staMonthLabel.setVisible(true);
-					staMonthLabelFrom.setVisible(false);
-					staYearLabelFrom.setVisible(false);
-					staMonthLabelTo.setVisible(false);
-					staYearLabelTo.setVisible(false);
-					staChooseSubHot.setSelectedIndex(0);
-				} else {
-					staChooseClass.setVisible(false);
-					staChooseServe.setVisible(false);
-					staServeLabel.setVisible(false);
-					staClassLabel.setVisible(false);
-					staChooseSubHot.setVisible(false);
-					staChooseSubFin.setVisible(true);
-					staYearLabel.setLocation(500, 45);
-					staChooseYear.setLocation(500, 60);
-					staChooseMonth.setVisible(true);
-					staChooseMonth2.setVisible(true);
-					staChooseYear.setVisible(true);
-					staChooseYear2.setVisible(false);
-					staMonthLabel.setVisible(false);
-					staMonthLabelFrom.setVisible(true);
-					staMonthLabelTo.setVisible(true);
-					staChooseSubFin.setSelectedIndex(0);
-				}
-			}
-		});
-		staChooseSubHot.addItemListener(new ItemListener() {
-			int i = 0;
-
-			public void itemStateChanged(ItemEvent arg0) {
-				if ((i = staChooseSubHot.getSelectedIndex()) == 1) {
-					staChooseClass.setVisible(true);
-					staClassLabel.setVisible(true);
-					staChooseServe.setVisible(false);
-					staServeLabel.setVisible(false);
-				} else if (i == 3) {
-					staChooseClass.setVisible(false);
-					staClassLabel.setVisible(false);
-					staChooseServe.setVisible(true);
-					staServeLabel.setVisible(true);
-				} else {
-					staChooseClass.setVisible(false);
-					staClassLabel.setVisible(false);
-					staChooseServe.setVisible(false);
-					staServeLabel.setVisible(false);
-				}
-			}
-		});
-		staChooseSubFin.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
-				if (staChooseSubFin.getSelectedIndex() == 0) {
-					staChooseYear.setLocation(500, 60);
-					staYearLabel.setVisible(true);
-					staChooseMonth.setVisible(true);
-					staChooseMonth2.setVisible(true);
-					staChooseYear.setVisible(true);
-					staChooseYear2.setVisible(false);
-					staMonthLabelFrom.setVisible(true);
-					staMonthLabelTo.setVisible(true);
-					staYearLabelFrom.setVisible(false);
-					staYearLabelTo.setVisible(false);
-				} else {
-					staYearLabel.setVisible(false);
-					staChooseYear.setLocation(260, 60);
-					staChooseMonth.setVisible(false);
-					staChooseMonth2.setVisible(false);
-					staChooseYear.setVisible(true);
-					staChooseYear2.setVisible(true);
-					staMonthLabelFrom.setVisible(false);
-					staMonthLabelTo.setVisible(false);
-					staYearLabelFrom.setVisible(true);
-					staYearLabelTo.setVisible(true);
-				}
-			}
-		});
+		
 	}
 
 	void addEvent() {
@@ -3888,103 +3068,6 @@ public class GUI extends JFrame implements ComponentListener {
 		gueScrollPane[2].setBounds(510, 41, getWidth() - 540, 187);
 	}
 
-	public void resizeStatistic() {
-		int x = 0, y = 0, hh = 0, ww = 0, w = 0, h = 0;
-		w = this.getWidth() - 8;
-		h = this.getHeight() - 33;
-		staPanel.setBounds(0, 0, w, h);
-		x = 20;
-		y = 130;
-		w -= 2 * x;
-		hh = (int) (h - y - x);
-		ww = (int) (0.4 * w);
-		staRaportScroll.setBounds(x, y, ww, hh);
-		x += ww;
-		ww = (int) (0.59 * w);
-		staMem.setBounds(x, y, ww, hh);
-		// System.out.println("width: "+staMem.getWidth());
-		// System.out.println("height: "+staMem.getHeight());
-	}
-
-	public void resizePersonelMenager() {
-		int i = 0, k = 0, j = 0, dayNum = 0;
-		int tmp = 0, dayTmp = 0, dX = 0;
-		int w = this.getWidth() - 8;
-		int h = this.getHeight() - 33;
-		int ww = 0, hh = 0;
-		int m = 0, y = 0;
-		int index = mgpChooseType.getSelectedIndex();
-		mgpPanel.setBounds(0, 0, w, h);
-		ww = w - 260;
-		hh = h - 60;
-		for (i = 0; i < mgpServe.length; i++)
-			mgpServe[i].setBounds(260, 60, ww, hh);
-		// System.out.println("ww: "+ww);////////////
-		// System.out.println("hh: "+hh); ////////////
-		i = (ww - 40);
-		mgpDel.setBounds(20 + (int) (i * 0.82), 165, (int) (i * 0.18), 40);
-		if (index <= 2) {
-			hh = 80;
-			y = schCalendar.get(Calendar.YEAR);
-			m = schCalendar.get(Calendar.MONTH);
-			schCalendar.set(Calendar.YEAR, mgpYear);
-			schCalendar.set(Calendar.MONTH, mgpMonth);
-			schCalendar.set(Calendar.DAY_OF_MONTH, mgpDay);
-			dX = ww / 2 - 182;
-			dayTmp = schCalendar.get(Calendar.DAY_OF_MONTH);
-			schCalendar.set(Calendar.DAY_OF_MONTH, 0);
-			tmp = schCalendar.get(Calendar.DAY_OF_WEEK) - 1;
-			dX += tmp * 51;
-			dayNum = dayInMonth[mgpMonth];
-			if (mgpMonth == 1 && mgpYear % 4 == 0)
-				dayNum++;
-			for (i = 0, k = 51; i < 31; i++, dX += k, tmp++) {
-				if (i != 0 && tmp % 7 == 0) {
-					hh += 31;
-					dX = ww / 2 - 182;
-				}
-				mgpDays[i].setBounds(dX, hh, 50, 30);
-				if (i < dayNum) {
-					mgpDays[i].setVisible(true);
-					j = i;
-				} else
-					mgpDays[i].setVisible(false);
-			}
-			dX = ww / 2 - 175;
-			k = mgpDays[0].getY() - 18;
-			for (i = 0; i < mgpDayLabel.length; i++, dX += 51)
-				mgpDayLabel[i].setBounds(dX + 10, k, 50, 18);
-			mgpCalMonthLabel.setText(monthOfYear[mgpMonth] + " " + mgpYear);// <----
-			mgpCalMonthLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			mgpCalMonthLabel.setBounds((ww - 100) / 2,
-					mgpDayLabel[0].getY() - 30, 100, 20);
-			dX = ww / 2 - 75;
-			mgpPrev.setBounds(mgpDayLabel[0].getX() - 18,
-					mgpCalMonthLabel.getY(), 100, 20);
-			mgpNext.setBounds(mgpDayLabel[6].getX() - 68,
-					mgpCalMonthLabel.getY(), 100, 20);
-			schCalendar.set(Calendar.DAY_OF_MONTH, dayTmp);
-			schCalendar.set(Calendar.YEAR, y);
-			schCalendar.set(Calendar.MONTH, m);
-			mgpDays[dayTmp - 1].requestFocus();
-			i = (mgpServe[2].getWidth() - 40);
-			hh = h - mgpDays[j].getY() - 120;
-			mgpSchedScroll.setBounds(20, mgpDays[j].getY() + 50, i, hh);
-			mgpSchedText.setSize(i, hh);
-		} else if (index == 4) {
-			// i=(mgpServe[2].getWidth()-40);
-			hh = hh - 175;
-			mgpTableScroll.setBounds(20, 165, (int) (i * 0.8), hh);
-			if (mgpTable != null)
-				mgpTable.setSize((int) (i * 0.8), hh);
-		} else if (index == 5) {
-			// i=(mgpServe[3].getWidth()-40);
-			hh = hh - 100;
-			mgpRaportScroll.setBounds(20, 90, i, hh);
-			mgpRaportText.setSize(i, hh);
-		}
-	}
-
 	public void resizeManager() {
 		manScrollPane.setBounds(20, 300, getWidth() - 50, getHeight() - 470);
 
@@ -4036,8 +3119,6 @@ public class GUI extends JFrame implements ComponentListener {
 		schInitCalendar(d, m, y);
 		resizeGuestBook();
 		resizeManager();
-		resizeStatistic();
-		resizePersonelMenager();
 	}
 
 	@Override

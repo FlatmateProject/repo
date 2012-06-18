@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class PersonnelManager
+public class EmployeeManager
 {
  private Singleton db;
  private ResultSet result;
@@ -26,7 +26,7 @@ public class PersonnelManager
  
  private Calendar calendar = GregorianCalendar.getInstance();
  
- public PersonnelManager()
+ public EmployeeManager()
  {
   try
   {
