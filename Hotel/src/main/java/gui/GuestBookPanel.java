@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -9,7 +8,6 @@ import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -20,7 +18,6 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import repo.GuestBook;
-import repo.Singleton;
 
 public class GuestBookPanel extends JPanel {
 
@@ -293,7 +290,7 @@ public class GuestBookPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 //				jtp.remove(guePanelCl);
-//				createGuestBookCo();
+				createGuestBookCo();
 //				jtp.addTab("Ksi�ga Go�ci", guePanelCo);
 //				jtp.setSelectedIndex(jtp.getComponentCount() - 1);
 				resizeGuestBook(getWidth(), getHeight());
