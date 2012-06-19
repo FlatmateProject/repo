@@ -21,6 +21,9 @@ public class GuestBook {
 		String s[] = new String[11];
 		Singleton.getInstance();
 		rset1 = sing.query("show columns from hotel." + table);
+		if(rset1 == null){
+			return new String[]{"","","","","","","","","","","","",""};
+		}
 		try {
 			while (rset1.next()) {
 				s[i] = rset1.getString(1);

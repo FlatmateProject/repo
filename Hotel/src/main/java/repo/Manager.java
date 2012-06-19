@@ -11,6 +11,9 @@ public class Manager {
 
 	public int getCount(String s) {
 		rset1 = sing.query("select count(*) from " + s);
+		if(rset1 == null){
+			return 0;
+		}
 		try {
 			rset1.next();
 			return rset1.getInt(1);
@@ -86,6 +89,9 @@ public class Manager {
 		int i = 0;
 		rset1 = sing.query("show columns from " + s);
 		try {
+			if(rset1 == null){
+				return null;
+			}
 			rset1.last();
 			String cols[] = new String[rset1.getRow()];
 			rset1.first();

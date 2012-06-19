@@ -65,7 +65,9 @@ public class Rezervation {
 						.query("select * from hotel.pokoje where ID_KLASY= "
 								+ idKlasy);
 			}
-
+			if(rset1 == null){
+				return null;
+			}
 			rset1.first();
 			do {
 				rset2 = sing

@@ -45,7 +45,6 @@ import repo.Reception;
 import repo.Rezervation;
 import repo.Schedule;
 import repo.Singleton;
-import repo.Statistic;
 import repo.Validation;
 
 public class GUI extends JFrame implements ComponentListener {
@@ -681,7 +680,7 @@ public class GUI extends JFrame implements ComponentListener {
 
 	private JPanel createDataPanel(String name) {
 		String cols[] = man.getColumns(name);
-		int colCount = cols.length;
+		int colCount = (cols != null ? cols.length : 0);
 		manLabel = new JLabel[colCount];
 		manData = new JTextField[colCount];
 
@@ -691,7 +690,9 @@ public class GUI extends JFrame implements ComponentListener {
 		manDataPan.setBackground(bgColor);
 
 		int manX = 30, manY = 20;
-
+		if(cols ==null){
+			return manDataPan;
+		}
 		for (int i = 0; i < cols.length; i++) {
 			manLabel[i] = new JLabel(cols[i]);
 			if (i == 0)
@@ -1438,33 +1439,31 @@ public class GUI extends JFrame implements ComponentListener {
 		setMinimumSize(new Dimension(1024, 768));
 
 		Singleton.getInstance();
-//
-//		createCantor();
-//		createSchedule();
-//		createReception();
-//		createRezervation();
-//		createManager();
-//		createGuestBook();
+
+		createCantor();
+		createSchedule();
+		createReception();
+		createRezervation();
+		createManager();
+		createGuestBook();
 		staPanel = new StatisticPanel();
 		add(staPanel);
 		mgpPanel = new EmployeeManagerPanel();
 		add(mgpPanel);
 		
 		jtp.setBounds(0, 0, getWidth(), getHeight());
-//		jtp.addTab("Kantor", canPanel);
-//		jtp.addTab("Grafik", schPanel);
-//		jtp.addTab("Recepcja", recPanel);
-//		jtp.addTab("Rezerwacje", rezPanel);
-//		jtp.addTab("Ksi�ga go�ci", guePanelCl);
+		jtp.addTab("Kantor", canPanel);
+		jtp.addTab("Grafik", schPanel);
+		jtp.addTab("Recepcja", recPanel);
+		jtp.addTab("Rezerwacje", rezPanel);
+		jtp.addTab("Ksi�ga go�ci", guePanelCl);
 		jtp.addTab("Manager", manPanel);
 		jtp.addTab("Statystyka", staPanel);
-//		jtp.addTab("Menad�er personelu", mgpPanel);
+		jtp.addTab("Menad�er personelu", mgpPanel);
 
 		add(jtp);
 
 //		addEvent();
-//		addManagerPEvent();
-
 		setVisible(true);
 	}
 
@@ -1488,10 +1487,6 @@ public class GUI extends JFrame implements ComponentListener {
 		});
 	}
 
-	
-	private void addStatEvent() {
-		
-	}
 
 	void addEvent() {
 

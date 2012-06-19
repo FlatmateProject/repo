@@ -86,6 +86,7 @@ public class EmployeeManagerPanel extends JPanel {
 	public EmployeeManagerPanel() {
 		try {
 			createManagerPPanel();
+			addManagerPEvent();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
