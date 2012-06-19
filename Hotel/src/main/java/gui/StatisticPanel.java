@@ -58,7 +58,7 @@ public class StatisticPanel extends JPanel {
 	}
 
 	private void createStatistic() {
-		Color color = new Color(0, 150, 0);
+		Color color = new Color(224, 230, 233);
 		Font font = new Font("arial", Font.ROMAN_BASELINE, 15);
 
 		staMem = new GraphDraw();

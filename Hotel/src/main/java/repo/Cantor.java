@@ -8,13 +8,13 @@ import java.util.Date;
 
 import javax.swing.JTable;
 
-public class Kantor {
+public class Cantor {
 
 	private Singleton sing = Singleton.getInstance();
 	private ResultSet rset1, rset2, rset3, rset4, rset5, rset6, change1,
 			change2;
 
-	public Kantor() {
+	public Cantor() {
 
 	}
 
