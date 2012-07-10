@@ -99,11 +99,40 @@ public class DataProccesingUnitTest {
 		
 		// then
 		assertNotNull(outputData);
-		assertEquals(2, outputData.size());
+		assertEquals(3, outputData.size());
 		IntegerElement[] elements = outputData.toArray(new IntegerElement[outputData.size()]);
-		assertElement(10 ,1, elements[0]);
-		assertElement(20, 1, elements[1]);
+		assertElement(1 ,1, elements[0]);
+		assertElement(10, 1, elements[1]);
+		assertElement(20, 1, elements[2]);
 	}
+	
+	@Test
+	public void shouldReturnOnlyValueWithAccuraccy95PercentAndBiggerThanZero() {
+		// given
+		DataProcessingUnit unit = new DataProcessingUnit(new AnalyzerDecorator(){
+
+			@Override
+			public void inputConditions(List<Integer> inputData, List<Integer> result) {
+				for (Integer number : inputData) {
+					if(number > 0){
+						result.add(number);
+					}
+				}	
+			}});
+		List<Integer> inputData = Arrays.asList(20, 10, 1, -1);
+
+		// when
+		List<IntegerElement> outputData = unit.analyze(inputData);
+
+		// then
+		assertNotNull(outputData);
+		assertEquals(3, outputData.size());
+		IntegerElement[] elements = outputData.toArray(new IntegerElement[outputData.size()]);
+		assertElement(1, 1, elements[0]);
+		assertElement(10, 1, elements[1]);
+		assertElement(20, 1, elements[2]);
+	}
+	
 	
 	private static void assertElement(int expectedValue, int expectedQuantity, IntegerElement actual) {
 		assertEquals(expectedValue, actual.getValue());

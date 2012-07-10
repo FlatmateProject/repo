@@ -15,13 +15,14 @@ public class TechnicalAnalyzer implements Analyzer {
 	}
 
 	private void removeOutRange(List<IntegerElement> result, double standard) {
-		removeFromBegin(result, standard);
-		removeFromEnd(result, standard);
+		double twoStandard = 2 * standard;
+		removeFromBegin(result, twoStandard);
+		removeFromEnd(result, twoStandard);
 	}
 	
-	private void removeFromBegin(List<IntegerElement> result, double standard) {
+	private void removeFromBegin(List<IntegerElement> result, double twoStandard) {
 		for (int i = 0; i < result.size(); i++) {
-			if(isLessThan2Standard(result.get(i), standard)){
+			if(isLessThanMinus2Standard(result.get(i), -twoStandard)){
 				result.remove(i);
 			}else{
 				return;
@@ -29,23 +30,22 @@ public class TechnicalAnalyzer implements Analyzer {
 		}
 	}
 	
-	private boolean isLessThan2Standard(IntegerElement element, double standard) {
-		return element.getValue() < standard;
+	private boolean isLessThanMinus2Standard(IntegerElement element, double minusTwoStandard) {
+		return element.getValue() < minusTwoStandard;
 	}
 	
-	private void removeFromEnd(List<IntegerElement> result, double standard) {
+	private void removeFromEnd(List<IntegerElement> result, double twoStandard) {
 		for (int i = result.size() - 1; i >= 0 ; i--) {
-			if(isBiggerThan2Standard(result.get(i), standard)){
+			if(isBiggerThan2Standard(result.get(i), twoStandard)){
 				result.remove(i);
 			}else{
 				return;
 			}
 		}
-		
 	}
 
-	private boolean isBiggerThan2Standard(IntegerElement element, double standard) {
-		return element.getValue() > standard;
+	private boolean isBiggerThan2Standard(IntegerElement element, double twoStandard) {
+		return element.getValue() > twoStandard;
 	}
 
 	private double calculateStandart(List<IntegerElement> result) {
