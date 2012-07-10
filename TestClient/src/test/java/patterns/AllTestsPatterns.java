@@ -6,6 +6,7 @@ import org.junit.runners.Suite;
 import patterns.abstractFactory.PaymentsFactoryWithAnnotationTest;
 import patterns.abstractFactory.PaymentsFactoryWithMethodTest;
 import patterns.builder.WelcomeUserConstructorTest;
+import patterns.decorator.DataProccesingUnitTest;
 import patterns.globalFactoryMethod.GlobalFactoryMethodTest;
 import patterns.localFactoryMethod.LocalFactoryMethodTest;
 import patterns.prototype.UserFeaturesHistoryTest;
@@ -18,6 +19,7 @@ import patterns.prototype.UserFeaturesHistoryTest;
 	PaymentsFactoryWithAnnotationTest.class,
 	PaymentsFactoryWithMethodTest.class,
 	UserFeaturesHistoryTest.class,
+	DataProccesingUnitTest.class,
 	SingletonTest.class
 })
 public class AllTestsPatterns {
