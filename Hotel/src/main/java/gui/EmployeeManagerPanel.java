@@ -23,14 +23,19 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 
+import org.apache.log4j.Logger;
+
+import dao.Singleton;
+
 import service.EmployeeManager;
-import service.Singleton;
-import service.Validation;
+import validation.ValidationUtils;
 
 public class EmployeeManagerPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-
+	
+	private static final Logger log = Logger.getLogger(EmployeeManagerPanel.class);
+	
 	private JComboBox mgpChooseType;
 	private JComboBox mgpChooseAdd;
 	private JComboBox mgpChooseDel;
@@ -134,7 +139,7 @@ public class EmployeeManagerPanel extends JPanel {
 		mgpDelLabel = new JLabel[4];
 		mgpColsName = new String[4];
 		rset = db.query("SHOW COLUMNS FROM pracownicy");
-		System.out.println("SHOW COLUMNS FROM pracownicy");
+		log.info("SHOW COLUMNS FROM pracownicy");
 		if (rset != null) {
 			for (i = 0; i < 8 && rset.next(); i++) {
 				mgpAddEmploy[i] = new JTextField();
@@ -173,8 +178,8 @@ public class EmployeeManagerPanel extends JPanel {
 				mgpChooseAdd.addItem(rset.getString(1));
 				mgpChooseDel.addItem(rset.getString(1));
 			}
-			mgpChooseAdd.setSelectedIndex(0);
-			mgpChooseDel.setSelectedIndex(0);
+			mgpChooseAdd.setSelectedIndex(-1);//should be 0
+			mgpChooseDel.setSelectedIndex(-1);//should be 0
 			mgpServe[1].add(mgpChooseAdd);
 			mgpServe[2].add(mgpChooseDel);
 		}
@@ -189,12 +194,12 @@ public class EmployeeManagerPanel extends JPanel {
 				.println("SELECT imie, nazwisko, idp_pesel FROM pracownicy WHERE id_stanowiska=1");
 		mgpChooseEmployee = new JComboBox();
 		if (rset != null) {
-			System.out.println("in costam lipa");
+			log.info("in costam lipa");
 			mgpChooseEmployee.setBounds(0, 0, 120, 20);
 			while (rset.next()) {
 				mgpChooseEmployee.addItem(rset.getString(1) + " "
 						+ rset.getString(2) + " " + rset.getString(3));
-				System.out.println(rset.getString(1) + " " + rset.getString(2));
+				log.info(rset.getString(1) + " " + rset.getString(2));
 			}
 			mgpChooseEmployee.setVisible(false);
 			mgpSchedText.add(mgpChooseEmployee);
@@ -302,7 +307,7 @@ public class EmployeeManagerPanel extends JPanel {
 				String s = (String) mgpSchedText.getSelectedValue();
 				if (i > 0 && s.charAt(0) == '[') {
 					mgpChooseEmployee.setBounds(0, a, 250, 18);
-					System.out.println(e.getX() + " " + a);
+					log.info(e.getX() + " " + a);
 					mgpChooseEmployee.setVisible(true);
 				} else
 					mgpChooseEmployee.setVisible(false);
@@ -319,7 +324,7 @@ public class EmployeeManagerPanel extends JPanel {
 					if (++mgpClickCount == 2) {
 						mgpClickCount = 0;
 						ret = mgp.createSchedule(mgpMonth + 1);
-						System.out.println((mgpMonth + 1));
+						log.info((mgpMonth + 1));
 						if (ret)
 							JOptionPane.showMessageDialog(getParent(),
 									"Stworzono grafik");
@@ -355,7 +360,7 @@ public class EmployeeManagerPanel extends JPanel {
 			mgpDays[i].addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
 					JButton tmp = (JButton) e.getSource();
-					System.out.println("dzien: " + tmp.getText());
+					log.info("dzien: " + tmp.getText());
 					mgpDay = Integer.valueOf(tmp.getText());
 					mgpSchedText.setListData(mgp.getDaySchedule(mgpYear + "/"
 							+ (mgpMonth + 1) + "/" + mgpDay));
@@ -386,13 +391,13 @@ public class EmployeeManagerPanel extends JPanel {
 				boolean ret = false;
 				int i = 0;
 				String msg = "";
-				if (!Validation.isPesel(mgpAddEmploy[0].getText()))
+				if (!ValidationUtils.isPesel(mgpAddEmploy[0].getText()))
 					msg += "Pole PESEL ma nieprawid�ow� warto��\n";
 				for (i = 1; i < 6; i++)
 					if (mgpAddEmploy[i].getText().equals(""))
 						msg += "Nie wype�ni�es pola "
 								+ mgpAddLabel[i].getText() + "\n";
-				if (!Validation.isNumber(mgpAddEmploy[7].getText()))
+				if (!ValidationUtils.isNumber(mgpAddEmploy[7].getText()))
 					msg += "Pole NR_LOKALU ma nieprawid�ow� warto��\n";
 				if (msg == "") {
 					ret = mgp.addEmployee(mgpAddEmploy[0].getText(),
@@ -410,12 +415,12 @@ public class EmployeeManagerPanel extends JPanel {
 									+ " " + mgpAddEmploy[2].getText() + " "
 									+ mgpAddEmploy[0].getText());
 
-							System.out.println("ok dziala: "
+							log.info("ok dziala: "
 									+ mgpAddEmploy[1].getText() + " "
 									+ mgpAddEmploy[2].getText() + " "
 									+ mgpAddEmploy[0].getText());
 						} else
-							System.out.println("lipa "
+							log.info("lipa "
 									+ mgpChooseAdd.getSelectedIndex());
 					} else
 						JOptionPane.showMessageDialog(mgpServe[1],
@@ -435,12 +440,12 @@ public class EmployeeManagerPanel extends JPanel {
 						String s = (String) mgpSchedText.getSelectedValue();
 						String z = (String) mgpChooseEmployee.getSelectedItem();
 						int ind = z.lastIndexOf(" ");
-						System.out.println("index: "
+						log.info("index: "
 								+ mgpSchedText.getSelectedIndex());
 						mgpChooseEmployee.setVisible(false);
-						System.out.println("pesel: "
+						log.info("pesel: "
 								+ z.substring(ind, z.length()));
-						System.out.println("dane: " + z.substring(0, ind));
+						log.info("dane: " + z.substring(0, ind));
 						mgpSchedText.setListData(mgp.updateSchedule(
 								mgpSchedText.getSelectedIndex(),
 								z.substring(0, ind), mgpYear + "/"
@@ -463,11 +468,11 @@ public class EmployeeManagerPanel extends JPanel {
 				boolean ret = false;
 				String s = "";
 				if (i != -1) {
-					System.out.println("table index: " + i);
+					log.info("table index: " + i);
 					s = (String) mgpTable.getValueAt(i, 1) + " "
 							+ (String) mgpTable.getValueAt(i, 2) + " "
 							+ (String) mgpTable.getValueAt(i, 0);
-					System.out.println("table selected item: " + s);
+					log.info("table selected item: " + s);
 					ret = mgp.delEmployee((String) mgpTable.getValueAt(i, 0));
 					mgpIndel = true;
 					if (ret) {
@@ -477,7 +482,7 @@ public class EmployeeManagerPanel extends JPanel {
 					}
 					for (i = 0; i < mgpChooseEmployee.getItemCount(); i++) {
 						if (mgpChooseEmployee.getItemAt(i).equals(s)) {
-							System.out.println("is equla: " + i);
+							log.info("is equla: " + i);
 							mgpChooseEmployee.removeItemAt(i);
 						}
 
@@ -505,7 +510,7 @@ public class EmployeeManagerPanel extends JPanel {
 				if (mgp.getRowCount() > 0)
 					mgpDel.setVisible(true);
 				if (!mgpDelEmploy[0].getText().equals("")
-						&& !Validation.isPesel(mgpDelEmploy[0].getText()))
+						&& !ValidationUtils.isPesel(mgpDelEmploy[0].getText()))
 					JOptionPane.showMessageDialog(mgpServe[1],
 							"Pole PESEL ma nieprawid�ow� warto��\n");
 			}
@@ -535,8 +540,8 @@ public class EmployeeManagerPanel extends JPanel {
 		hh = h - 60;
 		for (i = 0; i < mgpServe.length; i++)
 			mgpServe[i].setBounds(260, 60, ww, hh);
-		// System.out.println("ww: "+ww);////////////
-		// System.out.println("hh: "+hh); ////////////
+		// log.info("ww: "+ww);////////////
+		// log.info("hh: "+hh); ////////////
 		i = (ww - 40);
 		mgpDel.setBounds(20 + (int) (i * 0.82), 165, (int) (i * 0.18), 40);
 		if (index <= 2) {

@@ -39,8 +39,8 @@ public class GraphDraw extends JPanel {
 
 		width = getWidth();
 		height = getHeight();
-		// System.out.println("height: "+height);
-		// System.out.println("width: "+width);
+		// log.info("height: "+height);
+		// log.info("width: "+width);
 
 		max = min = array[0][0];
 		for (i = 0; i < n; i++)
@@ -56,24 +56,24 @@ public class GraphDraw extends JPanel {
 			ampli = max - min;
 			r = (int) (height - 0.05 * height);
 			ytext = r + 15;
-			// System.out.println("if 1");
+			// log.info("if 1");
 		} else if (max <= 0) {
 			max = 0;
 			ampli = max - min;
 			r = (int) (0.05 * height);
 			ytext = r - 5;
-			// System.out.println("if 2");
+			// log.info("if 2");
 		} else {
 			ampli = max - min;
 			r = (int) (0.05 * height + h * max / ampli);
 			ytext = (int) (height - 0.03 * height);
 		}
-		// System.out.println("n: "+n);
-		// System.out.println("m: "+m);
-		// System.out.println("max: "+max);
-		// System.out.println("min: "+min);
-		// System.out.println("ampli: "+(max-min));
-		// System.out.println("ymidle: "+r);
+		// log.info("n: "+n);
+		// log.info("m: "+m);
+		// log.info("max: "+max);
+		// log.info("min: "+min);
+		// log.info("ampli: "+(max-min));
+		// log.info("ymidle: "+r);
 		change++;
 		if (change == 1) {
 			col = new Color[m];
@@ -97,9 +97,9 @@ public class GraphDraw extends JPanel {
 		else
 			t = (int) Math.log10(-min);
 		pow = Math.pow(10, t);
-		// System.out.println("ampli: "+ampli);
-		// System.out.println("log10(ampli) "+t);
-		// System.out.println("unit: "+pow);
+		// log.info("ampli: "+ampli);
+		// log.info("log10(ampli) "+t);
+		// log.info("unit: "+pow);
 		y = r + 5;
 		g.setColor(Color.BLACK);
 		if ((max > 0 && max <= pow) || (min < 0 && min >= -pow))
@@ -121,10 +121,10 @@ public class GraphDraw extends JPanel {
 		p = p / n;
 		p = p / (m + 1);
 		we += (p >> 1);
-		// System.out.println("client height: "+h);
-		// System.out.println("client width: "+0.9*width);
-		// System.out.println("xstart : "+we);
-		// System.out.println("xtext : "+d);
+		// log.info("client height: "+h);
+		// log.info("client width: "+0.9*width);
+		// log.info("xstart : "+we);
+		// log.info("xtext : "+d);
 		for (i = 0; i < n; i++) {
 			text = "(" + (i + 1) + ")";
 			g.setColor(Color.BLACK);
@@ -136,7 +136,7 @@ public class GraphDraw extends JPanel {
 					g.fillRect(we, (r - t), p, t);
 				else
 					g.fillRect(we, r, p, -t);
-				// System.out.println("x: "+we+" y: "+t);
+				// log.info("x: "+we+" y: "+t);
 				// System.out.printf("t: %d wart: %.1f ampli: %.1f wsp: %.8f\n",t,array[i][j],ampli,array[i][j]/ampli);
 				we += p;
 			}

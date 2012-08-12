@@ -5,20 +5,31 @@ import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
+import org.apache.log4j.Logger;
+
+import dao.Singleton;
+
 public class Manager {
+
+	
+	private static final Logger log = Logger.getLogger(Manager.class);
+
 	private Singleton sing = Singleton.getInstance();
 	private ResultSet rset1, rset2;
 
 	public int getCount(String s) {
-		rset1 = sing.query("select count(*) from " + s);
-		if(rset1 == null){
+		String stmt = "select count(*) from " + s;
+		rset1 = sing.query(stmt);
+
+		if (rset1 == null) {
 			return 0;
 		}
 		try {
 			rset1.next();
 			return rset1.getInt(1);
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Co� zepsu�e�!", "UWAGA!", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Co� zepsu�e�!", "UWAGA!",
+					JOptionPane.ERROR_MESSAGE);
 		}
 		return 0;
 	}
@@ -34,7 +45,7 @@ public class Manager {
 				q += l[i] + " = :OLD." + l[i];
 		}
 		q += " where " + l[0] + " = \"" + d[0] + "\"";
-		System.out.println(q);
+		log.info(q);
 		return sing.queryUp(q);
 	}
 
@@ -65,7 +76,7 @@ public class Manager {
 			}
 		}
 		q += ");";
-		System.out.println(q);
+		log.info(q);
 		return sing.queryUp(q);
 	}
 
@@ -80,7 +91,8 @@ public class Manager {
 				return false;
 			}
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Co� zepsu�e�!", "UWAGA!", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Co� zepsu�e�!", "UWAGA!",
+					JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 	}
@@ -89,7 +101,7 @@ public class Manager {
 		int i = 0;
 		rset1 = sing.query("show columns from " + s);
 		try {
-			if(rset1 == null){
+			if (rset1 == null) {
 				return null;
 			}
 			rset1.last();
@@ -100,7 +112,8 @@ public class Manager {
 			} while (rset1.next());
 			return cols;
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Co� zepsu�e�!", "UWAGA!", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Co� zepsu�e�!", "UWAGA!",
+					JOptionPane.ERROR_MESSAGE);
 		}
 		return null;
 	}
@@ -131,7 +144,7 @@ public class Manager {
 			} while (rset2.next());
 			return tableData;
 		} catch (Exception e) {
-			System.out.println("Brak danych");
+			log.info("Brak danych");
 			String tableData[][] = { { "Brak danych" } };
 			return tableData;
 		}

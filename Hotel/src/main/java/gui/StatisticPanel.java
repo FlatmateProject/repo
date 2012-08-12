@@ -16,8 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
+import dao.Singleton;
+
 import service.GraphDraw;
-import service.Singleton;
 import service.Statistic;
 
 public class StatisticPanel extends JPanel {
@@ -257,17 +258,17 @@ public class StatisticPanel extends JPanel {
 			ResultSet reSet = db.query("SELECT opis FROM klasy");
 			if (reSet != null) {
 
-				while (reSet.next())
+				while (reSet.next()){
 					staChooseClass.addItem(reSet.getString(1));
-
-				staChooseClass.setSelectedIndex(0);
+				}
+				staChooseClass.setSelectedIndex(-1);//should be 0
 				add(staChooseClass);
 			}
 			reSet = db.query("SELECT typ FROM uslugi GROUP BY typ");
 			if (reSet != null) {
 				while (reSet.next())
 					staChooseServe.addItem(reSet.getString(1));
-				staChooseServe.setSelectedIndex(0);
+				staChooseServe.setSelectedIndex(-1);//should be 0
 				add(staChooseServe);
 			}
 		} catch (SQLException e) {
@@ -400,8 +401,8 @@ public class StatisticPanel extends JPanel {
 		x += ww;
 		ww = (int) (0.59 * w);
 		staMem.setBounds(x, y, ww, hh);
-		// System.out.println("width: "+staMem.getWidth());
-		// System.out.println("height: "+staMem.getHeight());
+		// log.info("width: "+staMem.getWidth());
+		// log.info("height: "+staMem.getHeight());
 	}
 
 	@Override

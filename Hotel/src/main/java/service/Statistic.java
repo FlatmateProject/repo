@@ -3,7 +3,14 @@ package service;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.log4j.Logger;
+
+import dao.Singleton;
+
 public class Statistic {
+	
+	private static final Logger log = Logger.getLogger(Statistic.class);
+	
 	private double array[][];
 	private Singleton db;
 	private ResultSet resultQuery;
@@ -82,7 +89,7 @@ public class Statistic {
 			query += "JOIN pokoje p ON r.id_pokoju=p.id_pokoju  JOIN klasy k ON p.id_klasy=k.id_klasy ";
 			query += "WHERE MONTH(r.data_w)=" + month + " and YEAR(r.data_w)="
 					+ year + " GROUP BY k.id_klasy ORDER BY k.id_klasy";
-			System.out.println("qurery: " + query);
+			log.info("qurery: " + query);
 			resultQuery = db.query(query);
 			if (resultQuery != null) {
 				resultQuery.last();
@@ -90,7 +97,7 @@ public class Statistic {
 				resultQuery.beforeFirst();
 				if (n != 0)
 					array = new double[n][2];
-				System.out.println("count row: " + n);// /
+				log.info("count row: " + n);// /
 				resultText = "Raportu z wykorzystania klas pokoi za miesi�c "
 						+ monthTab[month] + " w roku " + year + "\n";
 				while (resultQuery.next()) {
@@ -132,7 +139,7 @@ public class Statistic {
 			query += "WHERE MONTH(r.data_w)=" + month + " and YEAR(r.data_w)="
 					+ year + " and k.opis='" + classRoom + "' ";
 			query += " GROUP BY p.id_pokoju ORDER BY p.id_pokoju";
-			System.out.println("qurery: " + query);
+			log.info("qurery: " + query);
 			resultQuery = db.query(query);
 			if (resultQuery != null) {
 				resultQuery.last();
@@ -140,7 +147,7 @@ public class Statistic {
 				resultQuery.beforeFirst();
 				if (n != 0)
 					array = new double[n][2];
-				System.out.println("count row: " + n);// /
+				log.info("count row: " + n);// /
 				resultText = "Raportu z wykorzystania pokoi z klasy "
 						+ classRoom + " za miesi�c " + monthTab[month]
 						+ " w roku " + year + "\n";
@@ -184,7 +191,7 @@ public class Statistic {
 			query += "WHERE MONTH(rz.data_w)=" + month
 					+ " and YEAR(rz.data_w)=" + year + " GROUP BY u.typ";
 
-			System.out.println("qurery: " + query);
+			log.info("qurery: " + query);
 			resultQuery = db.query(query);
 			if (resultQuery != null) {
 				resultQuery.last();
@@ -192,7 +199,7 @@ public class Statistic {
 				resultQuery.beforeFirst();
 				if (n != 0)
 					array = new double[n][2];
-				System.out.println("count row: " + n);// /
+				log.info("count row: " + n);// /
 				resultText = "Raportu z wykorzystania us�ug  za miesi�c "
 						+ monthTab[month] + " w roku " + year + "\n";
 				while (resultQuery.next()) {
@@ -208,7 +215,7 @@ public class Statistic {
 					query += "rrz ON rrk.id_rez=rrz.id_rez WHERE uu.typ='"
 							+ resultQuery.getString(1) + "' ";
 					query += "  GROUP BY rrk.id_rez ) tab";
-					System.out.println("qurery(" + resultQuery.getString(1)
+					log.info("qurery(" + resultQuery.getString(1)
 							+ "): " + query);
 					resA = db.query(query);
 					resA.next();
@@ -247,7 +254,7 @@ public class Statistic {
 					+ " and YEAR(rz.data_w)=" + year + " AND u.typ='" + serve
 					+ "' ";
 			query += "GROUP BY u.nazwa";
-			System.out.println("qurery: " + query);
+			log.info("qurery: " + query);
 			resultQuery = db.query(query);
 			if (resultQuery != null) {
 				resultQuery.last();
@@ -270,7 +277,7 @@ public class Statistic {
 					query += "rrz ON rrk.id_rez=rrz.id_rez WHERE uu.nazwa='"
 							+ resultQuery.getString(1) + "' ";
 					query += "  GROUP BY rrk.id_rez ) tab";
-					System.out.println("qurery(" + resultQuery.getString(1)
+					log.info("qurery(" + resultQuery.getString(1)
 							+ "): " + query);
 					resA = db.query(query);
 					resA.next();
@@ -316,7 +323,7 @@ public class Statistic {
 					+ " AND MONTH(r.data_w)<=" + monthTo + " ";
 			query += " AND YEAR(r.data_w)=" + year
 					+ " GROUP BY MONTH(r.data_w)";
-			System.out.println("qurery: " + query);
+			log.info("qurery: " + query);
 			resultQuery = db.query(query);
 			if (resultQuery != null) {
 				resultQuery.last();
@@ -384,7 +391,7 @@ public class Statistic {
 			query += "WHERE YEAR(r.data_w)>=" + yearFrom
 					+ " AND YEAR(r.data_w)<=" + yearTo + " ";
 			query += "GROUP BY YEAR(r.data_w)";
-			System.out.println("qurery: " + query);
+			log.info("qurery: " + query);
 			resultQuery = db.query(query);
 			if (resultQuery != null) {
 				resultQuery.last();

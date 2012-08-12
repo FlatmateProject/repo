@@ -17,12 +17,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import org.apache.log4j.Logger;
+
 import service.GuestBook;
 import service.Manager;
-import service.Validation;
+import validation.ValidationUtils;
 
 public class ManagerPanel extends JPanel {
 
+	
+	private static final Logger log = Logger.getLogger(ManagerPanel.class);
+	
 	private Calendar schCalendar = GregorianCalendar.getInstance();
 
 	private static final long serialVersionUID = 1L;
@@ -46,7 +51,7 @@ public class ManagerPanel extends JPanel {
 							manTable.getSelectedRow(), i));
 				}
 			} catch (Exception e) {
-				System.out.println("Brak danych!");
+				log.info("Brak danych!");
 			}
 		}
 
@@ -68,10 +73,9 @@ public class ManagerPanel extends JPanel {
 	};
 	private Color buttonColor = new Color(174, 205, 214);
 	private Manager man = new Manager();
-	private GuestBook gue;
+	private GuestBook gue = new GuestBook();
 
-	public ManagerPanel(GuestBook gue) {
-		this.gue = gue;
+	public ManagerPanel() {
 		createManager();
 		addEvents();
 	}
@@ -112,19 +116,19 @@ public class ManagerPanel extends JPanel {
 					if (!d[i].isEmpty()) {
 						if ((l[i].equals("IDK_PESEL") || l[i]
 								.equals("IDP_PESEL"))
-								&& !Validation.isPesel(d[i])) {
+								&& !ValidationUtils.isPesel(d[i])) {
 							JOptionPane.showMessageDialog(null,
 									"B��dny PESEL!", "UWAGA!",
 									JOptionPane.ERROR_MESSAGE);
 							break;
 						} else if (l[i].equals("IDF_KRS")
-								&& !Validation.isKRS(d[i])) {
+								&& !ValidationUtils.isKRS(d[i])) {
 							JOptionPane.showMessageDialog(null, "B��dny KRS!",
 									"UWAGA!", JOptionPane.ERROR_MESSAGE);
 							break;
 						} else if ((l[i].equals("DATA_Z")
 								|| l[i].equals("DATA_W") || l[i].equals("DATA"))
-								&& !Validation.isDate(d[i])) {
+								&& !ValidationUtils.isDate(d[i])) {
 							JOptionPane.showMessageDialog(null, "B��dna data!",
 									"UWAGA!", JOptionPane.ERROR_MESSAGE);
 							break;
@@ -144,7 +148,7 @@ public class ManagerPanel extends JPanel {
 								|| l[i].equals("ID_KLASY")
 								|| l[i].equals("ID_REZ") || l[i]
 									.equals("ID_USLUGI"))
-								&& !Validation.isNumber(d[i])) {
+								&& !ValidationUtils.isNumber(d[i])) {
 							JOptionPane.showMessageDialog(null,
 									"B��dna liczba!", "UWAGA!",
 									JOptionPane.ERROR_MESSAGE);
@@ -305,9 +309,9 @@ public class ManagerPanel extends JPanel {
 				"Og�lna ilo�� rezerwacji: " + man.getCount("rezerwacje"),
 				"Ilo�� zarejestrowanych go�ci: " + man.getCount("klienci"),
 				man.getCount("pokoje") + " pokoi, z czego "
-						+ man.getCount("pokoje where id_rez is null")
+//						+ man.getCount("pokoje where id_rez is null")
 						+ " wolnych i "
-						+ man.getCount("pokoje where id_rez is not null")
+//						+ man.getCount("pokoje where id_rez is not null")
 						+ " zaj�tych.",
 				"Ilo�� dost�pnych us�ug: " + man.getCount("uslugi"),
 				"W tym miesi�cu oczekujemy na "

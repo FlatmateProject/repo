@@ -1,11 +1,11 @@
-package service;
+package validation;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 
-public class Validation 
+public class ValidationUtils 
 {
 	public static boolean isDate(String date) {
 		try {

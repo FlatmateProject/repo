@@ -137,7 +137,6 @@ public class RezervationPanel extends JPanel {
 			add(rezClasPane);
 		}
 
-		rezServTable = new JTable();
 		rezServTable = rezerv.createServTable("");
 		if (rezServTable == null) {
 			JOptionPane.showMessageDialog(getParent(), "Brak us�ug", "B��d", 1);

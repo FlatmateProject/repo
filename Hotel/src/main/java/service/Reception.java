@@ -9,7 +9,14 @@ import java.util.Date;
 
 import javax.swing.JTable;
 
+import org.apache.log4j.Logger;
+
+import dao.Singleton;
+
 public class Reception {
+	
+	private static final Logger log = Logger.getLogger(Reception.class);
+	
 	private Singleton sing = Singleton.getInstance();
 	private ResultSet rset1, rset2, rset3, rset4, rset5, rset6, rset7;
 
@@ -45,7 +52,7 @@ public class Reception {
 			t.setFillsViewportHeight(true);
 			return t;
 		} catch (Exception e) {
-			System.out.println("Brak danych");
+			log.info("Brak danych");
 			Object rowData[][] = { { "Brak danych" } };
 			String columnNames[] = { "Brak danych" };
 			return new JTable(rowData, columnNames);

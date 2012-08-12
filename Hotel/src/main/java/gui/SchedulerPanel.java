@@ -17,7 +17,7 @@ import javax.swing.border.Border;
 
 import service.Schedule;
 
-public class SchedulePanel extends JPanel {
+public class SchedulerPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
@@ -42,7 +42,7 @@ public class SchedulePanel extends JPanel {
 
 	private Schedule sch = new Schedule();
 
-	public SchedulePanel() {
+	public SchedulerPanel() {
 		createSchedule();
 		addEvent();
 	}

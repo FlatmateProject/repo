@@ -7,8 +7,14 @@ import java.sql.SQLException;
 
 import javax.swing.JTable;
 
-public class GuestBook {
+import org.apache.log4j.Logger;
 
+import dao.Singleton;
+
+public class GuestBook {
+	
+	private static final Logger log = Logger.getLogger(GuestBook.class);
+	
 	private Singleton sing = Singleton.getInstance();
 	private ResultSet rset1, rset2;
 
@@ -62,7 +68,7 @@ public class GuestBook {
 			t.setFillsViewportHeight(true);
 			return t;
 		} catch (Exception e) {
-			System.out.println("Brak danych");
+			log.info("Brak danych");
 			Object rowData[][] = { { "Brak danych" } };
 			String columnNames[] = { "Brak danych" };
 			return new JTable(rowData, columnNames);
@@ -97,7 +103,7 @@ public class GuestBook {
 			t.setFillsViewportHeight(true);
 			return t;
 		} catch (Exception e) {
-			System.out.println("Brak danych");
+			log.info("Brak danych");
 			Object rowData[][] = { { "Brak danych" } };
 			String columnNames[] = { "Brak danych" };
 			return new JTable(rowData, columnNames);
@@ -115,7 +121,7 @@ public class GuestBook {
 				q += l[i] + " = :OLD." + l[i];
 		}
 		q += " where " + l[0] + " = \"" + d[0] + "\"";
-		System.out.println(q);
+		log.info(q);
 		return sing.queryUp(q);
 	}
 

@@ -16,12 +16,17 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import org.apache.log4j.Logger;
+
 import service.Cantor;
+import validation.ValidationUtils;
 
 public class CantorPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-
+	
+	private static final Logger log = Logger.getLogger(CantorPanel.class);
+	
 	float results[];
 	private JTextField canAmountJta = new JTextField();
 	private JLabel canBuyLabel = new JLabel();
@@ -125,21 +130,21 @@ public class CantorPanel extends JPanel {
 					JOptionPane.showMessageDialog(getParent(),
 							"Nie podano numeru PESEL/KRS");
 				} else {
-					if (!cantor.isPesel(canPESJta.getText())
-							&& !cantor.isKRS(canPESJta.getText()))
+					if (!ValidationUtils.isPesel(canPESJta.getText())
+							&& !ValidationUtils.isKRS(canPESJta.getText()))
 						JOptionPane.showMessageDialog(getParent(),
 								"Nieprawid�owy PESEL/KRS");
-					else if (cantor.isPesel(canPESJta.getText())) {
+					else if (ValidationUtils.isPesel(canPESJta.getText())) {
 						canClientTable = cantor
 								.createClientTable(" where IDK_PESEL="
 										+ canPESJta.getText());
 						if (canClientTable.getRowCount() < 1)
 							JOptionPane.showMessageDialog(getParent(),
 									"Brak klienta w bazie");
-						System.out.println(canClientTable.getRowCount());
+						log.info(canClientTable.getRowCount());
 						canScrollClientPane.setViewportView(canClientTable);
 						canScrollClientPane.repaint();
-					} else if (cantor.isKRS(canPESJta.getText())) {
+					} else if (ValidationUtils.isKRS(canPESJta.getText())) {
 						canClientTable = cantor.createCompTable(canPESJta
 								.getText());
 						canScrollClientPane.setViewportView(canClientTable);
@@ -197,7 +202,7 @@ public class CantorPanel extends JPanel {
 							"Nie zaznaczono klienta");
 				} else {
 					if (cantor.changeMoney(
-							cantor.isPesel(canPESJta.getText()),
+							ValidationUtils.isPesel(canPESJta.getText()),
 							canClientTable.getValueAt(
 									canClientTable.getSelectedRow(), 0)
 									.toString(), cantor.ShowDate(), canCurrBox1
@@ -226,7 +231,7 @@ public class CantorPanel extends JPanel {
 		java.text.NumberFormat nf = java.text.NumberFormat.getInstance();
 		nf.setMaximumFractionDigits(ic);
 		nf.setMinimumFractionDigits(ic);
-		System.out.println((nf.format(d)).replaceAll(",", ".").replaceAll("",
+		log.info((nf.format(d)).replaceAll(",", ".").replaceAll("",
 				""));
 		return Double.parseDouble((nf.format(d)).replaceAll(",", ".")
 				.replaceAll("", ""));

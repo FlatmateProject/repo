@@ -17,10 +17,15 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import org.apache.log4j.Logger;
+
 import service.GuestBook;
 
 public class GuestBookPanel extends JPanel {
 
+	
+	private static final Logger log = Logger.getLogger(GuestBookPanel.class);
+	
 	private static final long serialVersionUID = 1L;
 	
 	private GuestBook gue = new GuestBook();
@@ -57,7 +62,7 @@ public class GuestBookPanel extends JPanel {
 								gueTable[0].getSelectedRow(), i));
 				}
 			} catch (Exception e) {
-				System.out.println("Brak danych!");
+				log.info("Brak danych!");
 			}
 		}
 
@@ -272,7 +277,7 @@ public class GuestBookPanel extends JPanel {
 				for (int i = 0; i < 10; i++) {
 					l[i] = gueClientLabel[i].getText();
 					d[i] = gueClientData[i].getText();
-					// System.out.println(gueClientLabel[i].getText() + " " +
+					// log.info(gueClientLabel[i].getText() + " " +
 					// gueClientData[i].getText());
 				}
 				if (gue.updateClientData(l, d)) {
@@ -401,7 +406,7 @@ public class GuestBookPanel extends JPanel {
 				for (int i = 0; i < 10; i++) {
 					l[i] = gueClientLabel[i].getText();
 					d[i] = gueClientData[i].getText();
-					// System.out.println(gueClientLabel[i].getText() + " " +
+					// log.info(gueClientLabel[i].getText() + " " +
 					// gueClientData[i].getText());
 				}
 				if (gue.updateClientData(l, d)) {

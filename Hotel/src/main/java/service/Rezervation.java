@@ -10,7 +10,14 @@ import java.util.Date;
 
 import javax.swing.JTable;
 
+import org.apache.log4j.Logger;
+
+import dao.Singleton;
+
 public class Rezervation {
+	
+	private static final Logger log = Logger.getLogger(Rezervation.class);
+	
 	private Singleton sing = Singleton.getInstance();
 	private ResultSet rset1, rset2, rset4, rset5;
 
@@ -31,23 +38,23 @@ public class Rezervation {
 			Object rowData[][] = new Object[rows][cols];
 			String columnNames[] = new String[cols];
 			rset1.first();
-			rset2.first();
 			do {
 				columnNames[i] = rset1.getString(1);
 				i++;
 			} while (rset1.next());
 			i = 0;
-			do {
+			rset2.first();
+			while (rset2.next()) {
 				for (j = 0; j < cols; j++) {
 					rowData[i][j] = rset2.getString(j + 1);
 				}
 				i++;
-			} while (rset2.next());
+			} 
 			JTable t = new JTable(rowData, columnNames);
 			t.setFillsViewportHeight(true);
 			return t;
 		} catch (Exception e) {
-			System.out.println("Brak danych");
+			log.info("Brak danych");
 		}
 		return null;
 	}
@@ -171,7 +178,7 @@ public class Rezervation {
 			t.setFillsViewportHeight(true);
 			return t;
 		} catch (Exception e) {
-			System.out.println("Brak danych");
+			log.info("Brak danych");
 		}
 		return null;
 	}
@@ -192,18 +199,18 @@ public class Rezervation {
 			Object rowData[][] = new Object[rows][cols];
 			String columnNames[] = new String[cols];
 			rset1.first();
-			rset2.first();
 			do {
 				columnNames[i] = rset1.getString(1);
 				i++;
 			} while (rset1.next());
 			i = 0;
-			do {
+			rset2.first();
+			while (rset2.next()) {
 				for (j = 0; j < cols; j++) {
 					rowData[i][j] = rset2.getString(j + 1);
 				}
 				i++;
-			} while (rset2.next());
+			} 
 			JTable t = new JTable(rowData, columnNames);
 			t.setFillsViewportHeight(true);
 			return t;
