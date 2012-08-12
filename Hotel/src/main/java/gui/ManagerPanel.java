@@ -17,9 +17,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import repo.GuestBook;
-import repo.Manager;
-import repo.Validation;
+import service.GuestBook;
+import service.Manager;
+import service.Validation;
 
 public class ManagerPanel extends JPanel {
 

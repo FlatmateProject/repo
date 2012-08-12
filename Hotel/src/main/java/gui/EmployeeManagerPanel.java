@@ -23,9 +23,9 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 
-import repo.EmployeeManager;
-import repo.Singleton;
-import repo.Validation;
+import service.EmployeeManager;
+import service.Singleton;
+import service.Validation;
 
 public class EmployeeManagerPanel extends JPanel {
 

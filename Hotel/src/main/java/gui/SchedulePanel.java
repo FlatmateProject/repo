@@ -15,7 +15,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
-import repo.Schedule;
+import service.Schedule;
 
 public class SchedulePanel extends JPanel {
 

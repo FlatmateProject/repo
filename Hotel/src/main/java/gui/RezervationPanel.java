@@ -21,7 +21,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-import repo.Rezervation;
+import service.Rezervation;
 
 public class RezervationPanel extends JPanel {
 

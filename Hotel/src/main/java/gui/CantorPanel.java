@@ -16,7 +16,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-import repo.Cantor;
+import service.Cantor;
 
 public class CantorPanel extends JPanel {
 

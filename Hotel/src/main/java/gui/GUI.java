@@ -8,8 +8,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import repo.GuestBook;
-import repo.Singleton;
+import service.GuestBook;
+import service.Singleton;
 
 public class GUI extends JFrame {
 
