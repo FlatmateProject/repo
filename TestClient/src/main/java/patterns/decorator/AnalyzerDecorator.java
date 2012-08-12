@@ -3,10 +3,14 @@ package patterns.decorator;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AnalyzerDecorator extends TechnicalAnalyzer {
+public abstract class AnalyzerDecorator implements Analyzer {
 
-	private TechnicalAnalyzer analizer = new TechnicalAnalyzer();
+	private Analyzer analizer;
 	
+	public AnalyzerDecorator(Analyzer analizer) {
+		this.analizer = analizer;
+	}
+
 	public abstract void inputConditions(List<Integer> inputData, List<Integer> result);
 	
 	@Override

@@ -10,11 +10,11 @@ public class TechnicalAnalyzer implements Analyzer {
 	public List<IntegerElement> process(List<Integer> inputData) {
 		List<IntegerElement> result = createDiagram(inputData);
 		double standard = calculateStandart(result);
-		removeOutRange(result, standard);
+		removeOutOfRange(result, standard);
 		return result;
 	}
 
-	private void removeOutRange(List<IntegerElement> result, double standard) {
+	private void removeOutOfRange(List<IntegerElement> result, double standard) {
 		double twoStandard = 2 * standard;
 		removeFromBegin(result, twoStandard);
 		removeFromEnd(result, twoStandard);

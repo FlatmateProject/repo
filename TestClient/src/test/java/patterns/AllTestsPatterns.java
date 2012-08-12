@@ -6,10 +6,11 @@ import org.junit.runners.Suite;
 import patterns.abstractFactory.PaymentsFactoryWithAnnotationTest;
 import patterns.abstractFactory.PaymentsFactoryWithMethodTest;
 import patterns.builder.WelcomeUserConstructorTest;
-import patterns.decorator.DataProccesingUnitTest;
+import patterns.decorator.DataProcessingUnitTest;
 import patterns.globalFactoryMethod.GlobalFactoryMethodTest;
 import patterns.localFactoryMethod.LocalFactoryMethodTest;
 import patterns.prototype.UserFeaturesHistoryTest;
+import patterns.proxy.ClientResourceTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
@@ -19,7 +20,8 @@ import patterns.prototype.UserFeaturesHistoryTest;
 	PaymentsFactoryWithAnnotationTest.class,
 	PaymentsFactoryWithMethodTest.class,
 	UserFeaturesHistoryTest.class,
-	DataProccesingUnitTest.class,
+	DataProcessingUnitTest.class,
+	ClientResourceTest.class,
 	SingletonTest.class
 })
 public class AllTestsPatterns {

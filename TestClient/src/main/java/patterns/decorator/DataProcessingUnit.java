@@ -4,7 +4,7 @@ import java.util.List;
 
 public class DataProcessingUnit {
 
-	private Analyzer analyzer = new ScientificAnalyzer();
+	private Analyzer analyzer;
 
 	public DataProcessingUnit(Analyzer analyzer) {
 		if(analyzer != null) {

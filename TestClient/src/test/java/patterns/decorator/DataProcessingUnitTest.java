@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class DataProccesingUnitTest {
+public class DataProcessingUnitTest {
 
 	@Test
 	public void shouldReturnNull() {
@@ -109,7 +109,8 @@ public class DataProccesingUnitTest {
 	@Test
 	public void shouldReturnOnlyValueWithAccuraccy95PercentAndBiggerThanZero() {
 		// given
-		DataProcessingUnit unit = new DataProcessingUnit(new AnalyzerDecorator(){
+		TechnicalAnalyzer analyzer = new TechnicalAnalyzer();
+		DataProcessingUnit unit = new DataProcessingUnit(new AnalyzerDecorator(analyzer){
 
 			@Override
 			public void inputConditions(List<Integer> inputData, List<Integer> result) {
