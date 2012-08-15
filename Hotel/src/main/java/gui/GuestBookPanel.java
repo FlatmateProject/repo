@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -193,7 +194,7 @@ public class GuestBookPanel extends JPanel {
 
 		setBounds(0, 0, getWidth(), getHeight());
 		setBackground(bgColor);
-		setLayout(null);
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		for (int i = 0; i < 11; i++) {
 			if (i < 10) {

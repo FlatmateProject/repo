@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -27,7 +28,7 @@ public class CantorPanel extends JPanel {
 	
 	private static final Logger log = Logger.getLogger(CantorPanel.class);
 	
-	float results[];
+	private float results[];
 	private JTextField canAmountJta = new JTextField();
 	private JLabel canBuyLabel = new JLabel();
 	private JLabel canCurrL1 = new JLabel();
@@ -50,8 +51,13 @@ public class CantorPanel extends JPanel {
 	private JTable canClientTable = new JTable();
 	private JScrollPane canScrollPane;
 	private JScrollPane canScrollClientPane;
-	private int canYList, canEWidth, canJtaHeight, canBWidth, canBHeight;
-	float many;
+	
+	private int canYList;
+	private int canEWidth;
+	private int canJtaHeight;
+	private int canBWidth;
+	private int canBHeight;
+	
 	private Color bgColor = new Color(224, 230, 233);
 	private Border border = BorderFactory.createLineBorder(new Color(60, 124, 142));
 	private Color buttonColor = new Color(174, 205, 214);
@@ -65,10 +71,14 @@ public class CantorPanel extends JPanel {
 
 	private void createCantor() {
 		setBounds(0, 0, getWidth(), getHeight());
-		setLayout(null);
-//		addComponentListener(this);
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setMinimumSize(new Dimension(800, 600));
 		setBackground(bgColor);
+		setVisible(true);
+		
+		canPESJta = new JTextField("");
+		add(canPESJta);
+		
 		canTable = new JTable();
 		canClientTable = new JTable();
 		canBuyLabel = new JLabel("Dostepno�� oraz kursy walut");
@@ -77,14 +87,14 @@ public class CantorPanel extends JPanel {
 		canClientL = new JLabel("PESEL/KRS Klienta");
 		canAmountJta = new JTextField("");
 		canCostJta = new JTextField("");
-		canPESJta = new JTextField("");
+
 		canAmountJta.setBorder(border);
 		canCostJta.setBorder(border);
 		canPESJta.setBorder(border);
 		add(canPrice);
 		add(canAmountJta);
 		add(canCostJta);
-		add(canPESJta);
+
 		add(canTable);
 		add(canClientTable);
 		canPrice = new JLabel("Kwota transakcji:");
@@ -118,7 +128,6 @@ public class CantorPanel extends JPanel {
 		canScrollClientPane.setBorder(border);
 		canScrollClientPane.setViewportView(canClientTable);
 		add(canScrollClientPane);
-		setVisible(true);
 	}
 	
 	private void addEvent() {
@@ -205,7 +214,7 @@ public class CantorPanel extends JPanel {
 							ValidationUtils.isPesel(canPESJta.getText()),
 							canClientTable.getValueAt(
 									canClientTable.getSelectedRow(), 0)
-									.toString(), cantor.ShowDate(), canCurrBox1
+									.toString(), cantor.showCurrentDate(), canCurrBox1
 									.getSelectedItem().toString(), canCurrBox2
 									.getSelectedItem().toString(), results[0],
 							results[1], results[2])) {

@@ -2,7 +2,6 @@ package service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -249,13 +248,8 @@ public class Cantor {
 		return true;
 	}
 
-	public String ShowDate() {
-		Date show;
-		String show1;
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		show = new Date();
-		show1 = df.format(show);
-		return show1;
+	public String showCurrentDate() {
+		return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 	}
 
 }

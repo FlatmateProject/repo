@@ -6,6 +6,7 @@ import java.awt.event.MouseListener;
 import java.text.ParseException;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -87,7 +88,7 @@ public class RezervationPanel extends JPanel {
 
 	private void createRezervation() {
 		setBounds(0, 0, getWidth(), getHeight());
-		setLayout(null);
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		// addComponentListener(this);
 		setBackground(bgColor);
 		rezClient = new JRadioButton("Klient", true);

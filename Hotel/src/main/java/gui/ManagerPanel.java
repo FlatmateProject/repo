@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -83,7 +84,7 @@ public class ManagerPanel extends JPanel {
 	private void createManager() {
 
 		setBackground(bgColor);
-		setLayout(null);
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		manButton = new JButton[10];
 		manButton2 = new JButton[5];

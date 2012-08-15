@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
@@ -55,7 +56,7 @@ public class SchedulerPanel extends JPanel {
 
 		setBackground(bgColor);
 		setBounds(0, 0, getWidth(), getHeight());
-		setLayout(null);
+		setLayout(new GridBagLayout());
 
 		for (int i = 0; i < schDayButton.length; i++) {
 			schDayButton[i] = new JButton(String.valueOf(i + 1));

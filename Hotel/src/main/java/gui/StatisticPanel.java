@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -70,7 +71,7 @@ public class StatisticPanel extends JPanel {
 		}
 
 		setBounds(0, 0, 900, 650);
-		setLayout(null);
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBackground(color);
 		setVisible(true);
 

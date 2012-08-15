@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -55,7 +56,7 @@ public class ReceptionPanel extends JPanel {
 	
 	private void createReception() {
 		setBounds(0, 0, getWidth(), getHeight());
-		setLayout(null);
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		//addComponentListener(this);
 		setBackground(bgColor);
 		recTable = new JTable();

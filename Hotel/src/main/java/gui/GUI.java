@@ -18,13 +18,13 @@ public class GUI extends JFrame {
 		Singleton.getInstance();
 	}
 
-	private JTabbedPane tabbedPane = new JTabbedPane();
-
-	private JPanel guessPanel;
-
-	private JPanel schegulerPanel;
+	private JTabbedPane tabbedPane;
 
 	private JPanel cantorPanel;
+	
+	private JPanel schegulerPanel;
+	
+	private JPanel guessPanel;
 
 	private JPanel receptionPanel;
 
@@ -45,33 +45,42 @@ public class GUI extends JFrame {
 	}
 
 	private void createGUI() {
+		tabbedPane = new JTabbedPane();
+		
 		cantorPanel = new CantorPanel();
 		add(cantorPanel);
+		tabbedPane.addTab("Cantor", cantorPanel);
+		
 		schegulerPanel = new SchedulerPanel();
 		add(schegulerPanel);
+		tabbedPane.addTab("Grafik", schegulerPanel);
+		
 		receptionPanel = new ReceptionPanel();
 		add(receptionPanel);
+		tabbedPane.addTab("Recepcja", receptionPanel);
+		
 		rezervationPanel = new RezervationPanel();
 		add(rezervationPanel);
+		tabbedPane.addTab("Rezerwacje", rezervationPanel);
+		
+		
 		managerPanel = new ManagerPanel();
 		add(managerPanel);
+		tabbedPane.addTab("Manager", managerPanel);
+		
 		guessPanel = new GuestBookPanel();
 		add(guessPanel);
+		tabbedPane.addTab("Ksi�ga go�ci", guessPanel);
+		
 		statisticPanel = new StatisticPanel();
 		add(statisticPanel);
+		tabbedPane.addTab("Statystyka", statisticPanel);
+		
 		employeeManagerPanel = new EmployeeManagerPanel();
 		add(employeeManagerPanel);
-
-		tabbedPane.setBounds(0, 0, getWidth(), getHeight());
-
-		tabbedPane.addTab("Cantor", cantorPanel);
 		tabbedPane.addTab("Menad�er personelu", employeeManagerPanel);
-		tabbedPane.addTab("Statystyka", statisticPanel);
-		tabbedPane.addTab("Grafik", schegulerPanel);
-		tabbedPane.addTab("Recepcja", receptionPanel);
-		tabbedPane.addTab("Rezerwacje", rezervationPanel);
-		tabbedPane.addTab("Ksi�ga go�ci", guessPanel);
-		tabbedPane.addTab("Manager", managerPanel);
+		
+		tabbedPane.setBounds(0, 0, getWidth(), getHeight());
 		add(tabbedPane);
 	}
 

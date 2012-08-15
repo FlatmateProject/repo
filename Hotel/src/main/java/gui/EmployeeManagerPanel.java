@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -104,7 +105,7 @@ public class EmployeeManagerPanel extends JPanel {
 
 		
 		setBounds(0, 0, this.getWidth(), this.getHeight());
-		setLayout(null);
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBackground(bgColor);
 		setVisible(true);
 
