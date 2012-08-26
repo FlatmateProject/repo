@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
 import service.Schedule;
+import service.dictionary.MONTH;
 
 public class SchedulerPanel extends JPanel {
 
@@ -36,10 +37,7 @@ public class SchedulerPanel extends JPanel {
 			142));
 
 	private String schDow[] = { "Pn", "Wt", "�r", "Cz", "Pt", "So", "Nd" };
-	private int schDom[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-	private String schMoy[] = { "Stycze�", "Luty", "Marzec", "Kwiecie�", "Maj",
-			"Czerwiec", "Lipiec", "Sierpie�", "Wrzesie�", "Pa�dziernik",
-			"Listopad", "Grudzie�" };
+	//private int schDom[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 	private Schedule sch = new Schedule();
 
@@ -110,7 +108,7 @@ public class SchedulerPanel extends JPanel {
 				dX = getWidth() / 2 - 182;
 			}
 			schDayButton[i].setBounds(dX, h, 50, 30);
-			if (i < schDom[month]) {
+			if (i < MONTH.getDayOfMonth(month)) {
 				schDayButton[i].setVisible(true);
 			} else {
 				schDayButton[i].setVisible(false);
@@ -121,7 +119,7 @@ public class SchedulerPanel extends JPanel {
 			schDayLabel[i].setBounds(dX + 10, schDayButton[0].getY() - 18, 50,
 					18);
 		}
-		schMonthLabel.setText(schMoy[month] + " " + year);
+		schMonthLabel.setText(MONTH.getMonthName(month) + " " + year);
 		schMonthLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		schMonthLabel.setBounds((getWidth() - 100) / 2,
 				schDayLabel[0].getY() - 30, 100, 20);

@@ -29,6 +29,7 @@ import org.apache.log4j.Logger;
 import dao.Singleton;
 
 import service.EmployeeManager;
+import service.dictionary.MONTH;
 import validation.ValidationUtils;
 
 public class EmployeeManagerPanel extends JPanel {
@@ -74,9 +75,8 @@ public class EmployeeManagerPanel extends JPanel {
 	private boolean mgpIndel = false;
 	private final String[] dayOfWeek = { "Pn", "Wt", "�r", "Cz", "Pt", "So",
 			"Nd" };
-	private final String[] monthOfYear = { "Stycze�", "Luty", "Marzec",
-			"Kwiecie�", "Maj", "Czerwiec", "Lipiec", "Sierpie�", "Wrzesie�",
-			"Pa�dziernik", "Listopad", "Grudzie�" };
+	private final String[] monthOfYear = MONTH.stringValues();
+	
 	private final int[] dayInMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31,
 			30, 31 };
 	private Calendar schCalendar = GregorianCalendar.getInstance();
@@ -261,18 +261,18 @@ public class EmployeeManagerPanel extends JPanel {
 		mgpMonthLabel.setFont(font);
 		mgpChooseMonth = new JComboBox();
 		mgpChooseMonth.setBounds(20, 60, 130, 20);
-		mgpChooseMonth.addItem("Stycze�");
-		mgpChooseMonth.addItem("Luty");
-		mgpChooseMonth.addItem("Marzec");
-		mgpChooseMonth.addItem("Kwiecie�");
-		mgpChooseMonth.addItem("Maj");
-		mgpChooseMonth.addItem("Czerwiec");
-		mgpChooseMonth.addItem("Lipiec");
-		mgpChooseMonth.addItem("Sierpie�");
-		mgpChooseMonth.addItem("Wrzesie�");
-		mgpChooseMonth.addItem("Pa�dziernik");
-		mgpChooseMonth.addItem("Listopad");
-		mgpChooseMonth.addItem("Grudzie�");
+		mgpChooseMonth.addItem(MONTH.January);
+		mgpChooseMonth.addItem(MONTH.February);
+		mgpChooseMonth.addItem(MONTH.March);
+		mgpChooseMonth.addItem(MONTH.April);
+		mgpChooseMonth.addItem(MONTH.May);
+		mgpChooseMonth.addItem(MONTH.June);
+		mgpChooseMonth.addItem(MONTH.July);
+		mgpChooseMonth.addItem(MONTH.August);
+		mgpChooseMonth.addItem(MONTH.September);
+		mgpChooseMonth.addItem(MONTH.October);
+		mgpChooseMonth.addItem(MONTH.November);
+		mgpChooseMonth.addItem(MONTH.December);
 		mgpChooseMonth.setSelectedIndex(0);
 		mgpServe[3].add(mgpChooseMonth);
 		mgpServe[3].add(mgpMonthLabel);

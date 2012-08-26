@@ -20,39 +20,41 @@ import javax.swing.JTextPane;
 import dao.Singleton;
 
 import service.GraphDraw;
-import service.Statistic;
+import service.dictionary.MONTH;
+import service.statictic.RAPORT_KIND;
+import service.statictic.Statistic;
 
 public class StatisticPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private JButton staExec;
-	private JLabel staTitleLabel;
-	private JLabel staTypeLabel;
-	private JLabel staSubLabel;
-	private JLabel staMonthLabel;
-	private JLabel staYearLabel;
-	private JLabel staMonthLabelFrom;
-	private JLabel staYearLabelFrom;
-	private JLabel staMonthLabelTo;
-	private JLabel staYearLabelTo;
-	private JLabel staClassLabel;
-	private JLabel staServeLabel;
-	private JComboBox staChooseType;
-	private JComboBox staChooseSubFin;
-	private JComboBox staChooseSubHot;
-	private JComboBox staChooseMonth;
-	private JComboBox staChooseYear;
-	private JComboBox staChooseMonth2;
-	private JComboBox staChooseYear2;
-	private JComboBox staChooseClass;
-	private JComboBox staChooseServe;
-	private JScrollPane staRaportScroll;
-	private JTextPane staRaportText;
-	private GraphDraw staMem;
+	private JButton exec;
+	private JLabel titleLabel;
+	private JLabel typeLabel;
+	private JLabel subLabel;
+	private JLabel monthLabel;
+	private JLabel yearLabel;
+	private JLabel monthLabelFrom;
+	private JLabel yearLabelFrom;
+	private JLabel monthLabelTo;
+	private JLabel yearLabelTo;
+	private JLabel classLabel;
+	private JLabel serveLabel;
+	private JComboBox chooseType;
+	private JComboBox chooseSubFinance;
+	private JComboBox chooseSubHotel;
+	private JComboBox chooseMonth;
+	private JComboBox chooseYear;
+	private JComboBox chooseMonth2;
+	private JComboBox chooseYear2;
+	private JComboBox chooseClass;
+	private JComboBox chooseServe;
+	private JScrollPane raportScroll;
+	private JTextPane raportText;
+	private GraphDraw graphDraw;
 	private Singleton db = Singleton.getInstance();
 
-	private Statistic sta;
+	private Statistic statistic;
 
 	public StatisticPanel() {
 		create();
@@ -63,194 +65,190 @@ public class StatisticPanel extends JPanel {
 		Color color = new Color(224, 230, 233);
 		Font font = new Font("arial", Font.ROMAN_BASELINE, 15);
 
-		staMem = new GraphDraw();
-		try {
-			sta = new Statistic();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		graphDraw = new GraphDraw();
+		statistic = new Statistic();
+
 
 		setBounds(0, 0, 900, 650);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBackground(color);
 		setVisible(true);
 
-		staExec = new JButton("Wykonaj");
-		staExec.setBounds(380, 60, 100, 60);
-		staExec.setFont(font);
-		staExec.setVisible(true);
-		add(staExec);
+		exec = new JButton("Wykonaj");
+		exec.setBounds(380, 60, 100, 60);
+		exec.setFont(font);
+		exec.setVisible(true);
+		add(exec);
 
-		staChooseType = new JComboBox();
-		staChooseType.setBounds(20, 60, 230, 20);
-		staChooseType.addItem("hotelowe");
-		staChooseType.addItem("finansowe");
-		staChooseType.setSelectedIndex(0);
-		add(staChooseType);
+		chooseType = new JComboBox();
+		chooseType.setBounds(20, 60, 230, 20);
+		chooseType.addItem("hotelowe");
+		chooseType.addItem("finansowe");
+		chooseType.setSelectedIndex(0);
+		add(chooseType);
 
-		staChooseSubHot = new JComboBox();
-		staChooseSubHot.setBounds(20, 100, 230, 20);
-		staChooseSubHot.addItem("Raportu z wykorzystania klas pokoi");
-		staChooseSubHot.addItem("Raportu z wykorzystania pokoi w klasie");
-		staChooseSubHot.addItem("Raportu z wykorzystania typ�w us�ug");
-		staChooseSubHot.addItem("Raportu z wybranej uslugi");
-		staChooseSubHot.setSelectedIndex(0);
-		add(staChooseSubHot);
+		chooseSubHotel = new JComboBox();
+		chooseSubHotel.setBounds(20, 100, 230, 20);
+		chooseSubHotel.addItem(RAPORT_KIND.HOTEL_CLASS);
+		chooseSubHotel.addItem(RAPORT_KIND.HOTEL_ROOM);
+		chooseSubHotel.addItem(RAPORT_KIND.HOTEL_SERVICES);
+		chooseSubHotel.addItem(RAPORT_KIND.HOTEL_SERVICE);
+		chooseSubHotel.setSelectedIndex(0);
+		add(chooseSubHotel);
 
-		staChooseMonth = new JComboBox();
-		staChooseMonth.setBounds(260, 100, 100, 20);
-		staChooseMonth.addItem("Stycze�");
-		staChooseMonth.addItem("Luty");
-		staChooseMonth.addItem("Marzec");
-		staChooseMonth.addItem("Kwiecie�");
-		staChooseMonth.addItem("Maj");
-		staChooseMonth.addItem("Czerwiec");
-		staChooseMonth.addItem("Lipiec");
-		staChooseMonth.addItem("Sierpie�");
-		staChooseMonth.addItem("Wrzesie�");
-		staChooseMonth.addItem("Pa�dziernik");
-		staChooseMonth.addItem("Listopad");
-		staChooseMonth.addItem("Grudzie�");
-		staChooseMonth.setSelectedIndex(0);
-		add(staChooseMonth);
+		chooseMonth = new JComboBox();
+		chooseMonth.addItem(MONTH.January);
+		chooseMonth.addItem(MONTH.February);
+		chooseMonth.addItem(MONTH.March);
+		chooseMonth.addItem(MONTH.April);
+		chooseMonth.addItem(MONTH.May);
+		chooseMonth.addItem(MONTH.June);
+		chooseMonth.addItem(MONTH.July);
+		chooseMonth.addItem(MONTH.August);
+		chooseMonth.addItem(MONTH.September);
+		chooseMonth.addItem(MONTH.October);
+		chooseMonth.addItem(MONTH.November);
+		chooseMonth.addItem(MONTH.December);
+		chooseMonth.setSelectedIndex(0);
+		add(chooseMonth);
 
-		staChooseMonth2 = new JComboBox();
-		staChooseMonth2.setBounds(260, 60, 100, 20);
-		staChooseMonth2.addItem("Stycze�");
-		staChooseMonth2.addItem("Luty");
-		staChooseMonth2.addItem("Marzec");
-		staChooseMonth2.addItem("Kwiecie�");
-		staChooseMonth2.addItem("Maj");
-		staChooseMonth2.addItem("Czerwiec");
-		staChooseMonth2.addItem("Lipiec");
-		staChooseMonth2.addItem("Sierpie�");
-		staChooseMonth2.addItem("Wrzesie�");
-		staChooseMonth2.addItem("Pa�dziernik");
-		staChooseMonth2.addItem("Listopad");
-		staChooseMonth2.addItem("Grudzie�");
-		staChooseMonth2.setSelectedIndex(0);
-		staChooseMonth2.setVisible(false);
-		add(staChooseMonth2);
+		chooseMonth2 = new JComboBox();
+		chooseMonth2.setBounds(260, 60, 100, 20);
+		chooseMonth2.addItem(MONTH.January);
+		chooseMonth2.addItem(MONTH.February);
+		chooseMonth2.addItem(MONTH.March);
+		chooseMonth2.addItem(MONTH.April);
+		chooseMonth2.addItem(MONTH.May);
+		chooseMonth2.addItem(MONTH.June);
+		chooseMonth2.addItem(MONTH.July);
+		chooseMonth2.addItem(MONTH.August);
+		chooseMonth2.addItem(MONTH.September);
+		chooseMonth2.addItem(MONTH.October);
+		chooseMonth2.addItem(MONTH.November);
+		chooseMonth2.addItem(MONTH.December);
+		chooseMonth2.setSelectedIndex(0);
+		chooseMonth2.setVisible(false);
+		add(chooseMonth2);
 
-		staChooseSubFin = new JComboBox();
-		staChooseSubFin.setBounds(20, 100, 230, 20);
-		staChooseSubFin.addItem("Bilansu z miesi�cy");
-		staChooseSubFin.addItem("Bilansu z lat");
-		staChooseSubFin.setSelectedIndex(0);
-		staChooseSubFin.setVisible(false);
-		add(staChooseSubFin);
+		chooseSubFinance = new JComboBox();
+		chooseSubFinance.setBounds(20, 100, 230, 20);
+		chooseSubFinance.addItem(RAPORT_KIND.FINANCE_MONTH);
+		chooseSubFinance.addItem(RAPORT_KIND.FINANCE_YEAR);
+		chooseSubFinance.setSelectedIndex(0);
+		chooseSubFinance.setVisible(false);
+		add(chooseSubFinance);
 
-		staChooseYear = new JComboBox();
-		staChooseYear.setBounds(260, 60, 100, 20);
-		staChooseYear.addItem("2010");
-		staChooseYear.addItem("2011");
-		staChooseYear.addItem("2012");
-		staChooseYear.addItem("2013");
-		staChooseYear.addItem("2014");
-		staChooseYear.addItem("2015");
-		staChooseYear.addItem("2016");
-		staChooseYear.setSelectedIndex(0);
-		add(staChooseYear);
+		chooseYear = new JComboBox();
+		chooseYear.setBounds(260, 60, 100, 20);
+		chooseYear.addItem("2010");
+		chooseYear.addItem("2011");
+		chooseYear.addItem("2012");
+		chooseYear.addItem("2013");
+		chooseYear.addItem("2014");
+		chooseYear.addItem("2015");
+		chooseYear.addItem("2016");
+		chooseYear.setSelectedIndex(0);
+		add(chooseYear);
 
-		staChooseYear2 = new JComboBox();
-		staChooseYear2.setBounds(260, 100, 100, 20);
-		staChooseYear2.addItem("2010");
-		staChooseYear2.addItem("2011");
-		staChooseYear2.addItem("2012");
-		staChooseYear2.addItem("2013");
-		staChooseYear2.addItem("2014");
-		staChooseYear2.addItem("2015");
-		staChooseYear2.addItem("2016");
-		staChooseYear2.setSelectedIndex(0);
-		staChooseYear2.setVisible(false);
-		add(staChooseYear2);
+		chooseYear2 = new JComboBox();
+		chooseYear2.setBounds(260, 100, 100, 20);
+		chooseYear2.addItem("2010");
+		chooseYear2.addItem("2011");
+		chooseYear2.addItem("2012");
+		chooseYear2.addItem("2013");
+		chooseYear2.addItem("2014");
+		chooseYear2.addItem("2015");
+		chooseYear2.addItem("2016");
+		chooseYear2.setSelectedIndex(0);
+		chooseYear2.setVisible(false);
+		add(chooseYear2);
 
 		createComboBoxStat();
 
 		font = new Font("arial", Font.BOLD, 20);
-		staTitleLabel = new JLabel("Statystyki");
-		staTitleLabel.setBounds(20, 5, 100, 20);
-		staTitleLabel.setFont(font);
-		add(staTitleLabel);
+		titleLabel = new JLabel("Statystyki");
+		titleLabel.setBounds(20, 5, 100, 20);
+		titleLabel.setFont(font);
+		add(titleLabel);
 
 		font = new Font("arial", Font.ROMAN_BASELINE, 15);
-		staTypeLabel = new JLabel("Wybierz rodzaj staStatystyk");
-		staTypeLabel.setBounds(20, 45, 200, 15);
-		staTypeLabel.setFont(font);
-		add(staTypeLabel);
+		typeLabel = new JLabel("Wybierz rodzaj staStatystyk");
+		typeLabel.setBounds(20, 45, 200, 15);
+		typeLabel.setFont(font);
+		add(typeLabel);
 
-		staSubLabel = new JLabel("Wybierz jedna");
-		staSubLabel.setBounds(20, 85, 100, 15);
-		staSubLabel.setFont(font);
-		add(staSubLabel);
+		subLabel = new JLabel("Wybierz jedna");
+		subLabel.setBounds(20, 85, 100, 15);
+		subLabel.setFont(font);
+		add(subLabel);
 
-		staMonthLabel = new JLabel("Wybierz miesi�c");
-		staMonthLabel.setBounds(260, 85, 200, 15);
-		staMonthLabel.setFont(font);
-		add(staMonthLabel);
+		monthLabel = new JLabel("Wybierz miesi�c");
+		monthLabel.setBounds(260, 85, 200, 15);
+		monthLabel.setFont(font);
+		add(monthLabel);
 
-		staYearLabel = new JLabel("Wybierz rok");
-		staYearLabel.setBounds(260, 45, 100, 15);
-		staYearLabel.setFont(font);
-		add(staYearLabel);
+		yearLabel = new JLabel("Wybierz rok");
+		yearLabel.setBounds(260, 45, 100, 15);
+		yearLabel.setFont(font);
+		add(yearLabel);
 
-		staClassLabel = new JLabel("Wybierz klas� pokuju");
-		staClassLabel.setBounds(500, 45, 200, 15);
-		staClassLabel.setFont(font);
-		staClassLabel.setVisible(false);
-		add(staClassLabel);
+		classLabel = new JLabel("Wybierz klas� pokuju");
+		classLabel.setBounds(500, 45, 200, 15);
+		classLabel.setFont(font);
+		classLabel.setVisible(false);
+		add(classLabel);
 
-		staServeLabel = new JLabel("Wybierz typ us�ugi");
-		staServeLabel.setBounds(500, 45, 200, 15);
-		staServeLabel.setFont(font);
-		staServeLabel.setVisible(false);
-		add(staServeLabel);
+		serveLabel = new JLabel("Wybierz typ us�ugi");
+		serveLabel.setBounds(500, 45, 200, 15);
+		serveLabel.setFont(font);
+		serveLabel.setVisible(false);
+		add(serveLabel);
 
-		staMonthLabelFrom = new JLabel("Miesi�cy od");
-		staMonthLabelFrom.setBounds(260, 45, 200, 15);
-		staMonthLabelFrom.setFont(font);
-		staMonthLabelFrom.setVisible(false);
-		add(staMonthLabelFrom);
+		monthLabelFrom = new JLabel("Miesi�cy od");
+		monthLabelFrom.setBounds(260, 45, 200, 15);
+		monthLabelFrom.setFont(font);
+		monthLabelFrom.setVisible(false);
+		add(monthLabelFrom);
 
-		staYearLabelFrom = new JLabel("Lata od");
-		staYearLabelFrom.setBounds(260, 45, 200, 15);
-		staYearLabelFrom.setFont(font);
-		staYearLabelFrom.setVisible(false);
-		add(staYearLabelFrom);
+		yearLabelFrom = new JLabel("Lata od");
+		yearLabelFrom.setBounds(260, 45, 200, 15);
+		yearLabelFrom.setFont(font);
+		yearLabelFrom.setVisible(false);
+		add(yearLabelFrom);
 
-		staMonthLabelTo = new JLabel("do");
-		staMonthLabelTo.setBounds(260, 85, 200, 15);
-		staMonthLabelTo.setFont(font);
-		staMonthLabelTo.setVisible(false);
-		add(staMonthLabelTo);
+		monthLabelTo = new JLabel("do");
+		monthLabelTo.setBounds(260, 85, 200, 15);
+		monthLabelTo.setFont(font);
+		monthLabelTo.setVisible(false);
+		add(monthLabelTo);
 
-		staYearLabelTo = new JLabel("do");
-		staYearLabelTo.setBounds(260, 85, 200, 15);
-		staYearLabelTo.setFont(font);
-		staYearLabelTo.setVisible(false);
-		add(staYearLabelTo);
+		yearLabelTo = new JLabel("do");
+		yearLabelTo.setBounds(260, 85, 200, 15);
+		yearLabelTo.setFont(font);
+		yearLabelTo.setVisible(false);
+		add(yearLabelTo);
 
-		staRaportText = new JTextPane();
-		staRaportText.setBounds(20, 130, 360, 444);
-		staRaportText.setFont(font);
+		raportText = new JTextPane();
+		raportText.setBounds(20, 130, 360, 444);
+		raportText.setFont(font);
 
-		staRaportScroll = new JScrollPane(staRaportText);
-		staRaportScroll.setVisible(false);
-		add(staRaportScroll);
+		raportScroll = new JScrollPane(raportText);
+		raportScroll.setVisible(false);
+		add(raportScroll);
 
-		staMem.setBackground(Color.WHITE);
-		staMem.setVisible(false);
-		add(staMem);
+		graphDraw.setBackground(Color.WHITE);
+		graphDraw.setVisible(false);
+		add(graphDraw);
 	}
 
 	private void createComboBoxStat() {
 
-		staChooseClass = new JComboBox();
-		staChooseServe = new JComboBox();
-		staChooseClass.setBounds(500, 60, 230, 20);
-		staChooseServe.setBounds(500, 60, 230, 20);
-		staChooseClass.setVisible(false);
-		staChooseServe.setVisible(false);
+		chooseClass = new JComboBox();
+		chooseServe = new JComboBox();
+		chooseClass.setBounds(500, 60, 230, 20);
+		chooseServe.setBounds(500, 60, 230, 20);
+		chooseClass.setVisible(false);
+		chooseServe.setVisible(false);
 		fillBox();
 	}
 
@@ -260,17 +258,17 @@ public class StatisticPanel extends JPanel {
 			if (reSet != null) {
 
 				while (reSet.next()){
-					staChooseClass.addItem(reSet.getString(1));
+					chooseClass.addItem(reSet.getString(1));
 				}
-				staChooseClass.setSelectedIndex(-1);//should be 0
-				add(staChooseClass);
+				chooseClass.setSelectedIndex(-1);//should be 0
+				add(chooseClass);
 			}
 			reSet = db.query("SELECT typ FROM uslugi GROUP BY typ");
 			if (reSet != null) {
 				while (reSet.next())
-					staChooseServe.addItem(reSet.getString(1));
-				staChooseServe.setSelectedIndex(-1);//should be 0
-				add(staChooseServe);
+					chooseServe.addItem(reSet.getString(1));
+				chooseServe.setSelectedIndex(-1);//should be 0
+				add(chooseServe);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -278,111 +276,111 @@ public class StatisticPanel extends JPanel {
 	}
 
 	private void addEvents() {
-		staExec.addMouseListener(new MouseAdapter() {
+		exec.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				staMem.setVisible(false);
-				if (staChooseType.getSelectedIndex() == 0)
-					sta.hotel(staChooseSubHot.getSelectedIndex(),
-							staChooseMonth.getSelectedIndex() + 1,
-							staChooseYear.getSelectedIndex() + 2010,
-							(String) staChooseClass.getSelectedItem(),
-							(String) staChooseServe.getSelectedItem());
+				graphDraw.setVisible(false);
+				if (chooseType.getSelectedIndex() == 0)
+					statistic.hotel((RAPORT_KIND) chooseSubHotel.getSelectedItem(),
+							chooseMonth.getSelectedIndex(),
+							chooseYear.getSelectedIndex() + 2010,
+							(String) chooseClass.getSelectedItem(),
+							(String) chooseServe.getSelectedItem());
 				else
-					sta.finance(staChooseSubFin.getSelectedIndex(),
-							staChooseMonth2.getSelectedIndex() + 1,
-							staChooseMonth.getSelectedIndex() + 1,
-							staChooseYear.getSelectedIndex() + 2010,
-							staChooseYear2.getSelectedIndex() + 2010);
-				staMem.setArray(sta.getArrayResult());
-				staRaportText.setText(sta.getTextResult());
-				staMem.setVisible(true);
-				staRaportScroll.setVisible(true);
+					statistic.finance((RAPORT_KIND) chooseSubFinance.getSelectedItem(),
+							chooseMonth2.getSelectedIndex() + 1,
+							chooseMonth.getSelectedIndex() + 1,
+							chooseYear.getSelectedIndex() + 2010,
+							chooseYear2.getSelectedIndex() + 2010);
+				graphDraw.setArray(statistic.getArrayResult());
+				raportText.setText(statistic.getTextResult());
+				graphDraw.setVisible(true);
+				raportScroll.setVisible(true);
 			}
 		});
-		staChooseType.addItemListener(new ItemListener() {
+		chooseType.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
-				if (staChooseType.getSelectedIndex() == 0) {
-					staYearLabel.setLocation(260, 45);
-					staYearLabel.setVisible(true);
-					staChooseYear.setLocation(260, 60);
-					staChooseYear.setVisible(true);
-					staChooseYear2.setVisible(false);
-					staChooseSubHot.setVisible(true);
-					staChooseSubFin.setVisible(false);
-					staChooseMonth.setVisible(true);
-					staChooseMonth2.setVisible(false);
-					staMonthLabel.setVisible(true);
-					staMonthLabelFrom.setVisible(false);
-					staYearLabelFrom.setVisible(false);
-					staMonthLabelTo.setVisible(false);
-					staYearLabelTo.setVisible(false);
-					staChooseSubHot.setSelectedIndex(0);
+				if (chooseType.getSelectedIndex() == 0) {
+					yearLabel.setLocation(260, 45);
+					yearLabel.setVisible(true);
+					chooseYear.setLocation(260, 60);
+					chooseYear.setVisible(true);
+					chooseYear2.setVisible(false);
+					chooseSubHotel.setVisible(true);
+					chooseSubFinance.setVisible(false);
+					chooseMonth.setVisible(true);
+					chooseMonth2.setVisible(false);
+					monthLabel.setVisible(true);
+					monthLabelFrom.setVisible(false);
+					yearLabelFrom.setVisible(false);
+					monthLabelTo.setVisible(false);
+					yearLabelTo.setVisible(false);
+					chooseSubHotel.setSelectedIndex(0);
 				} else {
-					staChooseClass.setVisible(false);
-					staChooseServe.setVisible(false);
-					staServeLabel.setVisible(false);
-					staClassLabel.setVisible(false);
-					staChooseSubHot.setVisible(false);
-					staChooseSubFin.setVisible(true);
-					staYearLabel.setLocation(500, 45);
-					staChooseYear.setLocation(500, 60);
-					staChooseMonth.setVisible(true);
-					staChooseMonth2.setVisible(true);
-					staChooseYear.setVisible(true);
-					staChooseYear2.setVisible(false);
-					staMonthLabel.setVisible(false);
-					staMonthLabelFrom.setVisible(true);
-					staMonthLabelTo.setVisible(true);
-					staChooseSubFin.setSelectedIndex(0);
+					chooseClass.setVisible(false);
+					chooseServe.setVisible(false);
+					serveLabel.setVisible(false);
+					classLabel.setVisible(false);
+					chooseSubHotel.setVisible(false);
+					chooseSubFinance.setVisible(true);
+					yearLabel.setLocation(500, 45);
+					chooseYear.setLocation(500, 60);
+					chooseMonth.setVisible(true);
+					chooseMonth2.setVisible(true);
+					chooseYear.setVisible(true);
+					chooseYear2.setVisible(false);
+					monthLabel.setVisible(false);
+					monthLabelFrom.setVisible(true);
+					monthLabelTo.setVisible(true);
+					chooseSubFinance.setSelectedIndex(0);
 				}
 			}
 		});
-		staChooseSubHot.addItemListener(new ItemListener() {
+		chooseSubHotel.addItemListener(new ItemListener() {
 			int i = 0;
 
 			public void itemStateChanged(ItemEvent arg0) {
-				if ((i = staChooseSubHot.getSelectedIndex()) == 1) {
-					staChooseClass.setVisible(true);
-					staClassLabel.setVisible(true);
-					staChooseServe.setVisible(false);
-					staServeLabel.setVisible(false);
+				if ((i = chooseSubHotel.getSelectedIndex()) == 1) {
+					chooseClass.setVisible(true);
+					classLabel.setVisible(true);
+					chooseServe.setVisible(false);
+					serveLabel.setVisible(false);
 				} else if (i == 3) {
-					staChooseClass.setVisible(false);
-					staClassLabel.setVisible(false);
-					staChooseServe.setVisible(true);
-					staServeLabel.setVisible(true);
+					chooseClass.setVisible(false);
+					classLabel.setVisible(false);
+					chooseServe.setVisible(true);
+					serveLabel.setVisible(true);
 				} else {
-					staChooseClass.setVisible(false);
-					staClassLabel.setVisible(false);
-					staChooseServe.setVisible(false);
-					staServeLabel.setVisible(false);
+					chooseClass.setVisible(false);
+					classLabel.setVisible(false);
+					chooseServe.setVisible(false);
+					serveLabel.setVisible(false);
 				}
 			}
 		});
-		staChooseSubFin.addItemListener(new ItemListener() {
+		chooseSubFinance.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
-				if (staChooseSubFin.getSelectedIndex() == 0) {
-					staChooseYear.setLocation(500, 60);
-					staYearLabel.setVisible(true);
-					staChooseMonth.setVisible(true);
-					staChooseMonth2.setVisible(true);
-					staChooseYear.setVisible(true);
-					staChooseYear2.setVisible(false);
-					staMonthLabelFrom.setVisible(true);
-					staMonthLabelTo.setVisible(true);
-					staYearLabelFrom.setVisible(false);
-					staYearLabelTo.setVisible(false);
+				if (chooseSubFinance.getSelectedIndex() == 0) {
+					chooseYear.setLocation(500, 60);
+					yearLabel.setVisible(true);
+					chooseMonth.setVisible(true);
+					chooseMonth2.setVisible(true);
+					chooseYear.setVisible(true);
+					chooseYear2.setVisible(false);
+					monthLabelFrom.setVisible(true);
+					monthLabelTo.setVisible(true);
+					yearLabelFrom.setVisible(false);
+					yearLabelTo.setVisible(false);
 				} else {
-					staYearLabel.setVisible(false);
-					staChooseYear.setLocation(260, 60);
-					staChooseMonth.setVisible(false);
-					staChooseMonth2.setVisible(false);
-					staChooseYear.setVisible(true);
-					staChooseYear2.setVisible(true);
-					staMonthLabelFrom.setVisible(false);
-					staMonthLabelTo.setVisible(false);
-					staYearLabelFrom.setVisible(true);
-					staYearLabelTo.setVisible(true);
+					yearLabel.setVisible(false);
+					chooseYear.setLocation(260, 60);
+					chooseMonth.setVisible(false);
+					chooseMonth2.setVisible(false);
+					chooseYear.setVisible(true);
+					chooseYear2.setVisible(true);
+					monthLabelFrom.setVisible(false);
+					monthLabelTo.setVisible(false);
+					yearLabelFrom.setVisible(true);
+					yearLabelTo.setVisible(true);
 				}
 			}
 		});
@@ -398,12 +396,10 @@ public class StatisticPanel extends JPanel {
 		w -= 2 * x;
 		hh = (int) (h - y - x);
 		ww = (int) (0.4 * w);
-		staRaportScroll.setBounds(x, y, ww, hh);
+		raportScroll.setBounds(x, y, ww, hh);
 		x += ww;
 		ww = (int) (0.59 * w);
-		staMem.setBounds(x, y, ww, hh);
-		// log.info("width: "+staMem.getWidth());
-		// log.info("height: "+staMem.getHeight());
+		graphDraw.setBounds(x, y, ww, hh);
 	}
 
 	@Override

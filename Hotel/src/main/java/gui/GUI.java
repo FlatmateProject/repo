@@ -38,7 +38,24 @@ public class GUI extends JFrame {
 		createGUI();
 		setVisible(true);
 	}
+	
+	private void setupLookAndFeel() {
+		try {
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+		} catch (Exception e) {
+			System.err.println("Błąd :: LOOK AND FEEL");
+		}
+	}
 
+	private void initializeWindow() {
+		setTitle("Hotel");
+		setBounds(0, 0, 1024, 768);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
+		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+		setMinimumSize(new Dimension(1024, 768));
+	}
+	
 	private void createGUI() {
 		tabbedPane = new JTabbedPane();
 		
@@ -79,23 +96,6 @@ public class GUI extends JFrame {
 		add(tabbedPane);
 	}
 
-	private void initializeWindow() {
-		setTitle("Hotel");
-		setBounds(0, 0, 1024, 768);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
-		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
-		setMinimumSize(new Dimension(1024, 768));
-	}
-
-	private void setupLookAndFeel() {
-		try {
-			UIManager
-					.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-		} catch (Exception e) {
-			System.err.println("Błąd :: LOOK AND FEEL");
-		}
-	}
 
 	public static void main(String args[]) {
 		SwingUtilities.invokeLater(new Runnable() {
