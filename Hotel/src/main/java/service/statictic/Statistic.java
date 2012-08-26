@@ -96,7 +96,7 @@ public class Statistic {
 				resultText += " (na jedno zameldowanie)\n";
 			}
 		} else
-			resultText += "Wystpi� b�ad bazy danych\n";
+			resultText += "Wystpił bład bazy danych\n";
 		if (n == 0)
 			resultText += "W danym miesi�cu nie wprowadzano �adnych danych za zakresu.\n";
 

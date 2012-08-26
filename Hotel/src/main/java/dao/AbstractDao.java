@@ -18,12 +18,12 @@ public abstract class AbstractDao {
 		this.session = session;
 	}
 
-	protected <T> List<T> transform(ResultSet resultSet, Class<T> resultClass) {
+	protected <T> List<T> transform(ResultSet dataSet, Class<T> resultClass) {
 		try {
 			List<T> transformedResult = Collections.emptyList();
-			if (resultSet != null) {
-				while (resultSet.next()){
-					T object = createAndFillObject(resultSet, resultClass.newInstance(), resultClass);
+			if (dataSet != null) {
+				while (dataSet.next()){
+					T object = createAndFillObject(dataSet, resultClass.newInstance(), resultClass);
 					transformedResult.add(resultClass.cast(object));
 				}
 			}
@@ -33,11 +33,11 @@ public abstract class AbstractDao {
 		}
 	}
 
-	private <T> T createAndFillObject(ResultSet resultSet, T object, Class<T> resultClass) throws IllegalArgumentException, IllegalAccessException, SQLException {
+	private <T> T createAndFillObject(ResultSet dataSet, T object, Class<T> resultClass) throws IllegalArgumentException, IllegalAccessException, SQLException {
 		int i = 1;
 		for (Field field : resultClass.getDeclaredFields()) {
 			field.setAccessible(true);
-			field.set(object, resultSet.getObject(i));
+			field.set(object, dataSet.getObject(i));
 			i++;
 			System.out.println(field.getName() + ": " + field.toString());
 		}

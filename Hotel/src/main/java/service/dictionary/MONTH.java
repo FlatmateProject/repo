@@ -47,14 +47,6 @@ public enum MONTH {
 		return getMonth(i).dayOfMonth;
 	}
 	
-	public static String[] stringValues() {
-		String[] stringValues = new String[months.length];
-		for (int i = 0; i < months.length; i++) {
-			stringValues[i] = getMonthName(i);
-		}
-		return stringValues;
-	}
-	
 	@Override
 	public String toString() {
 		return desc;

@@ -576,7 +576,7 @@ public class EmployeeManagerPanel extends JPanel {
 			k = mgpDays[0].getY() - 18;
 			for (i = 0; i < mgpDayLabel.length; i++, dX += 51)
 				mgpDayLabel[i].setBounds(dX + 10, k, 50, 18);
-			mgpCalMonthLabel.setText(monthOfYear[mgpMonth] + " " + mgpYear);// <----
+			mgpCalMonthLabel.setText(MONTH.getMonthName(mgpMonth) + " " + mgpYear);// <----
 			mgpCalMonthLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			mgpCalMonthLabel.setBounds((ww - 100) / 2,
 					mgpDayLabel[0].getY() - 30, 100, 20);
