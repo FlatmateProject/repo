@@ -51,10 +51,11 @@ public class ReceptionPanel extends JPanel {
 	private Reception recept = new Reception();
 	
 	public ReceptionPanel(){
-		createReception();
+		create();
+		addEvents();
 	}
 	
-	private void createReception() {
+	private void create() {
 		setBounds(0, 0, getWidth(), getHeight());
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		//addComponentListener(this);
@@ -118,7 +119,7 @@ public class ReceptionPanel extends JPanel {
 		add(recScrollPane);
 	}
 	
-	void addEvent() {
+	private void addEvents() {
 		recButton[0].addMouseListener(new MouseListener() {
 			boolean pes = false, krs = false, id = false, date = false;
 			String sel = "";

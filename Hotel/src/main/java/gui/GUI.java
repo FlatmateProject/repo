@@ -8,22 +8,17 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import dao.Singleton;
-
 
 public class GUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	static {
-		Singleton.getInstance();
-	}
 
 	private JTabbedPane tabbedPane;
 
 	private JPanel cantorPanel;
-	
+
 	private JPanel schegulerPanel;
-	
+
 	private JPanel guessPanel;
 
 	private JPanel receptionPanel;

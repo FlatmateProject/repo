@@ -91,14 +91,14 @@ public class EmployeeManagerPanel extends JPanel {
 	
 	public EmployeeManagerPanel() {
 		try {
-			createManagerPPanel();
-			addManagerPEvent();
+			create();
+			addEvents();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void createManagerPPanel() throws SQLException{
+	public void create() throws SQLException{
 		int i = 0;
 		ResultSet rset = null;
 		Font font = null;
@@ -300,7 +300,7 @@ public class EmployeeManagerPanel extends JPanel {
 		// add(mgpPanel);
 	}
 
-	private void addManagerPEvent() {
+	private void addEvents() {
 		mgpSchedText.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				int a = (e.getY() / 18) * 18;

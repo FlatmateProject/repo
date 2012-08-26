@@ -185,12 +185,12 @@ public class GuestBookPanel extends JPanel {
 		}
 	};
 	public GuestBookPanel() {
-		createGuestBook();
+		create();
 		addEvents();
 	}
 
 
-	private void createGuestBook() {
+	private void create() {
 
 		setBounds(0, 0, getWidth(), getHeight());
 		setBackground(bgColor);

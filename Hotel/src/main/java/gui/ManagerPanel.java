@@ -77,11 +77,11 @@ public class ManagerPanel extends JPanel {
 	private GuestBook gue = new GuestBook();
 
 	public ManagerPanel() {
-		createManager();
+		create();
 		addEvents();
 	}
 
-	private void createManager() {
+	private void create() {
 
 		setBackground(bgColor);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

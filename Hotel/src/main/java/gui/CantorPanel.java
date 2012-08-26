@@ -22,7 +22,7 @@ import org.apache.log4j.Logger;
 import service.Cantor;
 import validation.ValidationUtils;
 
-public class CantorPanel extends JPanel {
+public class CantorPanel extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -65,11 +65,11 @@ public class CantorPanel extends JPanel {
 	private Cantor cantor = new Cantor();
 	
 	public CantorPanel() {
-		createCantor();
-		addEvent();
+		create();
+		addEvents();
 	}
 
-	private void createCantor() {
+	private void create() {
 		setBounds(0, 0, getWidth(), getHeight());
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setMinimumSize(new Dimension(800, 600));
@@ -130,7 +130,7 @@ public class CantorPanel extends JPanel {
 		add(canScrollClientPane);
 	}
 	
-	private void addEvent() {
+	private void addEvents() {
 
 		canPESButton.addActionListener(new ActionListener() {
 			@Override

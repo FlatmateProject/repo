@@ -80,13 +80,13 @@ public class RezervationPanel extends JPanel {
 	private Rezervation rezerv = new Rezervation();
 
 	public RezervationPanel() {
-		createRezervation();
-		addEvent();
+		create();
+		addEventa();
 	}
 
 	private static final long serialVersionUID = 1L;
 
-	private void createRezervation() {
+	private void create() {
 		setBounds(0, 0, getWidth(), getHeight());
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		// addComponentListener(this);
@@ -262,7 +262,7 @@ public class RezervationPanel extends JPanel {
 		};
 	}
 
-	private void addEvent() {
+	private void addEventa() {
 
 		rezButton[0].addMouseListener(new MouseListener() {
 

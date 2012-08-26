@@ -44,11 +44,11 @@ public class SchedulerPanel extends JPanel {
 	private Schedule sch = new Schedule();
 
 	public SchedulerPanel() {
-		createSchedule();
-		addEvent();
+		create();
+		addEvents();
 	}
 
-	public void createSchedule() {
+	public void create() {
 
 		d = schCalendar.get(Calendar.DAY_OF_MONTH);
 		m = schCalendar.get(Calendar.MONTH);
@@ -136,7 +136,7 @@ public class SchedulerPanel extends JPanel {
 		schScrollPane.setBounds(20, 300, getWidth() - 50, getHeight() - 400);
 	}
 	
-	private void addEvent() {
+	private void addEvents() {
 		schPrev.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {

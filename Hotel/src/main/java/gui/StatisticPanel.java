@@ -55,11 +55,11 @@ public class StatisticPanel extends JPanel {
 	private Statistic sta;
 
 	public StatisticPanel() {
-		createStatistic();
-		addStatEvent();
+		create();
+		addEvents();
 	}
 
-	private void createStatistic() {
+	private void create() {
 		Color color = new Color(224, 230, 233);
 		Font font = new Font("arial", Font.ROMAN_BASELINE, 15);
 
@@ -277,7 +277,7 @@ public class StatisticPanel extends JPanel {
 		}
 	}
 
-	private void addStatEvent() {
+	private void addEvents() {
 		staExec.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				staMem.setVisible(false);
