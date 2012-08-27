@@ -22,7 +22,7 @@ public class Singleton {
 				instance = new Singleton();
 				try {
 					Class.forName("com.mysql.jdbc.Driver").newInstance();
-					con = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotel", "hotel", "hotel_dupa");
+					con = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "hotel", "hotel_dupa");
 				} catch (Exception e) {
 					System.err.println(e.getLocalizedMessage()
 							+ "\nBrak połączenia z bazą danych!");

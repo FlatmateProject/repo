@@ -1,9 +1,17 @@
 package dao;
 
+import static org.junit.Assert.*;
+
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
+import org.apache.log4j.Logger;
 
 public class StaticticDaoImpl extends AbstractDao implements StaticticDao {
-
+	
+	private static final Logger log = Logger.getLogger(StaticticDaoImpl.class);
+	
 	@Override
 	public ResultSet createClassRaport(int month, int year) {
 		String query = "SELECT k.opis opis, count(r.id_rez) meldunki, sum((r.data_w-r.data_z)*k.cena) zysk ";
@@ -76,4 +84,23 @@ public class StaticticDaoImpl extends AbstractDao implements StaticticDao {
 		return getSession().query(query);
 	}
 
+	
+	public ResultSet getUser(){
+		String query = "SELECT * FROM user;";
+
+		return getSession().query(query);
+	}
+	
+	public static void main(String[] args) throws SQLException {
+		StaticticDaoImpl dao = new StaticticDaoImpl();
+		ResultSet result = dao.getUser();
+		assertNotNull(result);
+		result.last();
+		assertEquals(4, result.getRow());
+		result.beforeFirst();
+		List<User> users = dao.transform(result, User.class);
+		for (User user : users) {
+			log.info(user);
+		}
+	}
 }

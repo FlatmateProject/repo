@@ -75,7 +75,6 @@ public class EmployeeManagerPanel extends JPanel {
 	private boolean mgpIndel = false;
 	private final String[] dayOfWeek = { "Pn", "Wt", "�r", "Cz", "Pt", "So",
 			"Nd" };
-	private final String[] monthOfYear = MONTH.stringValues();
 	
 	private final int[] dayInMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31,
 			30, 31 };
