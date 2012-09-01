@@ -4,7 +4,7 @@ public interface RaportTemplateBuilder {
 
 	void createHeader(Object ...args);
 	
-	void appendBody(Object ...args);
+	void appendBodyBlock(Object ...args);
 	
 	void createFoot(Object ...args);
 	

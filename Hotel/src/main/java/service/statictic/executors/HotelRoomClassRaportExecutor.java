@@ -7,7 +7,7 @@ import service.dictionary.MONTH;
 import service.statictic.PlotPoint;
 import service.statictic.StatisticRaport;
 import service.statictic.templates.RaportTemplateBuilder;
-import dto.ClassRaportProjection;
+import dto.ClassRoomData;
 
 public class HotelRoomClassRaportExecutor extends RaportExecutor {
 	
@@ -26,16 +26,16 @@ public class HotelRoomClassRaportExecutor extends RaportExecutor {
 		int i = 0;
 		List<PlotPoint> plotPoints = new LinkedList<PlotPoint>(); 
 
-		List<ClassRaportProjection> classRooms = staticticDao.createClassRaport(month.ordinal(), year);//
+		List<ClassRoomData> classRooms = staticticDao.findClassRooms(month.ordinal(), year);//
 		templateBuilder.createHeader("Raportu z wykorzystania klas pokoi", month, year);
-		for (ClassRaportProjection classRoom : classRooms) {
+		for (ClassRoomData classRoom : classRooms) {
 			int nuberOccupiedRooms = classRoom.getNuberOccupiedRooms();
 			double summaryGain = classRoom.getSummaryGain();
 			double unitGain = summaryGain / nuberOccupiedRooms;
 			
 			plotPoints.add(new PlotPoint(summaryGain, unitGain));
 			
-			templateBuilder.appendBody(classRoom.getDescription(), i, summaryGain, nuberOccupiedRooms, unitGain);
+			templateBuilder.appendBodyBlock(classRoom.getDescription(), i, summaryGain, nuberOccupiedRooms, unitGain);
 			i++;
 		}
 		templateBuilder.createFoot(classRooms.size());

@@ -14,7 +14,7 @@ public class HotelRoomClassRaportTemplateBuilder implements RaportTemplateBuilde
 	}
 
 	@Override
-	public void appendBody(Object... args) {
+	public void appendBodyBlock(Object... args) {
 		body += String.format("\tKlasa %s (%d).\n \tzyski: %.2fzł\n" 
 				+ "\tliczba meldunków: %d\n"
 				+ " \tprzychód jednostkowy: %.2fzł\n");

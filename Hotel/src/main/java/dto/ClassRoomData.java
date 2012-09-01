@@ -3,7 +3,7 @@ package dto;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-public class ClassRaportProjection {
+public class ClassRoomData {
 
 	private String description;
 
@@ -11,7 +11,7 @@ public class ClassRaportProjection {
 
 	private float summaryGain;
 
-	public ClassRaportProjection() {
+	public ClassRoomData() {
 
 	}
 
