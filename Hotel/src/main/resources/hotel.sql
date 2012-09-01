@@ -267,6 +267,7 @@ CREATE TABLE IF NOT EXISTS `rezerwacje` (
   `IDK_PESEL` bigint(11) DEFAULT NULL,
   `IDF_KRS` bigint(10) DEFAULT NULL,
   `ID_USLUGI` bigint(2) DEFAULT NULL,
+  `ID_POKOJU` bigint(4) DEFAULT NULL,
   `TYP` int(1) DEFAULT NULL,
   `DATA_Z` date NOT NULL,
   `DATA_W` date,

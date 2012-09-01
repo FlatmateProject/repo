@@ -8,18 +8,22 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import dto.ClassRaportProjection;
+
 public class StaticticDaoImpl extends AbstractDao implements StaticticDao {
 	
 	private static final Logger log = Logger.getLogger(StaticticDaoImpl.class);
 	
 	@Override
-	public ResultSet createClassRaport(int month, int year) {
+	public List<ClassRaportProjection> createClassRaport(int month, int year) {
 		String query = "SELECT k.opis opis, count(r.id_rez) meldunki, sum((r.data_w-r.data_z)*k.cena) zysk ";
 		query += "FROM rezerwacje r ";
 		query += "JOIN pokoje p ON r.id_pokoju=p.id_pokoju  JOIN klasy k ON p.id_klasy=k.id_klasy ";
 		query += "WHERE MONTH(r.data_w)=" + month + " and YEAR(r.data_w)="
 				+ year + " GROUP BY k.id_klasy ORDER BY k.id_klasy";
-		return getSession().query(query);
+		ResultSet dataResult = getSession().query(query);
+		List<ClassRaportProjection> classRaports = transform(dataResult, ClassRaportProjection.class);
+		return classRaports;
 	}
 
 	@Override
@@ -98,8 +102,8 @@ public class StaticticDaoImpl extends AbstractDao implements StaticticDao {
 		result.last();
 		assertEquals(4, result.getRow());
 		result.beforeFirst();
-		List<User> users = dao.transform(result, User.class);
-		for (User user : users) {
+		List<ClassRaportProjection> users = dao.transform(result, ClassRaportProjection.class);
+		for (ClassRaportProjection user : users) {
 			log.info(user);
 		}
 	}

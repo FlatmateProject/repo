@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 
 import service.dictionary.MONTH;
-
+import service.statictic.executors.RaportDetails;
 import dao.Singleton;
 import dao.StaticticDao;
 import dao.StaticticDaoImpl;
@@ -15,95 +15,61 @@ public class Statistic {
 
 	private static final Logger log = Logger.getLogger(Statistic.class);
 
+	private final String DATABASE_ERROR = "Wystpił bład bazy danych\n";
+	
 	private double array[][];
 	private Singleton db;
 	private String resultText;
 
 	private StaticticDao staticticDao;
+
+	private StatisticRaport raport;
 	
 	public Statistic() {
 		staticticDao = new StaticticDaoImpl();
 	}
 
-	public void finance(RAPORT_KIND raportKind, int mFrom, int mTo, int yFrom, int yTo) {
+	public StatisticRaport finance(RAPORT_KIND raportKind, int mFrom, int mTo, int yFrom, int yTo) {
 		try {
 			resultText = "";
 			array = null;
+			raport = null;
 			switch (raportKind) {
 			case FINANCE_MONTH : createMonthRaport(mFrom, mTo, yFrom);break;//
 			case FINANCE_YEAR  : createYearRaport(yFrom, yTo);break;//
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			if(raport == null){
+				raport = new StatisticRaport(array, resultText);
+			}
+			return raport;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;	
+			}
 	}
 
-	public void hotel(RAPORT_KIND raportKind, int month, int year, String classRoom, String serve) {
+	public StatisticRaport hotel(RAPORT_KIND raportKind, int month, int year, String classRoom, String serve){
 		try {
-			resultText = "";
+			resultText = null;
 			array = null;
+			raport = null;
 			switch (raportKind) {
-			case HOTEL_CLASS    : createClassRaport(month, year);	break;//
-			case HOTEL_ROOM     : createRoomRaport(month, year, classRoom);break;//
-			case HOTEL_SERVICES : createServesRaport(month, year);break;//
-			case HOTEL_SERVICE  : createServeRaport(month, year, serve);break;//
+			case HOTEL_CLASS_ROOM    : raport = raportKind.createRaport(new RaportDetails(MONTH.getMonth(month), year), staticticDao);break;//
+			case HOTEL_ROOM          : createRoomRaport(month, year, classRoom);break;//
+			case HOTEL_SERVICES      : createServesRaport(month, year);break;//
+			case HOTEL_SERVICE       : createServeRaport(month, year, serve);break;//
 			}
+			if(raport == null){
+				raport = new StatisticRaport(array, resultText);
+			}
+			return raport;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;	
 		}
 	}
 
-	public double[][] getArrayResult() {
-		return array;
-	}
-
-	public String getTextResult() {
-		return resultText;
-	}
-
-	private void createClassRaport(int month, int year) throws SQLException {
-		int n = 0;
-		int m = 0;
-		int i = 0;
-
-		ResultSet resultQuery = staticticDao.createClassRaport(month, year);//
-		if (resultQuery != null) {
-			resultQuery.last();
-			n = resultQuery.getRow();
-			resultQuery.beforeFirst();
-			if (n != 0)
-				array = new double[n][2];
-			log.info("count row: " + n);// /
-			resultText = "Raportu z wykorzystania klas pokoi za miesi�c "
-					+ MONTH.getMonthName(month) + " w roku " + year + "\n";
-			while (resultQuery.next()) {
-				resultText += "   Klasa " + resultQuery.getString(1) + "(" + i
-						+ ").\n";
-				m = resultQuery.getInt(2);
-				array[i][0] = resultQuery.getFloat(3);
-				resultText += "\tzyski: " + String.format("%.2f", array[i][0])
-						+ "z�\n";
-				array[i][1] = array[i][0] / m;
-				resultText += "\tliczba meldunk�w: " + m + "\n";
-				resultText += "\tprzych�d jednostkowy: "
-						+ String.format("%.2f", array[i][1]) + "z�\n";
-				i++;
-			}
-			if (n != 0) {
-				resultText += "Legenda \n";
-				resultText += " Slupek pierwsz przedstawia zyski\n";
-				resultText += " Slupek drugi przedstawia przych�d jednostkowy\n";
-				resultText += " (na jedno zameldowanie)\n";
-			}
-		} else
-			resultText += "Wystpił bład bazy danych\n";
-		if (n == 0)
-			resultText += "W danym miesi�cu nie wprowadzano �adnych danych za zakresu.\n";
-
-	}
-
-	private void createRoomRaport(int month, int year, String classRoom)
-			throws SQLException {
+	private void createRoomRaport(int month, int year, String classRoom) throws SQLException {
 		int n = 0;
 		int i = 0;
 		int m = 0;
@@ -134,13 +100,10 @@ public class Statistic {
 				i++;
 			}
 			if (n != 0) {
-				resultText += "Legenda \n";
-				resultText += " Slupek pierwsz przedstawia zyski\n";
-				resultText += " Slupek drugi przedstawia przych�d jednostkowy\n";
-				resultText += " (na jedno zameldowanie)\n";
+				//createFootForClassRaport();
 			}
 		} else
-			resultText += "Wyst�pi� b�ad bazy danych\n";
+			resultText += DATABASE_ERROR;
 		if (n == 0)
 			resultText += "W danym miesi�cu nie wprowadzano �adnych danych za zakresu.\n";
 
@@ -191,7 +154,7 @@ public class Statistic {
 				resultText += " (na jedno zmaledowanie)\n";
 			}
 		} else
-			resultText += "Wyst�pi� b�ad bazy danych\n";
+			resultText += DATABASE_ERROR;
 		if (n == 0)
 			resultText += "W danym miesi�cu nie wprowadzano �adnych danych za zakresu.\n";
 	}

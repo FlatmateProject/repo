@@ -17,12 +17,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
-import dao.Singleton;
-
 import service.GraphDraw;
 import service.dictionary.MONTH;
 import service.statictic.RAPORT_KIND;
 import service.statictic.Statistic;
+import service.statictic.StatisticRaport;
+import dao.Singleton;
 
 public class StatisticPanel extends JPanel {
 
@@ -89,7 +89,7 @@ public class StatisticPanel extends JPanel {
 
 		chooseSubHotel = new JComboBox();
 		chooseSubHotel.setBounds(20, 100, 230, 20);
-		chooseSubHotel.addItem(RAPORT_KIND.HOTEL_CLASS);
+		chooseSubHotel.addItem(RAPORT_KIND.HOTEL_CLASS_ROOM);
 		chooseSubHotel.addItem(RAPORT_KIND.HOTEL_ROOM);
 		chooseSubHotel.addItem(RAPORT_KIND.HOTEL_SERVICES);
 		chooseSubHotel.addItem(RAPORT_KIND.HOTEL_SERVICE);
@@ -279,20 +279,24 @@ public class StatisticPanel extends JPanel {
 		exec.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				graphDraw.setVisible(false);
-				if (chooseType.getSelectedIndex() == 0)
-					statistic.hotel((RAPORT_KIND) chooseSubHotel.getSelectedItem(),
-							chooseMonth.getSelectedIndex(),
-							chooseYear.getSelectedIndex() + 2010,
-							(String) chooseClass.getSelectedItem(),
-							(String) chooseServe.getSelectedItem());
-				else
-					statistic.finance((RAPORT_KIND) chooseSubFinance.getSelectedItem(),
+				StatisticRaport raport = null;
+				if (chooseType.getSelectedIndex() == 0){
+					raport = statistic.hotel(//
+								(RAPORT_KIND) chooseSubHotel.getSelectedItem(),
+								chooseMonth.getSelectedIndex(),
+								chooseYear.getSelectedIndex() + 2010,
+								(String) chooseClass.getSelectedItem(),
+								(String) chooseServe.getSelectedItem());
+				}else{
+					raport = statistic.finance(//
+							(RAPORT_KIND) chooseSubFinance.getSelectedItem(),
 							chooseMonth2.getSelectedIndex() + 1,
 							chooseMonth.getSelectedIndex() + 1,
 							chooseYear.getSelectedIndex() + 2010,
 							chooseYear2.getSelectedIndex() + 2010);
-				graphDraw.setArray(statistic.getArrayResult());
-				raportText.setText(statistic.getTextResult());
+				}
+				graphDraw.setArray(raport.getArrayResult());
+				raportText.setText(raport.getTextResult());
 				graphDraw.setVisible(true);
 				raportScroll.setVisible(true);
 			}

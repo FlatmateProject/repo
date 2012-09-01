@@ -1,6 +1,9 @@
 package dao;
 
 import java.sql.ResultSet;
+import java.util.List;
+
+import dto.ClassRaportProjection;
 
 public interface StaticticDao {
 	
@@ -8,7 +11,7 @@ public interface StaticticDao {
 	
 	void setSession(Singleton session);
 	
-	ResultSet createClassRaport(int month, int year);
+	List<ClassRaportProjection> createClassRaport(int month, int year);
 
 	ResultSet createRoomRaport(int month, int year, String classRoom);
 
