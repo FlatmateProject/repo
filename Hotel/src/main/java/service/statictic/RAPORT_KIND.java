@@ -5,7 +5,6 @@ import service.statictic.executors.HotelRoomClassRaportExecutor;
 import service.statictic.executors.HotelRoomRaportExecutor;
 import service.statictic.executors.HotelServiceRaportExecutor;
 import service.statictic.executors.HotelServicesRaportExecutor;
-import service.statictic.executors.RaportDetails;
 import service.statictic.executors.RaportExecutor;
 import service.statictic.templates.FinanceMonthRaportExecutor;
 import service.statictic.templates.FinanceMonthRaportTemplateBuilder;
@@ -15,7 +14,6 @@ import service.statictic.templates.HotelRoomRaportTemplateBuilder;
 import service.statictic.templates.HotelServiceRaportTemplateBuilder;
 import service.statictic.templates.HotelServicesRaportTemplateBuilder;
 import service.statictic.templates.RaportTemplateBuilder;
-import dao.StaticticDao;
 
 public enum RAPORT_KIND {
 	FINANCE_MONTH("Bilansu z miesięcy", new FinanceMonthRaportTemplateBuilder(), new FinanceMonthRaportExecutor()), //
@@ -40,12 +38,6 @@ public enum RAPORT_KIND {
 		this.desc = desc;
 		this.templateBuilder = template;
 		this.raportExecutor = executor;
-	}
-
-	public StatisticRaport createRaport(RaportDetails raportDetails, StaticticDao staticticDao) {
-		raportExecutor.setup(raportDetails);
-		raportExecutor.injectStaticticDao(staticticDao);
-		return raportExecutor.createRaport(templateBuilder);
 	}
 
 	public String getDesc() {

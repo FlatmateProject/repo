@@ -22,6 +22,9 @@ public class StatisticRaport {
 	}
 
 	private double[][] createResultArray(List<PlotPoint> points) {
+		if(points.size() == 0){
+			return null;
+		}
 		double[][] array = new double[points.size()][2];
 		int i = 0;
 		for (PlotPoint point : points) {

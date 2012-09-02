@@ -10,14 +10,14 @@ public class RaportDetails {
 	
 	private String classRoom; 
 	
-	private String serve;
+	private String serveTypeName;
 	
 	
-	public RaportDetails(MONTH month, int year, String classRoom, String serve) {
+	public RaportDetails(MONTH month, int year, String classRoom, String serveTypeName) {
 		this.month = month;
 		this.year = year;
 		this.classRoom = classRoom;
-		this.serve = serve;
+		this.serveTypeName = serveTypeName;
 	}
 
 
@@ -33,7 +33,7 @@ public class RaportDetails {
 		return classRoom;
 	}
 
-	public String getServe() {
-		return serve;
+	public String getServeTypeName() {
+		return serveTypeName;
 	}
 }

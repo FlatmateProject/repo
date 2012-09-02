@@ -1,11 +1,12 @@
 package service.statictic.templates;
 
 
+
 public class HotelRoomClassRaportTemplateBuilder implements RaportTemplateBuilder {
 
 	private String header = "Raportu z wykorzystania klas pokoi";
 	private String body   = "";
-	private String foot   = "W danym miesiącu nie wprowadzano dadnych danych za zakresu.\n";
+	private String foot   = "W danym miesiącu nie wprowadzano danych z zakresu.\n";
 	
 	
 	@Override
@@ -17,7 +18,7 @@ public class HotelRoomClassRaportTemplateBuilder implements RaportTemplateBuilde
 	public void appendBodyBlock(Object... args) {
 		body += String.format("\tKlasa %s (%d).\n \tzyski: %.2fzł\n" 
 				+ "\tliczba meldunków: %d\n"
-				+ " \tprzychód jednostkowy: %.2fzł\n");
+				+ " \tprzychód jednostkowy: %.2fzł\n", args);
 
 	}
 
@@ -36,5 +37,4 @@ public class HotelRoomClassRaportTemplateBuilder implements RaportTemplateBuilde
 	public String build() {
 		return header + body + foot;
 	}
-
 }

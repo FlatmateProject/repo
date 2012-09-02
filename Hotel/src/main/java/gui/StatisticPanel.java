@@ -283,7 +283,7 @@ public class StatisticPanel extends JPanel {
 				if (chooseType.getSelectedIndex() == 0){
 					raport = statistic.hotel(//
 								(RAPORT_KIND) chooseSubHotel.getSelectedItem(),
-								chooseMonth.getSelectedIndex(),
+								(MONTH) chooseMonth.getSelectedItem(),
 								chooseYear.getSelectedIndex() + 2010,
 								(String) chooseClass.getSelectedItem(),
 								(String) chooseServe.getSelectedItem());

@@ -1,7 +1,7 @@
 package service.statistic;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+import service.dictionary.MONTH;
 import service.statictic.RAPORT_KIND;
 import service.statictic.Statistic;
 import service.statictic.StatisticRaport;
@@ -25,13 +26,13 @@ public class StatisticTest {
 	
 	private int year;
 	
-	private int month;
+	private MONTH month;
 	
 	private String serve;
 	
 	private String classRoom;
 	
-	public StatisticTest(RAPORT_KIND raportKind, int year, int month, String serve, String classRoom) {
+	public StatisticTest(RAPORT_KIND raportKind, int year, MONTH month, String serve, String classRoom) {
 		this.raportKind = raportKind;
 		this.year = year;
 		this.month = month;
@@ -48,21 +49,22 @@ public class StatisticTest {
 		StatisticRaport raport = statistic.hotel(raportKind, month, year, classRoom, serve);
 
 		// then
+		assertNotNull(raport);
 		String textRaport = raport.getTextResult();
 		assertNotNull(textRaport);
 		log.info(textRaport);
 		
 		double[][] arrayResult = raport.getArrayResult();
-		assertNotNull(arrayResult);
-		assertEquals(0, arrayResult.length);
+		assertNull(arrayResult);
 	}
 	
 	@Parameters
 	public static List<Object[]> prepareCases() {
 		Object[][] datas = new Object[][] {//
-				{ RAPORT_KIND.HOTEL_CLASS_ROOM, 2012, 9, null, null },//
-				{ RAPORT_KIND.HOTEL_ROOM, 2012, 9, null, "pokój jednosobowy" },//
-				{ RAPORT_KIND.HOTEL_SERVICE, 2012, 9, "ok", "pokój jednosobowy" },//
+				{ RAPORT_KIND.HOTEL_CLASS_ROOM, 2012, MONTH.September, null, null },//
+				{ RAPORT_KIND.HOTEL_ROOM, 2012, MONTH.September, null, "pokój jednosobowy" },//
+				{ RAPORT_KIND.HOTEL_SERVICES, 2012, MONTH.September, null, "pokój jednosobowy" },//
+				{ RAPORT_KIND.HOTEL_SERVICE, 2012, MONTH.September, "rekreacja", null },//
 				};
 		return Arrays.asList(datas);
 	}

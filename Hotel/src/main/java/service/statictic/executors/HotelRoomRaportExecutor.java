@@ -1,5 +1,6 @@
 package service.statictic.executors;
 
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,11 +26,11 @@ public class HotelRoomRaportExecutor extends RaportExecutor {
 	}
 
 	@Override
-	public StatisticRaport createRaport(RaportTemplateBuilder templateBuilder) {
+	public StatisticRaport createRaport(RaportTemplateBuilder templateBuilder) throws SQLException {
 		int i = 0;
 		List<PlotPoint> plotPoints = new LinkedList<PlotPoint>(); 
 		
-		List<RoomData> rooms = staticticDao.createRoomRaport(month.ordinal(), year, classRoom);
+		List<RoomData> rooms = staticticDao.createRoomRaport(month.id(), year, classRoom);
 		templateBuilder.createHeader(classRoom, month,year);
 		for (RoomData room : rooms) {
 			int nuberOccupiedRooms = room.getNuberOccupiedRooms();

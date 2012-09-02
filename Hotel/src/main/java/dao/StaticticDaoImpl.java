@@ -4,10 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import dto.ClassRoomData;
 import dto.RoomData;
+import dto.ServeData;
+import dto.ServeTypeData;
 
 public class StaticticDaoImpl extends AbstractDao implements StaticticDao {
 	
@@ -33,17 +33,17 @@ public class StaticticDaoImpl extends AbstractDao implements StaticticDao {
 	}
 
 	@Override
-	public ResultSet createServesRaport(int month, int year) {
+	public List<ServeTypeData> createServesRaport(int month, int year) {
 		String query = "SELECT u.typ, sum(rk.czas) czas, sum(rk.czas*u.cena) zysk ";
 		query += "FROM rekreacja rk JOIN uslugi u ON rk.id_uslugi=u.id_uslugi ";
 		query += "JOIN rezerwacje rz ON rk.id_rez=rz.id_rez ";
 		query += "WHERE MONTH(rz.data_w)=" + month + " and YEAR(rz.data_w)="
 				+ year + " GROUP BY u.typ";
-		return getSession().query(query);
+		return exacuteQuery(query, ServeTypeData.class);
 	}
 
 	@Override
-	public ResultSet createServeRaport(int month, int year, String serve) {
+	public List<ServeData> createServeRaport(int month, int year, String serve) {
 		String query = "SELECT u.nazwa, sum(rk.czas) czas, sum(rk.czas*u.cena) zysk ";
 		query += "FROM rekreacja rk JOIN uslugi u ON rk.id_uslugi=u.id_uslugi ";
 		query += "JOIN rezerwacje rz ON rk.id_rez=rz.id_rez ";
@@ -51,7 +51,7 @@ public class StaticticDaoImpl extends AbstractDao implements StaticticDao {
 				+ " and YEAR(rz.data_w)=" + year + " AND u.typ='" + serve
 				+ "' ";
 		query += "GROUP BY u.nazwa";
-		return getSession().query(query);
+		return exacuteQuery(query, ServeData.class);
 	}
 
 	@Override
@@ -84,11 +84,21 @@ public class StaticticDaoImpl extends AbstractDao implements StaticticDao {
 	}
 
 	@Override
-	public int countUseNumberForServe(String serve) throws SQLException {
+	public int countUseNumberForServeType(String serveType) throws SQLException {
 		String query = "SELECT count(*) ilosc_zameldowan FROM (SELECT count(rrk.id_rez) ilosc_rez ";
 		query += "FROM rekreacja rrk JOIN uslugi uu ON rrk.id_uslugi=uu.id_uslugi JOIN rezerwacje ";
 		query += "rrz ON rrk.id_rez=rrz.id_rez WHERE uu.typ='"
-				+ serve + "' ";
+				+ serveType + "' ";
+		query += "  GROUP BY rrk.id_rez ) tab";
+		return (Integer) uniqueResult(query);
+	}
+
+	@Override
+	public int countUseNumberForServeName(String serveName) throws SQLException {
+		String query = "SELECT count(*) ilosc_zameldowan FROM (SELECT count(rrk.id_rez) ilosc_rez ";
+		query += "FROM rekreacja rrk JOIN uslugi uu ON rrk.id_uslugi=uu.id_uslugi JOIN rezerwacje ";
+		query += "rrz ON rrk.id_rez=rrz.id_rez WHERE uu.nazwa='"
+				+ serveName + "' ";
 		query += "  GROUP BY rrk.id_rez ) tab";
 		return (Integer) uniqueResult(query);
 	}

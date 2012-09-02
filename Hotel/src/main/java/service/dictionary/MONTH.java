@@ -35,6 +35,10 @@ public enum MONTH {
 		return dayOfMonth;
 	}
 	
+	public int id() {
+		return ordinal() + 1;
+	}
+	
 	public static MONTH getMonth(int i) {
 		return months[i];
 	}
@@ -46,6 +50,7 @@ public enum MONTH {
 	public static int getDayOfMonth(int i) {
 		return getMonth(i).dayOfMonth;
 	}
+	
 	
 	@Override
 	public String toString() {

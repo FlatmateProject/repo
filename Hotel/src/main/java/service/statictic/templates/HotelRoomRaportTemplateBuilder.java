@@ -4,7 +4,7 @@ public class HotelRoomRaportTemplateBuilder implements RaportTemplateBuilder {
 
 	private String header = "Raportu z wykorzystania pokoi z klasy";
 	private String body   = "";
-	private String foot   = "W danym miesiącu nie wprowadzano dadnych danych za zakresu.\n";
+	private String foot   = "W danym miesiącu nie wprowadzano danych z zakresu.\n";
 	
 	@Override
 	public void createHeader(Object... args) {
