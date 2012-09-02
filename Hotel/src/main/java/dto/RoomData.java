@@ -3,24 +3,24 @@ package dto;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-public class ClassRoomData {
+public class RoomData {
 
-	private String description;
+	private long roomId;
 
 	private int nuberOccupiedRooms;
 
 	private float summaryGain;
 
-	public ClassRoomData() {
+	public RoomData() {
 
 	}
 
-	public String getDescription() {
-		return description;
+	public long getRoomId() {
+		return roomId;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setRoomId(long roomId) {
+		this.roomId = roomId;
 	}
 
 	public int getNuberOccupiedRooms() {

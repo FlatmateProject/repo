@@ -12,26 +12,28 @@ import patterns.abstractFactory.publicity.PublicityPaymentsFactory;
 
 public class PaymentsGiven {
 
-	private Map<String, ObjectEntity> entities;
+	private Map<OBJECT_TYPE, ObjectEntity> entities;
 	
-	private Map<String, PaymentsFactory> factories;
+	private Map<OBJECT_TYPE, PaymentsFactory> factories;
 	
 	public PaymentsGiven(){
-		entities = new HashMap<String, ObjectEntity>();
-		entities.put(OBJECT_TYPE.ADVERT.name(), new AdvertEntity());
-		entities.put(OBJECT_TYPE.PUBLICITY.name(), new PublicityEntity());
+		entities = new HashMap<OBJECT_TYPE, ObjectEntity>();
+		entities.put(OBJECT_TYPE.ADVERT, new AdvertEntity());
+		entities.put(OBJECT_TYPE.PUBLICITY, new PublicityEntity());
 		
-		factories = new HashMap<String, PaymentsFactory>();
-		factories.put(OBJECT_TYPE.ADVERT.name(), new AdvertPaymentsFactory());
-		factories.put(OBJECT_TYPE.PUBLICITY.name(), new PublicityPaymentsFactory());
+		factories = new HashMap<OBJECT_TYPE, PaymentsFactory>();
+		factories.put(OBJECT_TYPE.ADVERT, new AdvertPaymentsFactory());
+		factories.put(OBJECT_TYPE.PUBLICITY, new PublicityPaymentsFactory());
 	}
 
 	public ObjectEntity getEntity(String type) {
-		return entities.get(type);
+		OBJECT_TYPE objectType = OBJECT_TYPE.valueOf(type);
+		return entities.get(objectType);
 	}
 
 	public PaymentsFactory getPaymentsFactory(String type) {
-		return factories.get(type);
+		OBJECT_TYPE objectType = OBJECT_TYPE.valueOf(type);
+		return factories.get(objectType);
 	}
 	
 	

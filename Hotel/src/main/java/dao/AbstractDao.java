@@ -26,6 +26,21 @@ public abstract class AbstractDao {
 		this.session = session;
 	}
 
+	protected Object uniqueResult(String query) {
+		try {
+			ResultSet resultSet = getSession().query(query);
+			return resultSet.next() ? resultSet.getObject(1) : 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return new Object();
+		}
+	}
+	
+	protected <T> List<T> exacuteQuery(String query, Class<T> dtoClass) {
+		ResultSet resultSet = getSession().query(query);
+		return transform(resultSet, dtoClass);
+	}
+	
 	public <T> List<T> transform(ResultSet dataSet, Class<T> resultClass) {
 		try {
 			List<T> transformedResult = new ArrayList<T>();

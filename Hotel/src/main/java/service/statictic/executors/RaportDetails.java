@@ -5,15 +5,15 @@ import service.dictionary.MONTH;
 public class RaportDetails {
 
 	private MONTH month; 
+	
 	private int year; 
+	
 	private String classRoom; 
+	
 	private String serve;
 	
-	public RaportDetails(MONTH month, int year) {
-		this(month, year, null, null);
-	}
 	
-	private RaportDetails(MONTH month, int year, String classRoom, String serve) {
+	public RaportDetails(MONTH month, int year, String classRoom, String serve) {
 		this.month = month;
 		this.year = year;
 		this.classRoom = classRoom;

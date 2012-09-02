@@ -7,6 +7,8 @@ import org.apache.log4j.Logger;
 
 import service.dictionary.MONTH;
 import service.statictic.executors.RaportDetails;
+import service.statictic.executors.RaportExecutor;
+import service.statictic.templates.RaportTemplateBuilder;
 import dao.Singleton;
 import dao.StaticticDao;
 import dao.StaticticDaoImpl;
@@ -50,111 +52,53 @@ public class Statistic {
 
 	public StatisticRaport hotel(RAPORT_KIND raportKind, int month, int year, String classRoom, String serve){
 		try {
-			resultText = null;
-			array = null;
-			raport = null;
-			switch (raportKind) {
-			case HOTEL_CLASS_ROOM    : raport = raportKind.createRaport(new RaportDetails(MONTH.getMonth(month), year), staticticDao);break;//
-			case HOTEL_ROOM          : createRoomRaport(month, year, classRoom);break;//
-			case HOTEL_SERVICES      : createServesRaport(month, year);break;//
-			case HOTEL_SERVICE       : createServeRaport(month, year, serve);break;//
-			}
-			if(raport == null){
-				raport = new StatisticRaport(array, resultText);
-			}
-			return raport;
+			RaportExecutor executor = raportKind.getRaportExecutor();
+			RaportTemplateBuilder temlpateBuilder = raportKind.getRaportTemplateBuilder();
+			RaportDetails raportDetails = new RaportDetails(MONTH.getMonth(month), year, classRoom, serve);
+			
+			executor.setup(raportDetails);
+			executor.injectStaticticDao(staticticDao);
+			return executor.createRaport(temlpateBuilder);
+//			switch (raportKind) {
+//			case HOTEL_SERVICES      : createServesRaport(month, year);break;//
+//			case HOTEL_SERVICE       : createServeRaport(month, year, serve);break;//
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;	
 		}
 	}
 
-	private void createRoomRaport(int month, int year, String classRoom) throws SQLException {
-		int n = 0;
-		int i = 0;
-		int m = 0;
-
-		ResultSet resultQuery = staticticDao.createRoomRaport(month, year,
-				classRoom);
-		if (resultQuery != null) {
-			resultQuery.last();
-			n = resultQuery.getRow();
-			resultQuery.beforeFirst();
-			if (n != 0)
-				array = new double[n][2];
-			log.info("count row: " + n);// /
-			resultText = "Raportu z wykorzystania pokoi z klasy " + classRoom
-					+ " za miesi�c " + MONTH.getMonthName(month) + " w roku "
-					+ year + "\n";
-			while (resultQuery.next()) {
-				resultText += "   Pok�j nr: " + resultQuery.getString(1) + "("
-						+ i + ").\n";
-				m = resultQuery.getInt(2);
-				array[i][0] = resultQuery.getFloat(3);
-				resultText += "\tzyski: " + String.format("%.2f", array[i][0])
-						+ "z�\n";
-				array[i][1] = array[i][0] / m;
-				resultText += "\tliczba meldunk�w: " + m + "\n";
-				resultText += "\tprzych�d jednostkowy: "
-						+ String.format("%.2f", array[i][1]) + "z�\n";
-				i++;
-			}
-			if (n != 0) {
-				//createFootForClassRaport();
-			}
-		} else
-			resultText += DATABASE_ERROR;
-		if (n == 0)
-			resultText += "W danym miesi�cu nie wprowadzano �adnych danych za zakresu.\n";
-
-	}
-
 	private void createServesRaport(int month, int year) throws SQLException {
 		int n = 0;
-		int m = 0;
 		int i = 0;
-		ResultSet resA = null;
 		ResultSet resultQuery = staticticDao.createServesRaport(month, year);
-		if (resultQuery != null) {
-			resultQuery.last();
-			n = resultQuery.getRow();
-			resultQuery.beforeFirst();
-			if (n != 0)
-				array = new double[n][2];
-			log.info("count row: " + n);// /
-			resultText = "Raportu z wykorzystania us�ug  za miesi�c "
-					+ MONTH.getMonthName(month) + " w roku " + year + "\n";
-			while (resultQuery.next()) {
-				resultText += "   Typ uslugi " + resultQuery.getString(1) + "("
-						+ i + ").\n";
-				array[i][0] = resultQuery.getFloat(3);
-				resultText += "\tsumaryczny czas: " + resultQuery.getInt(2)
-						+ " godzin\n";
-				resultText += "\tzysk: " + String.format("%.2f", array[i][0])
-						+ "z�\n";
-				String query2 = "SELECT count(*) ilosc_zameldowan FROM (SELECT count(rrk.id_rez) ilosc_rez ";
-				query2 += "FROM rekreacja rrk JOIN uslugi uu ON rrk.id_uslugi=uu.id_uslugi JOIN rezerwacje ";
-				query2 += "rrz ON rrk.id_rez=rrz.id_rez WHERE uu.typ='"
-						+ resultQuery.getString(1) + "' ";
-				query2 += "  GROUP BY rrk.id_rez ) tab";
-				log.info("qurery(" + resultQuery.getString(1) + "): " + query2);
-				resA = db.query(query2);
-				resA.next();
-				m = resA.getInt(1);
-				resultText += "\tliczba zameldowa�: " + m + "\n";
-				array[i][1] = array[i][0] / m;
-				resultText += "\tprzych�d jednostkowy: "
-						+ String.format("%.2f", array[i][1]) + "z�\n";
-				i++;
-			}
-			if (n != 0) {
-				resultText += "Legenda \n";
-				resultText += " Slupek pierwsz przedstawia zysk\n";
-				resultText += " Slupek drugi przedstawia przych�d jednostkowy\n";
-				resultText += " (na jedno zmaledowanie)\n";
-			}
-		} else
-			resultText += DATABASE_ERROR;
+		resultQuery.last();
+		n = resultQuery.getRow();
+		resultQuery.beforeFirst();
+		if (n != 0)
+			array = new double[n][2];
+		log.info("count row: " + n);// /
+		resultText = "Raportu z wykorzystania us�ug  za miesi�c "+ MONTH.getMonthName(month) + " w roku " + year + "\n";
+		while (resultQuery.next()) {
+			resultText += "   Typ uslugi " + resultQuery.getString(1) + "(" + i	+ ").\n";
+			array[i][0] = resultQuery.getFloat(3);
+			resultText += "\tsumaryczny czas: " + resultQuery.getInt(2)	+ " godzin\n";
+			resultText += "\tzysk: " + String.format("%.2f", array[i][0])+ "z�\n";
+		
+			int useNumber = staticticDao.countUseNumberForServe(resultQuery.getString(1));
+			resultText += "\tliczba zameldowa�: " + useNumber + "\n";
+			array[i][1] = array[i][0] / useNumber;
+			resultText += "\tprzych�d jednostkowy: " + String.format("%.2f", array[i][1]) + "z�\n";
+			i++;
+		}
+		if (n != 0) {
+			resultText += "Legenda \n";
+			resultText += " Slupek pierwsz przedstawia zysk\n";
+			resultText += " Slupek drugi przedstawia przychód jednostkowy\n";
+			resultText += " (na jedno zmaledowanie)\n";
+		}
+
 		if (n == 0)
 			resultText += "W danym miesi�cu nie wprowadzano �adnych danych za zakresu.\n";
 	}
@@ -320,11 +264,5 @@ public class Statistic {
 		if (n == 0)
 			resultText += "W danym miesi�cu nie wprowadzano �adnych danych za zakresu.\n";
 
-	}
-
-	public static void main(String[] args) {
-		for (MONTH month : MONTH.values()) {
-			System.out.println(month);
-		}
 	}
 }

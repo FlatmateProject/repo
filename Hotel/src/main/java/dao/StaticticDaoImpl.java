@@ -1,7 +1,5 @@
 package dao;
 
-import static org.junit.Assert.*;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -9,10 +7,9 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import dto.ClassRoomData;
+import dto.RoomData;
 
 public class StaticticDaoImpl extends AbstractDao implements StaticticDao {
-	
-	private static final Logger log = Logger.getLogger(StaticticDaoImpl.class);
 	
 	@Override
 	public List<ClassRoomData> findClassRooms(int month, int year) {
@@ -21,20 +18,18 @@ public class StaticticDaoImpl extends AbstractDao implements StaticticDao {
 		query += "JOIN pokoje p ON r.id_pokoju=p.id_pokoju  JOIN klasy k ON p.id_klasy=k.id_klasy ";
 		query += "WHERE MONTH(r.data_w)=" + month + " and YEAR(r.data_w)="
 				+ year + " GROUP BY k.id_klasy ORDER BY k.id_klasy";
-		ResultSet dataResult = getSession().query(query);
-		List<ClassRoomData> classRaports = transform(dataResult, ClassRoomData.class);
-		return classRaports;
+		return exacuteQuery(query, ClassRoomData.class);
 	}
 
 	@Override
-	public ResultSet createRoomRaport(int month, int year, String classRoom) {
+	public List<RoomData> createRoomRaport(int month, int year, String classRoom) {
 		String query = "SELECT p.id_pokoju pokuj, count(r.id_rez) meldunki, sum((r.data_w-r.data_z)*k.cena) zysk ";
 		query += "FROM rezerwacje r ";
 		query += "JOIN pokoje p ON r.id_pokoju=p.id_pokoju  JOIN klasy k ON p.id_klasy=k.id_klasy ";
 		query += "WHERE MONTH(r.data_w)=" + month + " and YEAR(r.data_w)="
 				+ year + " and k.opis='" + classRoom + "' ";
 		query += " GROUP BY p.id_pokoju ORDER BY p.id_pokoju";
-		return getSession().query(query);
+ 		return exacuteQuery(query, RoomData.class);
 	}
 
 	@Override
@@ -88,23 +83,13 @@ public class StaticticDaoImpl extends AbstractDao implements StaticticDao {
 		return getSession().query(query);
 	}
 
-	
-	public ResultSet getUser(){
-		String query = "SELECT * FROM user;";
-
-		return getSession().query(query);
-	}
-	
-	public static void main(String[] args) throws SQLException {
-		StaticticDaoImpl dao = new StaticticDaoImpl();
-		ResultSet result = dao.getUser();
-		assertNotNull(result);
-		result.last();
-		assertEquals(4, result.getRow());
-		result.beforeFirst();
-		List<ClassRoomData> users = dao.transform(result, ClassRoomData.class);
-		for (ClassRoomData user : users) {
-			log.info(user);
-		}
+	@Override
+	public int countUseNumberForServe(String serve) throws SQLException {
+		String query = "SELECT count(*) ilosc_zameldowan FROM (SELECT count(rrk.id_rez) ilosc_rez ";
+		query += "FROM rekreacja rrk JOIN uslugi uu ON rrk.id_uslugi=uu.id_uslugi JOIN rezerwacje ";
+		query += "rrz ON rrk.id_rez=rrz.id_rez WHERE uu.typ='"
+				+ serve + "' ";
+		query += "  GROUP BY rrk.id_rez ) tab";
+		return (Integer) uniqueResult(query);
 	}
 }

@@ -2,6 +2,8 @@ package service.statictic;
 
 import java.util.List;
 
+import service.statictic.templates.RaportTemplateBuilder;
+
 
 public class StatisticRaport {
 
@@ -14,9 +16,9 @@ public class StatisticRaport {
 		this.resultText = resultText;
 	}
 	
-	public StatisticRaport(List<PlotPoint> points, String resultText) {
+	public StatisticRaport(List<PlotPoint> points, RaportTemplateBuilder templateBuilder) {
 		this.array = createResultArray(points);
-		this.resultText = resultText;	// TODO Auto-generated constructor stub
+		this.resultText = templateBuilder.build();	
 	}
 
 	private double[][] createResultArray(List<PlotPoint> points) {
