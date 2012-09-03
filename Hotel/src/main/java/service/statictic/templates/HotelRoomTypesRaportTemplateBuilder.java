@@ -19,7 +19,7 @@ public class HotelRoomTypesRaportTemplateBuilder implements RaportTemplateBuilde
 		body += String.format("\tKlasa %s (%d).\n " 
 				+"\tzyski: %.2fzł\n" 
 				+ "\tliczba meldunków: %d\n"
-				+ " \tprzychód jednostkowy: %.2fzł\n", args);
+				+ " \tprzychód jednostkowy: %.2fzł\n\n", args);
 
 	}
 

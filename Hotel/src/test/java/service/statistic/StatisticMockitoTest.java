@@ -61,15 +61,17 @@ public class StatisticMockitoTest {
 		String roomType = null;
 		String serveTypeName = null;
 		float sumaryGain = 100.0f;
+		int numberOccupatedRooms = 1;
 		float unitGain = 100.0f;
 		int expectedNumberOfElements = 2;
 		
 
 		RoomTypesData row = mock(RoomTypesData.class);
-		when(row.getRoomTypeName()).thenReturn("classRoomName");
-		when(row.getNuberOccupiedRooms()).thenReturn(1);
+		when(row.getRoomTypeName()).thenReturn(generateRandomName());
+		when(row.getNuberOccupiedRooms()).thenReturn(numberOccupatedRooms);
 		when(row.getSummaryGain()).thenReturn(sumaryGain);
-		List<RoomTypesData> inputData = Arrays.asList(row);
+		
+		List<RoomTypesData> inputData = Arrays.asList(row, row);
 		
 		StaticticDao staticticDao = mock(StaticticDao.class);
 		when(staticticDao.findRoomTypes(month.id(), year)).thenReturn(inputData);
@@ -86,10 +88,14 @@ public class StatisticMockitoTest {
 		
 		double[][] arrayResult = raport.getArrayResult();
 		assertNotNull(arrayResult);
-		assertEquals(1, arrayResult.length);
+		assertEquals(2, arrayResult.length);
 		assertEquals(expectedNumberOfElements, arrayResult[0].length);
 		assertEquals(sumaryGain, arrayResult[0][0], 0);
-		assertEquals(expectedNumberOfElements, arrayResult[1].length);
-		assertEquals(unitGain, arrayResult[0][1], 0);
+		assertEquals(expectedNumberOfElements, arrayResult[numberOccupatedRooms].length);
+		assertEquals(unitGain, arrayResult[0][numberOccupatedRooms], 0);
+	}
+
+	private String generateRandomName() {
+		return "room type " + Math.round((Math.random() * 100));
 	}
 }
