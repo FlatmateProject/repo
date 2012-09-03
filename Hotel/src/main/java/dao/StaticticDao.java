@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import dto.ClassRoomData;
+import dto.RoomTypesData;
 import dto.RoomData;
 import dto.ServeData;
 import dto.ServeTypeData;
@@ -15,7 +15,7 @@ public interface StaticticDao {
 	
 	void setSession(Singleton session);
 	
-	List<ClassRoomData> findClassRooms(int month, int year);
+	List<RoomTypesData> findRoomTypes(int month, int year);
 
 	List<RoomData> createRoomRaport(int month, int year, String classRoom);
 

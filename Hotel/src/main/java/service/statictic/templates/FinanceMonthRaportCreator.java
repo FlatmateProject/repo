@@ -1,16 +1,17 @@
-package service.statictic.executors;
+package service.statictic.templates;
 
 import java.sql.SQLException;
 
 import service.statictic.StatisticRaport;
-import service.statictic.templates.RaportTemplateBuilder;
+import service.statictic.executors.RaportDetails;
+import service.statictic.executors.RaportCreator;
 
-public class FinanceYesrRaportExecutor extends RaportExecutor {
+public class FinanceMonthRaportCreator extends RaportCreator {
 
 	@Override
 	public void setup(RaportDetails raportDetails) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override

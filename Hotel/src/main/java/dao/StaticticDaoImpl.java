@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import dto.ClassRoomData;
+import dto.RoomTypesData;
 import dto.RoomData;
 import dto.ServeData;
 import dto.ServeTypeData;
@@ -12,13 +12,13 @@ import dto.ServeTypeData;
 public class StaticticDaoImpl extends AbstractDao implements StaticticDao {
 	
 	@Override
-	public List<ClassRoomData> findClassRooms(int month, int year) {
+	public List<RoomTypesData> findRoomTypes(int month, int year) {
 		String query = "SELECT k.opis opis, count(r.id_rez) meldunki, sum((r.data_w-r.data_z)*k.cena) zysk ";
 		query += "FROM rezerwacje r ";
 		query += "JOIN pokoje p ON r.id_pokoju=p.id_pokoju  JOIN klasy k ON p.id_klasy=k.id_klasy ";
 		query += "WHERE MONTH(r.data_w)=" + month + " and YEAR(r.data_w)="
 				+ year + " GROUP BY k.id_klasy ORDER BY k.id_klasy";
-		return exacuteQuery(query, ClassRoomData.class);
+		return exacuteQuery(query, RoomTypesData.class);
 	}
 
 	@Override

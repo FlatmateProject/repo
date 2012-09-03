@@ -10,7 +10,7 @@ import service.statictic.PlotPoint;
 import service.statictic.StatisticRaport;
 import service.statictic.templates.RaportTemplateBuilder;
 
-public class HotelServicesRaportExecutor extends RaportExecutor {
+public class HotelServicesRaportCreator extends RaportCreator {
 
 	private MONTH month;
 	

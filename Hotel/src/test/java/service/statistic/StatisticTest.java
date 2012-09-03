@@ -30,14 +30,14 @@ public class StatisticTest {
 	
 	private String serve;
 	
-	private String classRoom;
+	private String roomType;
 	
-	public StatisticTest(RAPORT_KIND raportKind, int year, MONTH month, String serve, String classRoom) {
+	public StatisticTest(RAPORT_KIND raportKind, int year, MONTH month, String serve, String roomType) {
 		this.raportKind = raportKind;
 		this.year = year;
 		this.month = month;
 		this.serve = serve;
-		this.classRoom = classRoom;
+		this.roomType = roomType;
 	}
 	
 	@Test
@@ -46,7 +46,7 @@ public class StatisticTest {
 		Statistic statistic = new Statistic();
 		
 		// when
-		StatisticRaport raport = statistic.hotel(raportKind, month, year, classRoom, serve);
+		StatisticRaport raport = statistic.hotel(raportKind, month, year, roomType, serve);
 
 		// then
 		assertNotNull(raport);
@@ -61,7 +61,7 @@ public class StatisticTest {
 	@Parameters
 	public static List<Object[]> prepareCases() {
 		Object[][] datas = new Object[][] {//
-				{ RAPORT_KIND.HOTEL_CLASS_ROOM, 2012, MONTH.September, null, null },//
+				{ RAPORT_KIND.HOTEL_ROOM_TYPES, 2012, MONTH.September, null, null },//
 				{ RAPORT_KIND.HOTEL_ROOM, 2012, MONTH.September, null, "pokój jednosobowy" },//
 				{ RAPORT_KIND.HOTEL_SERVICES, 2012, MONTH.September, null, "pokój jednosobowy" },//
 				{ RAPORT_KIND.HOTEL_SERVICE, 2012, MONTH.September, "rekreacja", null },//

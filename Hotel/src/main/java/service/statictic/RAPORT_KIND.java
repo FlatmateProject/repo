@@ -1,43 +1,43 @@
 package service.statictic;
 
-import service.statictic.executors.FinanceYesrRaportExecutor;
-import service.statictic.executors.HotelRoomClassRaportExecutor;
-import service.statictic.executors.HotelRoomRaportExecutor;
-import service.statictic.executors.HotelServiceRaportExecutor;
-import service.statictic.executors.HotelServicesRaportExecutor;
-import service.statictic.executors.RaportExecutor;
-import service.statictic.templates.FinanceMonthRaportExecutor;
+import service.statictic.executors.FinanceYearRaportCreator;
+import service.statictic.executors.HotelRoomTypesRaportCreator;
+import service.statictic.executors.HotelRoomRaportCreator;
+import service.statictic.executors.HotelServiceRaportCreator;
+import service.statictic.executors.HotelServicesRaportCreator;
+import service.statictic.executors.RaportCreator;
+import service.statictic.templates.FinanceMonthRaportCreator;
 import service.statictic.templates.FinanceMonthRaportTemplateBuilder;
 import service.statictic.templates.FinanceYearRaportTemplateBuilder;
-import service.statictic.templates.HotelRoomClassRaportTemplateBuilder;
+import service.statictic.templates.HotelRoomTypesRaportTemplateBuilder;
 import service.statictic.templates.HotelRoomRaportTemplateBuilder;
 import service.statictic.templates.HotelServiceRaportTemplateBuilder;
 import service.statictic.templates.HotelServicesRaportTemplateBuilder;
 import service.statictic.templates.RaportTemplateBuilder;
 
 public enum RAPORT_KIND {
-	FINANCE_MONTH("Bilansu z miesięcy", new FinanceMonthRaportTemplateBuilder(), new FinanceMonthRaportExecutor()), //
-	FINANCE_YEAR("Bilansu z lat", new FinanceYearRaportTemplateBuilder(), new FinanceYesrRaportExecutor()), //
-	HOTEL_CLASS_ROOM("Raportu z wykorzystania klas pokoi",new HotelRoomClassRaportTemplateBuilder(), new HotelRoomClassRaportExecutor()), //
-	HOTEL_ROOM("Raportu z wykorzystania pokoi w klasie", new HotelRoomRaportTemplateBuilder(), new HotelRoomRaportExecutor()), //
-	HOTEL_SERVICES("Raportu z wykorzystania typów usług", new HotelServicesRaportTemplateBuilder(), new HotelServicesRaportExecutor()), //
-	HOTEL_SERVICE("Raportu z wybranej uslugi", new HotelServiceRaportTemplateBuilder(), new HotelServiceRaportExecutor())//
+	FINANCE_MONTH("Bilansu z miesięcy", new FinanceMonthRaportTemplateBuilder(), new FinanceMonthRaportCreator()), //
+	FINANCE_YEAR("Bilansu z lat", new FinanceYearRaportTemplateBuilder(), new FinanceYearRaportCreator()), //
+	HOTEL_ROOM_TYPES("Raportu z wykorzystania klas pokoi",new HotelRoomTypesRaportTemplateBuilder(), new HotelRoomTypesRaportCreator()), //
+	HOTEL_ROOM("Raportu z wykorzystania pokoi w klasie", new HotelRoomRaportTemplateBuilder(), new HotelRoomRaportCreator()), //
+	HOTEL_SERVICES("Raportu z wykorzystania typów usług", new HotelServicesRaportTemplateBuilder(), new HotelServicesRaportCreator()), //
+	HOTEL_SERVICE("Raportu z wybranej uslugi", new HotelServiceRaportTemplateBuilder(), new HotelServiceRaportCreator())//
 	;
 
 	private String desc;
 
 	private RaportTemplateBuilder templateBuilder;
 
-	private RaportExecutor raportExecutor;
+	private RaportCreator raportCreator;
 
 	private RAPORT_KIND(String desc) {
 		this.desc = desc;
 	}
 
-	private RAPORT_KIND(String desc, RaportTemplateBuilder template, RaportExecutor executor) {
+	private RAPORT_KIND(String desc, RaportTemplateBuilder template, RaportCreator creator) {
 		this.desc = desc;
 		this.templateBuilder = template;
-		this.raportExecutor = executor;
+		this.raportCreator = creator;
 	}
 
 	public String getDesc() {
@@ -48,8 +48,8 @@ public enum RAPORT_KIND {
 		return templateBuilder;
 	}
 
-	public RaportExecutor getRaportExecutor() {
-		return raportExecutor;
+	public RaportCreator getRaportCreator() {
+		return raportCreator;
 	}
 	
 	@Override

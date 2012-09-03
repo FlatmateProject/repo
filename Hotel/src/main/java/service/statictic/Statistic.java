@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import service.dictionary.MONTH;
 import service.statictic.executors.RaportDetails;
-import service.statictic.executors.RaportExecutor;
+import service.statictic.executors.RaportCreator;
 import service.statictic.templates.RaportTemplateBuilder;
 import dao.StaticticDao;
 import dao.StaticticDaoImpl;
@@ -49,13 +49,13 @@ public class Statistic {
 
 	public StatisticRaport hotel(RAPORT_KIND raportKind, MONTH month, int year, String classRoom, String serveTypeName){
 		try {
-			RaportExecutor executor = raportKind.getRaportExecutor();
+			RaportCreator creator = raportKind.getRaportCreator();
 			RaportTemplateBuilder temlpateBuilder = raportKind.getRaportTemplateBuilder();
 			RaportDetails raportDetails = new RaportDetails(month, year, classRoom, serveTypeName);
 			
-			executor.setup(raportDetails);
-			executor.injectStaticticDao(staticticDao);
-			return executor.createRaport(temlpateBuilder);
+			creator.setup(raportDetails);
+			creator.injectStaticticDao(staticticDao);
+			return creator.createRaport(temlpateBuilder);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;	
@@ -80,28 +80,19 @@ public class Statistic {
 			if (n != 0)
 				array = new double[n][4];
 			if (monthFrom == monthTo)
-				resultText = "Raportu zysk�w w miesi�cu "
-						+ MONTH.getMonthName(monthFrom) + "\n";
+				resultText = "Raportu zysk�w w miesi�cu "+ MONTH.getMonthName(monthFrom) + "\n";
 			else
-				resultText = "Raportu zysk�w w miesi�cach od "
-						+ MONTH.getMonthName(monthFrom) + " do "
-						+ MONTH.getMonthName(monthTo) + "\n";
+				resultText = "Raportu zysk�w w miesi�cach od "	+ MONTH.getMonthName(monthFrom) + " do "+ MONTH.getMonthName(monthTo) + "\n";
 			while (resultQuery.next()) {
-				resultText += "   Miesiac "
-						+ MONTH.getMonthName(resultQuery.getInt(1)) + "(" + i
-						+ ").\n";
+				resultText += "   Miesiac "	+ MONTH.getMonthName(resultQuery.getInt(1)) + "(" + i+ ").\n";
 				array[i][0] = resultQuery.getDouble(2);
-				resultText += "\tzysk z rezerwacji: "
-						+ String.format("%.2f", array[i][0]) + "z�\n";
+				resultText += "\tzysk z rezerwacji: "+ String.format("%.2f", array[i][0]) + "z�\n";
 				array[i][1] = resultQuery.getDouble(3);
-				resultText += "\tzysk z uslug: "
-						+ String.format("%.2f", array[i][1]) + "z�\n";
+				resultText += "\tzysk z uslug: "+ String.format("%.2f", array[i][1]) + "z�\n";
 				array[i][2] = resultQuery.getDouble(4);
-				resultText += "\tzysk z kantoru: "
-						+ String.format("%.2f", array[i][2]) + "z�\n";
+				resultText += "\tzysk z kantoru: "	+ String.format("%.2f", array[i][2]) + "z�\n";
 				array[i][3] = array[i][0] + array[i][1] + array[i][2];
-				resultText += "\tzysk sumaryczny: "
-						+ String.format("%.2f", array[i][3]) + "z�\n";
+				resultText += "\tzysk sumaryczny: "	+ String.format("%.2f", array[i][3]) + "z�\n";
 				i++;
 			}
 			if (n != 0) {
@@ -142,20 +133,15 @@ public class Statistic {
 						+ yearTo + "\n";
 			while (resultQuery.next()) {
 
-				resultText += "   Rok " + resultQuery.getString(1) + "(" + n
-						+ ").\n";
+				resultText += "   Rok " + resultQuery.getString(1) + "(" + n+ ").\n";
 				array[i][0] = resultQuery.getDouble(2);
-				resultText += "\tzysk z rezerwacji: "
-						+ String.format("%.2f", array[i][0]) + "z�\n";
+				resultText += "\tzysk z rezerwacji: "+ String.format("%.2f", array[i][0]) + "z�\n";
 				array[i][1] = resultQuery.getDouble(3);
-				resultText += "\tzysk z uslug: "
-						+ String.format("%.2f", array[i][1]) + "z�\n";
+				resultText += "\tzysk z uslug: "+ String.format("%.2f", array[i][1]) + "z�\n";
 				array[i][2] = resultQuery.getDouble(4);
-				resultText += "\tzysk z kantoru: "
-						+ String.format("%.2f", array[i][2]) + "z�\n";
+				resultText += "\tzysk z kantoru: "+ String.format("%.2f", array[i][2]) + "z�\n";
 				array[i][3] = array[i][0] + array[i][1] + array[i][2];
-				resultText += "\tzysk sumaryczny: "
-						+ String.format("%.2f", array[i][3]) + "z�\n";
+				resultText += "\tzysk sumaryczny: "	+ String.format("%.2f", array[i][3]) + "z�\n";
 				i++;
 			}
 			if (n != 0) {

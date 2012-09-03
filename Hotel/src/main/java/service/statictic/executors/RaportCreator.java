@@ -6,7 +6,7 @@ import service.statictic.StatisticRaport;
 import service.statictic.templates.RaportTemplateBuilder;
 import dao.StaticticDao;
 
-public abstract class RaportExecutor {
+public abstract class RaportCreator {
 
 	protected StaticticDao staticticDao;
 	
