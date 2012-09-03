@@ -6,7 +6,7 @@ import java.util.List;
 
 import dto.ServeTypeData;
 import service.dictionary.MONTH;
-import service.statictic.PlotPoint;
+import service.statictic.DiagramElement;
 import service.statictic.StatisticRaport;
 import service.statictic.templates.RaportTemplateBuilder;
 
@@ -25,7 +25,7 @@ public class HotelServicesRaportCreator extends RaportCreator {
 	@Override
 	public StatisticRaport createRaport(RaportTemplateBuilder templateBuilder) throws SQLException {
 		int i = 0;
-		List<PlotPoint> plotPoints = new LinkedList<PlotPoint>();
+		List<DiagramElement> plotPoints = new LinkedList<DiagramElement>();
 		
 		List<ServeTypeData> serveTypes = staticticDao.createServesRaport(month.id(), year);
 		templateBuilder.createHeader(month, year);
@@ -37,7 +37,7 @@ public class HotelServicesRaportCreator extends RaportCreator {
 			
 			templateBuilder.appendBodyBlock(typeName, i, serveType.getTime(), sumaryGain, useNumber, unitGain);
 			
-			plotPoints.add(new PlotPoint(sumaryGain, sumaryGain));
+			plotPoints.add(new DiagramElement(sumaryGain, sumaryGain));
 			i++;
 		}
 		templateBuilder.createFoot(serveTypes.size());

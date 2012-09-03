@@ -7,7 +7,7 @@ import java.util.List;
 import dto.ServeData;
 
 import service.dictionary.MONTH;
-import service.statictic.PlotPoint;
+import service.statictic.DiagramElement;
 import service.statictic.StatisticRaport;
 import service.statictic.templates.RaportTemplateBuilder;
 
@@ -29,7 +29,7 @@ public class HotelServiceRaportCreator extends RaportCreator {
 	@Override
 	public StatisticRaport createRaport(RaportTemplateBuilder templateBuilder) throws SQLException {
 		int i = 0;
-		List<PlotPoint> plotPoints = new LinkedList<PlotPoint>();
+		List<DiagramElement> plotPoints = new LinkedList<DiagramElement>();
 		
 		List<ServeData> serves = staticticDao.createServeRaport(month.id(), year,serveTypeName);
 

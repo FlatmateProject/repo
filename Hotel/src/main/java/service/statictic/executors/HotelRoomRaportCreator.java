@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import service.dictionary.MONTH;
-import service.statictic.PlotPoint;
+import service.statictic.DiagramElement;
 import service.statictic.StatisticRaport;
 import service.statictic.templates.RaportTemplateBuilder;
 import dto.RoomData;
@@ -28,7 +28,7 @@ public class HotelRoomRaportCreator extends RaportCreator {
 	@Override
 	public StatisticRaport createRaport(RaportTemplateBuilder templateBuilder) throws SQLException {
 		int i = 0;
-		List<PlotPoint> plotPoints = new LinkedList<PlotPoint>(); 
+		List<DiagramElement> plotPoints = new LinkedList<DiagramElement>(); 
 		
 		List<RoomData> rooms = staticticDao.createRoomRaport(month.id(), year, classRoom);
 		templateBuilder.createHeader(classRoom, month,year);
@@ -37,7 +37,7 @@ public class HotelRoomRaportCreator extends RaportCreator {
 			float summaryGain = room.getSummaryGain();
 			float unitGain = summaryGain / nuberOccupiedRooms;
 			
-			plotPoints.add(new PlotPoint(summaryGain, unitGain));
+			plotPoints.add(new DiagramElement(summaryGain, unitGain));
 			
 			templateBuilder.appendBodyBlock(room.getRoomId(), i, summaryGain, nuberOccupiedRooms,	unitGain);
 			i++;

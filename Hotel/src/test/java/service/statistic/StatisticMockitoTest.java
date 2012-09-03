@@ -62,6 +62,7 @@ public class StatisticMockitoTest {
 		String serveTypeName = null;
 		float sumaryGain = 100.0f;
 		float unitGain = 100.0f;
+		int expectedNumberOfElements = 2;
 		
 
 		RoomTypesData row = mock(RoomTypesData.class);
@@ -86,7 +87,9 @@ public class StatisticMockitoTest {
 		double[][] arrayResult = raport.getArrayResult();
 		assertNotNull(arrayResult);
 		assertEquals(1, arrayResult.length);
+		assertEquals(expectedNumberOfElements, arrayResult[0].length);
 		assertEquals(sumaryGain, arrayResult[0][0], 0);
+		assertEquals(expectedNumberOfElements, arrayResult[1].length);
 		assertEquals(unitGain, arrayResult[0][1], 0);
 	}
 }

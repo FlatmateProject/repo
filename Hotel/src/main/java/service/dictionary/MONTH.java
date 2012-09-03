@@ -10,7 +10,7 @@ public enum MONTH {
 	June("Czerwiec", 30), //
 	July("Lipiec", 31), //
 	August("Sierpień", 31), //
-	September("Wrzesien", 30), //
+	September("Wrzesień", 30), //
 	October("Październik", 31), //
 	November("Listopad", 30), //
 	December("Grudzień", 31)//
