@@ -90,8 +90,8 @@ public class StatisticPanel extends JPanel {
 		chooseSubHotel = new JComboBox();
 		chooseSubHotel.setBounds(20, 100, 230, 20);
 		chooseSubHotel.addItem(RAPORT_KIND.HOTEL_ROOM_TYPES);
-		chooseSubHotel.addItem(RAPORT_KIND.HOTEL_ROOM);
-		chooseSubHotel.addItem(RAPORT_KIND.HOTEL_SERVICES);
+		chooseSubHotel.addItem(RAPORT_KIND.HOTEL_ROOMS);
+		chooseSubHotel.addItem(RAPORT_KIND.HOTEL_SERVICE_TYPES);
 		chooseSubHotel.addItem(RAPORT_KIND.HOTEL_SERVICE);
 		chooseSubHotel.setSelectedIndex(0);
 		add(chooseSubHotel);

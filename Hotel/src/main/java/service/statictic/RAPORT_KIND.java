@@ -2,25 +2,25 @@ package service.statictic;
 
 import service.statictic.executors.FinanceYearRaportCreator;
 import service.statictic.executors.HotelRoomTypesRaportCreator;
-import service.statictic.executors.HotelRoomRaportCreator;
+import service.statictic.executors.HotelRoomsRaportCreator;
 import service.statictic.executors.HotelServiceRaportCreator;
-import service.statictic.executors.HotelServicesRaportCreator;
+import service.statictic.executors.HotelServiceTypesRaportCreator;
 import service.statictic.executors.RaportCreator;
 import service.statictic.templates.FinanceMonthRaportCreator;
 import service.statictic.templates.FinanceMonthRaportTemplateBuilder;
 import service.statictic.templates.FinanceYearRaportTemplateBuilder;
 import service.statictic.templates.HotelRoomTypesRaportTemplateBuilder;
-import service.statictic.templates.HotelRoomRaportTemplateBuilder;
+import service.statictic.templates.HotelRoomsRaportTemplateBuilder;
 import service.statictic.templates.HotelServiceRaportTemplateBuilder;
-import service.statictic.templates.HotelServicesRaportTemplateBuilder;
+import service.statictic.templates.HotelServiceTypesRaportTemplateBuilder;
 import service.statictic.templates.RaportTemplateBuilder;
 
 public enum RAPORT_KIND {
 	FINANCE_MONTH("Bilansu z miesięcy", new FinanceMonthRaportTemplateBuilder(), new FinanceMonthRaportCreator()), //
 	FINANCE_YEAR("Bilansu z lat", new FinanceYearRaportTemplateBuilder(), new FinanceYearRaportCreator()), //
 	HOTEL_ROOM_TYPES("Raportu z wykorzystania klas pokoi",new HotelRoomTypesRaportTemplateBuilder(), new HotelRoomTypesRaportCreator()), //
-	HOTEL_ROOM("Raportu z wykorzystania pokoi w klasie", new HotelRoomRaportTemplateBuilder(), new HotelRoomRaportCreator()), //
-	HOTEL_SERVICES("Raportu z wykorzystania typów usług", new HotelServicesRaportTemplateBuilder(), new HotelServicesRaportCreator()), //
+	HOTEL_ROOMS("Raportu z wykorzystania pokoi w klasie", new HotelRoomsRaportTemplateBuilder(), new HotelRoomsRaportCreator()), //
+	HOTEL_SERVICE_TYPES("Raportu z wykorzystania typów usług", new HotelServiceTypesRaportTemplateBuilder(), new HotelServiceTypesRaportCreator()), //
 	HOTEL_SERVICE("Raportu z wybranej uslugi", new HotelServiceRaportTemplateBuilder(), new HotelServiceRaportCreator())//
 	;
 

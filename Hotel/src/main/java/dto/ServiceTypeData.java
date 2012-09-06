@@ -3,18 +3,18 @@ package dto;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-public class ServeTypeData {
+public class ServiceTypeData {
 
 	private String typeName;
 	
 	private long time;
 	
-	private float sumaryGain;
+	private float summaryGain;
 
-	public ServeTypeData(String typeName, long time, float sumaryGain) {
+	public ServiceTypeData(String typeName, long time, float sumaryGain) {
 		this.typeName = typeName;
 		this.time = time;
-		this.sumaryGain = sumaryGain;
+		this.summaryGain = sumaryGain;
 	}
 
 	public String getTypeName() {
@@ -33,12 +33,12 @@ public class ServeTypeData {
 		this.time = time;
 	}
 
-	public float getSumaryGain() {
-		return sumaryGain;
+	public float getSummaryGain() {
+		return summaryGain;
 	}
 
-	public void setSumaryGain(float sumaryGain) {
-		this.sumaryGain = sumaryGain;
+	public void setSummaryGain(float sumaryGain) {
+		this.summaryGain = sumaryGain;
 	}
 	
 	@Override

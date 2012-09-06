@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-import dto.ServeData;
+import dto.ServiceData;
 
 import service.dictionary.MONTH;
 import service.statictic.DiagramElement;
@@ -17,13 +17,13 @@ public class HotelServiceRaportCreator extends RaportCreator {
 	
 	private int year;
 	
-	private String serveTypeName;
+	private String serviceTypeName;
 	
 	@Override
 	public void setup(RaportDetails raportDetails) {
 		month = raportDetails.getMonth();
 		year = raportDetails.getYear();
-		serveTypeName = raportDetails.getServeTypeName();
+		serviceTypeName = raportDetails.getServiceTypeName();
 	}
 
 	@Override
@@ -31,19 +31,21 @@ public class HotelServiceRaportCreator extends RaportCreator {
 		int i = 0;
 		List<DiagramElement> plotPoints = new LinkedList<DiagramElement>();
 		
-		List<ServeData> serves = staticticDao.createServeRaport(month.id(), year,serveTypeName);
+		List<ServiceData> services = staticticDao.findServiceByType(month.id(), year,serviceTypeName);
 
-		templateBuilder.createHeader(serveTypeName, month, year);
-		for (ServeData serve : serves) {
-			String serveName = serve.getServeName();
-			float sumaryGain = serve.getSumaryGain();
-			int useNumber = staticticDao.countUseNumberForServeName(serveName);
+		templateBuilder.createHeader(serviceTypeName, month, year);
+		for (ServiceData service : services) {
+			String serveName = service.getServiceName();
+			float sumaryGain = service.getSummaryGain();
+			int useNumber = staticticDao.countUseNumberForServiceName(serveName);
 			float unitGain = sumaryGain / useNumber;
-			templateBuilder.appendBodyBlock(serveName, i, serve.getTime(), sumaryGain, useNumber, unitGain);
 			
+			templateBuilder.appendBodyBlock(serveName, i, service.getTime(), sumaryGain, useNumber, unitGain);
+			
+			plotPoints.add(new DiagramElement(sumaryGain, unitGain));
 			i++;
 		}
-		templateBuilder.createFoot(serves.size());
+		templateBuilder.createFoot(services.size());
 		
 		return new StatisticRaport(plotPoints, templateBuilder);
 	}

@@ -8,16 +8,16 @@ public class RaportDetails {
 	
 	private int year; 
 	
-	private String classRoom; 
+	private String roomType; 
 	
-	private String serveTypeName;
+	private String serviceTypeName;
 	
 	
-	public RaportDetails(MONTH month, int year, String classRoom, String serveTypeName) {
+	public RaportDetails(MONTH month, int year, String classRoom, String serviceTypeName) {
 		this.month = month;
 		this.year = year;
-		this.classRoom = classRoom;
-		this.serveTypeName = serveTypeName;
+		this.roomType = classRoom;
+		this.serviceTypeName = serviceTypeName;
 	}
 
 
@@ -29,11 +29,11 @@ public class RaportDetails {
 		return year;
 	}
 
-	public String getClassRoom() {
-		return classRoom;
+	public String getRoomType() {
+		return roomType;
 	}
 
-	public String getServeTypeName() {
-		return serveTypeName;
+	public String getServiceTypeName() {
+		return serviceTypeName;
 	}
 }

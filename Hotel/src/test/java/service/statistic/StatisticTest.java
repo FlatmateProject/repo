@@ -62,8 +62,8 @@ public class StatisticTest {
 	public static List<Object[]> prepareCases() {
 		Object[][] datas = new Object[][] {//
 				{ RAPORT_KIND.HOTEL_ROOM_TYPES, 2012, MONTH.September, null, null },//
-				{ RAPORT_KIND.HOTEL_ROOM, 2012, MONTH.September, null, "pokój jednosobowy" },//
-				{ RAPORT_KIND.HOTEL_SERVICES, 2012, MONTH.September, null, "pokój jednosobowy" },//
+				{ RAPORT_KIND.HOTEL_ROOMS, 2012, MONTH.September, null, "pokój jednosobowy" },//
+				{ RAPORT_KIND.HOTEL_SERVICE_TYPES, 2012, MONTH.September, null, "pokój jednosobowy" },//
 				{ RAPORT_KIND.HOTEL_SERVICE, 2012, MONTH.September, "rekreacja", null },//
 				};
 		return Arrays.asList(datas);

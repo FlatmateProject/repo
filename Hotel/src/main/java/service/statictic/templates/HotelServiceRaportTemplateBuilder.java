@@ -18,7 +18,7 @@ public class HotelServiceRaportTemplateBuilder implements RaportTemplateBuilder 
 		 + "\tsumaryczny czas: %d godzin\n"
 		 + "\tzysk: %.2fzł\n"
 		 + "\tliczba zameldowań: %d\n"
-		 + "\tprzychód jednostkowy: %.2fzł\n");
+		 + "\tprzychód jednostkowy: %.2fzł\n", args);
 	}
 
 	@Override

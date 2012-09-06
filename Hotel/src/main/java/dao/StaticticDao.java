@@ -6,8 +6,8 @@ import java.util.List;
 
 import dto.RoomTypesData;
 import dto.RoomData;
-import dto.ServeData;
-import dto.ServeTypeData;
+import dto.ServiceData;
+import dto.ServiceTypeData;
 
 public interface StaticticDao {
 	
@@ -17,17 +17,17 @@ public interface StaticticDao {
 	
 	List<RoomTypesData> findRoomTypes(int month, int year);
 
-	List<RoomData> createRoomRaport(int month, int year, String classRoom);
+	List<RoomData> findRoomsByType(int month, int year, String classRoom);
 
-	List<ServeTypeData> createServesRaport(int month, int year);
+	List<ServiceTypeData> findServiceTypes(int month, int year);
 
-	List<ServeData> createServeRaport(int month, int year, String serve);
+	List<ServiceData> findServiceByType(int month, int year, String serviceName);
 
 	ResultSet createMonthRaport(int monthFrom, int monthTo, int year);
 
 	ResultSet createYearRaport(int yearFrom, int yearTo);
 
-	int countUseNumberForServeType(String serveType) throws SQLException;
+	int countUseNumberForServiceType(String serviceTypeName) throws SQLException;
 
-	int countUseNumberForServeName(String serveName) throws SQLException;;
+	int countUseNumberForServiceName(String serviceName) throws SQLException;;
 }

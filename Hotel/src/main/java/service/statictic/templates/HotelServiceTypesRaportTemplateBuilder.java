@@ -1,7 +1,7 @@
 package service.statictic.templates;
 
 
-public class HotelServicesRaportTemplateBuilder implements RaportTemplateBuilder {
+public class HotelServiceTypesRaportTemplateBuilder implements RaportTemplateBuilder {
 
 	private String header = "Raportu z wykorzystania typów usług  za miesiąc";
 	private String body   = "";
@@ -17,8 +17,8 @@ public class HotelServicesRaportTemplateBuilder implements RaportTemplateBuilder
 		body = String.format("\tTyp uslugi %s (%d).\n"
 		 + "\tsumaryczny czas: %d godzin\n"
 		 + "\tzysk: %.2fzł\n"
-		 + "\tliczba zameldowań: \n"
-		 + "\tprzychód jednostkowy: %.2fzł\n");
+		 + "\tliczba użuć: %d \n"
+		 + "\tprzychód jednostkowy: %.2fzł\n", args);
 
 	}
 

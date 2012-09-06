@@ -1,6 +1,6 @@
 package service.statictic.templates;
 
-public class HotelRoomRaportTemplateBuilder implements RaportTemplateBuilder {
+public class HotelRoomsRaportTemplateBuilder implements RaportTemplateBuilder {
 
 	private String header = "Raportu z wykorzystania pokoi z klasy";
 	private String body   = "";
@@ -14,7 +14,7 @@ public class HotelRoomRaportTemplateBuilder implements RaportTemplateBuilder {
 
 	@Override
 	public void appendBodyBlock(Object... args) {
-		String.format("\tPokój nr: % (%d).\n"
+		String.format("\tPokój nr: %d (%d).\n"
 				+ "\tzyski: %.2fzł\n"
 				+ "\tliczba meldunków: %d\n"
 				+ "\tprzychód jednostkowy: %.2fzł\n", args);
