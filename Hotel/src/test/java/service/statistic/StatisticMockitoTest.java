@@ -18,6 +18,7 @@ import service.statictic.RAPORT_KIND;
 import service.statictic.Statistic;
 import service.statictic.StatisticRaport;
 import dao.StaticticDao;
+import dao.StaticticDaoImpl;
 import dto.RoomData;
 import dto.RoomTypesData;
 import dto.ServiceData;
@@ -42,7 +43,7 @@ public class StatisticMockitoTest {
 		when(staticticDao.findRoomTypes(month.id(), year)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic();
+		Statistic statistic = new Statistic(new StaticticDaoImpl());
 		StatisticRaport raport = statistic.hotel(raportKind, month, year, roomType, serviceTypeName);
 
 		// then
@@ -112,7 +113,7 @@ public class StatisticMockitoTest {
 		when(staticticDao.findRoomsByType(month.id(), year, roomType)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic();
+		Statistic statistic = new Statistic(new StaticticDaoImpl());
 		StatisticRaport raport = statistic.hotel(raportKind, month, year, roomType, serviceTypeName);
 
 		// then
@@ -182,7 +183,7 @@ public class StatisticMockitoTest {
 		when(staticticDao.findServiceTypes(month.id(), year)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic();
+		Statistic statistic = new Statistic(new StaticticDaoImpl());
 		StatisticRaport raport = statistic.hotel(raportKind, month, year, roomType, serviceTypeName);
 
 		// then
@@ -253,7 +254,7 @@ public class StatisticMockitoTest {
 		when(staticticDao.findServiceByType(month.id(), year, serviceTypeName)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic();
+		Statistic statistic = new Statistic(new StaticticDaoImpl());
 		StatisticRaport raport = statistic.hotel(raportKind, month, year, roomType, serviceTypeName);
 
 		// then

@@ -12,6 +12,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+import dao.StaticticDaoImpl;
+
 import service.dictionary.MONTH;
 import service.statictic.RAPORT_KIND;
 import service.statictic.Statistic;
@@ -43,7 +45,7 @@ public class StatisticTest {
 	@Test
 	public void shouldReturnEmptyRaport() {
 		// given
-		Statistic statistic = new Statistic();
+		Statistic statistic = new Statistic(new StaticticDaoImpl());
 		
 		// when
 		StatisticRaport raport = statistic.hotel(raportKind, month, year, roomType, serve);

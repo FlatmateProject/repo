@@ -23,6 +23,8 @@ import service.statictic.RAPORT_KIND;
 import service.statictic.Statistic;
 import service.statictic.StatisticRaport;
 import dao.Singleton;
+import dao.StaticticDao;
+import dao.StaticticDaoImpl;
 
 public class StatisticPanel extends JPanel {
 
@@ -54,6 +56,8 @@ public class StatisticPanel extends JPanel {
 	private GraphDraw graphDraw;
 	private Singleton db = Singleton.getInstance();
 
+	private StaticticDao staticticDao;
+	
 	private Statistic statistic;
 
 	public StatisticPanel() {
@@ -65,8 +69,9 @@ public class StatisticPanel extends JPanel {
 		Color color = new Color(224, 230, 233);
 		Font font = new Font("arial", Font.ROMAN_BASELINE, 15);
 
+		staticticDao = new StaticticDaoImpl();
 		graphDraw = new GraphDraw();
-		statistic = new Statistic();
+		statistic = new Statistic(staticticDao);
 
 
 		setBounds(0, 0, 900, 650);

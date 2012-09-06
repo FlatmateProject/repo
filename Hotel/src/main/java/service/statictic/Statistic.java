@@ -4,11 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import service.dictionary.MONTH;
-import service.statictic.executors.RaportDetails;
 import service.statictic.executors.RaportCreator;
+import service.statictic.executors.RaportDetails;
 import service.statictic.templates.RaportTemplateBuilder;
 import dao.StaticticDao;
-import dao.StaticticDaoImpl;
 
 public class Statistic {
 
@@ -20,10 +19,6 @@ public class Statistic {
 
 	private StatisticRaport raport;
 	
-	public Statistic() {
-		staticticDao = new StaticticDaoImpl();
-	}
-
 	public Statistic(StaticticDao staticticDao) {
 		this.staticticDao = staticticDao;
 	}
