@@ -6,10 +6,12 @@
   <classpathentry kind="output" path="target/classes"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
   <classpathentry kind="var" path="M2_REPO/mysql/mysql-connector-java/5.1.6/mysql-connector-java-5.1.6.jar"/>
+  <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.15/log4j-1.2.15.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/easytesting/fest-assert/1.4/fest-assert-1.4.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/easytesting/fest-util/1.1.6/fest-util-1.1.6.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/testng/testng/6.7/testng-6.7.jar"/>
   <classpathentry kind="var" path="M2_REPO/junit/junit/4.10/junit-4.10.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar"/>
-  <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.15/log4j-1.2.15.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/testng/testng/6.7/testng-6.7.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/beanshell/bsh/2.0b4/bsh-2.0b4.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/beust/jcommander/1.12/jcommander-1.12.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/yaml/snakeyaml/1.6/snakeyaml-1.6.jar"/>
