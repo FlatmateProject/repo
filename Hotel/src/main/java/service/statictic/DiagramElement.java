@@ -2,13 +2,13 @@ package service.statictic;
 
 public class DiagramElement {
 
-	private double[] elemnets;
+	private double[] bars;
 	
-	public DiagramElement(double... stripts) {
-		this.elemnets = stripts;
+	public DiagramElement(double... bars) {
+		this.bars = bars;
 	}
 
-	public double[] getElemnets() {
-		return elemnets;
+	public double[] getBars() {
+		return bars;
 	}
 }

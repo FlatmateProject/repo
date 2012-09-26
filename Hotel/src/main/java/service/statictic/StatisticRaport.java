@@ -16,19 +16,19 @@ public class StatisticRaport {
 		this.resultText = resultText;
 	}
 	
-	public StatisticRaport(List<DiagramElement> points, RaportTemplateBuilder templateBuilder) {
-		this.array = createResultArray(points);
+	public StatisticRaport(List<DiagramElement> elements, RaportTemplateBuilder templateBuilder) {
+		this.array = createResultArray(elements);
 		this.resultText = templateBuilder.build();	
 	}
 
-	private double[][] createResultArray(List<DiagramElement> points) {
-		if(points.size() == 0){
+	private double[][] createResultArray(List<DiagramElement> elements) {
+		if(elements.size() == 0){
 			return null;
 		}
-		double[][] array = new double[points.size()][];
+		double[][] array = new double[elements.size()][];
 		int i = 0;
-		for (DiagramElement point : points) {
-			array[i] = point.getElemnets();
+		for (DiagramElement point : elements) {
+			array[i] = point.getBars();
 			i++;
 		}
 		return array;

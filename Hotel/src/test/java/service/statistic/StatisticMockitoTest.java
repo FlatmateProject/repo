@@ -1,9 +1,5 @@
 package service.statistic;
 
-import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -21,19 +17,31 @@ import dto.RoomData;
 import dto.RoomTypesData;
 import dto.ServiceData;
 import dto.ServiceTypeData;
+import static org.fest.assertions.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static assertions.DiagramBarsAssert.assertThat;
+import static conditions.raport.contain.ValidMonthCondition.headerContainValidMonth;
+import static conditions.raport.contain.ValidYearCondition.headerContainValidYear;
+import static conditions.raport.contain.ShowLegendCondition.shownLegend;
+
 
 public class StatisticMockitoTest {
 	
-	private static final Logger log = Logger.getLogger(StatisticMockitoTest.class);
+	static final Logger log = Logger.getLogger(StatisticMockitoTest.class);
+	
+	int year = 2012;
+	
+	MONTH month = MONTH.September;
+	
+	String roomType = "jednoosobowy";
+
+	String serviceTypeName = "wynajem";
 	
 	@Test
 	public void shouldReturnEmptyRoomTypesRaport() {
 		// given
 		RAPORT_KIND raportKind = RAPORT_KIND.HOTEL_ROOM_TYPES;
-		int year = 2012;
-		MONTH month = MONTH.September;
-		String roomType = "jednoosobowy";
-		String serviceTypeName = null;
 		List<RoomTypesData> inputData = Collections.emptyList();
 		
 		StaticticDao staticticDao = mock(StaticticDao.class);
@@ -46,7 +54,7 @@ public class StatisticMockitoTest {
 		// then
 		assertThat(raport).isNotNull();
 		String textRaport = raport.getTextResult();
-		assertThat(textRaport).isNotNull();
+		assertThat(textRaport).isNotNull().is(headerContainValidMonth(month)).is(headerContainValidYear(year)).isNot(shownLegend());
 		log.info(textRaport);
 		
 		double[][] arrayResult = raport.getArrayResult();
@@ -57,19 +65,14 @@ public class StatisticMockitoTest {
 	public void shouldReturnRoomTypesRaport() {
 		// given
 		RAPORT_KIND raportKind = RAPORT_KIND.HOTEL_ROOM_TYPES;
-		int year = 2012;
-		MONTH month = MONTH.September;
-		String roomType = "jednoosobowy";
-		String serviceTypeName = null;
 		float sumaryGain = 100.0f;
-		int numberOccupatedRooms = 2;
-		float unitGain = sumaryGain / numberOccupatedRooms;
+		int numberOccupiedRooms = 2;
+		float unitGain = sumaryGain / numberOccupiedRooms;
 		int expectedNumberOfElements = 2;
 		
-
 		RoomTypesData row = mock(RoomTypesData.class);
 		when(row.getRoomTypeName()).thenReturn(roomType);
-		when(row.getNuberOccupiedRooms()).thenReturn(numberOccupatedRooms);
+		when(row.getNuberOccupiedRooms()).thenReturn(numberOccupiedRooms);
 		when(row.getSummaryGain()).thenReturn(sumaryGain);
 		
 		List<RoomTypesData> inputData = Arrays.asList(row);
@@ -84,24 +87,20 @@ public class StatisticMockitoTest {
 		// then
 		assertThat(raport).isNotNull();
 		String textRaport = raport.getTextResult();
-		assertThat(textRaport).isNotNull();
+		assertThat(textRaport).isNotNull().is(headerContainValidMonth(month)).is(headerContainValidYear(year)).is(shownLegend());
 		log.info(textRaport);
 		
 		double[][] arrayResult = raport.getArrayResult();
 		assertThat(arrayResult).isNotNull().hasSize(1);
 		assertThat(arrayResult[0]).hasSize(expectedNumberOfElements);
-		assertSumaryGainAndUnitGain(arrayResult[0], sumaryGain, unitGain);
+		assertThat(arrayResult[0]).isSumaryGainEqualTo(sumaryGain).isUnitGainEqualTo(unitGain);
 	}
 
-
 	@Test
-	public void shouldReturnEmptyRoomsRaport() {
+	public void shouldReturnEmptyRoomsForTypeRaport() {
 		// given
 		RAPORT_KIND raportKind = RAPORT_KIND.HOTEL_ROOM_TYPES;
-		int year = 2012;
-		MONTH month = MONTH.September;
 		String roomType = "jednoosobowy";
-		String serviceTypeName = null;
 		List<RoomData> inputData = Collections.emptyList();
 		
 		StaticticDao staticticDao = mock(StaticticDao.class);
@@ -114,7 +113,7 @@ public class StatisticMockitoTest {
 		// then
 		assertThat(raport).isNotNull();
 		String textRaport = raport.getTextResult();
-		assertThat(textRaport).isNotNull();;
+		assertThat(textRaport).isNotNull().is(headerContainValidMonth(month)).is(headerContainValidYear(year)).isNot(shownLegend());
 		log.info(textRaport);
 		
 		double[][] arrayResult = raport.getArrayResult();
@@ -122,22 +121,19 @@ public class StatisticMockitoTest {
 	}
 	
 	@Test
-	public void shouldReturnRoomsRaport() {
+	public void shouldReturnRoomsForTypeRaport() {
 		// given
 		RAPORT_KIND raportKind = RAPORT_KIND.HOTEL_ROOMS;
-		int year = 2012;
-		MONTH month = MONTH.September;
 		String roomType = "jednoosobowy";
-		String serviceTypeName = null;
 		float sumaryGain = 100.0f;
-		int numberOccupatedRooms = 2;
-		float unitGain = 50.0f;
+		int occupationNumber = 2;
+		float unitGain = sumaryGain / occupationNumber;
 		int expectedNumberOfElements = 2;
-		
+		long roomId = 1;
 
 		RoomData row = mock(RoomData.class);
-		when(row.getRoomId()).thenReturn(generateRandomId());
-		when(row.getNuberOccupiedRooms()).thenReturn(numberOccupatedRooms);
+		when(row.getRoomId()).thenReturn(roomId);
+		when(row.getNuberOccupiedRooms()).thenReturn(occupationNumber);
 		when(row.getSummaryGain()).thenReturn(sumaryGain);
 		
 		List<RoomData> inputData = Arrays.asList(row);
@@ -152,23 +148,19 @@ public class StatisticMockitoTest {
 		// then
 		assertThat(raport).isNotNull();
 		String textRaport = raport.getTextResult();
-		assertThat(textRaport).isNotNull();;
+		assertThat(textRaport).isNotNull().is(headerContainValidMonth(month)).is(headerContainValidYear(year)).is(shownLegend());
 		log.info(textRaport);
 		
 		double[][] arrayResult = raport.getArrayResult();
 		assertThat(arrayResult).isNotNull().hasSize(1);
 		assertThat(arrayResult[0]).hasSize(expectedNumberOfElements);
-		assertSumaryGainAndUnitGain(arrayResult[0], sumaryGain, unitGain);
+		assertThat(arrayResult[0]).isSumaryGainEqualTo(sumaryGain).isUnitGainEqualTo(unitGain);
 	}
 	
 	@Test
 	public void shouldReturnEmptyServiceTypesRaport() {
 		// given
 		RAPORT_KIND raportKind = RAPORT_KIND.HOTEL_SERVICE_TYPES;
-		int year = 2012;
-		MONTH month = MONTH.September;
-		String roomType = null;
-		String serviceTypeName = null;
 		List<ServiceTypeData> inputData = Collections.emptyList();
 		
 		StaticticDao staticticDao = mock(StaticticDao.class);
@@ -181,7 +173,7 @@ public class StatisticMockitoTest {
 		// then
 		assertThat(raport).isNotNull();
 		String textRaport = raport.getTextResult();
-		assertThat(textRaport).isNotNull();;
+		assertThat(textRaport).isNotNull().is(headerContainValidMonth(month)).is(headerContainValidYear(year)).isNot(shownLegend());
 		log.info(textRaport);
 		
 		double[][] arrayResult = raport.getArrayResult();
@@ -192,18 +184,14 @@ public class StatisticMockitoTest {
 	public void shouldReturnServiceTypesRaport() throws Exception {
 		// given
 		RAPORT_KIND raportKind = RAPORT_KIND.HOTEL_SERVICE_TYPES;
-		int year = 2012;
-		MONTH month = MONTH.September;
-		String roomType = null;
-		String serviceTypeName = "wynajem";
 		float sumaryGain = 100.0f;
-		float unitGain = 50.0f;
-		int expectedNumberOfElements = 2;
 		int useNumber = 2;
-		
+		float unitGain = sumaryGain / useNumber;
+		int expectedNumberOfElements = 2;
+		long time = 10;
 
 		ServiceTypeData row = mock(ServiceTypeData.class);
-		when(row.getTime()).thenReturn(generateRandomId());
+		when(row.getTime()).thenReturn(time);
 		when(row.getTypeName()).thenReturn(serviceTypeName);
 		when(row.getSummaryGain()).thenReturn(sumaryGain);
 		
@@ -220,22 +208,19 @@ public class StatisticMockitoTest {
 		// then
 		assertThat(raport).isNotNull();
 		String textRaport = raport.getTextResult();
-		assertThat(textRaport).isNotNull();;
+		assertThat(textRaport).isNotNull().is(headerContainValidMonth(month)).is(headerContainValidYear(year)).is(shownLegend());
 		log.info(textRaport);
 		
 		double[][] arrayResult = raport.getArrayResult();
 		assertThat(arrayResult).isNotNull().hasSize(1);
 		assertThat(arrayResult[0]).hasSize(expectedNumberOfElements);
-		assertSumaryGainAndUnitGain(arrayResult[0], sumaryGain, unitGain);
+		assertThat(arrayResult[0]).isSumaryGainEqualTo(sumaryGain).isUnitGainEqualTo(unitGain);
 	}
 	
 	@Test
 	public void shouldReturnEmptyServiceRaport() {
 		// given
 		RAPORT_KIND raportKind = RAPORT_KIND.HOTEL_SERVICE;
-		int year = 2012;
-		MONTH month = MONTH.September;
-		String roomType = null;
 		String serviceTypeName = "wynajem";
 		List<ServiceData> inputData = Collections.emptyList();
 		
@@ -249,7 +234,7 @@ public class StatisticMockitoTest {
 		// then
 		assertThat(raport).isNotNull();
 		String textRaport = raport.getTextResult();
-		assertThat(textRaport).isNotNull();;
+		assertThat(textRaport).isNotNull().is(headerContainValidMonth(month)).is(headerContainValidYear(year)).isNot(shownLegend());
 		log.info(textRaport);
 		
 		double[][] arrayResult = raport.getArrayResult();
@@ -260,18 +245,16 @@ public class StatisticMockitoTest {
 	public void shouldReturnServiceRaport() throws Exception {
 		// given
 		RAPORT_KIND raportKind = RAPORT_KIND.HOTEL_SERVICE;
-		int year = 2012;
-		MONTH month = MONTH.September;
-		String roomType = null;
 		String serviceTypeName = "wynajem";
 		float sumaryGain = 100.0f;
-		float unitGain = 50.0f;
-		int expectedNumberOfElements = 2;
-		String serviceName = "jednosobosy";
 		int useNumber = 2;
+		int expectedNumberOfElements = 2;
+		float unitGain = sumaryGain / useNumber;
+		String serviceName = "jednosobosy";
+		long time = 10;
 		
 		ServiceData row = mock(ServiceData.class);
-		when(row.getTime()).thenReturn(generateRandomId());
+		when(row.getTime()).thenReturn(time);
 		when(row.getServiceName()).thenReturn(serviceName);
 		when(row.getSummaryGain()).thenReturn(sumaryGain);
 		
@@ -288,21 +271,12 @@ public class StatisticMockitoTest {
 		// then
 		assertThat(raport).isNotNull();
 		String textRaport = raport.getTextResult();
-		assertThat(textRaport).isNotNull();;
+		assertThat(textRaport).isNotNull().is(headerContainValidMonth(month)).is(headerContainValidYear(year)).is(shownLegend());
 		log.info(textRaport);
 		
 		double[][] arrayResult = raport.getArrayResult();
 		assertThat(arrayResult).isNotNull().hasSize(1);
 		assertThat(arrayResult[0]).hasSize(expectedNumberOfElements);
-		assertSumaryGainAndUnitGain(arrayResult[0], sumaryGain, unitGain);
-	}
-	
-	private long generateRandomId() {
-		return Math.round((Math.random() * 100));
-	}
-	
-	static void assertSumaryGainAndUnitGain(double[] diagramBars, float sumaryGain, float unitGain) {
-		assertThat(diagramBars[0]).isEqualTo(sumaryGain);
-		assertThat(diagramBars[1]).isEqualTo(unitGain);
+		assertThat(arrayResult[0]).isSumaryGainEqualTo(sumaryGain).isUnitGainEqualTo(unitGain);
 	}
 }
