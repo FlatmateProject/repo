@@ -10,7 +10,7 @@ public class SumaryTimeCondition extends Condition<String> {
 		this.sumaryTime = sumaryTime;
 	}
 	
-	public static SumaryTimeCondition bodyContainValidSumaryTime(long sumaryTime) {
+	public static SumaryTimeCondition bodyContainSumaryTime(long sumaryTime) {
 		return new SumaryTimeCondition(sumaryTime);
 	}
 

@@ -10,7 +10,7 @@ public class YearCondition extends Condition<String> {
 		this.year = year;
 	}
 	
-	public static YearCondition headerContainValidYear(int year) {
+	public static YearCondition headerContainYear(int year) {
 		return new YearCondition(year);
 	}
 

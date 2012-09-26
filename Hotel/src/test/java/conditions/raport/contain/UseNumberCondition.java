@@ -10,7 +10,7 @@ public class UseNumberCondition extends Condition<String> {
 		this.useNumber = useNumber;
 	}
 	
-	public static UseNumberCondition bodyContainValidUseNumber(int useNumber) {
+	public static UseNumberCondition bodyContainUseNumber(int useNumber) {
 		return new UseNumberCondition(useNumber);
 	}
 

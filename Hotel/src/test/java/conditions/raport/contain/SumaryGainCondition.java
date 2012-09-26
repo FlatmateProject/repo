@@ -10,7 +10,7 @@ public class SumaryGainCondition extends Condition<String> {
 		this.sumaryGain = sumaryGain;
 	}
 
-	public static SumaryGainCondition bodyContainValidSumaryGain(
+	public static SumaryGainCondition bodyContainSumaryGain(
 			double sumaryGain) {
 		return new SumaryGainCondition(sumaryGain);
 	}

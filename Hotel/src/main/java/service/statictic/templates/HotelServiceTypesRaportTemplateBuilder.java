@@ -4,8 +4,12 @@ package service.statictic.templates;
 public class HotelServiceTypesRaportTemplateBuilder implements RaportTemplateBuilder {
 
 	private String header = "Raportu z wykorzystania typów usług  za miesiąc";
+	
 	private String body   = "";
-	private String foot   = "W danym miesiącu nie wprowadzano danych z zakresu.\n";
+	
+	private String DEFAULT_FOOT   = "W danym miesiącu nie wprowadzano danych z zakresu.\n";
+	
+	private String foot   = DEFAULT_FOOT;
 	
 	@Override
 	public void createHeader(Object... args) {
@@ -24,18 +28,25 @@ public class HotelServiceTypesRaportTemplateBuilder implements RaportTemplateBui
 
 	@Override
 	public void createFoot(Object... args) {
-		int numberOfElements = (Integer) (args != null && args.length > 0 ? args[0] : 0);
-		if(numberOfElements > 0){
+		if(isShowLegend(args)){
 		foot = String.format("Legenda \n"
 				+ " Slupek pierwsz przedstawia zyski\n"
 				+ " Slupek drugi przedstawia przychód jednostkowy\n"
 				+ " (na jedno zameldowanie)\n");
+		} else {
+			foot = DEFAULT_FOOT;
 		}
 	}
 
 	@Override
 	public String build() {
-		return header + body + foot;
+		String result = header + body + foot;
+		body = "";
+		return result;
 	}
 
+	private boolean isShowLegend(Object... args) {
+		int numberOfElements = (Integer) (args != null && args.length > 0 ? args[0] : 0);
+		return numberOfElements > 0;
+	}
 }

@@ -10,7 +10,7 @@ public class RoomTypeCondition extends Condition<String> {
 		this.roomTypeName = roomTypeName;
 	}
 	
-	public static RoomTypeCondition headerContainValidRoomType(String roomTypeName) {
+	public static RoomTypeCondition headerContainRoomType(String roomTypeName) {
 		return new RoomTypeCondition(roomTypeName);
 	}
 

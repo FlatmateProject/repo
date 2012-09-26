@@ -12,7 +12,7 @@ public class MonthCondition extends Condition<String> {
 		this.month = month;
 	}
 	
-	public static MonthCondition headerContainValidMonth(MONTH month) {
+	public static MonthCondition headerContainMonth(MONTH month) {
 		return new MonthCondition(month);
 	}
 

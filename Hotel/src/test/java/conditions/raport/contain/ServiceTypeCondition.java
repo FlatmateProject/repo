@@ -10,7 +10,7 @@ public class ServiceTypeCondition extends Condition<String> {
 		this.serviceTypeName = serviceTypeName;
 	}
 	
-	public static ServiceTypeCondition headerContainValidServiceType(String serviceTypeName) {
+	public static ServiceTypeCondition headerContainServiceType(String serviceTypeName) {
 		return new ServiceTypeCondition(serviceTypeName);
 	}
 

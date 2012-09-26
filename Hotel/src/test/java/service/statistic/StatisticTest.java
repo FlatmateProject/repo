@@ -1,8 +1,8 @@
 package service.statistic;
 
 import static conditions.raport.ShownLegendCondition.shownLegend;
-import static conditions.raport.contain.MonthCondition.headerContainValidMonth;
-import static conditions.raport.contain.YearCondition.headerContainValidYear;
+import static conditions.raport.contain.MonthCondition.headerContainMonth;
+import static conditions.raport.contain.YearCondition.headerContainYear;
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.apache.log4j.Logger;
@@ -33,8 +33,8 @@ public class StatisticTest {
 		String textRaport = raport.getTextResult();
 		assertThat(textRaport)//
 				.isNotNull()//
-				.is(headerContainValidMonth(month))//
-				.is(headerContainValidYear(year))//
+				.is(headerContainMonth(month))//
+				.is(headerContainYear(year))//
 				.isNot(shownLegend());
 		log.info(textRaport);
 

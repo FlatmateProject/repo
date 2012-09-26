@@ -10,7 +10,7 @@ public class UnitGainCondition extends Condition<String> {
 		this.unitGain = unitGain;
 	}
 
-	public static UnitGainCondition bodyContainValidUnitGain(double unitGain) {
+	public static UnitGainCondition bodyContainUnitGain(double unitGain) {
 		return new UnitGainCondition(unitGain);
 	}
 

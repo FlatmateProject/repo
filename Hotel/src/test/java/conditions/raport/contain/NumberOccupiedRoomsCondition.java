@@ -10,7 +10,7 @@ public class NumberOccupiedRoomsCondition extends Condition<String> {
 		this.numberOccupiedRooms = numberOccupiedRooms;
 	}
 
-	public static NumberOccupiedRoomsCondition bodyContainValidNumberOccupiedRooms(int numberOccupiedRooms) {
+	public static NumberOccupiedRoomsCondition bodyContainNumberOccupiedRooms(int numberOccupiedRooms) {
 		return new NumberOccupiedRoomsCondition(numberOccupiedRooms);
 	}
 

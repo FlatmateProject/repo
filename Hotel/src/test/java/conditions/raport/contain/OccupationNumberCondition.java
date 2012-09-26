@@ -10,7 +10,7 @@ public class OccupationNumberCondition extends Condition<String> {
 		this.occupationNumber = occupationNumber;
 	}
 
-	public static OccupationNumberCondition bodyContainValidOccupationNumber(int occupationNumber) {
+	public static OccupationNumberCondition bodyContainOccupationNumber(int occupationNumber) {
 		return new OccupationNumberCondition(occupationNumber);
 	}
 

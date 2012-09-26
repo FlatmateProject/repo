@@ -21,17 +21,17 @@ import static org.fest.assertions.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static assertions.DiagramBarsAssert.assertThat;
-import static conditions.raport.contain.MonthCondition.headerContainValidMonth;
-import static conditions.raport.contain.YearCondition.headerContainValidYear;
+import static conditions.raport.contain.MonthCondition.headerContainMonth;
+import static conditions.raport.contain.YearCondition.headerContainYear;
 import static conditions.raport.ShownLegendCondition.shownLegend;
-import static conditions.raport.contain.NumberOccupiedRoomsCondition.bodyContainValidNumberOccupiedRooms;
-import static conditions.raport.contain.SumaryGainCondition.bodyContainValidSumaryGain;
-import static conditions.raport.contain.UnitGainCondition.bodyContainValidUnitGain;
-import static conditions.raport.contain.OccupationNumberCondition.bodyContainValidOccupationNumber;
-import static conditions.raport.contain.SumaryTimeCondition.bodyContainValidSumaryTime;
-import static conditions.raport.contain.UseNumberCondition.bodyContainValidUseNumber;
-import static conditions.raport.contain.RoomTypeCondition.headerContainValidRoomType;
-import static conditions.raport.contain.ServiceTypeCondition.headerContainValidServiceType;
+import static conditions.raport.contain.NumberOccupiedRoomsCondition.bodyContainNumberOccupiedRooms;
+import static conditions.raport.contain.SumaryGainCondition.bodyContainSumaryGain;
+import static conditions.raport.contain.UnitGainCondition.bodyContainUnitGain;
+import static conditions.raport.contain.OccupationNumberCondition.bodyContainOccupationNumber;
+import static conditions.raport.contain.SumaryTimeCondition.bodyContainSumaryTime;
+import static conditions.raport.contain.UseNumberCondition.bodyContainUseNumber;
+import static conditions.raport.contain.RoomTypeCondition.headerContainRoomType;
+import static conditions.raport.contain.ServiceTypeCondition.headerContainServiceType;
 
 public class StatisticMockitoTest {
 	
@@ -64,8 +64,8 @@ public class StatisticMockitoTest {
 		String textRaport = raport.getTextResult();
 		assertThat(textRaport)//
 				.isNotNull()//
-				.is(headerContainValidMonth(month))//
-				.is(headerContainValidYear(year))//
+				.is(headerContainMonth(month))//
+				.is(headerContainYear(year))//
 				.isNot(shownLegend());
 		log.info(textRaport);
 		
@@ -102,12 +102,12 @@ public class StatisticMockitoTest {
 		String textRaport = raport.getTextResult();
 		assertThat(textRaport)//
 				.isNotNull()//
-				.is(headerContainValidMonth(month))//
-				.is(headerContainValidYear(year))//
+				.is(headerContainMonth(month))//
+				.is(headerContainYear(year))//
 				.is(shownLegend())//
-				.is(bodyContainValidSumaryGain(sumaryGain))//
-				.is(bodyContainValidNumberOccupiedRooms(numberOccupiedRooms))
-				.is(bodyContainValidUnitGain(unitGain));
+				.is(bodyContainSumaryGain(sumaryGain))//
+				.is(bodyContainNumberOccupiedRooms(numberOccupiedRooms))
+				.is(bodyContainUnitGain(unitGain));
 		log.info(textRaport);
 		
 		double[][] arrayResult = raport.getArrayResult();
@@ -136,9 +136,9 @@ public class StatisticMockitoTest {
 		String textRaport = raport.getTextResult();
 		assertThat(textRaport)//
 				.isNotNull()//
-				.is(headerContainValidMonth(month))//
-				.is(headerContainValidYear(year))//
-				.is(headerContainValidRoomType(roomType))//
+				.is(headerContainMonth(month))//
+				.is(headerContainYear(year))//
+				.is(headerContainRoomType(roomType))//
 				.isNot(shownLegend());
 		log.info(textRaport);
 		
@@ -177,12 +177,12 @@ public class StatisticMockitoTest {
 		String textRaport = raport.getTextResult();
 		assertThat(textRaport)//
 				.isNotNull()//
-				.is(headerContainValidMonth(month))//
-				.is(headerContainValidYear(year))//
+				.is(headerContainMonth(month))//
+				.is(headerContainYear(year))//
 				.is(shownLegend())//
-				.is(bodyContainValidSumaryGain(sumaryGain))//
-				.is(bodyContainValidOccupationNumber(occupationNumber))
-				.is(bodyContainValidUnitGain(unitGain));
+				.is(bodyContainSumaryGain(sumaryGain))//
+				.is(bodyContainOccupationNumber(occupationNumber))
+				.is(bodyContainUnitGain(unitGain));
 		log.info(textRaport);
 		
 		double[][] arrayResult = raport.getArrayResult();
@@ -210,8 +210,8 @@ public class StatisticMockitoTest {
 		String textRaport = raport.getTextResult();
 		assertThat(textRaport)//
 				.isNotNull()//
-				.is(headerContainValidMonth(month))//
-				.is(headerContainValidYear(year))//
+				.is(headerContainMonth(month))//
+				.is(headerContainYear(year))//
 				.isNot(shownLegend());
 		log.info(textRaport);
 		
@@ -250,13 +250,13 @@ public class StatisticMockitoTest {
 		String textRaport = raport.getTextResult();
 		assertThat(textRaport)//
 				.isNotNull()//
-				.is(headerContainValidMonth(month))//
-				.is(headerContainValidYear(year))//
+				.is(headerContainMonth(month))//
+				.is(headerContainYear(year))//
 				.is(shownLegend())//
-				.is(bodyContainValidSumaryTime(sumaryTime))//
-				.is(bodyContainValidSumaryGain(sumaryGain))//
-				.is(bodyContainValidUseNumber(useNumber))
-				.is(bodyContainValidUnitGain(unitGain));
+				.is(bodyContainSumaryTime(sumaryTime))//
+				.is(bodyContainSumaryGain(sumaryGain))//
+				.is(bodyContainUseNumber(useNumber))
+				.is(bodyContainUnitGain(unitGain));
 		log.info(textRaport);
 		
 		double[][] arrayResult = raport.getArrayResult();
@@ -285,9 +285,9 @@ public class StatisticMockitoTest {
 		String textRaport = raport.getTextResult();
 		assertThat(textRaport)//
 				.isNotNull()//
-				.is(headerContainValidMonth(month))//
-				.is(headerContainValidYear(year))//
-				.is(headerContainValidServiceType(serviceTypeName))//
+				.is(headerContainMonth(month))//
+				.is(headerContainYear(year))//
+				.is(headerContainServiceType(serviceTypeName))//
 				.isNot(shownLegend());
 		log.info(textRaport);
 		
@@ -328,13 +328,13 @@ public class StatisticMockitoTest {
 		String textRaport = raport.getTextResult();
 		assertThat(textRaport)//
 				.isNotNull()//
-				.is(headerContainValidMonth(month))//
-				.is(headerContainValidYear(year))//
+				.is(headerContainMonth(month))//
+				.is(headerContainYear(year))//
 				.is(shownLegend())//
-				.is(bodyContainValidSumaryTime(sumaryTime))//
-				.is(bodyContainValidSumaryGain(sumaryGain))//
-				.is(bodyContainValidUseNumber(useNumber))
-				.is(bodyContainValidUnitGain(unitGain));
+				.is(bodyContainSumaryTime(sumaryTime))//
+				.is(bodyContainSumaryGain(sumaryGain))//
+				.is(bodyContainUseNumber(useNumber))
+				.is(bodyContainUnitGain(unitGain));
 		log.info(textRaport);
 		
 		double[][] arrayResult = raport.getArrayResult();
