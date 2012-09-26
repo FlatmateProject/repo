@@ -33,7 +33,7 @@ public class Statistic {
 			case FINANCE_YEAR  : createYearRaport(yFrom, yTo);break;//
 			}
 			if(raport == null){
-				raport = new StatisticRaport(array, resultText);
+				raport = new StatisticRaport(raportKind, array, resultText);
 			}
 			return raport;
 			} catch (Exception e) {

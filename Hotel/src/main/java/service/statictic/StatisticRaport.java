@@ -9,16 +9,20 @@ public class StatisticRaport {
 
 	private double array[][];
 	
-	private String resultText;
+	private String textResult;
 	
-	public StatisticRaport(double[][] array, String resultText) {
+	private RAPORT_KIND raportKind;
+	
+	public StatisticRaport(RAPORT_KIND raportKind, double[][] array, String resultText) {
 		this.array = array;
-		this.resultText = resultText;
+		this.textResult = resultText;
+		this.raportKind = raportKind;
 	}
 	
-	public StatisticRaport(List<DiagramElement> elements, RaportTemplateBuilder templateBuilder) {
+	public StatisticRaport(RAPORT_KIND raportKind, List<DiagramElement> elements, RaportTemplateBuilder templateBuilder) {
 		this.array = createResultArray(elements);
-		this.resultText = templateBuilder.build();	
+		this.textResult = templateBuilder.build();
+		this.raportKind = raportKind;
 	}
 
 	private double[][] createResultArray(List<DiagramElement> elements) {
@@ -39,6 +43,10 @@ public class StatisticRaport {
 	}
 
 	public String getTextResult() {
-		return resultText;
+		return textResult;
+	}
+
+	public RAPORT_KIND getRaportKind() {
+		return raportKind;
 	}
 }

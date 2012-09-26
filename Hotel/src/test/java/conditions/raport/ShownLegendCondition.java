@@ -1,13 +1,13 @@
-package conditions.raport.contain;
+package conditions.raport;
 
 import org.fest.assertions.Condition;
 
-public class ShowLegendCondition extends Condition<String> {
+public class ShownLegendCondition extends Condition<String> {
 
 	private String legend = "Legenda";
 	
-	public static ShowLegendCondition shownLegend() {
-		return new ShowLegendCondition();
+	public static ShownLegendCondition shownLegend() {
+		return new ShownLegendCondition();
 	}
 
 	@Override

@@ -21,10 +21,17 @@ import static org.fest.assertions.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static assertions.DiagramBarsAssert.assertThat;
-import static conditions.raport.contain.ValidMonthCondition.headerContainValidMonth;
-import static conditions.raport.contain.ValidYearCondition.headerContainValidYear;
-import static conditions.raport.contain.ShowLegendCondition.shownLegend;
-
+import static conditions.raport.contain.MonthCondition.headerContainValidMonth;
+import static conditions.raport.contain.YearCondition.headerContainValidYear;
+import static conditions.raport.ShownLegendCondition.shownLegend;
+import static conditions.raport.contain.NumberOccupiedRoomsCondition.bodyContainValidNumberOccupiedRooms;
+import static conditions.raport.contain.SumaryGainCondition.bodyContainValidSumaryGain;
+import static conditions.raport.contain.UnitGainCondition.bodyContainValidUnitGain;
+import static conditions.raport.contain.OccupationNumberCondition.bodyContainValidOccupationNumber;
+import static conditions.raport.contain.SumaryTimeCondition.bodyContainValidSumaryTime;
+import static conditions.raport.contain.UseNumberCondition.bodyContainValidUseNumber;
+import static conditions.raport.contain.RoomTypeCondition.headerContainValidRoomType;
+import static conditions.raport.contain.ServiceTypeCondition.headerContainValidServiceType;
 
 public class StatisticMockitoTest {
 	
@@ -53,8 +60,13 @@ public class StatisticMockitoTest {
 
 		// then
 		assertThat(raport).isNotNull();
+		assertThat(raport.getRaportKind()).isEqualTo(raportKind);
 		String textRaport = raport.getTextResult();
-		assertThat(textRaport).isNotNull().is(headerContainValidMonth(month)).is(headerContainValidYear(year)).isNot(shownLegend());
+		assertThat(textRaport)//
+				.isNotNull()//
+				.is(headerContainValidMonth(month))//
+				.is(headerContainValidYear(year))//
+				.isNot(shownLegend());
 		log.info(textRaport);
 		
 		double[][] arrayResult = raport.getArrayResult();
@@ -86,8 +98,16 @@ public class StatisticMockitoTest {
 		
 		// then
 		assertThat(raport).isNotNull();
+		assertThat(raport.getRaportKind()).isEqualTo(raportKind);
 		String textRaport = raport.getTextResult();
-		assertThat(textRaport).isNotNull().is(headerContainValidMonth(month)).is(headerContainValidYear(year)).is(shownLegend());
+		assertThat(textRaport)//
+				.isNotNull()//
+				.is(headerContainValidMonth(month))//
+				.is(headerContainValidYear(year))//
+				.is(shownLegend())//
+				.is(bodyContainValidSumaryGain(sumaryGain))//
+				.is(bodyContainValidNumberOccupiedRooms(numberOccupiedRooms))
+				.is(bodyContainValidUnitGain(unitGain));
 		log.info(textRaport);
 		
 		double[][] arrayResult = raport.getArrayResult();
@@ -97,9 +117,9 @@ public class StatisticMockitoTest {
 	}
 
 	@Test
-	public void shouldReturnEmptyRoomsForTypeRaport() {
+	public void shouldReturnEmptyRoomsInTypeRaport() {
 		// given
-		RAPORT_KIND raportKind = RAPORT_KIND.HOTEL_ROOM_TYPES;
+		RAPORT_KIND raportKind = RAPORT_KIND.HOTEL_ROOMS;
 		String roomType = "jednoosobowy";
 		List<RoomData> inputData = Collections.emptyList();
 		
@@ -112,8 +132,14 @@ public class StatisticMockitoTest {
 
 		// then
 		assertThat(raport).isNotNull();
+		assertThat(raport.getRaportKind()).isEqualTo(raportKind);
 		String textRaport = raport.getTextResult();
-		assertThat(textRaport).isNotNull().is(headerContainValidMonth(month)).is(headerContainValidYear(year)).isNot(shownLegend());
+		assertThat(textRaport)//
+				.isNotNull()//
+				.is(headerContainValidMonth(month))//
+				.is(headerContainValidYear(year))//
+				.is(headerContainValidRoomType(roomType))//
+				.isNot(shownLegend());
 		log.info(textRaport);
 		
 		double[][] arrayResult = raport.getArrayResult();
@@ -121,7 +147,7 @@ public class StatisticMockitoTest {
 	}
 	
 	@Test
-	public void shouldReturnRoomsForTypeRaport() {
+	public void shouldReturnRoomsInTypeRaport() {
 		// given
 		RAPORT_KIND raportKind = RAPORT_KIND.HOTEL_ROOMS;
 		String roomType = "jednoosobowy";
@@ -147,8 +173,16 @@ public class StatisticMockitoTest {
 		
 		// then
 		assertThat(raport).isNotNull();
+		assertThat(raport.getRaportKind()).isEqualTo(raportKind);
 		String textRaport = raport.getTextResult();
-		assertThat(textRaport).isNotNull().is(headerContainValidMonth(month)).is(headerContainValidYear(year)).is(shownLegend());
+		assertThat(textRaport)//
+				.isNotNull()//
+				.is(headerContainValidMonth(month))//
+				.is(headerContainValidYear(year))//
+				.is(shownLegend())//
+				.is(bodyContainValidSumaryGain(sumaryGain))//
+				.is(bodyContainValidOccupationNumber(occupationNumber))
+				.is(bodyContainValidUnitGain(unitGain));
 		log.info(textRaport);
 		
 		double[][] arrayResult = raport.getArrayResult();
@@ -172,8 +206,13 @@ public class StatisticMockitoTest {
 
 		// then
 		assertThat(raport).isNotNull();
+		assertThat(raport.getRaportKind()).isEqualTo(raportKind);
 		String textRaport = raport.getTextResult();
-		assertThat(textRaport).isNotNull().is(headerContainValidMonth(month)).is(headerContainValidYear(year)).isNot(shownLegend());
+		assertThat(textRaport)//
+				.isNotNull()//
+				.is(headerContainValidMonth(month))//
+				.is(headerContainValidYear(year))//
+				.isNot(shownLegend());
 		log.info(textRaport);
 		
 		double[][] arrayResult = raport.getArrayResult();
@@ -188,10 +227,10 @@ public class StatisticMockitoTest {
 		int useNumber = 2;
 		float unitGain = sumaryGain / useNumber;
 		int expectedNumberOfElements = 2;
-		long time = 10;
+		long sumaryTime = 10;
 
 		ServiceTypeData row = mock(ServiceTypeData.class);
-		when(row.getTime()).thenReturn(time);
+		when(row.getTime()).thenReturn(sumaryTime);//TODO sumaryTime 
 		when(row.getTypeName()).thenReturn(serviceTypeName);
 		when(row.getSummaryGain()).thenReturn(sumaryGain);
 		
@@ -207,8 +246,17 @@ public class StatisticMockitoTest {
 		
 		// then
 		assertThat(raport).isNotNull();
+		assertThat(raport.getRaportKind()).isEqualTo(raportKind);
 		String textRaport = raport.getTextResult();
-		assertThat(textRaport).isNotNull().is(headerContainValidMonth(month)).is(headerContainValidYear(year)).is(shownLegend());
+		assertThat(textRaport)//
+				.isNotNull()//
+				.is(headerContainValidMonth(month))//
+				.is(headerContainValidYear(year))//
+				.is(shownLegend())//
+				.is(bodyContainValidSumaryTime(sumaryTime))//
+				.is(bodyContainValidSumaryGain(sumaryGain))//
+				.is(bodyContainValidUseNumber(useNumber))
+				.is(bodyContainValidUnitGain(unitGain));
 		log.info(textRaport);
 		
 		double[][] arrayResult = raport.getArrayResult();
@@ -233,8 +281,14 @@ public class StatisticMockitoTest {
 
 		// then
 		assertThat(raport).isNotNull();
+		assertThat(raport.getRaportKind()).isEqualTo(raportKind);
 		String textRaport = raport.getTextResult();
-		assertThat(textRaport).isNotNull().is(headerContainValidMonth(month)).is(headerContainValidYear(year)).isNot(shownLegend());
+		assertThat(textRaport)//
+				.isNotNull()//
+				.is(headerContainValidMonth(month))//
+				.is(headerContainValidYear(year))//
+				.is(headerContainValidServiceType(serviceTypeName))//
+				.isNot(shownLegend());
 		log.info(textRaport);
 		
 		double[][] arrayResult = raport.getArrayResult();
@@ -248,13 +302,13 @@ public class StatisticMockitoTest {
 		String serviceTypeName = "wynajem";
 		float sumaryGain = 100.0f;
 		int useNumber = 2;
-		int expectedNumberOfElements = 2;
 		float unitGain = sumaryGain / useNumber;
 		String serviceName = "jednosobosy";
-		long time = 10;
+		long sumaryTime = 10;
+		int expectedNumberOfElements = 2;
 		
 		ServiceData row = mock(ServiceData.class);
-		when(row.getTime()).thenReturn(time);
+		when(row.getTime()).thenReturn(sumaryTime);
 		when(row.getServiceName()).thenReturn(serviceName);
 		when(row.getSummaryGain()).thenReturn(sumaryGain);
 		
@@ -270,8 +324,17 @@ public class StatisticMockitoTest {
 		
 		// then
 		assertThat(raport).isNotNull();
+		assertThat(raport.getRaportKind()).isEqualTo(raportKind);
 		String textRaport = raport.getTextResult();
-		assertThat(textRaport).isNotNull().is(headerContainValidMonth(month)).is(headerContainValidYear(year)).is(shownLegend());
+		assertThat(textRaport)//
+				.isNotNull()//
+				.is(headerContainValidMonth(month))//
+				.is(headerContainValidYear(year))//
+				.is(shownLegend())//
+				.is(bodyContainValidSumaryTime(sumaryTime))//
+				.is(bodyContainValidSumaryGain(sumaryGain))//
+				.is(bodyContainValidUseNumber(useNumber))
+				.is(bodyContainValidUnitGain(unitGain));
 		log.info(textRaport);
 		
 		double[][] arrayResult = raport.getArrayResult();

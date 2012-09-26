@@ -7,6 +7,7 @@ import java.util.List;
 import dto.ServiceTypeData;
 import service.dictionary.MONTH;
 import service.statictic.DiagramElement;
+import service.statictic.RAPORT_KIND;
 import service.statictic.StatisticRaport;
 import service.statictic.templates.RaportTemplateBuilder;
 
@@ -42,7 +43,7 @@ public class HotelServiceTypesRaportCreator extends RaportCreator {
 		}
 		templateBuilder.createFoot(serviceTypes.size());
 		
-		return new StatisticRaport(plotPoints, templateBuilder);
+		return new StatisticRaport(RAPORT_KIND.HOTEL_SERVICE_TYPES, plotPoints, templateBuilder);
 	}
 
 }

@@ -14,7 +14,7 @@ public class HotelRoomsRaportTemplateBuilder implements RaportTemplateBuilder {
 
 	@Override
 	public void appendBodyBlock(Object... args) {
-		String.format("\tPokój nr: %d (%d).\n"
+		body += String.format("\tPokój nr: %d (%d).\n"
 				+ "\tzyski: %.2fzł\n"
 				+ "\tliczba meldunków: %d\n"
 				+ "\tprzychód jednostkowy: %.2fzł\n", args);

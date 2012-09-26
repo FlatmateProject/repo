@@ -8,6 +8,7 @@ import dto.ServiceData;
 
 import service.dictionary.MONTH;
 import service.statictic.DiagramElement;
+import service.statictic.RAPORT_KIND;
 import service.statictic.StatisticRaport;
 import service.statictic.templates.RaportTemplateBuilder;
 
@@ -47,7 +48,7 @@ public class HotelServiceRaportCreator extends RaportCreator {
 		}
 		templateBuilder.createFoot(services.size());
 		
-		return new StatisticRaport(plotPoints, templateBuilder);
+		return new StatisticRaport(RAPORT_KIND.HOTEL_SERVICE, plotPoints, templateBuilder);
 	}
 
 }
