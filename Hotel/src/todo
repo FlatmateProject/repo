@@ -1,3 +1,5 @@
 1. Add common calendar to each pannel.
 4. Move database informations to propertis file
 5. Generate years in past not in future
+6. Add exception handling.
+7. Use assertThat instead of assert*

@@ -1,7 +1,6 @@
 package service.statistic;
 
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
+import static org.fest.assertions.Assertions.assertThat;
 
 import org.apache.log4j.Logger;
 import org.testng.annotations.DataProvider;
@@ -23,17 +22,16 @@ public class StatisticTest {
 		Statistic statistic = new Statistic(new StaticticDaoImpl());
 
 		// when
-		StatisticRaport raport = statistic.hotel(raportKind, month, year,
-				roomType, serve);
+		StatisticRaport raport = statistic.hotel(raportKind, month, year, roomType, serve);
 
 		// then
-		assertNotNull(raport);
+		assertThat(raport).isNotNull();;
 		String textRaport = raport.getTextResult();
-		assertNotNull(textRaport);
+		assertThat(textRaport).isNotNull();
 		log.info(textRaport);
 
 		double[][] arrayResult = raport.getArrayResult();
-		assertNull(arrayResult);
+		assertThat(arrayResult).isNull();
 	}
 
 	@DataProvider
