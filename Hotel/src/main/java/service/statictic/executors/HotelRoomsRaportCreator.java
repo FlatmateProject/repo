@@ -30,21 +30,17 @@ public class HotelRoomsRaportCreator extends RaportCreator {
 	public StatisticRaport createRaport(RaportTemplateBuilder templateBuilder) throws SQLException {
 		int i = 0;
 		List<DiagramElement> plotPoints = new LinkedList<DiagramElement>(); 
-		
 		List<RoomData> rooms = staticticDao.findRoomsByType(month.id(), year, roomType);
 		templateBuilder.createHeader(roomType, month,year);
 		for (RoomData room : rooms) {
-			int nuberOccupiedRooms = room.getNuberOccupiedRooms();
+			int occupationNumber = room.getOccupationNumber();
 			float summaryGain = room.getSummaryGain();
-			float unitGain = summaryGain / nuberOccupiedRooms;
-			
+			float unitGain = summaryGain / occupationNumber;
 			plotPoints.add(new DiagramElement(summaryGain, unitGain));
-			
-			templateBuilder.appendBodyBlock(room.getRoomId(), i, summaryGain, nuberOccupiedRooms, unitGain);
+			templateBuilder.appendBodyBlock(room.getRoomId(), i, summaryGain, occupationNumber, unitGain);
 			i++;
 		}
 		templateBuilder.createFoot(rooms.size());
-
 		return new StatisticRaport(RAPORT_KIND.HOTEL_ROOMS, plotPoints, templateBuilder);
 	}
 

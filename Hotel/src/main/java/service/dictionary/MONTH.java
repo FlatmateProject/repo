@@ -39,8 +39,12 @@ public enum MONTH {
 		return ordinal() + 1;
 	}
 	
+	public boolean after(MONTH month) {
+		return id() > month.id();
+	}
+	
 	public static MONTH getMonth(int i) {
-		return months[i];
+		return months[i - 1];
 	}
 
 	public static String getMonthName(int i) {
@@ -56,4 +60,5 @@ public enum MONTH {
 	public String toString() {
 		return desc;
 	}
+
 }

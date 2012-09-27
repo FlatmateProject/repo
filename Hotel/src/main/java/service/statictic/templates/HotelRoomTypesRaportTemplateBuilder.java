@@ -8,8 +8,6 @@ public class HotelRoomTypesRaportTemplateBuilder implements RaportTemplateBuilde
 	
 	private String body   = "";
 	
-	private String DEFAULT_FOOT   = "W danym miesiącu nie wprowadzano danych z zakresu.\n";
-	
 	private String foot   = DEFAULT_FOOT;
 	
 	
@@ -29,7 +27,7 @@ public class HotelRoomTypesRaportTemplateBuilder implements RaportTemplateBuilde
 
 	@Override
 	public void createFoot(Object... args) {
-		if(isShowLegend(args)){
+		if(isShownLegend(args)){
 		foot = String.format("Legenda \n"
 				+ " Slupek pierwsz przedstawia zyski\n"
 				+ " Slupek drugi przedstawia przychód jednostkowy\n"
@@ -46,7 +44,7 @@ public class HotelRoomTypesRaportTemplateBuilder implements RaportTemplateBuilde
 		return result;
 	}
 	
-	private boolean isShowLegend(Object... args) {
+	private boolean isShownLegend(Object... args) {
 		int numberOfElements = (Integer) (args != null && args.length > 0 ? args[0] : 0);
 		return numberOfElements > 0;
 	}

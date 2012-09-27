@@ -159,7 +159,7 @@ public class StatisticMockitoTest {
 
 		RoomData row = mock(RoomData.class);
 		when(row.getRoomId()).thenReturn(roomId);
-		when(row.getNuberOccupiedRooms()).thenReturn(occupationNumber);
+		when(row.getOccupationNumber()).thenReturn(occupationNumber);
 		when(row.getSummaryGain()).thenReturn(sumaryGain);
 		
 		List<RoomData> inputData = Arrays.asList(row);
@@ -230,7 +230,7 @@ public class StatisticMockitoTest {
 		long sumaryTime = 10;
 
 		ServiceTypeData row = mock(ServiceTypeData.class);
-		when(row.getTime()).thenReturn(sumaryTime);//TODO sumaryTime 
+		when(row.getTime()).thenReturn(sumaryTime);
 		when(row.getTypeName()).thenReturn(serviceTypeName);
 		when(row.getSummaryGain()).thenReturn(sumaryGain);
 		

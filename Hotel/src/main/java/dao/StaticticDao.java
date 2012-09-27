@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import dto.MonthSumaryGain;
 import dto.RoomTypesData;
 import dto.RoomData;
 import dto.ServiceData;
@@ -23,7 +24,7 @@ public interface StaticticDao {
 
 	List<ServiceData> findServiceByType(int month, int year, String serviceName);
 
-	ResultSet createMonthRaport(int monthFrom, int monthTo, int year);
+	List<MonthSumaryGain> findMonthSumaryGains(int monthFrom, int monthTo, int year);
 
 	ResultSet createYearRaport(int yearFrom, int yearTo);
 

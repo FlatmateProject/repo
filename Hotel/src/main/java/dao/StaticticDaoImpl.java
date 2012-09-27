@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import dto.MonthSumaryGain;
 import dto.RoomTypesData;
 import dto.RoomData;
 import dto.ServiceData;
@@ -55,7 +56,7 @@ public class StaticticDaoImpl extends AbstractDao implements StaticticDao {
 	}
 
 	@Override
-	public ResultSet createMonthRaport(int monthFrom, int monthTo, int year) {
+	public List<MonthSumaryGain> findMonthSumaryGains(int monthFrom, int monthTo, int year) {
 		String query = "SELECT MONTH(r.data_w) miesiac, sum((r.data_w-r.data_z)*k.cena) zysk_r, ";
 		query += " ( SELECT sum(rk.czas*u.cena) FROM rekreacja rk JOIN rezerwacje rz ON rk.id_rez=rz.id_rez ";
 		query += "JOIN uslugi u ON rk.id_uslugi=u.id_uslugi WHERE MONTH(rz.data_w)=MONTH(r.data_w) ";
@@ -66,7 +67,7 @@ public class StaticticDaoImpl extends AbstractDao implements StaticticDao {
 				+ " AND MONTH(r.data_w)<=" + monthTo + " ";
 		query += " AND YEAR(r.data_w)=" + year
 				+ " GROUP BY MONTH(r.data_w)";
-		return getSession().query(query);
+		return exacuteQuery(query, MonthSumaryGain.class);
 	}
 
 	@Override

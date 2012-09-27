@@ -7,7 +7,7 @@ public class RoomData {
 
 	private long roomId;
 
-	private int nuberOccupiedRooms;
+	private int occupationNumber;
 
 	private float summaryGain;
 
@@ -23,12 +23,12 @@ public class RoomData {
 		this.roomId = roomId;
 	}
 
-	public int getNuberOccupiedRooms() {
-		return nuberOccupiedRooms;
+	public int getOccupationNumber() {
+		return occupationNumber;
 	}
 
-	public void setNuberoccupiedRooms(int nuberOccupiedRooms) {
-		this.nuberOccupiedRooms = nuberOccupiedRooms;
+	public void setOccupationNumber(int occupationNumber) {
+		this.occupationNumber = occupationNumber;
 	}
 
 	public float getSummaryGain() {

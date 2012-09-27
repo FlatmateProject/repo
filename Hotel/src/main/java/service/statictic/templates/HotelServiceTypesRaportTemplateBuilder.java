@@ -28,7 +28,7 @@ public class HotelServiceTypesRaportTemplateBuilder implements RaportTemplateBui
 
 	@Override
 	public void createFoot(Object... args) {
-		if(isShowLegend(args)){
+		if(isShownLegend(args)){
 		foot = String.format("Legenda \n"
 				+ " Slupek pierwsz przedstawia zyski\n"
 				+ " Slupek drugi przedstawia przychód jednostkowy\n"
@@ -45,7 +45,7 @@ public class HotelServiceTypesRaportTemplateBuilder implements RaportTemplateBui
 		return result;
 	}
 
-	private boolean isShowLegend(Object... args) {
+	private boolean isShownLegend(Object... args) {
 		int numberOfElements = (Integer) (args != null && args.length > 0 ? args[0] : 0);
 		return numberOfElements > 0;
 	}

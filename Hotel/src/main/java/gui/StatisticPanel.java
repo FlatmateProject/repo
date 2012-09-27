@@ -295,8 +295,8 @@ public class StatisticPanel extends JPanel {
 				}else{
 					raport = statistic.finance(//
 							(RAPORT_KIND) chooseSubFinance.getSelectedItem(),
-							chooseMonth2.getSelectedIndex() + 1,
-							chooseMonth.getSelectedIndex() + 1,
+							(MONTH) chooseMonth2.getSelectedItem(),
+							(MONTH) chooseMonth.getSelectedItem(),
 							chooseYear.getSelectedIndex() + 2010,
 							chooseYear2.getSelectedIndex() + 2010);
 				}
