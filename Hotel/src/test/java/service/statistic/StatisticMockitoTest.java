@@ -69,8 +69,8 @@ public class StatisticMockitoTest {
 				.isNot(footerContainLegend());
 		log.info(textRaport);
 		
-		double[][] arrayResult = raport.getArrayResult();
-		assertThat(arrayResult).isNull();
+		double[][] array = raport.getArrayResult();
+		assertThat(array).isNull();
 	}
 	
 	@Test
@@ -106,14 +106,14 @@ public class StatisticMockitoTest {
 				.is(headerContainYear(year))//
 				.is(footerContainLegend())//
 				.is(bodyContainSumaryGain(sumaryGain))//
-				.is(bodyContainNumberOccupiedRooms(numberOccupiedRooms))
+				.is(bodyContainNumberOccupiedRooms(numberOccupiedRooms))//
 				.is(bodyContainUnitGain(unitGain));
 		log.info(textRaport);
 		
-		double[][] arrayResult = raport.getArrayResult();
-		assertThat(arrayResult).isNotNull().hasSize(1);
-		assertThat(arrayResult[0]).hasSize(expectedNumberOfElements);
-		assertThat(arrayResult[0]).isSumaryGainEqualTo(sumaryGain).isUnitGainEqualTo(unitGain);
+		double[][] array = raport.getArrayResult();
+		assertThat(array).isNotNull().hasSize(1);
+		assertThat(array[0]).hasSize(expectedNumberOfElements);
+		assertThat(array[0]).isSumaryGainEqualTo(sumaryGain).isUnitGainEqualTo(unitGain);
 	}
 
 	@Test
@@ -142,8 +142,8 @@ public class StatisticMockitoTest {
 				.isNot(footerContainLegend());
 		log.info(textRaport);
 		
-		double[][] arrayResult = raport.getArrayResult();
-		assertThat(arrayResult).isNull();
+		double[][] array = raport.getArrayResult();
+		assertThat(array).isNull();
 	}
 	
 	@Test
@@ -181,14 +181,14 @@ public class StatisticMockitoTest {
 				.is(headerContainYear(year))//
 				.is(footerContainLegend())//
 				.is(bodyContainSumaryGain(sumaryGain))//
-				.is(bodyContainOccupationNumber(occupationNumber))
+				.is(bodyContainOccupationNumber(occupationNumber))//
 				.is(bodyContainUnitGain(unitGain));
 		log.info(textRaport);
 		
-		double[][] arrayResult = raport.getArrayResult();
-		assertThat(arrayResult).isNotNull().hasSize(1);
-		assertThat(arrayResult[0]).hasSize(expectedNumberOfElements);
-		assertThat(arrayResult[0]).isSumaryGainEqualTo(sumaryGain).isUnitGainEqualTo(unitGain);
+		double[][] array = raport.getArrayResult();
+		assertThat(array).isNotNull().hasSize(1);
+		assertThat(array[0]).hasSize(expectedNumberOfElements);
+		assertThat(array[0]).isSumaryGainEqualTo(sumaryGain).isUnitGainEqualTo(unitGain);
 	}
 	
 	@Test
@@ -215,8 +215,8 @@ public class StatisticMockitoTest {
 				.isNot(footerContainLegend());
 		log.info(textRaport);
 		
-		double[][] arrayResult = raport.getArrayResult();
-		assertThat(arrayResult).isNull();
+		double[][] array = raport.getArrayResult();
+		assertThat(array).isNull();
 	}
 	
 	@Test
@@ -230,7 +230,7 @@ public class StatisticMockitoTest {
 		long sumaryTime = 10;
 
 		ServiceTypeData row = mock(ServiceTypeData.class);
-		when(row.getTime()).thenReturn(sumaryTime);
+		when(row.getSummaryTime()).thenReturn(sumaryTime);
 		when(row.getTypeName()).thenReturn(serviceTypeName);
 		when(row.getSummaryGain()).thenReturn(sumaryGain);
 		
@@ -255,14 +255,14 @@ public class StatisticMockitoTest {
 				.is(footerContainLegend())//
 				.is(bodyContainSumaryTime(sumaryTime))//
 				.is(bodyContainSumaryGain(sumaryGain))//
-				.is(bodyContainUseNumber(useNumber))
+				.is(bodyContainUseNumber(useNumber))//
 				.is(bodyContainUnitGain(unitGain));
 		log.info(textRaport);
 		
-		double[][] arrayResult = raport.getArrayResult();
-		assertThat(arrayResult).isNotNull().hasSize(1);
-		assertThat(arrayResult[0]).hasSize(expectedNumberOfElements);
-		assertThat(arrayResult[0]).isSumaryGainEqualTo(sumaryGain).isUnitGainEqualTo(unitGain);
+		double[][] array = raport.getArrayResult();
+		assertThat(array).isNotNull().hasSize(1);
+		assertThat(array[0]).hasSize(expectedNumberOfElements);
+		assertThat(array[0]).isSumaryGainEqualTo(sumaryGain).isUnitGainEqualTo(unitGain);
 	}
 	
 	@Test
@@ -291,8 +291,8 @@ public class StatisticMockitoTest {
 				.isNot(footerContainLegend());
 		log.info(textRaport);
 		
-		double[][] arrayResult = raport.getArrayResult();
-		assertThat(arrayResult).isNull();
+		double[][] array = raport.getArrayResult();
+		assertThat(array).isNull();
 	}
 	
 	@Test
@@ -308,7 +308,7 @@ public class StatisticMockitoTest {
 		int expectedNumberOfElements = 2;
 		
 		ServiceData row = mock(ServiceData.class);
-		when(row.getTime()).thenReturn(sumaryTime);
+		when(row.getSummaryTime()).thenReturn(sumaryTime);
 		when(row.getServiceName()).thenReturn(serviceName);
 		when(row.getSummaryGain()).thenReturn(sumaryGain);
 		
@@ -333,13 +333,13 @@ public class StatisticMockitoTest {
 				.is(footerContainLegend())//
 				.is(bodyContainSumaryTime(sumaryTime))//
 				.is(bodyContainSumaryGain(sumaryGain))//
-				.is(bodyContainUseNumber(useNumber))
+				.is(bodyContainUseNumber(useNumber))//
 				.is(bodyContainUnitGain(unitGain));
 		log.info(textRaport);
 		
-		double[][] arrayResult = raport.getArrayResult();
-		assertThat(arrayResult).isNotNull().hasSize(1);
-		assertThat(arrayResult[0]).hasSize(expectedNumberOfElements);
-		assertThat(arrayResult[0]).isSumaryGainEqualTo(sumaryGain).isUnitGainEqualTo(unitGain);
+		double[][] array = raport.getArrayResult();
+		assertThat(array).isNotNull().hasSize(1);
+		assertThat(array[0]).hasSize(expectedNumberOfElements);
+		assertThat(array[0]).isSumaryGainEqualTo(sumaryGain).isUnitGainEqualTo(unitGain);
 	}
 }

@@ -41,7 +41,7 @@ public class HotelServiceRaportCreator extends RaportCreator {
 			int useNumber = staticticDao.countUseNumberForServiceName(serveName);
 			float unitGain = sumaryGain / useNumber;
 			
-			templateBuilder.appendBodyBlock(serveName, i, service.getTime(), sumaryGain, useNumber, unitGain);
+			templateBuilder.appendBodyBlock(serveName, i, service.getSummaryTime(), sumaryGain, useNumber, unitGain);
 			
 			plotPoints.add(new DiagramElement(sumaryGain, unitGain));
 			i++;

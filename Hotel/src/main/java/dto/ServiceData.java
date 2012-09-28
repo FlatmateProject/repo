@@ -7,7 +7,7 @@ public class ServiceData {
 
 	private String serviceName;
 	
-	private long time;
+	private long summaryTime;
 	
 	private float summaryGain;
 
@@ -22,12 +22,12 @@ public class ServiceData {
 		this.serviceName = serviceName;
 	}
 
-	public long getTime() {
-		return time;
+	public long getSummaryTime() {
+		return summaryTime;
 	}
 
-	public void setTime(long time) {
-		this.time = time;
+	public void setSummaryTime(long summaryTime) {
+		this.summaryTime = summaryTime;
 	}
 
 	public float getSummaryGain() {

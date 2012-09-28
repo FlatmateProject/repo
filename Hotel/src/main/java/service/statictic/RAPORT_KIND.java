@@ -2,7 +2,7 @@ package service.statictic;
 
 import service.statictic.executors.FinanceYearRaportCreator;
 import service.statictic.executors.HotelRoomTypesRaportCreator;
-import service.statictic.executors.HotelRoomsRaportCreator;
+import service.statictic.executors.HotelRoomsInTypeRaportCreator;
 import service.statictic.executors.HotelServiceRaportCreator;
 import service.statictic.executors.HotelServiceTypesRaportCreator;
 import service.statictic.executors.RaportCreator;
@@ -19,7 +19,7 @@ public enum RAPORT_KIND {
 	FINANCE_MONTH("Bilansu z miesięcy", new FinanceMonthRaportTemplateBuilder(), new FinanceMonthRaportCreator()), //
 	FINANCE_YEAR("Bilansu z lat", new FinanceYearRaportTemplateBuilder(), new FinanceYearRaportCreator()), //
 	HOTEL_ROOM_TYPES("Raportu z wykorzystania klas pokoi",new HotelRoomTypesRaportTemplateBuilder(), new HotelRoomTypesRaportCreator()), //
-	HOTEL_ROOMS("Raportu z wykorzystania pokoi w klasie", new HotelRoomsRaportTemplateBuilder(), new HotelRoomsRaportCreator()), //
+	HOTEL_ROOMS("Raportu z wykorzystania pokoi w klasie", new HotelRoomsRaportTemplateBuilder(), new HotelRoomsInTypeRaportCreator()), //
 	HOTEL_SERVICE_TYPES("Raportu z wykorzystania typów usług", new HotelServiceTypesRaportTemplateBuilder(), new HotelServiceTypesRaportCreator()), //
 	HOTEL_SERVICE("Raportu z wybranej uslugi", new HotelServiceRaportTemplateBuilder(), new HotelServiceRaportCreator())//
 	;

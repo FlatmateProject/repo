@@ -5,14 +5,12 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
 public abstract class AbstractDao {
-
 	
 	private static final Logger log = Logger.getLogger(AbstractDao.class);
 	
@@ -41,49 +39,54 @@ public abstract class AbstractDao {
 		return transform(resultSet, dtoClass);
 	}
 	
-	public <T> List<T> transform(ResultSet dataSet, Class<T> resultClass) {
+	private <T> List<T> transform(ResultSet dataSet, Class<T> resultClass) {
+		ArrayList<T> EMPTY_LIST = new ArrayList<T>();
 		try {
-			List<T> transformedResult = new ArrayList<T>();
 			if (dataSet != null) {
-				while (dataSet.next()){
-					T object = createObject(resultClass);
-					object= fillObject(dataSet, createObject(resultClass), resultClass);
-					transformedResult.add(resultClass.cast(object));
-				}
+				return createTransformedResult(dataSet, resultClass);
 			}
-			return transformedResult;
+			return EMPTY_LIST;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Collections.emptyList();
+			return EMPTY_LIST;
 		}
+	}
+
+	private <T> List<T> createTransformedResult(ResultSet dataSet,	Class<T> objectClass) throws Exception {
+		List<T> transformedResult = new ArrayList<T>();
+		while (dataSet.next()) {
+			T object = createObject(objectClass);
+			fillObject(object, objectClass.getDeclaredFields(), dataSet);
+			transformedResult.add(objectClass.cast(object));
+		}
+		return transformedResult;
 	}
 
 	private <T> T createObject(Class<T> resultClass) throws InstantiationException, IllegalAccessException {
 		return resultClass.newInstance();
 	}
 
-	private <T> T fillObject(ResultSet dataSet, T object, Class<T> resultClass) throws IllegalArgumentException, IllegalAccessException, SQLException {
-		int i = 1;
-		for (Field field : resultClass.getDeclaredFields()) {
+	private <T> void fillObject(T object, Field[] fields, ResultSet dataSet) throws IllegalArgumentException, IllegalAccessException, SQLException {
+		int index = 1;
+		for (Field field : fields) {
 			field.setAccessible(true);
-			field.set(object, retriveObject(dataSet, i, field.getType()));
-			i++;
+			field.set(object, getObjectByIndex(dataSet, index, field.getType()));
+			index++;
 			log.info(field.getName() + ": " + field.toString());
 		}
-		return object;
 	}
 
-	private  Object retriveObject(ResultSet dataSet, int i, Class<?> type) throws SQLException {
+	private  Object getObjectByIndex(ResultSet dataSet, int index, Class<?> type) throws SQLException {
 		if(type.equals(long.class)){
-			return dataSet.getLong(i);
+			return dataSet.getLong(index);
 		}
 		if(type.equals(GregorianCalendar.class)){
-			Date date = dataSet.getDate(i);
+			Date date = dataSet.getDate(index);
 			long millis = date.getTime();
 			GregorianCalendar calendar = new GregorianCalendar();
 			calendar.setTimeInMillis(millis);
 			return calendar;
 		}
-		return dataSet.getObject(i);
+		return dataSet.getObject(index);
 	}
 }

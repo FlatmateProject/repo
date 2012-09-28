@@ -7,15 +7,9 @@ public class ServiceTypeData {
 
 	private String typeName;
 	
-	private long time;
+	private long summaryTime;
 	
 	private float summaryGain;
-
-	public ServiceTypeData(String typeName, long time, float sumaryGain) {
-		this.typeName = typeName;
-		this.time = time;
-		this.summaryGain = sumaryGain;
-	}
 
 	public String getTypeName() {
 		return typeName;
@@ -25,12 +19,12 @@ public class ServiceTypeData {
 		this.typeName = typeName;
 	}
 
-	public long getTime() {
-		return time;
+	public long getSummaryTime() {
+		return summaryTime;
 	}
 
-	public void setTime(long time) {
-		this.time = time;
+	public void setSummaryTime(long summaryTime) {
+		this.summaryTime = summaryTime;
 	}
 
 	public float getSummaryGain() {

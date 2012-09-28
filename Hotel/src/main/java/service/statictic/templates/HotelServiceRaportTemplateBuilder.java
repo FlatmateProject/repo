@@ -12,7 +12,7 @@ public class HotelServiceRaportTemplateBuilder implements RaportTemplateBuilder 
 	
 	@Override
 	public void createHeader(Object... args) {
-		header = String.format("Raportu z wykorzystania typu usług %s za miesiąc %s w roku %d\n", args);
+		header = String.format("Raportu z wykorzystania usług z type %s za miesiąc %s w roku %d\n", args);
 
 	}
 

@@ -11,7 +11,7 @@ import service.statictic.StatisticRaport;
 import service.statictic.templates.RaportTemplateBuilder;
 import dto.RoomData;
 
-public class HotelRoomsRaportCreator extends RaportCreator {
+public class HotelRoomsInTypeRaportCreator extends RaportCreator {
 
 	private MONTH month;
 	
