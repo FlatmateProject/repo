@@ -15,7 +15,7 @@ public class PeriodOfMonthsCondition extends Condition<String> {
 		this.monthTo = monthTo;
 	}
 	
-	public static PeriodOfMonthsCondition headerContainPeriodMonths(MONTH monthFrom, MONTH monthTo) {
+	public static PeriodOfMonthsCondition headerContainPeriodOfMonths(MONTH monthFrom, MONTH monthTo) {
 		return new PeriodOfMonthsCondition(monthFrom, monthTo);
 	}
 

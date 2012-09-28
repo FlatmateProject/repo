@@ -3,7 +3,7 @@ package service.statistic;
 import static conditions.raport.contain.StringCondition.footerContainLegend;
 import static conditions.raport.contain.MonthCondition.headerContainMonth;
 import static conditions.raport.contain.IntegerCondition.headerContainYear;
-import static conditions.raport.contain.PeriodOfMonthsCondition.headerContainPeriodMonths;
+import static conditions.raport.contain.PeriodOfMonthsCondition.headerContainPeriodOfMonths;
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.apache.log4j.Logger;
@@ -83,9 +83,9 @@ public class StatisticTest {
 	@DataProvider
 	public static Object[][] prepareCasesForFinanceMonthRaport() {
 		Object[][] datas = new Object[][] {//
-				{ MONTH.September, MONTH.December, headerContainPeriodMonths(MONTH.September, MONTH.December) },//
+				{ MONTH.September, MONTH.December, headerContainPeriodOfMonths(MONTH.September, MONTH.December) },//
 				{ MONTH.September, MONTH.September, headerContainMonth(MONTH.September) },//
-				{ MONTH.September, MONTH.May, headerContainPeriodMonths(MONTH.May, MONTH.September) },//
+				{ MONTH.September, MONTH.May, headerContainPeriodOfMonths(MONTH.May, MONTH.September) },//
 		};
 		return datas;
 	}
