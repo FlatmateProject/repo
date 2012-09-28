@@ -1,9 +1,9 @@
 package service.statistic;
 
-import static conditions.raport.ShownLegendCondition.shownLegend;
+import static conditions.raport.contain.StringCondition.footerContainLegend;
 import static conditions.raport.contain.MonthCondition.headerContainMonth;
-import static conditions.raport.contain.YearCondition.headerContainYear;
-import static conditions.raport.contain.MonthsPeriodCondition.headerContainPeriodMonths;
+import static conditions.raport.contain.IntegerCondition.headerContainYear;
+import static conditions.raport.contain.PeriodOfMonthsCondition.headerContainPeriodMonths;
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.apache.log4j.Logger;
@@ -37,7 +37,7 @@ public class StatisticTest {
 				.isNotNull()//
 				.is(headerContainMonth(month))//
 				.is(headerContainYear(year))//
-				.isNot(shownLegend());
+				.isNot(footerContainLegend());
 		log.info(textRaport);
 
 		double[][] arrayResult = raport.getArrayResult();
@@ -73,7 +73,7 @@ public class StatisticTest {
 				.isNotNull()//
 				.is(monthCondition)//
 				.is(headerContainYear(year))//
-				.isNot(shownLegend());
+				.isNot(footerContainLegend());
 		log.info(textRaport);
 
 		double[][] arrayResult = raport.getArrayResult();
@@ -107,7 +107,7 @@ public class StatisticTest {
 				.isNotNull()//
 				.is(headerContainYear(yearFrom))//
 				.is(headerContainYear(yearTo))//
-				.isNot(shownLegend());
+				.isNot(footerContainLegend());
 		log.info(textRaport);
 
 		double[][] arrayResult = raport.getArrayResult();

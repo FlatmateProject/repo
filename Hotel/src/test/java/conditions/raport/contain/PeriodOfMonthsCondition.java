@@ -4,19 +4,19 @@ import org.fest.assertions.Condition;
 
 import service.dictionary.MONTH;
 
-public class MonthsPeriodCondition extends Condition<String> {
+public class PeriodOfMonthsCondition extends Condition<String> {
 
 	private MONTH monthFrom;
 	
 	private MONTH monthTo;
 	
-	public MonthsPeriodCondition(MONTH monthFrom, MONTH monthTo) {
+	public PeriodOfMonthsCondition(MONTH monthFrom, MONTH monthTo) {
 		this.monthFrom = monthFrom;
 		this.monthTo = monthTo;
 	}
 	
-	public static MonthsPeriodCondition headerContainPeriodMonths(MONTH monthFrom, MONTH monthTo) {
-		return new MonthsPeriodCondition(monthFrom, monthTo);
+	public static PeriodOfMonthsCondition headerContainPeriodMonths(MONTH monthFrom, MONTH monthTo) {
+		return new PeriodOfMonthsCondition(monthFrom, monthTo);
 	}
 
 	@Override
