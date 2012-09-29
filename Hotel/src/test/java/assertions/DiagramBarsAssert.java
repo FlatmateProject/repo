@@ -14,12 +14,32 @@ public class DiagramBarsAssert extends DoubleArrayAssert {
 	}
 	
 	public DiagramBarsAssert isSumaryGainEqualTo(double sumaryGain) {
-		Assertions.assertThat(actual[0]).isEqualTo(sumaryGain);
-		return this;
+		return assertArrayElementOfIndex(0, sumaryGain);
 	}
+
 	
 	public DiagramBarsAssert isUnitGainEqualTo(double unitGain) {
-		Assertions.assertThat(actual[1]).isEqualTo(unitGain);
+		return assertArrayElementOfIndex(1, unitGain);
+	}
+
+	public DiagramBarsAssert isReservationSumaryGainEqualTo(double reservationSumaryGain) {
+		return assertArrayElementOfIndex(0, reservationSumaryGain);
+	}
+	
+	public DiagramBarsAssert isServiceSumaryGainEqualTo(double serviceSumaryGain) {
+		return assertArrayElementOfIndex(1, serviceSumaryGain);
+	}
+	
+	public DiagramBarsAssert isCantorSumaryGainEqualTo(double cantorSumaryGain) {
+		return assertArrayElementOfIndex(2, cantorSumaryGain);
+	}
+	
+	public DiagramBarsAssert isHotelSumaryGainEqualTo(double sumaryGain) {
+		return assertArrayElementOfIndex(3, sumaryGain);
+	}
+
+	private DiagramBarsAssert assertArrayElementOfIndex(int i, double expectedGain) {
+		Assertions.assertThat(actual[i]).isEqualTo(expectedGain);
 		return this;
 	}
 }

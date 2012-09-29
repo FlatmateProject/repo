@@ -10,7 +10,7 @@ import service.statictic.RAPORT_KIND;
 import service.statictic.StatisticRaport;
 import service.statictic.executors.RaportCreator;
 import service.statictic.executors.RaportDetails;
-import dto.MonthSumaryGain;
+import dto.MonthSumaryGainData;
 
 public class FinanceMonthRaportCreator extends RaportCreator {
 
@@ -32,13 +32,11 @@ public class FinanceMonthRaportCreator extends RaportCreator {
 		int i = 0;
 		List<DiagramElement> plotPoints = new LinkedList<DiagramElement>(); 
 		if (monthFrom.after(monthTo)) {
-			MONTH tmp = monthFrom;
-			monthFrom = monthTo;
-			monthTo = tmp;
+			swapMonths();
 		}
-		List<MonthSumaryGain> monthSumaryGains = staticticDao.findMonthSumaryGains(monthFrom.id(), monthTo.id(), year);
+		List<MonthSumaryGainData> monthSumaryGains = staticticDao.findMonthSumaryGains(monthFrom.id(), monthTo.id(), year);
 		templateBuilder.createHeader(monthFrom, monthTo, year);
-		for (MonthSumaryGain financeMonthRaportData : monthSumaryGains) {
+		for (MonthSumaryGainData financeMonthRaportData : monthSumaryGains) {
 			int month = financeMonthRaportData.getMonth();
 			double reservationSumaryGain = financeMonthRaportData.getReservationSumaryGain();
 			double serviceSumaryGain = financeMonthRaportData.getServiceSumaryGain();
@@ -51,6 +49,12 @@ public class FinanceMonthRaportCreator extends RaportCreator {
 		templateBuilder.createFoot(monthSumaryGains.size());
 		StatisticRaport raport = new StatisticRaport(RAPORT_KIND.FINANCE_MONTH, plotPoints, templateBuilder);
 		return raport;
+	}
+
+	private void swapMonths() {
+		MONTH tmp = monthFrom;
+		monthFrom = monthTo;
+		monthTo = tmp;
 	}
 
 }

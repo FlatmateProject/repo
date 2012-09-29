@@ -22,7 +22,7 @@ public class StatisticTest {
 	private static final Logger log = Logger.getLogger(StatisticTest.class);
 
 	@Test(dataProvider = "prepareCasesForHotelRaport")
-	public void shouldReturnEmptyHotelRaport(RAPORT_KIND raportKind, int year, MONTH month, String serve, String roomType) {
+	public void shouldCreateEmptyHotelRaport(RAPORT_KIND raportKind, int year, MONTH month, String serve, String roomType) {
 		// given
 		Statistic statistic = new Statistic(new StaticticDaoImpl());
 
@@ -56,7 +56,7 @@ public class StatisticTest {
 	}
 
 	@Test(dataProvider = "prepareCasesForFinanceMonthRaport")
-	public void shouldReturnEmptyFinanceMonthRaport(MONTH monthFrom, MONTH monthTo, Condition<String> monthCondition) {
+	public void shouldCreateEmptyFinanceMonthRaport(MONTH monthFrom, MONTH monthTo, Condition<String> monthCondition) {
 		// given
 		Statistic statistic = new Statistic(new StaticticDaoImpl());
 		RAPORT_KIND raportKind = RAPORT_KIND.FINANCE_MONTH;
@@ -91,7 +91,7 @@ public class StatisticTest {
 	}
 	
 	@Test(dataProvider = "prepareCasesForFinanceYearRaport")
-	public void shouldReturnEmptyFinanceYearRaport(int yearFrom, int yearTo) {
+	public void shouldCreateEmptyFinanceYearRaport(int yearFrom, int yearTo) {
 		// given
 		Statistic statistic = new Statistic(new StaticticDaoImpl());
 		RAPORT_KIND raportKind = RAPORT_KIND.FINANCE_YEAR;

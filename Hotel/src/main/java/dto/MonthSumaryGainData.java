@@ -1,16 +1,16 @@
 package dto;
 
-public class MonthSumaryGain {
+public class MonthSumaryGainData {
 
-	int month;
+	private int month;
 
-	double reservationSumaryGain;
+	private double reservationSumaryGain;
 
-	double serviceSumaryGain;
+	private double serviceSumaryGain;
 
-	double cantorSumaryGain;
+	private double cantorSumaryGain;
 
-	public MonthSumaryGain() {
+	public MonthSumaryGainData() {
 	}
 
 	public int getMonth() {
