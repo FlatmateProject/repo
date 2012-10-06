@@ -1,8 +1,8 @@
 package patterns.globalFactoryMethod;
 
-import static org.junit.Assert.assertEquals;
+import org.testng.annotations.Test;
 
-import org.junit.Test;
+import static org.testng.Assert.assertEquals;
 
 public class GlobalFactoryMethodTest {
 

@@ -1,12 +1,10 @@
 package patterns.abstractFactory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import junitparams.JUnitParamsRunner;
-import junitparams.Parameters;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import patterns.abstractFactory.advert.AdvertPaymentsFactory;
 import patterns.abstractFactory.model.AdvertEntity;
@@ -18,11 +16,9 @@ import patterns.abstractFactory.payments.PaymentsRequest;
 import patterns.abstractFactory.payments.PaymentsResult;
 import patterns.abstractFactory.publicity.PublicityPaymentsFactory;
 
-@RunWith(JUnitParamsRunner.class)
 public class PaymentsFactoryWithMethodTest {
 	
-	@Test
-	@Parameters(method = "complexValues")
+	@Test(dataProvider = "complexValues")
 	public void testShouldPayAdvert(PaymentsFactory factory, ObjectEntity object) {
 		//given
 		PaymentsRequest request = new PaymentsRequest(object, 1000);
@@ -39,8 +35,7 @@ public class PaymentsFactoryWithMethodTest {
 		assertEquals(request.getAmount(), result.getAmount());
 	}
 
-	@Test
-	@Parameters(method = "complexValues")
+	@Test(dataProvider = "complexValues")
 	public void testShouldConfirmPaymentAdvert(PaymentsFactory factory, ObjectEntity object) {
 		//given
 		PaymentsRequest request = new PaymentsRequest(object, 1000);
@@ -57,8 +52,7 @@ public class PaymentsFactoryWithMethodTest {
 		assertEquals(request.getAmount(), result.getAmount());
 	}
 	
-	@Test
-	@Parameters(method = "complexValues")
+	@Test(dataProvider = "complexValues")
 	public void testShouldCancelPaymentAdvert(PaymentsFactory factory, ObjectEntity object) {
 		//given
 		PaymentsRequest request = new PaymentsRequest(object, 1000);
@@ -75,8 +69,7 @@ public class PaymentsFactoryWithMethodTest {
 		assertEquals(request.getAmount(), result.getAmount());
 	}
 	
-	@Test
-	@Parameters(method = "complexValues")
+	@Test(dataProvider = "complexValues")
 	public void testShouldCancelConfirmationAdvert(PaymentsFactory factory, ObjectEntity object) {
 		//given
 		PaymentsRequest request = new PaymentsRequest(object, 1000);
@@ -93,10 +86,11 @@ public class PaymentsFactoryWithMethodTest {
 		assertEquals(request.getAmount(), result.getAmount());
 	}
 	
-	  public Object[] complexValues() {
-		    return new Object[] { //
-		    	new Object[] { new AdvertPaymentsFactory(), new AdvertEntity() },//
-		    	new Object[] { new PublicityPaymentsFactory(), new PublicityEntity() },//
-		    };
-		  }
+	@DataProvider
+	public Object[][] complexValues() {
+		return new Object[][] { 
+		{ new AdvertPaymentsFactory(), new AdvertEntity() },//
+		{ new PublicityPaymentsFactory(), new PublicityEntity() },//
+		};
+	}
 }

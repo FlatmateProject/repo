@@ -1,19 +1,18 @@
 package dao;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import java.util.List;
 
 import model.dictionary.WordEntity;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import exception.DaoException;
 import exception.MyException;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 public class ClientDaoTest extends AbstractDaoTest {
 	

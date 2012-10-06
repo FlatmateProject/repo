@@ -26,13 +26,11 @@ public class PaymentsGiven {
 		factories.put(OBJECT_TYPE.PUBLICITY, new PublicityPaymentsFactory());
 	}
 
-	public ObjectEntity getEntity(String type) {
-		OBJECT_TYPE objectType = OBJECT_TYPE.valueOf(type);
+	public ObjectEntity getEntity(OBJECT_TYPE objectType) {
 		return entities.get(objectType);
 	}
 
-	public PaymentsFactory getPaymentsFactory(String type) {
-		OBJECT_TYPE objectType = OBJECT_TYPE.valueOf(type);
+	public PaymentsFactory getPaymentsFactory(OBJECT_TYPE objectType) {
 		return factories.get(objectType);
 	}
 	

@@ -1,43 +1,24 @@
 package patterns.proxy;
 
-import static org.junit.Assert.assertEquals;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
-import java.util.Arrays;
-import java.util.List;
+import static org.testng.Assert.assertEquals;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
-
-@RunWith(value = Parameterized.class)
 public class ClientResourceTest {
 
-	private ClientResource resource;
-
-	private int expactedPackageSize;
-
-	private int packageSizeInMB;
-
-	public ClientResourceTest(ClientResource resource, int expactedPackageSize, int packageSizeInMB) {
-		this.resource = resource;
-		this.expactedPackageSize = expactedPackageSize;
-		this.packageSizeInMB = packageSizeInMB;
-	}
-
-	@Parameters
-	public static List<Object[]> feedData() {
-		Object[][] datas = new Object[][] {//
+	@DataProvider
+	public static Object[][] feedData() {
+		return new Object[][] {//
 				{ new ClientFTP(), 10, 10 },//
 				{ new ClientFTP(), 10000, 10000 },//
 				{ new ClientFTPProxy(), 10, 10 },//
 				{ new ClientFTPProxy(), 0, 1000 }//
 				};
-		return Arrays.asList(datas);
 	}
 
-	@Test
-	public void shoulUploadData() {
+	@Test(dataProvider = "feedData")
+	public void shoulUploadData(ClientResource resource, int expactedPackageSize, int packageSizeInMB) {
 		// given
 		byte[] dataPackage = new byte[packageSizeInMB];
 
@@ -48,8 +29,8 @@ public class ClientResourceTest {
 		assertEquals(expactedPackageSize, resultPackageSize);
 	}
 
-	@Test
-	public void shoulDownloadData() {
+	@Test(dataProvider = "feedData")
+	public void shoulDownloadData(ClientResource resource, int expactedPackageSize, int packageSizeInMB) {
 		// given
 		byte[] dataPackage = new byte[packageSizeInMB];
 

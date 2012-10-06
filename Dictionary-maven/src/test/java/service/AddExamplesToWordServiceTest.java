@@ -1,18 +1,17 @@
 package service;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import java.util.HashSet;
 import java.util.Set;
 
 import model.dictionary.ExampleEntity;
 import model.dictionary.WordEntity;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import exception.MyException;
 import exception.ServiceException;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 public class AddExamplesToWordServiceTest extends AbstractServiceTest {
 	

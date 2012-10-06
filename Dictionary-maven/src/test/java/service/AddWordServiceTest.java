@@ -1,9 +1,5 @@
 package service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,10 +7,13 @@ import model.dictionary.WordEntity;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import exception.MyException;
 import exception.ServiceException;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 public class AddWordServiceTest extends AbstractServiceTest {
 	

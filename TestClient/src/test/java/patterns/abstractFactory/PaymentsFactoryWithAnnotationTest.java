@@ -1,38 +1,29 @@
 package patterns.abstractFactory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import junitparams.JUnitParamsRunner;
-import junitparams.Parameters;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import patterns.abstractFactory.CancelConfirmationHandler;
-import patterns.abstractFactory.CancelPaymentHandler;
-import patterns.abstractFactory.ConfirmationHandle;
-import patterns.abstractFactory.PaymentHandler;
-import patterns.abstractFactory.PaymentsFactory;
 import patterns.abstractFactory.model.OBJECT_STATUS;
+import patterns.abstractFactory.model.OBJECT_TYPE;
 import patterns.abstractFactory.model.ObjectEntity;
 import patterns.abstractFactory.payments.PAYMENTS_STATUS;
 import patterns.abstractFactory.payments.PaymentsRequest;
 import patterns.abstractFactory.payments.PaymentsResult;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNotNull;
 
-@RunWith(JUnitParamsRunner.class)
 public class PaymentsFactoryWithAnnotationTest {
 	
 	public PaymentsGiven given;
 	
-	@Before
+	@BeforeMethod
 	public void setUp() {
 		given = new PaymentsGiven();
 	}
 	
-	@Test
-	@Parameters( { "ADVERT, 1000", "PUBLICITY, 1000" })
-	public void testShouldPayAdvert(String objectType, long amount) {
+	@Test(dataProvider = "parameterIntTestProvider")
+	public void testShouldPayAdvert(OBJECT_TYPE objectType, long amount) {
 		//given
 		PaymentsFactory factory = given.getPaymentsFactory(objectType);
 		ObjectEntity object = given.getEntity(objectType);
@@ -50,9 +41,8 @@ public class PaymentsFactoryWithAnnotationTest {
 		assertEquals(request.getAmount(), result.getAmount());
 	}
 
-	@Test
-	@Parameters( { "ADVERT, 1000", "PUBLICITY, 1000" })
-	public void testShouldConfirmPaymentAdvert(String objectType, long amount){
+	@Test(dataProvider = "parameterIntTestProvider")
+	public void testShouldConfirmPaymentAdvert(OBJECT_TYPE objectType, long amount){
 		//given
 		PaymentsFactory factory = given.getPaymentsFactory(objectType);
 		ObjectEntity advert = given.getEntity(objectType);
@@ -70,9 +60,8 @@ public class PaymentsFactoryWithAnnotationTest {
 		assertEquals(request.getAmount(), result.getAmount());
 	}
 	
-	@Test
-	@Parameters( { "ADVERT, 1000", "PUBLICITY, 1000" })
-	public void testShouldCancelPaymentAdvert(String objectType, long amount){
+	@Test(dataProvider = "parameterIntTestProvider")
+	public void testShouldCancelPaymentAdvert(OBJECT_TYPE objectType, long amount){
 		//given
 		PaymentsFactory factory = given.getPaymentsFactory(objectType);
 		ObjectEntity advert = given.getEntity(objectType);
@@ -90,9 +79,8 @@ public class PaymentsFactoryWithAnnotationTest {
 		assertEquals(request.getAmount(), result.getAmount());
 	}
 	
-	@Test
-	@Parameters( { "ADVERT, 1000", "PUBLICITY, 1000" })
-	public void testShouldCancelConfirmationAdvert(String objectType, long amount){
+	@Test(dataProvider = "parameterIntTestProvider")
+	public void testShouldCancelConfirmationAdvert(OBJECT_TYPE objectType, long amount){
 		//given
 		PaymentsFactory factory = given.getPaymentsFactory(objectType);
 		ObjectEntity advert = given.getEntity(objectType);
@@ -108,5 +96,13 @@ public class PaymentsFactoryWithAnnotationTest {
 		assertEquals(advert.getId(), result.getObject().getId());
 		assertEquals(OBJECT_STATUS.NEW, advert.getStatus());
 		assertEquals(request.getAmount(), result.getAmount());
+	}
+	
+	@DataProvider(name = "parameterIntTestProvider")
+	public Object[][] parameterIntTestProvider() {
+		return new Object[][]{
+				{ OBJECT_TYPE.ADVERT,    1000 },//
+				{ OBJECT_TYPE.PUBLICITY, 1000 }//
+		};
 	}
 }
