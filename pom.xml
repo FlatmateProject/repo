@@ -13,13 +13,24 @@
 		<module>Dictionary-maven</module>
 		<module>TestClient</module>
 		<module>Dictionary-ear</module>
+        <module>Hotel</module>
 	</modules>
 	<dependencies>
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>6.7</version>
-		</dependency>
+        <dependency>
+            <groupId>org.easytesting</groupId>
+            <artifactId>fest-assert</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.9.5-rc1</version>
+        </dependency>
 	</dependencies>
 	<build>
 		<plugins>
