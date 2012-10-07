@@ -24,8 +24,8 @@ public class StringCondition extends Condition<String> {
 	}
 	
 	@Override
-	public boolean matches(String textRaport) {
-		return textRaport.contains(value);
+	public boolean matches(String textReport) {
+		return textReport.contains(value);
 	}
 
 }

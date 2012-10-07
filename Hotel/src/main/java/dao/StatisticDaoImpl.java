@@ -1,11 +1,9 @@
 package dao;
 
-import java.sql.ResultSet;
-import java.util.List;
-
 import dto.*;
-import dto.MonthSummaryGainData;
 import exception.DAOException;
+
+import java.util.List;
 
 public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
 	
@@ -68,7 +66,7 @@ public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
 	}
 
 	@Override
-	public ResultSet createYearReport(int yearFrom, int yearTo) throws DAOException {
+	public List<YearSummaryGainData>  findYearSummaryGains(int yearFrom, int yearTo) throws DAOException {
 		String query = "SELECT YEAR(r.data_w) miesiac, sum((r.data_w-r.data_z)*k.cena) zysk_r, ";
 		query += " ( SELECT sum(rk.czas*u.cena) FROM rekreacja rk JOIN rezerwacje rz ON rk.id_rez=rz.id_rez ";
 		query += "JOIN uslugi u ON rk.id_uslugi=u.id_uslugi WHERE YEAR(rz.data_w)=YEAR(r.data_w) ";
@@ -78,7 +76,7 @@ public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
 		query += "WHERE YEAR(r.data_w)>=" + yearFrom
 				+ " AND YEAR(r.data_w)<=" + yearTo + " ";
 		query += "GROUP BY YEAR(r.data_w)";
-		return session.query(query);
+        return executeQuery(query, YearSummaryGainData.class);
 	}
 
 	@Override

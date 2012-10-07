@@ -1,44 +1,30 @@
 package service.statistic;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
+import assertions.DiagramBarsAssert;
+import dao.StatisticDao;
 import dao.StatisticDaoImpl;
+import dto.*;
 import exception.DAOException;
 import org.apache.log4j.Logger;
 import org.fest.assertions.Condition;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
 import service.dictionary.MONTH;
 import service.statictic.REPORT_KIND;
 import service.statictic.Statistic;
 import service.statictic.StatisticReport;
-import dao.StatisticDao;
-import dto.MonthSummaryGainData;
-import dto.RoomData;
-import dto.RoomTypesData;
-import dto.ServiceData;
-import dto.ServiceTypeData;
-import assertions.DiagramBarsAssert;
 
-import static conditions.raport.contain.DoubleCondition.bodyContainCantorSummaryGain;
-import static conditions.raport.contain.DoubleCondition.bodyContainHotelSummaryGain;
-import static conditions.raport.contain.DoubleCondition.bodyContainReservationSummaryGain;
-import static conditions.raport.contain.DoubleCondition.bodyContainServiceSummaryGain;
-import static conditions.raport.contain.DoubleCondition.bodyContainSummaryGain;
-import static conditions.raport.contain.DoubleCondition.bodyContainUnitGain;
-import static conditions.raport.contain.IntegerCondition.bodyContainNumberOccupiedRooms;
-import static conditions.raport.contain.IntegerCondition.bodyContainOccupationNumber;
-import static conditions.raport.contain.IntegerCondition.bodyContainUseNumber;
-import static conditions.raport.contain.IntegerCondition.headerContainYear;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static conditions.raport.contain.DoubleCondition.*;
+import static conditions.raport.contain.IntegerCondition.*;
 import static conditions.raport.contain.LongCondition.bodyContainSummaryTime;
 import static conditions.raport.contain.MonthCondition.headerContainMonth;
 import static conditions.raport.contain.PeriodOfMonthsCondition.headerContainPeriodOfMonths;
-import static conditions.raport.contain.StringCondition.footerContainLegend;
-import static conditions.raport.contain.StringCondition.headerContainRoomType;
-import static conditions.raport.contain.StringCondition.headerContainServiceType;
+import static conditions.raport.contain.PeriodOfYearsCondition.headerContainPeriodOfYears;
+import static conditions.raport.contain.StringCondition.*;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -359,9 +345,9 @@ public class StatisticMockitoTest {
 	public void shouldCreateEmptyFinanceMonthReportWithCorrectTitle(MONTH monthFrom, MONTH monthTo, Condition<String> monthCondition) throws DAOException {
 		// given
 		REPORT_KIND reportKind = REPORT_KIND.FINANCE_MONTH;
-		
+
 		List<MonthSummaryGainData> inputData = Collections.emptyList();
-		
+
 		StatisticDao statisticDao = mock(StatisticDao.class);
 		when(statisticDao.findMonthSummaryGains(monthFrom.id(), monthTo.id(), year)).thenReturn(inputData);
 		
@@ -442,5 +428,91 @@ public class StatisticMockitoTest {
 				.isCantorSummaryGainEqualTo(cantorSummaryGain)//
 				.isHotelSummaryGainEqualTo(summaryGain);
 	}
-	
+
+    @Test(dataProvider = "prepareCasesForFinanceYearReport")
+    public void shouldCreateEmptyFinanceYearReportWithCorrectTitle(int yearFrom, int yearTo, Condition<String> yearCondition) throws DAOException {
+        // given
+        REPORT_KIND reportKind = REPORT_KIND.FINANCE_YEAR;
+
+        List<YearSummaryGainData> inputData = Collections.emptyList();
+
+        StatisticDao statisticDao = mock(StatisticDao.class);
+        when(statisticDao.findYearSummaryGains(yearFrom, yearTo)).thenReturn(inputData);
+
+        // when
+        Statistic statistic = new Statistic(statisticDao);
+        StatisticReport report = statistic.finance(reportKind, null, null, yearFrom, yearTo);
+
+        // then
+        assertThat(report).isNotNull();
+        assertThat(report.getReportKind()).isEqualTo(reportKind);
+        String textReport = report.getTextResult();
+        assertThat(textReport)//
+                .isNotNull()//
+                .is(yearCondition)//
+                .isNot(footerContainLegend());
+        log.info(textReport);
+
+        double[][] array = report.getArrayResult();
+        assertThat(array).isNull();
+    }
+
+    @DataProvider
+    public static Object[][] prepareCasesForFinanceYearReport() {
+        return new Object[][] {//
+                { 2012, 2013 , headerContainPeriodOfYears(2012, 2013)},//
+                { 2012, 2012 , headerContainYear(2012)},//
+                { 2012, 2011 , headerContainPeriodOfYears(2011, 2012)},//
+        };
+    }
+
+    @Test
+    public void shouldCreateFinanceYearReportWithCorrectTitle() throws DAOException {
+        // given
+        REPORT_KIND reportKind = REPORT_KIND.FINANCE_YEAR;
+        int yearFrom = 2013;
+        int yearTo = 2012;
+        int expectedNumberOfBars = 4;
+        double reservationSummaryGain = 100.0;
+        double serviceSummaryGain = 200.0;
+        double cantorSummaryGain = 300.0;
+        double summaryGain = reservationSummaryGain + serviceSummaryGain + cantorSummaryGain;
+
+        YearSummaryGainData row = mock(YearSummaryGainData.class);
+        when(row.getYear()).thenReturn(yearTo);
+        when(row.getReservationSummaryGain()).thenReturn(reservationSummaryGain);
+        when(row.getServiceSummaryGain()).thenReturn(serviceSummaryGain);
+        when(row.getCantorSummaryGain()).thenReturn(cantorSummaryGain);
+
+        List<YearSummaryGainData> inputData = Arrays.asList(row);
+
+        StatisticDao statisticDao = mock(StatisticDao.class);
+        when(statisticDao.findYearSummaryGains(yearTo, yearFrom)).thenReturn(inputData);
+
+        // when
+        Statistic statistic = new Statistic(statisticDao);
+        StatisticReport report = statistic.finance(reportKind, null, null, yearFrom, yearTo);
+
+        // then
+        assertThat(report).isNotNull();
+        assertThat(report.getReportKind()).isEqualTo(reportKind);
+        String textReport = report.getTextResult();
+        assertThat(textReport).isNotNull()//
+                .is(headerContainPeriodOfYears(yearTo, yearFrom))//
+                .is(footerContainLegend())//
+                .is(bodyContainReservationSummaryGain(reservationSummaryGain))//
+                .is(bodyContainServiceSummaryGain(serviceSummaryGain))//
+                .is(bodyContainCantorSummaryGain(cantorSummaryGain))//
+                .is(bodyContainHotelSummaryGain(summaryGain));
+        log.info(textReport);
+
+        double[][] array = report.getArrayResult();
+        assertThat(array).isNotNull().hasSize(1);
+        assertThat(array[0]).isNotNull().hasSize(expectedNumberOfBars);
+        DiagramBarsAssert.assertThat(array[0])//
+                .isReservationSummaryGainEqualTo(reservationSummaryGain)
+                .isServiceSummaryGainEqualTo(serviceSummaryGain)//
+                .isCantorSummaryGainEqualTo(cantorSummaryGain)//
+                .isHotelSummaryGainEqualTo(summaryGain);
+    }
 }

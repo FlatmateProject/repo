@@ -5,14 +5,16 @@ public class FinanceMonthReportTemplateBuilder implements ReportTemplateBuilder 
 
 	private String header = "Raportu zysków w miesiącu";
 	
-	private String body ="";
+	private String body = "";
 	
 	private String foot = DEFAULT_FOOT;
 
 	@Override
 	public void createHeader(Object... args) {
 		if (isSameMonth(args))  {
-			header = String.format("Raportu zysków w miesiącu %s roku %d\n", args[0], args[2]);
+            String month = (String)args[0];
+            Integer year = (Integer) args[2];
+            header = String.format("Raportu zysków w miesiącu %s roku %d\n", month, year);
         }
 		else {
 			header = String.format("Raportu zysków w miesiącach od %s do %s roku %d\n", args);

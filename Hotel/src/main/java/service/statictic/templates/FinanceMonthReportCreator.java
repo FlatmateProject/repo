@@ -1,8 +1,5 @@
 package service.statictic.templates;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import dto.MonthSummaryGainData;
 import exception.DAOException;
 import service.dictionary.MONTH;
@@ -11,6 +8,9 @@ import service.statictic.REPORT_KIND;
 import service.statictic.StatisticReport;
 import service.statictic.executors.ReportCreator;
 import service.statictic.executors.ReportDetails;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class FinanceMonthReportCreator extends ReportCreator {
 
@@ -25,15 +25,15 @@ public class FinanceMonthReportCreator extends ReportCreator {
 		monthFrom = reportDetails.getMonthFrom();
 		monthTo = reportDetails.getMonthTo();
 		year = reportDetails.getYear();
+		if (monthFrom.after(monthTo)) {
+			swapMonths();
+		}
 	}
 
 	@Override
 	public StatisticReport createReport(ReportTemplateBuilder templateBuilder) throws DAOException {
 		int i = 0;
-		List<DiagramElement> plotPoints = new LinkedList<DiagramElement>(); 
-		if (monthFrom.after(monthTo)) {
-			swapMonths();
-		}
+		List<DiagramElement> plotPoints = new LinkedList<DiagramElement>();
 		List<MonthSummaryGainData> monthSummaryGains = statisticDao.findMonthSummaryGains(monthFrom.id(), monthTo.id(), year);
 		templateBuilder.createHeader(monthFrom, monthTo, year);
 		for (MonthSummaryGainData financeMonthReportData : monthSummaryGains) {

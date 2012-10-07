@@ -1,21 +1,21 @@
 package service.statistic;
 
-import static conditions.raport.contain.StringCondition.footerContainLegend;
-import static conditions.raport.contain.MonthCondition.headerContainMonth;
-import static conditions.raport.contain.IntegerCondition.headerContainYear;
-import static conditions.raport.contain.PeriodOfMonthsCondition.headerContainPeriodOfMonths;
-import static org.fest.assertions.Assertions.assertThat;
-
 import dao.StatisticDaoImpl;
 import org.apache.log4j.Logger;
 import org.fest.assertions.Condition;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
 import service.dictionary.MONTH;
 import service.statictic.REPORT_KIND;
 import service.statictic.Statistic;
 import service.statictic.StatisticReport;
+
+import static conditions.raport.contain.IntegerCondition.headerContainYear;
+import static conditions.raport.contain.MonthCondition.headerContainMonth;
+import static conditions.raport.contain.PeriodOfMonthsCondition.headerContainPeriodOfMonths;
+import static conditions.raport.contain.PeriodOfYearsCondition.headerContainPeriodOfYears;
+import static conditions.raport.contain.StringCondition.footerContainLegend;
+import static org.fest.assertions.Assertions.assertThat;
 
 public class StatisticTest {
 
@@ -89,7 +89,7 @@ public class StatisticTest {
 	}
 	
 	@Test(dataProvider = "prepareCasesForFinanceYearReport")
-	public void shouldCreateEmptyFinanceYearReport(int yearFrom, int yearTo) {
+	public void shouldCreateEmptyFinanceYearReport(int yearFrom, int yearTo, Condition<String> yearCondition) {
 		// given
 		Statistic statistic = new Statistic(new StatisticDaoImpl());
 		REPORT_KIND reportKind = REPORT_KIND.FINANCE_YEAR;
@@ -103,21 +103,20 @@ public class StatisticTest {
 		String textReport = report.getTextResult();
 		assertThat(textReport)//
 				.isNotNull()//
-				.is(headerContainYear(yearFrom))//
-				.is(headerContainYear(yearTo))//
+				.is(yearCondition)//
 				.isNot(footerContainLegend());
 		log.info(textReport);
 
 		double[][] arrayResult = report.getArrayResult();
 		assertThat(arrayResult).isNull();
 	}
-	
-	@DataProvider
-	public static Object[][] prepareCasesForFinanceYearReport() {
-		return new Object[][] {//
-				{ 2012, 2013 },//
-				{ 2012, 2012 },//
-				{ 2012, 2011 },//
-		};
-	}
+
+    @DataProvider
+    public static Object[][] prepareCasesForFinanceYearReport() {
+        return new Object[][] {//
+                { 2012, 2013 , headerContainPeriodOfYears(2012, 2013)},//
+                { 2012, 2012 , headerContainYear(2012)},//
+                { 2012, 2011 , headerContainPeriodOfYears(2011, 2012)},//
+        };
+    }
 }

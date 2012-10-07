@@ -1,7 +1,6 @@
 package conditions.raport.contain;
 
 import org.fest.assertions.Condition;
-
 import service.dictionary.MONTH;
 
 public class PeriodOfMonthsCondition extends Condition<String> {
@@ -20,10 +19,10 @@ public class PeriodOfMonthsCondition extends Condition<String> {
 	}
 
 	@Override
-	public boolean matches(String textRaport) {
-		return textRaport.contains(monthFrom.getDesc())
-				&& textRaport.contains(monthTo.getDesc())
-				&& textRaport.indexOf(monthFrom.getDesc()) < textRaport.indexOf(monthTo.getDesc());
+	public boolean matches(String textReport) {
+		return textReport.contains(monthFrom.getDesc())
+				&& textReport.contains(monthTo.getDesc())
+				&& textReport.indexOf(monthFrom.getDesc()) < textReport.indexOf(monthTo.getDesc());
 	}
 
 }

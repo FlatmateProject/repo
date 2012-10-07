@@ -1,10 +1,9 @@
 package dao;
 
-import java.sql.ResultSet;
-import java.util.List;
 import dto.*;
-import dto.MonthSummaryGainData;
 import exception.DAOException;
+
+import java.util.List;
 
 public interface StatisticDao {
 
@@ -18,7 +17,7 @@ public interface StatisticDao {
 
 	List<MonthSummaryGainData> findMonthSummaryGains(int monthFrom, int monthTo, int year) throws DAOException;
 
-	ResultSet createYearReport(int yearFrom, int yearTo) throws DAOException;
+    List<YearSummaryGainData> findYearSummaryGains(int yearFrom, int yearTo) throws DAOException;
 
 	int countUseNumberForServiceType(String serviceTypeName) throws DAOException;
 
