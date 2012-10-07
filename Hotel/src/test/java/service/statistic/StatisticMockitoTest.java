@@ -4,40 +4,42 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import dao.StatisticDaoImpl;
+import exception.DAOException;
 import org.apache.log4j.Logger;
 import org.fest.assertions.Condition;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import service.dictionary.MONTH;
-import service.statictic.RAPORT_KIND;
+import service.statictic.REPORT_KIND;
 import service.statictic.Statistic;
-import service.statictic.StatisticRaport;
-import dao.StaticticDao;
-import dao.StaticticDaoImpl;
-import dto.MonthSumaryGainData;
+import service.statictic.StatisticReport;
+import dao.StatisticDao;
+import dto.MonthSummaryGainData;
 import dto.RoomData;
 import dto.RoomTypesData;
 import dto.ServiceData;
 import dto.ServiceTypeData;
-import static assertions.DiagramBarsAssert.assertThat;
-import static conditions.raport.contain.DoubleCondition.bodyContainCantorSumaryGain;
-import static conditions.raport.contain.DoubleCondition.bodyContainHotelSumaryGain;
-import static conditions.raport.contain.DoubleCondition.bodyContainReservationSumaryGain;
-import static conditions.raport.contain.DoubleCondition.bodyContainSeviceSumaryGain;
-import static conditions.raport.contain.DoubleCondition.bodyContainSumaryGain;
+import assertions.DiagramBarsAssert;
+
+import static conditions.raport.contain.DoubleCondition.bodyContainCantorSummaryGain;
+import static conditions.raport.contain.DoubleCondition.bodyContainHotelSummaryGain;
+import static conditions.raport.contain.DoubleCondition.bodyContainReservationSummaryGain;
+import static conditions.raport.contain.DoubleCondition.bodyContainServiceSummaryGain;
+import static conditions.raport.contain.DoubleCondition.bodyContainSummaryGain;
 import static conditions.raport.contain.DoubleCondition.bodyContainUnitGain;
 import static conditions.raport.contain.IntegerCondition.bodyContainNumberOccupiedRooms;
 import static conditions.raport.contain.IntegerCondition.bodyContainOccupationNumber;
 import static conditions.raport.contain.IntegerCondition.bodyContainUseNumber;
 import static conditions.raport.contain.IntegerCondition.headerContainYear;
-import static conditions.raport.contain.LongCondition.bodyContainSumaryTime;
+import static conditions.raport.contain.LongCondition.bodyContainSummaryTime;
 import static conditions.raport.contain.MonthCondition.headerContainMonth;
 import static conditions.raport.contain.PeriodOfMonthsCondition.headerContainPeriodOfMonths;
 import static conditions.raport.contain.StringCondition.footerContainLegend;
 import static conditions.raport.contain.StringCondition.headerContainRoomType;
 import static conditions.raport.contain.StringCondition.headerContainServiceType;
-import static org.fest.assertions.Assertions.*;
+import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -56,390 +58,389 @@ public class StatisticMockitoTest {
 	int yearTo = 2012;
 	
 	@Test
-	public void shouldCreateEmptyRoomTypesRaport() {
+	public void shouldCreateEmptyRoomTypesReport() throws DAOException{
 		// given
-		RAPORT_KIND raportKind = RAPORT_KIND.HOTEL_ROOM_TYPES;
+		REPORT_KIND reportKind = REPORT_KIND.HOTEL_ROOM_TYPES;
 		List<RoomTypesData> inputData = Collections.emptyList();
 		
-		StaticticDao staticticDao = mock(StaticticDao.class);
-		when(staticticDao.findRoomTypes(month.id(), year)).thenReturn(inputData);
+		StatisticDao statisticDao = mock(StatisticDao.class);
+		when(statisticDao.findRoomTypes(month.id(), year)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic(new StaticticDaoImpl());
-		StatisticRaport raport = statistic.hotel(raportKind, month, year, roomType, serviceTypeName);
+		Statistic statistic = new Statistic(new StatisticDaoImpl());
+		StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
 
 		// then
-		assertThat(raport).isNotNull();
-		assertThat(raport.getRaportKind()).isEqualTo(raportKind);
-		String textRaport = raport.getTextResult();
-		assertThat(textRaport)//
+		assertThat(report).isNotNull();
+		assertThat(report.getReportKind()).isEqualTo(reportKind);
+		String textReport = report.getTextResult();
+		assertThat(textReport)//
 				.isNotNull()//
 				.is(headerContainMonth(month))//
 				.is(headerContainYear(year))//
 				.isNot(footerContainLegend());
-		log.info(textRaport);
+		log.info(textReport);
 		
-		double[][] array = raport.getArrayResult();
+		double[][] array = report.getArrayResult();
 		assertThat(array).isNull();
 	}
 	
 	@Test
-	public void shouldCreateRoomTypesRaport() {
+	public void shouldCreateRoomTypesReport() throws DAOException{
 		// given
-		RAPORT_KIND raportKind = RAPORT_KIND.HOTEL_ROOM_TYPES;
-		float sumaryGain = 100.0f;
+		REPORT_KIND reportKind = REPORT_KIND.HOTEL_ROOM_TYPES;
+		float summaryGain = 100.0f;
 		int numberOccupiedRooms = 2;
-		float unitGain = sumaryGain / numberOccupiedRooms;
+		float unitGain = summaryGain / numberOccupiedRooms;
 		int expectedNumberOfBars = 2;
 		
 		RoomTypesData row = mock(RoomTypesData.class);
 		when(row.getRoomTypeName()).thenReturn(roomType);
-		when(row.getNuberOccupiedRooms()).thenReturn(numberOccupiedRooms);
-		when(row.getSummaryGain()).thenReturn(sumaryGain);
+		when(row.getNumberOccupiedRooms()).thenReturn(numberOccupiedRooms);
+		when(row.getSummaryGain()).thenReturn(summaryGain);
 		
 		List<RoomTypesData> inputData = Arrays.asList(row);
 		
-		StaticticDao staticticDao = mock(StaticticDao.class);
-		when(staticticDao.findRoomTypes(month.id(), year)).thenReturn(inputData);
+		StatisticDao statisticDao = mock(StatisticDao.class);
+		when(statisticDao.findRoomTypes(month.id(), year)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic(staticticDao);
-		StatisticRaport raport = statistic.hotel(raportKind, month, year, roomType, serviceTypeName);
+		Statistic statistic = new Statistic(statisticDao);
+		StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
 		
 		// then
-		assertThat(raport).isNotNull();
-		assertThat(raport.getRaportKind()).isEqualTo(raportKind);
-		String textRaport = raport.getTextResult();
-		assertThat(textRaport)//
+		assertThat(report).isNotNull();
+		assertThat(report.getReportKind()).isEqualTo(reportKind);
+		String textReport = report.getTextResult();
+		assertThat(textReport)//
 				.isNotNull()//
 				.is(headerContainMonth(month))//
 				.is(headerContainYear(year))//
 				.is(footerContainLegend())//
-				.is(bodyContainSumaryGain(sumaryGain))//
+				.is(bodyContainSummaryGain(summaryGain))//
 				.is(bodyContainNumberOccupiedRooms(numberOccupiedRooms))//
 				.is(bodyContainUnitGain(unitGain));
-		log.info(textRaport);
+		log.info(textReport);
 		
-		double[][] array = raport.getArrayResult();
+		double[][] array = report.getArrayResult();
 		assertThat(array).isNotNull().hasSize(1);
 		assertThat(array[0]).hasSize(expectedNumberOfBars);
-		assertThat(array[0]).isSumaryGainEqualTo(sumaryGain).isUnitGainEqualTo(unitGain);
+        DiagramBarsAssert.assertThat(array[0]).isSummaryGainEqualTo(summaryGain).isUnitGainEqualTo(unitGain);
 	}
 
 	@Test
-	public void shouldCreateEmptyRoomsInTypeRaport() {
+	public void shouldCreateEmptyRoomsInTypeReport() throws DAOException{
 		// given
-		RAPORT_KIND raportKind = RAPORT_KIND.HOTEL_ROOMS;
+		REPORT_KIND reportKind = REPORT_KIND.HOTEL_ROOMS;
 		String roomType = "jednoosobowy";
 		List<RoomData> inputData = Collections.emptyList();
 		
-		StaticticDao staticticDao = mock(StaticticDao.class);
-		when(staticticDao.findRoomsByType(month.id(), year, roomType)).thenReturn(inputData);
+		StatisticDao statisticDao = mock(StatisticDao.class);
+		when(statisticDao.findRoomsByType(month.id(), year, roomType)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic(new StaticticDaoImpl());
-		StatisticRaport raport = statistic.hotel(raportKind, month, year, roomType, serviceTypeName);
+		Statistic statistic = new Statistic(new StatisticDaoImpl());
+		StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
 
 		// then
-		assertThat(raport).isNotNull();
-		assertThat(raport.getRaportKind()).isEqualTo(raportKind);
-		String textRaport = raport.getTextResult();
-		assertThat(textRaport)//
+		assertThat(report).isNotNull();
+		assertThat(report.getReportKind()).isEqualTo(reportKind);
+		String textReport = report.getTextResult();
+		assertThat(textReport)//
 				.isNotNull()//
 				.is(headerContainMonth(month))//
 				.is(headerContainYear(year))//
 				.is(headerContainRoomType(roomType))//
 				.isNot(footerContainLegend());
-		log.info(textRaport);
+		log.info(textReport);
 		
-		double[][] array = raport.getArrayResult();
+		double[][] array = report.getArrayResult();
 		assertThat(array).isNull();
 	}
 	
 	@Test
-	public void shouldCreateRoomsInTypeRaport() {
+	public void shouldCreateRoomsInTypeReport() throws DAOException{
 		// given
-		RAPORT_KIND raportKind = RAPORT_KIND.HOTEL_ROOMS;
+		REPORT_KIND reportKind = REPORT_KIND.HOTEL_ROOMS;
 		String roomType = "jednoosobowy";
-		float sumaryGain = 100.0f;
+		float summaryGain = 100.0f;
 		int occupationNumber = 2;
-		float unitGain = sumaryGain / occupationNumber;
+		float unitGain = summaryGain / occupationNumber;
 		int expectedNumberOfBars = 2;
 		long roomId = 1;
 
 		RoomData row = mock(RoomData.class);
 		when(row.getRoomId()).thenReturn(roomId);
 		when(row.getOccupationNumber()).thenReturn(occupationNumber);
-		when(row.getSummaryGain()).thenReturn(sumaryGain);
+		when(row.getSummaryGain()).thenReturn(summaryGain);
 		
 		List<RoomData> inputData = Arrays.asList(row);
 		
-		StaticticDao staticticDao = mock(StaticticDao.class);
-		when(staticticDao.findRoomsByType(month.id(), year, roomType)).thenReturn(inputData);
+		StatisticDao statisticDao = mock(StatisticDao.class);
+		when(statisticDao.findRoomsByType(month.id(), year, roomType)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic(staticticDao);
-		StatisticRaport raport = statistic.hotel(raportKind, month, year, roomType, serviceTypeName);
+		Statistic statistic = new Statistic(statisticDao);
+		StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
 		
 		// then
-		assertThat(raport).isNotNull();
-		assertThat(raport.getRaportKind()).isEqualTo(raportKind);
-		String textRaport = raport.getTextResult();
-		assertThat(textRaport)//
+		assertThat(report).isNotNull();
+		assertThat(report.getReportKind()).isEqualTo(reportKind);
+		String textReport = report.getTextResult();
+		assertThat(textReport)//
 				.isNotNull()//
 				.is(headerContainMonth(month))//
 				.is(headerContainYear(year))//
 				.is(footerContainLegend())//
-				.is(bodyContainSumaryGain(sumaryGain))//
+				.is(bodyContainSummaryGain(summaryGain))//
 				.is(bodyContainOccupationNumber(occupationNumber))//
 				.is(bodyContainUnitGain(unitGain));
-		log.info(textRaport);
+		log.info(textReport);
 		
-		double[][] array = raport.getArrayResult();
+		double[][] array = report.getArrayResult();
 		assertThat(array).isNotNull().hasSize(1);
 		assertThat(array[0]).hasSize(expectedNumberOfBars);
-		assertThat(array[0]).isSumaryGainEqualTo(sumaryGain).isUnitGainEqualTo(unitGain);
+		DiagramBarsAssert.assertThat(array[0]).isSummaryGainEqualTo(summaryGain).isUnitGainEqualTo(unitGain);
 	}
 	
 	@Test
-	public void shouldCreateEmptyServiceTypesRaport() {
+	public void shouldCreateEmptyServiceTypesReport() throws DAOException{
 		// given
-		RAPORT_KIND raportKind = RAPORT_KIND.HOTEL_SERVICE_TYPES;
+		REPORT_KIND reportKind = REPORT_KIND.HOTEL_SERVICE_TYPES;
 		List<ServiceTypeData> inputData = Collections.emptyList();
 		
-		StaticticDao staticticDao = mock(StaticticDao.class);
-		when(staticticDao.findServiceTypes(month.id(), year)).thenReturn(inputData);
+		StatisticDao statisticDao = mock(StatisticDao.class);
+		when(statisticDao.findServiceTypes(month.id(), year)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic(new StaticticDaoImpl());
-		StatisticRaport raport = statistic.hotel(raportKind, month, year, roomType, serviceTypeName);
+		Statistic statistic = new Statistic(new StatisticDaoImpl());
+		StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
 
 		// then
-		assertThat(raport).isNotNull();
-		assertThat(raport.getRaportKind()).isEqualTo(raportKind);
-		String textRaport = raport.getTextResult();
-		assertThat(textRaport)//
+		assertThat(report).isNotNull();
+		assertThat(report.getReportKind()).isEqualTo(reportKind);
+		String textReport = report.getTextResult();
+		assertThat(textReport)//
 				.isNotNull()//
 				.is(headerContainMonth(month))//
 				.is(headerContainYear(year))//
 				.isNot(footerContainLegend());
-		log.info(textRaport);
+		log.info(textReport);
 		
-		double[][] array = raport.getArrayResult();
+		double[][] array = report.getArrayResult();
 		assertThat(array).isNull();
 	}
 	
 	@Test
-	public void shouldCreateServiceTypesRaport() throws Exception {
+	public void shouldCreateServiceTypesReport() throws Exception {
 		// given
-		RAPORT_KIND raportKind = RAPORT_KIND.HOTEL_SERVICE_TYPES;
-		float sumaryGain = 100.0f;
+		REPORT_KIND reportKind = REPORT_KIND.HOTEL_SERVICE_TYPES;
+		float summaryGain = 100.0f;
 		int useNumber = 2;
-		float unitGain = sumaryGain / useNumber;
+		float unitGain = summaryGain / useNumber;
 		int expectedNumberOfBars = 2;
-		long sumaryTime = 10;
+		long summaryTime = 10;
 
 		ServiceTypeData row = mock(ServiceTypeData.class);
-		when(row.getSummaryTime()).thenReturn(sumaryTime);
+		when(row.getSummaryTime()).thenReturn(summaryTime);
 		when(row.getTypeName()).thenReturn(serviceTypeName);
-		when(row.getSummaryGain()).thenReturn(sumaryGain);
+		when(row.getSummaryGain()).thenReturn(summaryGain);
 		
 		List<ServiceTypeData> inputData = Arrays.asList(row);
 		
-		StaticticDao staticticDao = mock(StaticticDao.class);
-		when(staticticDao.findServiceTypes(month.id(), year)).thenReturn(inputData);
-		when(staticticDao.countUseNumberForServiceType(serviceTypeName)).thenReturn(useNumber);
+		StatisticDao statisticDao = mock(StatisticDao.class);
+		when(statisticDao.findServiceTypes(month.id(), year)).thenReturn(inputData);
+		when(statisticDao.countUseNumberForServiceType(serviceTypeName)).thenReturn(useNumber);
 		
 		// when
-		Statistic statistic = new Statistic(staticticDao);
-		StatisticRaport raport = statistic.hotel(raportKind, month, year, roomType, serviceTypeName);
+		Statistic statistic = new Statistic(statisticDao);
+		StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
 		
 		// then
-		assertThat(raport).isNotNull();
-		assertThat(raport.getRaportKind()).isEqualTo(raportKind);
-		String textRaport = raport.getTextResult();
-		assertThat(textRaport)//
+		assertThat(report).isNotNull();
+		assertThat(report.getReportKind()).isEqualTo(reportKind);
+		String textReport = report.getTextResult();
+		assertThat(textReport)//
 				.isNotNull()//
 				.is(headerContainMonth(month))//
 				.is(headerContainYear(year))//
 				.is(footerContainLegend())//
-				.is(bodyContainSumaryTime(sumaryTime))//
-				.is(bodyContainSumaryGain(sumaryGain))//
+				.is(bodyContainSummaryTime(summaryTime))//
+				.is(bodyContainSummaryGain(summaryGain))//
 				.is(bodyContainUseNumber(useNumber))//
 				.is(bodyContainUnitGain(unitGain));
-		log.info(textRaport);
+		log.info(textReport);
 		
-		double[][] array = raport.getArrayResult();
+		double[][] array = report.getArrayResult();
 		assertThat(array).isNotNull().hasSize(1);
 		assertThat(array[0]).hasSize(expectedNumberOfBars);
-		assertThat(array[0]).isSumaryGainEqualTo(sumaryGain).isUnitGainEqualTo(unitGain);
+		DiagramBarsAssert.assertThat(array[0]).isSummaryGainEqualTo(summaryGain).isUnitGainEqualTo(unitGain);
 	}
 	
-	@Test
-	public void shouldCreateEmptyServiceRaport() {
+	@Test             
+	public void shouldCreateEmptyServiceReport() throws DAOException{
 		// given
-		RAPORT_KIND raportKind = RAPORT_KIND.HOTEL_SERVICE;
+		REPORT_KIND reportKind = REPORT_KIND.HOTEL_SERVICE;
 		String serviceTypeName = "wynajem";
 		List<ServiceData> inputData = Collections.emptyList();
 		
-		StaticticDao staticticDao = mock(StaticticDao.class);
-		when(staticticDao.findServiceByType(month.id(), year, serviceTypeName)).thenReturn(inputData);
+		StatisticDao statisticDao = mock(StatisticDao.class);
+		when(statisticDao.findServiceByType(month.id(), year, serviceTypeName)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic(new StaticticDaoImpl());
-		StatisticRaport raport = statistic.hotel(raportKind, month, year, roomType, serviceTypeName);
+		Statistic statistic = new Statistic(new StatisticDaoImpl());
+		StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
 
 		// then
-		assertThat(raport).isNotNull();
-		assertThat(raport.getRaportKind()).isEqualTo(raportKind);
-		String textRaport = raport.getTextResult();
-		assertThat(textRaport)//
+		assertThat(report).isNotNull();
+		assertThat(report.getReportKind()).isEqualTo(reportKind);
+		String textReport = report.getTextResult();
+		assertThat(textReport)//
 				.isNotNull()//
 				.is(headerContainMonth(month))//
 				.is(headerContainYear(year))//
 				.is(headerContainServiceType(serviceTypeName))//
 				.isNot(footerContainLegend());
-		log.info(textRaport);
+		log.info(textReport);
 		
-		double[][] array = raport.getArrayResult();
+		double[][] array = report.getArrayResult();
 		assertThat(array).isNull();
 	}
 	
 	@Test
-	public void shouldCreateServiceRaport() throws Exception {
+	public void shouldCreateServiceReport() throws DAOException {
 		// given
-		RAPORT_KIND raportKind = RAPORT_KIND.HOTEL_SERVICE;
+		REPORT_KIND reportKind = REPORT_KIND.HOTEL_SERVICE;
 		String serviceTypeName = "wynajem";
-		float sumaryGain = 100.0f;
+		float summaryGain = 100.0f;
 		int useNumber = 2;
-		float unitGain = sumaryGain / useNumber;
+		float unitGain = summaryGain / useNumber;
 		String serviceName = "jednosobosy";
-		long sumaryTime = 10;
+		long summaryTime = 10;
 		int expectedNumberOfBars = 2;
 		
 		ServiceData row = mock(ServiceData.class);
-		when(row.getSummaryTime()).thenReturn(sumaryTime);
+		when(row.getSummaryTime()).thenReturn(summaryTime);
 		when(row.getServiceName()).thenReturn(serviceName);
-		when(row.getSummaryGain()).thenReturn(sumaryGain);
+		when(row.getSummaryGain()).thenReturn(summaryGain);
 		
 		List<ServiceData> inputData = Arrays.asList(row);
 		
-		StaticticDao staticticDao = mock(StaticticDao.class);
-		when(staticticDao.findServiceByType(month.id(), year, serviceTypeName)).thenReturn(inputData);
-		when(staticticDao.countUseNumberForServiceName(serviceName)).thenReturn(useNumber);
+		StatisticDao statisticDao = mock(StatisticDao.class);
+		when(statisticDao.findServiceByType(month.id(), year, serviceTypeName)).thenReturn(inputData);
+		when(statisticDao.countUseNumberForServiceName(serviceName)).thenReturn(useNumber);
 		
 		// when
-		Statistic statistic = new Statistic(staticticDao);
-		StatisticRaport raport = statistic.hotel(raportKind, month, year, roomType, serviceTypeName);
+		Statistic statistic = new Statistic(statisticDao);
+		StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
 		
 		// then
-		assertThat(raport).isNotNull();
-		assertThat(raport.getRaportKind()).isEqualTo(raportKind);
-		String textRaport = raport.getTextResult();
-		assertThat(textRaport)//
+		assertThat(report).isNotNull();
+		assertThat(report.getReportKind()).isEqualTo(reportKind);
+		String textReport = report.getTextResult();
+		assertThat(textReport)//
 				.isNotNull()//
 				.is(headerContainMonth(month))//
 				.is(headerContainYear(year))//
 				.is(footerContainLegend())//
-				.is(bodyContainSumaryTime(sumaryTime))//
-				.is(bodyContainSumaryGain(sumaryGain))//
+				.is(bodyContainSummaryTime(summaryTime))//
+				.is(bodyContainSummaryGain(summaryGain))//
 				.is(bodyContainUseNumber(useNumber))//
 				.is(bodyContainUnitGain(unitGain));
-		log.info(textRaport);
+		log.info(textReport);
 		
-		double[][] array = raport.getArrayResult();
+		double[][] array = report.getArrayResult();
 		assertThat(array).isNotNull().hasSize(1);
 		assertThat(array[0]).isNotNull().hasSize(expectedNumberOfBars);
-		assertThat(array[0]).isSumaryGainEqualTo(sumaryGain).isUnitGainEqualTo(unitGain);
+		DiagramBarsAssert.assertThat(array[0]).isSummaryGainEqualTo(summaryGain).isUnitGainEqualTo(unitGain);
 	}
 	
-	@Test(dataProvider = "prepareCasesForFinanceMonthRaport")
-	public void shouldCreateEmptyFinanceMonthRaportWithCorrectTitle(MONTH monthFrom, MONTH monthTo, Condition<String> monthCodnition) {
+	@Test(dataProvider = "prepareCasesForFinanceMonthReport")
+	public void shouldCreateEmptyFinanceMonthReportWithCorrectTitle(MONTH monthFrom, MONTH monthTo, Condition<String> monthCondition) throws DAOException {
 		// given
-		RAPORT_KIND raportKind = RAPORT_KIND.FINANCE_MONTH;
+		REPORT_KIND reportKind = REPORT_KIND.FINANCE_MONTH;
 		
-		List<MonthSumaryGainData> inputData = Collections.emptyList();
+		List<MonthSummaryGainData> inputData = Collections.emptyList();
 		
-		StaticticDao staticticDao = mock(StaticticDao.class);
-		when(staticticDao.findMonthSumaryGains(monthFrom.id(), monthTo.id(), year)).thenReturn(inputData);
+		StatisticDao statisticDao = mock(StatisticDao.class);
+		when(statisticDao.findMonthSummaryGains(monthFrom.id(), monthTo.id(), year)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic(staticticDao);
-		StatisticRaport raport = statistic.finance(raportKind, monthFrom, monthTo, year, yearTo);
+		Statistic statistic = new Statistic(statisticDao);
+		StatisticReport report = statistic.finance(reportKind, monthFrom, monthTo, year, yearTo);
 		
 		// then
-		assertThat(raport).isNotNull();
-		assertThat(raport.getRaportKind()).isEqualTo(raportKind);
-		String textRaport = raport.getTextResult();
-		assertThat(textRaport)//
+		assertThat(report).isNotNull();
+		assertThat(report.getReportKind()).isEqualTo(reportKind);
+		String textReport = report.getTextResult();
+		assertThat(textReport)//
 				.isNotNull()//
-				.is(monthCodnition)//
+				.is(monthCondition)//
 				.is(headerContainYear(year))//
 				.isNot(footerContainLegend());
-		log.info(textRaport);
+		log.info(textReport);
 		
-		double[][] array = raport.getArrayResult();
+		double[][] array = report.getArrayResult();
 		assertThat(array).isNull();
 	}
 	
 	@DataProvider
-	public static Object[][] prepareCasesForFinanceMonthRaport() {
-		Object[][] datas = new Object[][] {//
+	public static Object[][] prepareCasesForFinanceMonthReport() {
+		return new Object[][] {//
 				{ MONTH.September, MONTH.December,  headerContainPeriodOfMonths(MONTH.September, MONTH.December) },//
 				{ MONTH.September, MONTH.September, headerContainMonth(MONTH.September) },//
 				{ MONTH.September, MONTH.May,       headerContainPeriodOfMonths(MONTH.May, MONTH.September) },//
 		};
-		return datas;
 	}
 	
 	@Test
-	public void shouldCreateFinanceMonthRaportWithCorrectTitle() {
+	public void shouldCreateFinanceMonthReportWithCorrectTitle() throws DAOException{
 		// given
-		RAPORT_KIND raportKind = RAPORT_KIND.FINANCE_MONTH;
+		REPORT_KIND reportKind = REPORT_KIND.FINANCE_MONTH;
 		MONTH monthFrom = MONTH.September;
 		MONTH monthTo = MONTH.May;
 		int expectedNumberOfBars = 4;
-		double reservationSumaryGain = 100.0;
-		double serviceSumaryGain = 200.0;
-		double cantorSumaryGain = 300.0;
-		double sumaryGain = reservationSumaryGain + serviceSumaryGain + cantorSumaryGain;
+		double reservationSummaryGain = 100.0;
+		double serviceSummaryGain = 200.0;
+		double cantorSummaryGain = 300.0;
+		double summaryGain = reservationSummaryGain + serviceSummaryGain + cantorSummaryGain;
 		
-		MonthSumaryGainData row = mock(MonthSumaryGainData.class);
+		MonthSummaryGainData row = mock(MonthSummaryGainData.class);
 		when(row.getMonth()).thenReturn(monthTo.id());
-		when(row.getReservationSumaryGain()).thenReturn(reservationSumaryGain);
-		when(row.getServiceSumaryGain()).thenReturn(serviceSumaryGain);
-		when(row.getCantorSumaryGain()).thenReturn(cantorSumaryGain);
+		when(row.getReservationSummaryGain()).thenReturn(reservationSummaryGain);
+		when(row.getServiceSummaryGain()).thenReturn(serviceSummaryGain);
+		when(row.getCantorSummaryGain()).thenReturn(cantorSummaryGain);
 		
-		List<MonthSumaryGainData> inputData = Arrays.asList(row);
-		
-		StaticticDao staticticDao = mock(StaticticDao.class);
-		when(staticticDao.findMonthSumaryGains(monthTo.id(), monthFrom.id(), year)).thenReturn(inputData);
+		List<MonthSummaryGainData> inputData = Arrays.asList(row);
+
+        StatisticDao statisticDao = mock(StatisticDao.class);
+		when(statisticDao.findMonthSummaryGains(monthTo.id(), monthFrom.id(), year)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic(staticticDao);
-		StatisticRaport raport = statistic.finance(raportKind, monthFrom, monthTo, year, yearTo);
+		Statistic statistic = new Statistic(statisticDao);
+		StatisticReport report = statistic.finance(reportKind, monthFrom, monthTo, year, yearTo);
 		
 		// then
-		assertThat(raport).isNotNull();
-		assertThat(raport.getRaportKind()).isEqualTo(raportKind);
-		String textRaport = raport.getTextResult();
-		assertThat(textRaport).isNotNull()//
+		assertThat(report).isNotNull();
+		assertThat(report.getReportKind()).isEqualTo(reportKind);
+		String textReport = report.getTextResult();
+		assertThat(textReport).isNotNull()//
 				.is(headerContainPeriodOfMonths(monthTo, monthFrom))//
 				.is(headerContainYear(year))//
 				.is(footerContainLegend())//
-				.is(bodyContainReservationSumaryGain(reservationSumaryGain))//
-				.is(bodyContainSeviceSumaryGain(serviceSumaryGain))//
-				.is(bodyContainCantorSumaryGain(cantorSumaryGain))//
-				.is(bodyContainHotelSumaryGain(sumaryGain));
-		log.info(textRaport);
+				.is(bodyContainReservationSummaryGain(reservationSummaryGain))//
+				.is(bodyContainServiceSummaryGain(serviceSummaryGain))//
+				.is(bodyContainCantorSummaryGain(cantorSummaryGain))//
+				.is(bodyContainHotelSummaryGain(summaryGain));
+		log.info(textReport);
 		
-		double[][] array = raport.getArrayResult();
+		double[][] array = report.getArrayResult();
 		assertThat(array).isNotNull().hasSize(1);
 		assertThat(array[0]).isNotNull().hasSize(expectedNumberOfBars);
-		assertThat(array[0]).isReservationSumaryGainEqualTo(reservationSumaryGain)
-				.isServiceSumaryGainEqualTo(serviceSumaryGain)//
-				.isCantorSumaryGainEqualTo(cantorSumaryGain)//
-				.isHotelSumaryGainEqualTo(sumaryGain);
+        DiagramBarsAssert.assertThat(array[0]).isReservationSummaryGainEqualTo(reservationSummaryGain)
+				.isServiceSummaryGainEqualTo(serviceSummaryGain)//
+				.isCantorSummaryGainEqualTo(cantorSummaryGain)//
+				.isHotelSummaryGainEqualTo(summaryGain);
 	}
 	
 }

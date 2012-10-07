@@ -1,6 +1,6 @@
 package service.statictic.templates;
 
-public interface RaportTemplateBuilder {
+public interface ReportTemplateBuilder {
 
 	String DEFAULT_FOOT   = "W danym miesiącu nie wprowadzano danych z zakresu.\n";
 	

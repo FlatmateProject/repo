@@ -106,7 +106,7 @@ public abstract class UserFeature {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(obj == null || obj instanceof UserFeature == false){
+		if(obj == null || !(obj instanceof UserFeature)){
 			return false;
 		}
 		UserFeature object = (UserFeature) obj;

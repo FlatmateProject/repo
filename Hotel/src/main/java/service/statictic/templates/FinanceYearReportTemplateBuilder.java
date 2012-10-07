@@ -1,8 +1,6 @@
 package service.statictic.templates;
 
-import service.statictic.templates.RaportTemplateBuilder;
-
-public class FinanceYearRaportTemplateBuilder implements RaportTemplateBuilder {
+public class FinanceYearReportTemplateBuilder implements ReportTemplateBuilder {
 
 	@Override
 	public void createHeader(Object... args) {

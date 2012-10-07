@@ -1,34 +1,34 @@
 package service.statictic;
 
 import service.dictionary.MONTH;
-import service.statictic.executors.RaportCreator;
-import service.statictic.executors.RaportDetails;
-import service.statictic.templates.RaportTemplateBuilder;
-import dao.StaticticDao;
+import service.statictic.executors.ReportCreator;
+import service.statictic.executors.ReportDetails;
+import service.statictic.templates.ReportTemplateBuilder;
+import dao.StatisticDao;
 
 public class Statistic {
 
-	private StaticticDao staticticDao;
+	private StatisticDao statisticDao;
 
-	public Statistic(StaticticDao staticticDao) {
-		this.staticticDao = staticticDao;
+	public Statistic(StatisticDao statisticDao) {
+		this.statisticDao = statisticDao;
 	}
 	
-	public StatisticRaport finance(RAPORT_KIND raportKind, MONTH monthFrom, MONTH monthTo, int yearFrom, int yearTo) {
-		return createStatistic(raportKind, new RaportDetails(monthFrom, monthTo, yearFrom, yearTo));
+	public StatisticReport finance(REPORT_KIND REPORTKind, MONTH monthFrom, MONTH monthTo, int yearFrom, int yearTo) {
+		return createStatistic(REPORTKind, new ReportDetails(monthFrom, monthTo, yearFrom, yearTo));
 	}
 
-	public StatisticRaport hotel(RAPORT_KIND raportKind, MONTH month, int year, String classRoom, String serveTypeName){
-		return createStatistic(raportKind, new RaportDetails(month, year, classRoom, serveTypeName));
+	public StatisticReport hotel(REPORT_KIND REPORTKind, MONTH month, int year, String classRoom, String serveTypeName){
+		return createStatistic(REPORTKind, new ReportDetails(month, year, classRoom, serveTypeName));
 	}
 	
-	private StatisticRaport createStatistic(RAPORT_KIND raportKind, RaportDetails raportDetails) {
+	private StatisticReport createStatistic(REPORT_KIND reportKind, ReportDetails reportDetails) {
 		try {
-			RaportCreator creator = raportKind.getRaportCreator();
-			RaportTemplateBuilder temlpateBuilder = raportKind.getRaportTemplateBuilder();
-			creator.setup(raportDetails);
-			creator.injectStaticticDao(staticticDao);
-			return creator.createRaport(temlpateBuilder);
+			ReportCreator creator = reportKind.getReportCreator();
+			ReportTemplateBuilder templateBuilder = reportKind.getReportTemplateBuilder();
+			creator.setup(reportDetails);
+			creator.injectStatisticDao(statisticDao);
+			return creator.createReport(templateBuilder);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;	

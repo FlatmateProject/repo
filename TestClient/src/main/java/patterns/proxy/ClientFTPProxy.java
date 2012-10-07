@@ -2,9 +2,9 @@ package patterns.proxy;
 
 public class ClientFTPProxy implements ClientResource {
 
-	private int maxSizeUploadedPackageInMB = 1000;
+	private final int maxSizeUploadedPackageInMB = 1000;
 	
-	private int maxSizeDownloadedPackageInMB = 1000;
+	private final int maxSizeDownloadedPackageInMB = 1000;
 	
 	private ClientFTP clientFTP;
 	

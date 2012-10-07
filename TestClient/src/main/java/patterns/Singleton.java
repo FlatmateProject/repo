@@ -2,7 +2,7 @@ package patterns;
 
 public class Singleton {
 
-	private static Singleton instace;
+	private static Singleton instance;
 
 	private String message = "It works";
 
@@ -11,10 +11,10 @@ public class Singleton {
 	}
 
 	public static Singleton getInstance() {
-		if (instace == null) {
-			instace = new Singleton();
+		if (instance == null) {
+			instance = new Singleton();
 		}
-		return instace;
+		return instance;
 	}
 
 	public String getMessage() {

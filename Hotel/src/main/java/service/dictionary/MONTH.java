@@ -18,9 +18,9 @@ public enum MONTH {
 	
 	private final static MONTH[] months = values();
 
-	private String desc;
+	private final String desc;
 	
-	private int dayOfMonth;
+	private final int dayOfMonth;
 	
 	private MONTH(String desc, int dayOfMonth) {
 		this.desc = desc;
@@ -43,7 +43,7 @@ public enum MONTH {
 		return id() > month.id();
 	}
 	
-	public static MONTH getMonth(int i) {
+	private static MONTH getMonth(int i) {
 		return months[i - 1];
 	}
 

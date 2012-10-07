@@ -13,8 +13,8 @@ public class DiagramBarsAssert extends DoubleArrayAssert {
 		return new DiagramBarsAssert(actual);
 	}
 	
-	public DiagramBarsAssert isSumaryGainEqualTo(double sumaryGain) {
-		return assertArrayElementOfIndex(0, sumaryGain);
+	public DiagramBarsAssert isSummaryGainEqualTo(double summaryGain) {
+		return assertArrayElementOfIndex(0, summaryGain);
 	}
 
 	
@@ -22,20 +22,20 @@ public class DiagramBarsAssert extends DoubleArrayAssert {
 		return assertArrayElementOfIndex(1, unitGain);
 	}
 
-	public DiagramBarsAssert isReservationSumaryGainEqualTo(double reservationSumaryGain) {
-		return assertArrayElementOfIndex(0, reservationSumaryGain);
+	public DiagramBarsAssert isReservationSummaryGainEqualTo(double reservationSummaryGain) {
+		return assertArrayElementOfIndex(0, reservationSummaryGain);
 	}
 	
-	public DiagramBarsAssert isServiceSumaryGainEqualTo(double serviceSumaryGain) {
-		return assertArrayElementOfIndex(1, serviceSumaryGain);
+	public DiagramBarsAssert isServiceSummaryGainEqualTo(double serviceSummaryGain) {
+		return assertArrayElementOfIndex(1, serviceSummaryGain);
 	}
 	
-	public DiagramBarsAssert isCantorSumaryGainEqualTo(double cantorSumaryGain) {
-		return assertArrayElementOfIndex(2, cantorSumaryGain);
+	public DiagramBarsAssert isCantorSummaryGainEqualTo(double cantorSummaryGain) {
+		return assertArrayElementOfIndex(2, cantorSummaryGain);
 	}
 	
-	public DiagramBarsAssert isHotelSumaryGainEqualTo(double sumaryGain) {
-		return assertArrayElementOfIndex(3, sumaryGain);
+	public DiagramBarsAssert isHotelSummaryGainEqualTo(double summaryGain) {
+		return assertArrayElementOfIndex(3, summaryGain);
 	}
 
 	private DiagramBarsAssert assertArrayElementOfIndex(int i, double expectedGain) {

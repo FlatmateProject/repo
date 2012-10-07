@@ -17,14 +17,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
+import dao.StatisticDaoImpl;
 import service.GraphDraw;
 import service.dictionary.MONTH;
-import service.statictic.RAPORT_KIND;
+import service.statictic.REPORT_KIND;
 import service.statictic.Statistic;
-import service.statictic.StatisticRaport;
+import service.statictic.StatisticReport;
 import dao.Singleton;
-import dao.StaticticDao;
-import dao.StaticticDaoImpl;
+import dao.StatisticDao;
 
 public class StatisticPanel extends JPanel {
 
@@ -56,7 +56,7 @@ public class StatisticPanel extends JPanel {
 	private GraphDraw graphDraw;
 	private Singleton db = Singleton.getInstance();
 
-	private StaticticDao staticticDao;
+	private StatisticDao statisticDao;
 	
 	private Statistic statistic;
 
@@ -69,9 +69,9 @@ public class StatisticPanel extends JPanel {
 		Color color = new Color(224, 230, 233);
 		Font font = new Font("arial", Font.ROMAN_BASELINE, 15);
 
-		staticticDao = new StaticticDaoImpl();
+		statisticDao = new StatisticDaoImpl();
 		graphDraw = new GraphDraw();
-		statistic = new Statistic(staticticDao);
+		statistic = new Statistic(statisticDao);
 
 
 		setBounds(0, 0, 900, 650);
@@ -94,10 +94,10 @@ public class StatisticPanel extends JPanel {
 
 		chooseSubHotel = new JComboBox();
 		chooseSubHotel.setBounds(20, 100, 230, 20);
-		chooseSubHotel.addItem(RAPORT_KIND.HOTEL_ROOM_TYPES);
-		chooseSubHotel.addItem(RAPORT_KIND.HOTEL_ROOMS);
-		chooseSubHotel.addItem(RAPORT_KIND.HOTEL_SERVICE_TYPES);
-		chooseSubHotel.addItem(RAPORT_KIND.HOTEL_SERVICE);
+		chooseSubHotel.addItem(REPORT_KIND.HOTEL_ROOM_TYPES);
+		chooseSubHotel.addItem(REPORT_KIND.HOTEL_ROOMS);
+		chooseSubHotel.addItem(REPORT_KIND.HOTEL_SERVICE_TYPES);
+		chooseSubHotel.addItem(REPORT_KIND.HOTEL_SERVICE);
 		chooseSubHotel.setSelectedIndex(0);
 		add(chooseSubHotel);
 
@@ -137,8 +137,8 @@ public class StatisticPanel extends JPanel {
 
 		chooseSubFinance = new JComboBox();
 		chooseSubFinance.setBounds(20, 100, 230, 20);
-		chooseSubFinance.addItem(RAPORT_KIND.FINANCE_MONTH);
-		chooseSubFinance.addItem(RAPORT_KIND.FINANCE_YEAR);
+		chooseSubFinance.addItem(REPORT_KIND.FINANCE_MONTH);
+		chooseSubFinance.addItem(REPORT_KIND.FINANCE_YEAR);
 		chooseSubFinance.setSelectedIndex(0);
 		chooseSubFinance.setVisible(false);
 		add(chooseSubFinance);
@@ -284,24 +284,24 @@ public class StatisticPanel extends JPanel {
 		exec.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				graphDraw.setVisible(false);
-				StatisticRaport raport = null;
+				StatisticReport report = null;
 				if (chooseType.getSelectedIndex() == 0){
-					raport = statistic.hotel(//
-								(RAPORT_KIND) chooseSubHotel.getSelectedItem(),
+					report = statistic.hotel(//
+								(REPORT_KIND) chooseSubHotel.getSelectedItem(),
 								(MONTH) chooseMonth.getSelectedItem(),
 								chooseYear.getSelectedIndex() + 2010,
 								(String) chooseClass.getSelectedItem(),
 								(String) chooseServe.getSelectedItem());
 				}else{
-					raport = statistic.finance(//
-							(RAPORT_KIND) chooseSubFinance.getSelectedItem(),
+					report = statistic.finance(//
+							(REPORT_KIND) chooseSubFinance.getSelectedItem(),
 							(MONTH) chooseMonth2.getSelectedItem(),
 							(MONTH) chooseMonth.getSelectedItem(),
 							chooseYear.getSelectedIndex() + 2010,
 							chooseYear2.getSelectedIndex() + 2010);
 				}
-				graphDraw.setArray(raport.getArrayResult());
-				raportText.setText(raport.getTextResult());
+				graphDraw.setArray(report.getArrayResult());
+				raportText.setText(report.getTextResult());
 				graphDraw.setVisible(true);
 				raportScroll.setVisible(true);
 			}

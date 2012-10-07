@@ -27,7 +27,7 @@ public class IntegerElement {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null || obj instanceof IntegerElement == false) {
+		if (obj == null || !(obj instanceof IntegerElement)) {
 			return false;
 		}
 		IntegerElement object = (IntegerElement) obj;

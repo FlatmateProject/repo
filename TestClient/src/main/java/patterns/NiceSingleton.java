@@ -2,7 +2,7 @@ package patterns;
 
 public class NiceSingleton {
 
-	private final static NiceSingleton instace = buildComplexObject();
+	private final static NiceSingleton instance = buildComplexObject();
 
 	private String message = "It works and it is really nice";
 
@@ -11,13 +11,11 @@ public class NiceSingleton {
 	}
 
 	private static NiceSingleton buildComplexObject(){
-		NiceSingleton instance = new NiceSingleton();
-		//do someThing
-		return instance;
+		return  new NiceSingleton();
 	}
 	
 	public static NiceSingleton getInstance() {
-		return instace;
+		return instance;
 	}
 
 	public String getMessage() {

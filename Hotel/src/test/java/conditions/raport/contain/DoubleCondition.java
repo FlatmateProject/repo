@@ -10,22 +10,22 @@ public class DoubleCondition extends Condition<String> {
 		this.value = value;
 	}
 
-	public static DoubleCondition bodyContainSumaryGain(double sumaryGain) {
-		return new DoubleCondition(sumaryGain);
+	public static DoubleCondition bodyContainSummaryGain(double summaryGain) {
+		return new DoubleCondition(summaryGain);
 	}
 
-	public static DoubleCondition bodyContainReservationSumaryGain(double reservationSumaryGain) {
-		return new DoubleCondition(reservationSumaryGain);
+	public static DoubleCondition bodyContainReservationSummaryGain(double reservationSummaryGain) {
+		return new DoubleCondition(reservationSummaryGain);
 	}
 	
-	public static DoubleCondition bodyContainSeviceSumaryGain(double serviceSumaryGain) {
-		return new DoubleCondition(serviceSumaryGain);
+	public static DoubleCondition bodyContainServiceSummaryGain(double serviceSummaryGain) {
+		return new DoubleCondition(serviceSummaryGain);
 	}
 	
-	public static DoubleCondition bodyContainCantorSumaryGain(double cantorSumaryGain) {
-		return new DoubleCondition(cantorSumaryGain);
+	public static DoubleCondition bodyContainCantorSummaryGain(double cantorSummaryGain) {
+		return new DoubleCondition(cantorSummaryGain);
 	}
-	public static DoubleCondition bodyContainHotelSumaryGain(double sumaryGain) {
+	public static DoubleCondition bodyContainHotelSummaryGain(double sumaryGain) {
 		return new DoubleCondition(sumaryGain);
 	}
 	
@@ -34,7 +34,7 @@ public class DoubleCondition extends Condition<String> {
 	}
 	
 	@Override
-	public boolean matches(String textRaport) {
-		return textRaport.contains(Double.toString(value));
+	public boolean matches(String textReport) {
+		return textReport.contains(Double.toString(value));
 	}
 }

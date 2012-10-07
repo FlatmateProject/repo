@@ -6,120 +6,118 @@ import static conditions.raport.contain.IntegerCondition.headerContainYear;
 import static conditions.raport.contain.PeriodOfMonthsCondition.headerContainPeriodOfMonths;
 import static org.fest.assertions.Assertions.assertThat;
 
+import dao.StatisticDaoImpl;
 import org.apache.log4j.Logger;
 import org.fest.assertions.Condition;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import service.dictionary.MONTH;
-import service.statictic.RAPORT_KIND;
+import service.statictic.REPORT_KIND;
 import service.statictic.Statistic;
-import service.statictic.StatisticRaport;
-import dao.StaticticDaoImpl;
+import service.statictic.StatisticReport;
 
 public class StatisticTest {
 
 	private static final Logger log = Logger.getLogger(StatisticTest.class);
 
-	@Test(dataProvider = "prepareCasesForHotelRaport")
-	public void shouldCreateEmptyHotelRaport(RAPORT_KIND raportKind, int year, MONTH month, String serve, String roomType) {
+	@Test(dataProvider = "prepareCasesForHotelReport")
+	public void shouldCreateEmptyHotelReport(REPORT_KIND reportKind, int year, MONTH month, String serve, String roomType) {
 		// given
-		Statistic statistic = new Statistic(new StaticticDaoImpl());
+		Statistic statistic = new Statistic(new StatisticDaoImpl());
 
 		// when
-		StatisticRaport raport = statistic.hotel(raportKind, month, year, roomType, serve);
+		StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serve);
 
 		// then
-		assertThat(raport).isNotNull();
-		assertThat(raport.getRaportKind()).isEqualTo(raportKind);
-		String textRaport = raport.getTextResult();
-		assertThat(textRaport)//
+		assertThat(report).isNotNull();
+		assertThat(report.getReportKind()).isEqualTo(reportKind);
+		String textReport = report.getTextResult();
+		assertThat(textReport)//
 				.isNotNull()//
 				.is(headerContainMonth(month))//
 				.is(headerContainYear(year))//
 				.isNot(footerContainLegend());
-		log.info(textRaport);
+		log.info(textReport);
 
-		double[][] arrayResult = raport.getArrayResult();
+		double[][] arrayResult = report.getArrayResult();
 		assertThat(arrayResult).isNull();
 	}
 
 	@DataProvider
-	public static Object[][] prepareCasesForHotelRaport() {
+	public static Object[][] prepareCasesForHotelReport() {
 		return new Object[][] {//
-				{ RAPORT_KIND.HOTEL_ROOM_TYPES, 2012, MONTH.September, null, null },//
-				{ RAPORT_KIND.HOTEL_ROOMS, 2012, MONTH.September, null,	"pokój jednosobowy" },//
-				{ RAPORT_KIND.HOTEL_SERVICE_TYPES, 2012, MONTH.September, null,	"pokój jednosobowy" },//
-				{ RAPORT_KIND.HOTEL_SERVICE, 2012, MONTH.September,	"rekreacja", null },//
+				{ REPORT_KIND.HOTEL_ROOM_TYPES, 2012, MONTH.September, null, null },//
+				{ REPORT_KIND.HOTEL_ROOMS, 2012, MONTH.September, null,	"pokój jednosobowy" },//
+				{ REPORT_KIND.HOTEL_SERVICE_TYPES, 2012, MONTH.September, null,	"pokój jednosobowy" },//
+				{ REPORT_KIND.HOTEL_SERVICE, 2012, MONTH.September,	"rekreacja", null },//
 		};
 	}
 
-	@Test(dataProvider = "prepareCasesForFinanceMonthRaport")
-	public void shouldCreateEmptyFinanceMonthRaport(MONTH monthFrom, MONTH monthTo, Condition<String> monthCondition) {
+	@Test(dataProvider = "prepareCasesForFinanceMonthReport")
+	public void shouldCreateEmptyFinanceMonthReport(MONTH monthFrom, MONTH monthTo, Condition<String> monthCondition) {
 		// given
-		Statistic statistic = new Statistic(new StaticticDaoImpl());
-		RAPORT_KIND raportKind = RAPORT_KIND.FINANCE_MONTH;
+		Statistic statistic = new Statistic(new StatisticDaoImpl());
+		REPORT_KIND reportKind = REPORT_KIND.FINANCE_MONTH;
 		int year = 2012;
 		
 		// when
-		StatisticRaport raport = statistic.finance(raportKind, monthFrom, monthTo, year, 0);
+		StatisticReport report = statistic.finance(reportKind, monthFrom, monthTo, year, 0);
 
 		// then
-		assertThat(raport).isNotNull();
-		assertThat(raport.getRaportKind()).isEqualTo(raportKind);
-		String textRaport = raport.getTextResult();
-		assertThat(textRaport)//
+		assertThat(report).isNotNull();
+		assertThat(report.getReportKind()).isEqualTo(reportKind);
+		String textReport = report.getTextResult();
+		assertThat(textReport)//
 				.isNotNull()//
 				.is(monthCondition)//
 				.is(headerContainYear(year))//
 				.isNot(footerContainLegend());
-		log.info(textRaport);
+		log.info(textReport);
 
-		double[][] arrayResult = raport.getArrayResult();
+		double[][] arrayResult = report.getArrayResult();
 		assertThat(arrayResult).isNull();
 	}
 
 	@DataProvider
-	public static Object[][] prepareCasesForFinanceMonthRaport() {
-		Object[][] datas = new Object[][] {//
+	public static Object[][] prepareCasesForFinanceMonthReport() {
+		return new Object[][] {//
 				{ MONTH.September, MONTH.December, headerContainPeriodOfMonths(MONTH.September, MONTH.December) },//
 				{ MONTH.September, MONTH.September, headerContainMonth(MONTH.September) },//
 				{ MONTH.September, MONTH.May, headerContainPeriodOfMonths(MONTH.May, MONTH.September) },//
 		};
-		return datas;
 	}
 	
-	@Test(dataProvider = "prepareCasesForFinanceYearRaport")
-	public void shouldCreateEmptyFinanceYearRaport(int yearFrom, int yearTo) {
+	@Test(dataProvider = "prepareCasesForFinanceYearReport")
+	public void shouldCreateEmptyFinanceYearReport(int yearFrom, int yearTo) {
 		// given
-		Statistic statistic = new Statistic(new StaticticDaoImpl());
-		RAPORT_KIND raportKind = RAPORT_KIND.FINANCE_YEAR;
+		Statistic statistic = new Statistic(new StatisticDaoImpl());
+		REPORT_KIND reportKind = REPORT_KIND.FINANCE_YEAR;
 		
 		// when
-		StatisticRaport raport = statistic.finance(raportKind, null, null, yearFrom, yearTo);
+		StatisticReport report = statistic.finance(reportKind, null, null, yearFrom, yearTo);
 
 		// then
-		assertThat(raport).isNotNull();
-		assertThat(raport.getRaportKind()).isEqualTo(raportKind);
-		String textRaport = raport.getTextResult();
-		assertThat(textRaport)//
+		assertThat(report).isNotNull();
+		assertThat(report.getReportKind()).isEqualTo(reportKind);
+		String textReport = report.getTextResult();
+		assertThat(textReport)//
 				.isNotNull()//
 				.is(headerContainYear(yearFrom))//
 				.is(headerContainYear(yearTo))//
 				.isNot(footerContainLegend());
-		log.info(textRaport);
+		log.info(textReport);
 
-		double[][] arrayResult = raport.getArrayResult();
+		double[][] arrayResult = report.getArrayResult();
 		assertThat(arrayResult).isNull();
 	}
 	
 	@DataProvider
-	public static Object[][] prepareCasesForFinanceYearRaport() {
-		Object[][] datas = new Object[][] {//
+	public static Object[][] prepareCasesForFinanceYearReport() {
+		return new Object[][] {//
 				{ 2012, 2013 },//
 				{ 2012, 2012 },//
 				{ 2012, 2011 },//
 		};
-		return datas;
 	}
 }

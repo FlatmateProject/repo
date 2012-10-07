@@ -1,20 +1,22 @@
 package service.statictic.templates;
 
 
-public class FinanceMonthRaportTemplateBuilder implements RaportTemplateBuilder {
+public class FinanceMonthReportTemplateBuilder implements ReportTemplateBuilder {
 
-	private String header;
+	private String header = "Raportu zysków w miesiącu";
 	
-	private String body;
+	private String body ="";
 	
 	private String foot = DEFAULT_FOOT;
 
 	@Override
 	public void createHeader(Object... args) {
-		if (isSameMonth(args))
+		if (isSameMonth(args))  {
 			header = String.format("Raportu zysków w miesiącu %s roku %d\n", args[0], args[2]);
-		else
+        }
+		else {
 			header = String.format("Raportu zysków w miesiącach od %s do %s roku %d\n", args);
+        }
 	}
 
 

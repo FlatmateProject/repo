@@ -2,27 +2,27 @@ package service.statictic;
 
 import java.util.List;
 
-import service.statictic.templates.RaportTemplateBuilder;
+import service.statictic.templates.ReportTemplateBuilder;
 
 
-public class StatisticRaport {
+public class StatisticReport {
 
-	private double array[][];
+	private final double[][] array;
 	
-	private String textResult;
+	private final String textResult;
 	
-	private RAPORT_KIND raportKind;
+	private final REPORT_KIND reportKind;
 	
-	public StatisticRaport(RAPORT_KIND raportKind, double[][] array, String resultText) {
+	public StatisticReport(REPORT_KIND reportKind, double[][] array, String resultText) {
 		this.array = array;
 		this.textResult = resultText;
-		this.raportKind = raportKind;
+		this.reportKind = reportKind;
 	}
 	
-	public StatisticRaport(RAPORT_KIND raportKind, List<DiagramElement> elements, RaportTemplateBuilder templateBuilder) {
+	public StatisticReport(REPORT_KIND reportKind, List<DiagramElement> elements, ReportTemplateBuilder templateBuilder) {
 		this.array = createResultArray(elements);
 		this.textResult = templateBuilder.build();
-		this.raportKind = raportKind;
+		this.reportKind = reportKind;
 	}
 
 	private double[][] createResultArray(List<DiagramElement> elements) {
@@ -46,7 +46,7 @@ public class StatisticRaport {
 		return textResult;
 	}
 
-	public RAPORT_KIND getRaportKind() {
-		return raportKind;
+	public REPORT_KIND getReportKind() {
+		return reportKind;
 	}
 }

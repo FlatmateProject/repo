@@ -1,28 +1,28 @@
 package service.statictic.templates;
 
+public class HotelServiceReportTemplateBuilder implements ReportTemplateBuilder {
 
-
-public class HotelRoomTypesRaportTemplateBuilder implements RaportTemplateBuilder {
-
-	private String header = "Raportu z wykorzystania klas pokoi";
+	private String header = "Raportu z wykorzystania usług  za miesiąc";
 	
 	private String body   = "";
 	
-	private String foot   = DEFAULT_FOOT;
+	private final String DEFAULT_FOOT   = "W danym miesiącu nie wprowadzano danych z zakresu.\n";
 	
+	private String foot   = DEFAULT_FOOT;
 	
 	@Override
 	public void createHeader(Object... args) {
-		header = String.format("Raportu z wykorzystania klas pokoi za miesiąc %s w roku %s\n", args);
+		header = String.format("Raportu z wykorzystania usług z type %s za miesiąc %s w roku %d\n", args);
+
 	}
 
 	@Override
 	public void appendBodyBlock(Object... args) {
-		body += String.format("\tKlasa %s (%d).\n " 
-				+"\tzyski: %.2fzł\n" 
-				+ "\tliczba meldunków: %d\n"
-				+ " \tprzychód jednostkowy: %.2fzł\n\n", args);
-
+		body = String.format("\tNazwa uslugi %s (%d).\n"
+		 + "\tsumaryczny czas: %d godzin\n"
+		 + "\tzysk: %.2fzł\n"
+		 + "\tliczba zameldowań: %d\n"
+		 + "\tprzychód jednostkowy: %.2fzł\n", args);
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class HotelRoomTypesRaportTemplateBuilder implements RaportTemplateBuilde
 		body = "";
 		return result;
 	}
-	
+
 	private boolean isShownLegend(Object... args) {
 		int numberOfElements = (Integer) (args != null && args.length > 0 ? args[0] : 0);
 		return numberOfElements > 0;

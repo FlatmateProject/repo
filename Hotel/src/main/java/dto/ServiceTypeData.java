@@ -11,30 +11,24 @@ public class ServiceTypeData {
 	
 	private float summaryGain;
 
-	public String getTypeName() {
-		return typeName;
-	}
+    public ServiceTypeData(String typeName, long summaryTime, float summaryGain) {
+        this.typeName = typeName;
+        this.summaryTime = summaryTime;
+        this.summaryGain = summaryGain;
+    }
 
-	public void setType(String typeName) {
-		this.typeName = typeName;
+    public String getTypeName() {
+		return typeName;
 	}
 
 	public long getSummaryTime() {
 		return summaryTime;
 	}
 
-	public void setSummaryTime(long summaryTime) {
-		this.summaryTime = summaryTime;
-	}
-
 	public float getSummaryGain() {
 		return summaryGain;
 	}
 
-	public void setSummaryGain(float sumaryGain) {
-		this.summaryGain = sumaryGain;
-	}
-	
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this,	ToStringStyle.SHORT_PREFIX_STYLE);

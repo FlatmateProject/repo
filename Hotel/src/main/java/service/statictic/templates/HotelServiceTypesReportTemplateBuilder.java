@@ -1,13 +1,13 @@
 package service.statictic.templates;
 
 
-public class HotelServiceTypesRaportTemplateBuilder implements RaportTemplateBuilder {
+public class HotelServiceTypesReportTemplateBuilder implements ReportTemplateBuilder {
 
 	private String header = "Raportu z wykorzystania typów usług  za miesiąc";
 	
 	private String body   = "";
 	
-	private String DEFAULT_FOOT   = "W danym miesiącu nie wprowadzano danych z zakresu.\n";
+	private final String DEFAULT_FOOT   = "W danym miesiącu nie wprowadzano danych z zakresu.\n";
 	
 	private String foot   = DEFAULT_FOOT;
 	

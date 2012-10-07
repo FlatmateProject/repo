@@ -2,7 +2,7 @@ package service.statictic;
 
 public class DiagramElement {
 
-	private double[] bars;
+	private final double[] bars;
 	
 	public DiagramElement(double... bars) {
 		this.bars = bars;

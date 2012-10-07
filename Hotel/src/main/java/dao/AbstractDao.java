@@ -8,25 +8,18 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import exception.DAOException;
 import org.apache.log4j.Logger;
 
-public abstract class AbstractDao {
+ abstract class AbstractDao {
 	
 	private static final Logger log = Logger.getLogger(AbstractDao.class);
 	
-	private Singleton session = Singleton.getInstance();
+	Singleton session = Singleton.getInstance();
 
-	public Singleton getSession() {
-		return session;
-	}
-
-	public void setSession(Singleton session) {
-		this.session = session;
-	}
-
-	protected Object uniqueResult(String query) {
+	Object uniqueResult(String query) throws DAOException {
 		try {
-			ResultSet resultSet = getSession().query(query);
+			ResultSet resultSet = session.query(query);
 			return resultSet.next() ? resultSet.getObject(1) : 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -34,8 +27,8 @@ public abstract class AbstractDao {
 		}
 	}
 	
-	protected <T> List<T> exacuteQuery(String query, Class<T> dtoClass) {
-		ResultSet resultSet = getSession().query(query);
+	<T> List<T> executeQuery(String query, Class<T> dtoClass) throws DAOException {
+		ResultSet resultSet = session.query(query);
 		return transform(resultSet, dtoClass);
 	}
 	

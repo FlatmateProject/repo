@@ -3,11 +3,12 @@ package service.statictic.executors;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import service.statictic.RAPORT_KIND;
-import service.statictic.StatisticRaport;
-import service.statictic.templates.RaportTemplateBuilder;
+import exception.DAOException;
+import service.statictic.REPORT_KIND;
+import service.statictic.StatisticReport;
+import service.statictic.templates.ReportTemplateBuilder;
 
-public class FinanceYearRaportCreator extends RaportCreator {
+public class FinanceYearReportCreator extends ReportCreator {
 
 	private double array[][];
 	private String resultText;
@@ -18,32 +19,34 @@ public class FinanceYearRaportCreator extends RaportCreator {
 	
 	
 	@Override
-	public void setup(RaportDetails raportDetails) {
-		yearFrom = raportDetails.getYearFrom();
-		yearTo = raportDetails.getYearTo();
+	public void setup(ReportDetails reportDetails) {
+		yearFrom = reportDetails.getYearFrom();
+		yearTo = reportDetails.getYearTo();
 	}
 
 	@Override
-	public StatisticRaport createRaport(RaportTemplateBuilder templateBuilder) throws SQLException {
+	public StatisticReport createReport(ReportTemplateBuilder templateBuilder) throws DAOException {
 		resultText = "";
 		array = null;
-		createYearRaport(yearFrom, yearTo);
-		StatisticRaport raport = new StatisticRaport(RAPORT_KIND.FINANCE_YEAR, array, resultText);
-		return raport;
+        try {
+            createYearReport(yearFrom, yearTo);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+		return new StatisticReport(REPORT_KIND.FINANCE_YEAR, array, resultText);
 	}
 	
-	private void createYearRaport(int yearFrom, int yearTo) throws SQLException {
+	private void createYearReport(int yearFrom, int yearTo) throws DAOException, SQLException {
 		int n = -1;
 		int i = 0;
 
 		if (yearFrom > yearTo) {
-			i = yearFrom;
+			int tmp = yearFrom;
 			yearFrom = yearTo;
-			yearTo = i;
+			yearTo = tmp;
 		}
-		i = 0;
 
-		ResultSet resultQuery = staticticDao.createYearRaport(yearFrom, yearTo);
+		ResultSet resultQuery = statisticDao.createYearReport(yearFrom, yearTo);
 		if (resultQuery != null) {
 			resultQuery.last();
 			n = resultQuery.getRow();
@@ -76,7 +79,7 @@ public class FinanceYearRaportCreator extends RaportCreator {
 				resultText += " Slupek czwarty przedstawia zysk sumaryczny\n";
 			}
 		} else
-			resultText += "Wyst�pi� b�ad bazy danych\n";
+			resultText += "Wystąpił bład bazy danych\n";
 		if (n == 0)
 			resultText += "W danym miesi�cu nie wprowadzano �adnych danych za zakresu.\n";
 

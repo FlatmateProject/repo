@@ -10,13 +10,13 @@ public class LongCondition extends Condition<String> {
 		this.value = value;
 	}
 	
-	public static LongCondition bodyContainSumaryTime(long sumaryTime) {
-		return new LongCondition(sumaryTime);
+	public static LongCondition bodyContainSummaryTime(long summaryTime) {
+		return new LongCondition(summaryTime);
 	}
 
 	@Override
-	public boolean matches(String textRaport) {
-		return textRaport.contains(Long.toString(value));
+	public boolean matches(String textReport) {
+		return textReport.contains(Long.toString(value));
 	}
 
 }

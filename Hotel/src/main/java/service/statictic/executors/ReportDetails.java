@@ -2,9 +2,9 @@ package service.statictic.executors;
 
 import service.dictionary.MONTH;
 
-public class RaportDetails {
+public class ReportDetails {
 
-	private MONTH month; 
+	private MONTH month;
 	
 	private int year; 
 	
@@ -16,14 +16,14 @@ public class RaportDetails {
 	
 	private int yearTo;
 	
-	public RaportDetails(MONTH month, int year, String classRoom, String serviceTypeName) {
+	public ReportDetails(MONTH month, int year, String classRoom, String serviceTypeName) {
 		this.month = month;
 		this.year = year;
 		this.roomType = classRoom;
 		this.serviceTypeName = serviceTypeName;
 	}
 
-	public RaportDetails(MONTH monthFrom, MONTH monthTo, int yearFrom, int yearTo)  {
+	public ReportDetails(MONTH monthFrom, MONTH monthTo, int yearFrom, int yearTo)  {
 		this.month = monthFrom;
 		this.year = yearFrom;
 		this.monthTo = monthTo;
