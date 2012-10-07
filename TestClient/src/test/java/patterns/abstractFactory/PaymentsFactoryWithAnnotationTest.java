@@ -3,19 +3,19 @@ package patterns.abstractFactory;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
 import patterns.abstractFactory.model.OBJECT_STATUS;
 import patterns.abstractFactory.model.OBJECT_TYPE;
 import patterns.abstractFactory.model.ObjectEntity;
 import patterns.abstractFactory.payments.PAYMENTS_STATUS;
 import patterns.abstractFactory.payments.PaymentsRequest;
 import patterns.abstractFactory.payments.PaymentsResult;
+
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
 public class PaymentsFactoryWithAnnotationTest {
 	
-	public PaymentsGiven given;
+	PaymentsGiven given;
 	
 	@BeforeMethod
 	public void setUp() {
@@ -38,7 +38,7 @@ public class PaymentsFactoryWithAnnotationTest {
 		assertEquals(PAYMENTS_STATUS.TODO, result.getPaymentStatus());
 		assertEquals(object.getId(), result.getObject().getId());
 		assertEquals(OBJECT_STATUS.SET_TO_WORK, object.getStatus());
-		assertEquals(request.getAmount(), result.getAmount());
+		assertEquals(amount, result.getAmount());
 	}
 
 	@Test(dataProvider = "parameterIntTestProvider")
@@ -57,7 +57,7 @@ public class PaymentsFactoryWithAnnotationTest {
 		assertEquals(PAYMENTS_STATUS.DONE, result.getPaymentStatus());
 		assertEquals(advert.getId(), result.getObject().getId());
 		assertEquals(OBJECT_STATUS.WORK, advert.getStatus());
-		assertEquals(request.getAmount(), result.getAmount());
+		assertEquals(amount, result.getAmount());
 	}
 	
 	@Test(dataProvider = "parameterIntTestProvider")
@@ -76,7 +76,7 @@ public class PaymentsFactoryWithAnnotationTest {
 		assertEquals(PAYMENTS_STATUS.CANCELED, result.getPaymentStatus());
 		assertEquals(advert.getId(), result.getObject().getId());
 		assertEquals(OBJECT_STATUS.NEW, advert.getStatus());
-		assertEquals(request.getAmount(), result.getAmount());
+		assertEquals(amount, result.getAmount());
 	}
 	
 	@Test(dataProvider = "parameterIntTestProvider")
@@ -95,7 +95,7 @@ public class PaymentsFactoryWithAnnotationTest {
 		assertEquals(PAYMENTS_STATUS.CANCELED, result.getPaymentStatus());
 		assertEquals(advert.getId(), result.getObject().getId());
 		assertEquals(OBJECT_STATUS.NEW, advert.getStatus());
-		assertEquals(request.getAmount(), result.getAmount());
+		assertEquals(amount, result.getAmount());
 	}
 	
 	@DataProvider(name = "parameterIntTestProvider")

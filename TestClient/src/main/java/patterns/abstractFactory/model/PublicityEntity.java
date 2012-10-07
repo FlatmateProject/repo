@@ -8,7 +8,7 @@ public class PublicityEntity extends ObjectEntity {
 
 	@Override
 	public void payAction() {
-		System.out.println("Publicity has beed paid");
+		System.out.println("Publicity has been paid");
 	}
 
 	@Override
@@ -18,7 +18,7 @@ public class PublicityEntity extends ObjectEntity {
 
 	@Override
 	public void revertAction() {
-		System.out.println("Publicity has beed reverted to new");
+		System.out.println("Publicity has been reverted to new");
 	}
 
 }

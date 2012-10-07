@@ -9,7 +9,7 @@ public class TechnicalAnalyzer implements Analyzer {
 	@Override
 	public List<IntegerElement> process(List<Integer> inputData) {
 		List<IntegerElement> result = createDiagram(inputData);
-		double standard = calculateStandart(result);
+		double standard = calculateStandard(result);
 		removeOutOfRange(result, standard);
 		return result;
 	}
@@ -48,21 +48,21 @@ public class TechnicalAnalyzer implements Analyzer {
 		return element.getValue() > twoStandard;
 	}
 
-	private double calculateStandart(List<IntegerElement> result) {
-		double avarage = calculateAvarage(result);
-		double midleSquer = calaulateMidleSquer(result, avarage);
-		return Math.sqrt(midleSquer);
+	private double calculateStandard(List<IntegerElement> result) {
+		double average = calculateAverage(result);
+		double middleSquare = calculateMiddleSquare(result, average);
+		return Math.sqrt(middleSquare);
 	}
 
-	private double calaulateMidleSquer(List<IntegerElement> result,	double avarage) {
+	private double calculateMiddleSquare(List<IntegerElement> result, double average) {
 		double sum = 0.0;
 		for (IntegerElement element : result) {
-			sum += Math.pow((element.calculateRatio() - avarage), 2);
+			sum += Math.pow((element.calculateRatio() - average), 2);
 		}
 		return sum;
 	}
 
-	private double calculateAvarage(List<IntegerElement> result) {
+	private double calculateAverage(List<IntegerElement> result) {
 		double sum = 0.0;
 		for (IntegerElement element : result) {
 			sum += element.calculateRatio();

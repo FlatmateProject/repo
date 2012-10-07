@@ -4,7 +4,7 @@ public class PremiumUserFeature extends UserFeature {
 
 	private PremiumUserFeature() {
 		this.transferLimit = false;
-		this.parralelDownloads = PREMIUM_USER_DOWNLOAD_LIMIT;
+		this.parallelDownloads = PREMIUM_USER_DOWNLOAD_LIMIT;
 		this.haveToWait = false;
 		this.dailyLimit = false;
 		this.sslProtection = true;

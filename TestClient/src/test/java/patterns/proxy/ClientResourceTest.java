@@ -18,7 +18,7 @@ public class ClientResourceTest {
 	}
 
 	@Test(dataProvider = "feedData")
-	public void shoulUploadData(ClientResource resource, int expactedPackageSize, int packageSizeInMB) {
+	public void shouldUploadData(ClientResource resource, int expectedPackageSize, int packageSizeInMB) {
 		// given
 		byte[] dataPackage = new byte[packageSizeInMB];
 
@@ -26,11 +26,11 @@ public class ClientResourceTest {
 		int resultPackageSize = resource.upload(dataPackage);
 
 		// then
-		assertEquals(expactedPackageSize, resultPackageSize);
+		assertEquals(expectedPackageSize, resultPackageSize);
 	}
 
 	@Test(dataProvider = "feedData")
-	public void shoulDownloadData(ClientResource resource, int expactedPackageSize, int packageSizeInMB) {
+	public void shouldDownloadData(ClientResource resource, int expectedPackageSize, int packageSizeInMB) {
 		// given
 		byte[] dataPackage = new byte[packageSizeInMB];
 
@@ -38,6 +38,6 @@ public class ClientResourceTest {
 		int resultPackageSize = resource.download(dataPackage);
 
 		// then
-		assertEquals(expactedPackageSize, resultPackageSize);
+		assertEquals(expectedPackageSize, resultPackageSize);
 	}
 }

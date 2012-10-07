@@ -2,15 +2,14 @@ package patterns.prototype;
 
 import org.jboss.logging.Logger;
 import org.testng.annotations.Test;
-
 import patterns.globalFactoryMethod.LANGUAGE;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
 
 public class UserFeaturesHistoryTest {
 
-	private static Logger log = Logger.getLogger(UserFeaturesHistoryTest.class);
+	private static final Logger log = Logger.getLogger(UserFeaturesHistoryTest.class);
 
 	@Test
 	public void testShouldContainThreeFeaturesInCorrectOrder() {
@@ -35,7 +34,7 @@ public class UserFeaturesHistoryTest {
 			log.info("expected: " + exceptedFeatures[i]);
 			log.info("actual:   " + feature);
 			assertEquals(exceptedFeatures[i], feature);
-			assertTrue(history.contains(feature));
+			assertEquals(true, history.contains(feature));
 			if (feature.isPremium()) {
 				assertPremium(feature);
 			} else {
@@ -47,7 +46,7 @@ public class UserFeaturesHistoryTest {
 
 	private void assertPremium(UserFeature premium) {
 		assertEquals(false, premium.isTransferLimit());
-		assertEquals(UserFeature.PREMIUM_USER_DOWNLOAD_LIMIT, premium.getParralelDownloads());
+		assertEquals(UserFeature.PREMIUM_USER_DOWNLOAD_LIMIT, premium.getParallelDownloads());
 		assertEquals(false, premium.isHaveToWait());
 		assertEquals(false, premium.isDailyLimit());
 		assertEquals(true, premium.isSslProtection());
@@ -55,7 +54,7 @@ public class UserFeaturesHistoryTest {
 
 	private void assertStandard(UserFeature standard) {
 		assertEquals(true, standard.isTransferLimit());
-		assertEquals(1, standard.getParralelDownloads());
+		assertEquals(1, standard.getParallelDownloads());
 		assertEquals(true, standard.isHaveToWait());
 		assertEquals(true, standard.isDailyLimit());
 		assertEquals(false, standard.isSslProtection());

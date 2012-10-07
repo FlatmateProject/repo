@@ -4,11 +4,11 @@ import patterns.abstractFactory.model.ObjectEntity;
 
 public class PaymentsResult {
 	
-	private ObjectEntity object;
+	private final ObjectEntity object;
 	
-	private PAYMENTS_STATUS paymentStatus;
+	private final PAYMENTS_STATUS paymentStatus;
 	
-	private long amount;
+	private final long amount;
 	
 	public PaymentsResult(ObjectEntity object, PAYMENTS_STATUS status, long amount) {
 		this.object = object;

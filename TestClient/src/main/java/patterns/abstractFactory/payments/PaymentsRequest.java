@@ -20,12 +20,4 @@ public class PaymentsRequest {
 	public long getAmount() {
 		return amount;
 	}
-
-	public void setObject(ObjectEntity object) {
-		this.object = object;
-	}
-
-	public void setAmount(long amount) {
-		this.amount = amount;
-	}
 }

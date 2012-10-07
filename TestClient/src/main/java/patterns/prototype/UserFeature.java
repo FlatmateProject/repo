@@ -4,7 +4,6 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-
 import patterns.globalFactoryMethod.LANGUAGE;
 
 public abstract class UserFeature {
@@ -19,7 +18,7 @@ public abstract class UserFeature {
 
 	protected boolean transferLimit;
 
-	protected long    parralelDownloads;
+	protected long parallelDownloads;
 
 	protected boolean haveToWait;
 
@@ -49,8 +48,8 @@ public abstract class UserFeature {
 		return transferLimit;
 	}
 
-	public long getParralelDownloads() {
-		return parralelDownloads;
+	public long getParallelDownloads() {
+		return parallelDownloads;
 	}
 
 	public boolean isHaveToWait() {
@@ -72,17 +71,9 @@ public abstract class UserFeature {
 	public OPTION getOption() {
 		return option;
 	}
-	
-	public boolean isStandard() {
-		return option.equals(OPTION.STANDARD);
-	}
-	
+
 	public boolean isPremium() {
 		return option.equals(OPTION.PREMIUM);
-	}
-	
-	public boolean isOption(OPTION option) {
-		return this.option.equals(option);
 	}
 
 	public LANGUAGE getLanguage() {
@@ -96,7 +87,7 @@ public abstract class UserFeature {
 				.append(accountName)//
 				.append(language)//
 				.append(transferLimit)//
-				.append(parralelDownloads)//
+				.append(parallelDownloads)//
 				.append(haveToWait)//
 				.append(dailyLimit)//
 				.append(sslProtection)
@@ -115,7 +106,7 @@ public abstract class UserFeature {
 		.append(accountName, object.accountName)//
 		.append(language, object.language)//
 		.append(transferLimit, object.transferLimit)//
-		.append(parralelDownloads, object.parralelDownloads)//
+		.append(parallelDownloads, object.parallelDownloads)//
 		.append(haveToWait, object.haveToWait)//
 		.append(dailyLimit, object.dailyLimit)//
 		.append(sslProtection, object.sslProtection)

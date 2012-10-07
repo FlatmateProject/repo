@@ -2,15 +2,14 @@ package patterns.localFactoryMethod;
 
 
 import org.testng.annotations.Test;
-
-import patterns.builder.WelcomeUserConstructor;
 import patterns.localfactorymethod.FactoryMethod;
 import patterns.localfactorymethod.FactoryMethod.LANGUAGE;
+
 import static org.testng.Assert.assertEquals;
 
 public class LocalFactoryMethodTest {
 	@Test
-	public void testShouldReturnPolishMessage() {
+	public void testShowReturnPolishMessage() {
 		new MessageTest() {
 			
 			@Override
@@ -26,7 +25,7 @@ public class LocalFactoryMethodTest {
 	}
 
 	@Test
-	public void testShouldReturnEnglishMessage() {
+	public void testShowReturnEnglishMessage() {
 		new MessageTest() {
 			
 			@Override
@@ -42,7 +41,7 @@ public class LocalFactoryMethodTest {
 	}
 	
 	@Test
-	public void testShouldReturnSpanishMessage() {
+	public void testShowReturnSpanishMessage() {
 		new MessageTest() {
 			
 			@Override
@@ -59,8 +58,6 @@ public class LocalFactoryMethodTest {
 	
 	private abstract class MessageTest {
 
-		protected WelcomeUserConstructor welcome;
-
 		public abstract String expectedMessage();
 
 		public abstract LANGUAGE getLanguage();
@@ -70,7 +67,7 @@ public class LocalFactoryMethodTest {
 		}
 		
 		public void execute(){
-			FactoryMethod result = new FactoryMethod(getLanguage());
+			FactoryMethod result = FactoryMethod.getMethod(getLanguage());
 			assertEquals(expectedMessage(), result.append(getUserName()));
 		}
 	}

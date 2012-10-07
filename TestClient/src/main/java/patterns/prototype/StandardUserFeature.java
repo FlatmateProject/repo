@@ -4,7 +4,7 @@ public class StandardUserFeature extends UserFeature {
 
 	private StandardUserFeature() {
 		this.transferLimit = true;
-		this.parralelDownloads = 1;
+		this.parallelDownloads = 1;
 		this.haveToWait = true;
 		this.dailyLimit = true;
 		this.sslProtection = false;

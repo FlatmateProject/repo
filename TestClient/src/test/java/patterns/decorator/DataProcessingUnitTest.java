@@ -1,14 +1,12 @@
 package patterns.decorator;
 
+import org.testng.annotations.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
+import static org.testng.Assert.*;
 
 public class DataProcessingUnitTest {
 
@@ -56,7 +54,7 @@ public class DataProcessingUnitTest {
 	}
 	
 	@Test
-	public void shouldReturnListWitoutRepetition() {
+	public void shouldReturnListWithoutRepetition() {
 		// given
 		DataProcessingUnit unit = new DataProcessingUnit(new ScientificAnalyzer());
 		List<Integer> inputData = Arrays.asList(1, 1);
@@ -74,7 +72,7 @@ public class DataProcessingUnitTest {
 	}
 	
 	@Test
-	public void shouldReturnSortedListWitoutRepetition() {
+	public void shouldReturnSortedListWithoutRepetition() {
 		// given
 		DataProcessingUnit unit = new DataProcessingUnit(new ScientificAnalyzer());
 		List<Integer> inputData = Arrays.asList(2, 1, 1);
@@ -92,7 +90,7 @@ public class DataProcessingUnitTest {
 	}
 
 	@Test
-	public void shouldReturnOnlyValueWithAccuraccy95Percent() {
+	public void shouldReturnOnlyValueWithAccuracy95Percent() {
 		// given
 		DataProcessingUnit unit = new DataProcessingUnit(new TechnicalAnalyzer());
 		List<Integer> inputData = Arrays.asList(20, 10, 1);
@@ -109,37 +107,37 @@ public class DataProcessingUnitTest {
 		assertElement(20, 1, elements[2]);
 	}
 	
-	@Test
-	public void shouldReturnOnlyValueWithAccuraccy95PercentAndBiggerThanZero() {
-		// given
-		TechnicalAnalyzer analyzer = new TechnicalAnalyzer();
-		DataProcessingUnit unit = new DataProcessingUnit(new AnalyzerDecorator(analyzer){
-
-			@Override
-			public void inputConditions(List<Integer> inputData, List<Integer> result) {
-				for (Integer number : inputData) {
-					if(number > 0){
-						result.add(number);
-					}
-				}	
-			}});
-		List<Integer> inputData = Arrays.asList(20, 10, 1, -1);
-
-		// when
-		List<IntegerElement> outputData = unit.analyze(inputData);
-
-		// then
-		assertNotNull(outputData);
-		assertEquals(3, outputData.size());
-		IntegerElement[] elements = outputData.toArray(new IntegerElement[outputData.size()]);
-		assertElement(1, 1, elements[0]);
-		assertElement(10, 1, elements[1]);
-		assertElement(20, 1, elements[2]);
-	}
-	
-	
 	private static void assertElement(int expectedValue, int expectedQuantity, IntegerElement actual) {
 		assertEquals(expectedValue, actual.getValue());
 		assertEquals(expectedQuantity, actual.getQuantity());
 	}
+
+
+    @Test
+    public void shouldReturnOnlyValueWithAccuracy95PercentAndBiggerThanZero() {
+        // given
+        TechnicalAnalyzer analyzer = new TechnicalAnalyzer();
+        DataProcessingUnit unit = new DataProcessingUnit(new AnalyzerDecorator(analyzer){
+
+            @Override
+            public void inputConditions(List<Integer> inputData, List<Integer> result) {
+                for (Integer number : inputData) {
+                    if(number > 0){
+                        result.add(number);
+                    }
+                }
+            }});
+        List<Integer> inputData = Arrays.asList(20, 10, 1, -1);
+
+        // when
+        List<IntegerElement> outputData = unit.analyze(inputData);
+
+        // then
+        assertNotNull(outputData);
+        assertEquals(3, outputData.size());
+        IntegerElement[] elements = outputData.toArray(new IntegerElement[outputData.size()]);
+        assertElement(1, 1, elements[0]);
+        assertElement(10, 1, elements[1]);
+        assertElement(20, 1, elements[2]);
+    }
 }

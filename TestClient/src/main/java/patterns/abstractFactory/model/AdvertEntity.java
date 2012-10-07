@@ -9,7 +9,7 @@ public class AdvertEntity extends ObjectEntity {
 
 	@Override
 	public void payAction() {
-		System.out.println("Advert has beed paid");
+		System.out.println("Advert has been paid");
 	}
 
 	@Override
@@ -19,7 +19,7 @@ public class AdvertEntity extends ObjectEntity {
 
 	@Override
 	public void revertAction() {
-		System.out.println("Advert has beed reverted to new");
+		System.out.println("Advert has been reverted to new");
 	}
 
 }

@@ -2,7 +2,10 @@ package patterns.localfactorymethod;
 
 public class FactoryMethod {
 
-	public enum LANGUAGE {
+
+
+
+    public enum LANGUAGE {
 		Polish(new AbstractMessage() {
 			{
 				message = "Witaj świecie";
@@ -43,18 +46,22 @@ public class FactoryMethod {
 
 		private AbstractMessage message;
 
-		public String append(String m) {
+        public String append(String m) {
 			return message.append(m);
 		}
 	}
 
 	private LANGUAGE language;
 
-	public FactoryMethod(LANGUAGE language) {
+	private FactoryMethod(LANGUAGE language) {
 		this.language = language;
 	}
 
 	public String append(String m) {
 		return language.append(m);
 	}
+
+    public static FactoryMethod getMethod(LANGUAGE language) {
+        return new FactoryMethod(language);
+    }
 }

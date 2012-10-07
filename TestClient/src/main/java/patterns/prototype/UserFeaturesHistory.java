@@ -9,15 +9,11 @@ public class UserFeaturesHistory {
 		return features;
 	}
 
-	private List<UserFeature> features = new ArrayList<UserFeature>();
+	private final List<UserFeature> features = new ArrayList<UserFeature>();
 
 	public void addFeature(UserFeature feature) {
 		features.add(feature);
 	}
-	
-	public void getFeature(int i) {
-		features.get(i);
-	}	
 	
 	public int historySize(){
 		return features.size();

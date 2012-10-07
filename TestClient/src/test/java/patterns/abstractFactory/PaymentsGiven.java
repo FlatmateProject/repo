@@ -1,8 +1,5 @@
 package patterns.abstractFactory;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import patterns.abstractFactory.advert.AdvertPaymentsFactory;
 import patterns.abstractFactory.model.AdvertEntity;
 import patterns.abstractFactory.model.OBJECT_TYPE;
@@ -10,11 +7,14 @@ import patterns.abstractFactory.model.ObjectEntity;
 import patterns.abstractFactory.model.PublicityEntity;
 import patterns.abstractFactory.publicity.PublicityPaymentsFactory;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class PaymentsGiven {
 
-	private Map<OBJECT_TYPE, ObjectEntity> entities;
+	private final Map<OBJECT_TYPE, ObjectEntity> entities;
 	
-	private Map<OBJECT_TYPE, PaymentsFactory> factories;
+	private final Map<OBJECT_TYPE, PaymentsFactory> factories;
 	
 	public PaymentsGiven(){
 		entities = new HashMap<OBJECT_TYPE, ObjectEntity>();

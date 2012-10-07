@@ -110,7 +110,7 @@ public class StatisticMockitoTest {
 		
 		double[][] array = report.getArrayResult();
 		assertThat(array).isNotNull().hasSize(1);
-		assertThat(array[0]).hasSize(expectedNumberOfBars);
+		assertThat(array[0]).isNotNull().hasSize(expectedNumberOfBars);
         DiagramBarsAssert.assertThat(array[0]).isSummaryGainEqualTo(summaryGain).isUnitGainEqualTo(unitGain);
 	}
 
@@ -185,7 +185,7 @@ public class StatisticMockitoTest {
 		
 		double[][] array = report.getArrayResult();
 		assertThat(array).isNotNull().hasSize(1);
-		assertThat(array[0]).hasSize(expectedNumberOfBars);
+		assertThat(array[0]).isNotNull().hasSize(expectedNumberOfBars);
 		DiagramBarsAssert.assertThat(array[0]).isSummaryGainEqualTo(summaryGain).isUnitGainEqualTo(unitGain);
 	}
 	
@@ -259,7 +259,7 @@ public class StatisticMockitoTest {
 		
 		double[][] array = report.getArrayResult();
 		assertThat(array).isNotNull().hasSize(1);
-		assertThat(array[0]).hasSize(expectedNumberOfBars);
+		assertThat(array[0]).isNotNull().hasSize(expectedNumberOfBars);
 		DiagramBarsAssert.assertThat(array[0]).isSummaryGainEqualTo(summaryGain).isUnitGainEqualTo(unitGain);
 	}
 	
