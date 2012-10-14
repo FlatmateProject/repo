@@ -1,14 +1,14 @@
 package patterns.builder;
 
 import org.testng.annotations.Test;
-
 import patterns.builder.WelcomeUserConstructor.AbstractMessageBuilder;
-import static org.testng.Assert.assertEquals;
+
+import static org.fest.assertions.Assertions.assertThat;
 
 public class WelcomeUserConstructorTest {
 
 	@Test
-	public void testShouldConstractPolishMessage() {
+	public void testShouldConstructPolishMessage() {
 		new MessageConstructorTest() {
 			
 			@Override
@@ -24,7 +24,7 @@ public class WelcomeUserConstructorTest {
 	}
 
 	@Test
-	public void testShouldConstractEnglishMessage() {
+	public void testShouldConstructEnglishMessage() {
 		new MessageConstructorTest() {
 			
 			@Override
@@ -40,7 +40,7 @@ public class WelcomeUserConstructorTest {
 	}
 	
 	@Test
-	public void testShouldConstractSpanishMessage() {
+	public void testShouldConstructSpanishMessage() {
 		new MessageConstructorTest() {
 			
 			@Override
@@ -63,17 +63,22 @@ public class WelcomeUserConstructorTest {
 
 		public abstract AbstractMessageBuilder getBuilder();
 		
-		public String getUserName(){
-			return "Piotro";
-		}
-		
+		public String userName = "Piotro";
+
 		public void execute(){
-			
+			 //given
 			constructor = new WelcomeUserConstructor();
-			String result = constructor.constructMessage(getBuilder(), getUserName());
-			
-			assertEquals(expectedInvocation() + " " + getUserName(), result);
+
+            //when
+			String result = constructor.constructMessage(getBuilder(), userName);
+
+            //then
+            assertThat(result).isNotNull().isEqualTo(expectedMessage());
 		}
-	}
+
+        private String expectedMessage() {
+            return expectedInvocation() + " " + userName;
+        }
+    }
 
 }

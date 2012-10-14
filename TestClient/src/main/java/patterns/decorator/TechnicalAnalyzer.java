@@ -48,26 +48,30 @@ public class TechnicalAnalyzer implements Analyzer {
 		return element.getValue() > twoStandard;
 	}
 
-	private double calculateStandard(List<IntegerElement> result) {
-		double average = calculateAverage(result);
-		double middleSquare = calculateMiddleSquare(result, average);
-		return Math.sqrt(middleSquare);
+	private double calculateStandard(List<IntegerElement> elements) {
+		double average = calculateAverage(elements);
+		double middleSquare = calculateMiddleSquare(elements, average);
+        return calculateStandard(middleSquare);
 	}
 
-	private double calculateMiddleSquare(List<IntegerElement> result, double average) {
+    private double calculateStandard(double middleSquare) {
+        return Math.sqrt(middleSquare);
+    }
+
+    private double calculateMiddleSquare(List<IntegerElement> elements, double average) {
 		double sum = 0.0;
-		for (IntegerElement element : result) {
+		for (IntegerElement element : elements) {
 			sum += Math.pow((element.calculateRatio() - average), 2);
 		}
 		return sum;
 	}
 
-	private double calculateAverage(List<IntegerElement> result) {
+	private double calculateAverage(List<IntegerElement> elements) {
 		double sum = 0.0;
-		for (IntegerElement element : result) {
+		for (IntegerElement element : elements) {
 			sum += element.calculateRatio();
 		}
-		int size = result.size();
+		int size = elements.size();
 		if(size > 0){
 			return sum / size;
 		}

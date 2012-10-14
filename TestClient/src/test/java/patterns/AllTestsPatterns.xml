@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="AllTestsPatterns" parallel="none">
+<suite name="AllTestsPatterns" parallel="false">
 	<test name="Test">
 		<classes>
 			<class name="patterns.builder.WelcomeUserConstructorTest" />
@@ -11,7 +11,7 @@
 			<class name="patterns.prototype.UserFeaturesHistoryTest" />
 			<class name="patterns.decorator.DataProcessingUnitTest" />
 			<class name="patterns.proxy.ClientResourceTest" />
-			<class name="patterns.SingletonTest" />
+			<class name="patterns.singleton.SingletonTest" />
 		</classes>
 	</test>
 </suite> 

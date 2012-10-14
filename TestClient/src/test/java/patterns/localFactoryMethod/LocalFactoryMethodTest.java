@@ -5,7 +5,7 @@ import org.testng.annotations.Test;
 import patterns.localfactorymethod.FactoryMethod;
 import patterns.localfactorymethod.FactoryMethod.LANGUAGE;
 
-import static org.testng.Assert.assertEquals;
+import static org.fest.assertions.Assertions.assertThat;
 
 public class LocalFactoryMethodTest {
 	@Test
@@ -62,13 +62,17 @@ public class LocalFactoryMethodTest {
 
 		public abstract LANGUAGE getLanguage();
 		
-		public String getUserName(){
-			return "Piotro";
-		}
-		
+		public String userName =  "Piotro";
+
 		public void execute(){
+            //given
 			FactoryMethod result = FactoryMethod.getMethod(getLanguage());
-			assertEquals(expectedMessage(), result.append(getUserName()));
+
+            //when
+            String message = result.append(userName);
+
+            //then
+            assertThat(message).isNotNull().isEqualTo(expectedMessage());
 		}
 	}
 

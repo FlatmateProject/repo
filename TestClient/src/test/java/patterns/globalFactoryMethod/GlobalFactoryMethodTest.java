@@ -2,7 +2,7 @@ package patterns.globalFactoryMethod;
 
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
+import static org.fest.assertions.Assertions.assertThat;
 
 public class GlobalFactoryMethodTest {
 
@@ -65,8 +65,14 @@ public class GlobalFactoryMethodTest {
 		}
 		
 		public void execute(){
+            //given
 			AbstractMessage result = getLanguage().getInstance();
-			assertEquals(expectedMessage(), result.append(getUserName()));
+
+            //when
+            String message = result.append(getUserName());
+
+            //then
+            assertThat(message).isNotNull().isEqualTo(expectedMessage());
 		}
 	}
 

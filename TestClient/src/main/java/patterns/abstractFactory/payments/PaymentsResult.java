@@ -17,6 +17,7 @@ public class PaymentsResult {
 	}
 	
 	public ObjectEntity getObject(){
+
 		return object;
 	}
 

@@ -20,7 +20,6 @@ public class PaymentsGiven {
 		entities = new HashMap<OBJECT_TYPE, ObjectEntity>();
 		entities.put(OBJECT_TYPE.ADVERT, new AdvertEntity());
 		entities.put(OBJECT_TYPE.PUBLICITY, new PublicityEntity());
-		
 		factories = new HashMap<OBJECT_TYPE, PaymentsFactory>();
 		factories.put(OBJECT_TYPE.ADVERT, new AdvertPaymentsFactory());
 		factories.put(OBJECT_TYPE.PUBLICITY, new PublicityPaymentsFactory());

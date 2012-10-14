@@ -2,14 +2,8 @@ package patterns.localfactorymethod;
 
 public class FactoryMethod {
 
-
-
-
     public enum LANGUAGE {
-		Polish(new AbstractMessage() {
-			{
-				message = "Witaj świecie";
-			}
+		Polish(new AbstractMessage("Witaj świecie") {
 
 			@Override
 			public String append(String message) {
@@ -17,21 +11,15 @@ public class FactoryMethod {
 				return this.message;
 			}
 		}), //
-		English(new AbstractMessage() {
-			{
-				message = "Hello world";
-			}
+		English(new AbstractMessage("Hello world") {
 
-			@Override
+            @Override
 			public String append(String message) {
 				this.message += " '" + message + "'";
 				return this.message;
 			}
 		}), //
-		Spanish(new AbstractMessage() {
-			{
-				message = "Hola mundo";
-			}
+		Spanish(new AbstractMessage("Hola mundo") {
 
 			@Override
 			public String append(String message) {

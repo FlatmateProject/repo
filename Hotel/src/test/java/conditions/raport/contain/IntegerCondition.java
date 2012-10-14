@@ -27,8 +27,8 @@ public class IntegerCondition extends Condition<String> {
 	}
 	
 	@Override
-	public boolean matches(String textRaport) {
-		return textRaport.contains(Integer.toString(value));
+	public boolean matches(String textReport) {
+		return textReport.contains(Integer.toString(value));
 	}
 
 }

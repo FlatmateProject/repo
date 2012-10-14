@@ -40,9 +40,9 @@ public class WelcomeUserConstructor {
 		}
 	}
 	
-	public String constructMessage(AbstractMessageBuilder constructor, String userName) {
-		constructor.appendUserName(userName);
-		return constructor.resultMessage(); 
+	public String constructMessage(AbstractMessageBuilder messageBuilder, String userName) {
+		messageBuilder.appendUserName(userName);
+		return messageBuilder.resultMessage();
 	}
 	
 }

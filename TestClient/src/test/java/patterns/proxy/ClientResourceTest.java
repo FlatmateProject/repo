@@ -3,7 +3,7 @@ package patterns.proxy;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
+import static org.fest.assertions.Assertions.assertThat;
 
 public class ClientResourceTest {
 
@@ -26,7 +26,7 @@ public class ClientResourceTest {
 		int resultPackageSize = resource.upload(dataPackage);
 
 		// then
-		assertEquals(expectedPackageSize, resultPackageSize);
+		assertThat(resultPackageSize).isEqualTo(expectedPackageSize);
 	}
 
 	@Test(dataProvider = "feedData")
@@ -38,6 +38,6 @@ public class ClientResourceTest {
 		int resultPackageSize = resource.download(dataPackage);
 
 		// then
-		assertEquals(expectedPackageSize, resultPackageSize);
-	}
+        assertThat(resultPackageSize).isEqualTo(expectedPackageSize);
+    }
 }
