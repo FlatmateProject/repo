@@ -6,12 +6,13 @@ public class LongCondition extends Condition<String> {
 
 	private long value;
 	
-	public LongCondition(long value) {
+	public LongCondition(long value, String assertFailDescription) {
 		this.value = value;
-	}
+        as(assertFailDescription);
+    }
 	
 	public static LongCondition bodyContainSummaryTime(long summaryTime) {
-		return new LongCondition(summaryTime);
+		return new LongCondition(summaryTime, "bodyContainSummaryTime");
 	}
 
 	@Override

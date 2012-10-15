@@ -1,6 +1,8 @@
 package service.statictic.templates;
 
 
+import service.dictionary.MONTH;
+
 public class FinanceMonthReportTemplateBuilder implements ReportTemplateBuilder {
 
 	private String header = "Raportu zysków w miesiącu";
@@ -12,7 +14,7 @@ public class FinanceMonthReportTemplateBuilder implements ReportTemplateBuilder 
 	@Override
 	public void createHeader(Object... args) {
 		if (isSameMonth(args))  {
-            String month = (String)args[0];
+            String month = ((MONTH)args[0]).getDesc();
             Integer year = (Integer) args[2];
             header = String.format("Raportu zysków w miesiącu %s roku %d\n", month, year);
         }

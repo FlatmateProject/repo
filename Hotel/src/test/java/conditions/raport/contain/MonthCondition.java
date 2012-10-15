@@ -7,12 +7,13 @@ public class MonthCondition extends Condition<String> {
 
 	private MONTH month;
 	
-	public MonthCondition(MONTH month) {
+	public MonthCondition(MONTH month, String assertFailDescription) {
 		this.month = month;
-	}
+        as(assertFailDescription);
+    }
 	
 	public static MonthCondition headerContainMonth(MONTH month) {
-		return new MonthCondition(month);
+		return new MonthCondition(month, "headerContainMonth");
 	}
 
 	@Override

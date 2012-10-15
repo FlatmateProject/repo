@@ -8,13 +8,14 @@ public class PeriodOfYearsCondition extends Condition<String> {
 
     private int yearTo;
 
-    public PeriodOfYearsCondition(int yearFrom, int yearTo) {
+    public PeriodOfYearsCondition(int yearFrom, int yearTo, String assertFailDescription) {
         this.yearFrom = yearFrom;
         this.yearTo = yearTo;
+        as(assertFailDescription);
     }
 
     public static PeriodOfYearsCondition headerContainPeriodOfYears(int yearFrom, int yearTo) {
-        return new PeriodOfYearsCondition(yearFrom, yearTo);
+        return new PeriodOfYearsCondition(yearFrom, yearTo, "headerContainPeriodOfYears");
     }
 
     @Override

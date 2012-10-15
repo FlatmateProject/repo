@@ -6,31 +6,32 @@ public class DoubleCondition extends Condition<String> {
 
 	private double value;
 
-	public DoubleCondition(double value) {
+	public DoubleCondition(double value, String assertFailDescription) {
 		this.value = value;
+        as(assertFailDescription);
 	}
 
 	public static DoubleCondition bodyContainSummaryGain(double summaryGain) {
-		return new DoubleCondition(summaryGain);
+		return new DoubleCondition(summaryGain, null);
 	}
 
 	public static DoubleCondition bodyContainReservationSummaryGain(double reservationSummaryGain) {
-		return new DoubleCondition(reservationSummaryGain);
+		return new DoubleCondition(reservationSummaryGain, "bodyContainSummaryGain");
 	}
 	
 	public static DoubleCondition bodyContainServiceSummaryGain(double serviceSummaryGain) {
-		return new DoubleCondition(serviceSummaryGain);
+		return new DoubleCondition(serviceSummaryGain, "bodyContainServiceSummaryGain");
 	}
 	
 	public static DoubleCondition bodyContainCantorSummaryGain(double cantorSummaryGain) {
-		return new DoubleCondition(cantorSummaryGain);
+		return new DoubleCondition(cantorSummaryGain, "bodyContainCantorSummaryGain");
 	}
-	public static DoubleCondition bodyContainHotelSummaryGain(double sumaryGain) {
-		return new DoubleCondition(sumaryGain);
+	public static DoubleCondition bodyContainHotelSummaryGain(double summaryGain) {
+		return new DoubleCondition(summaryGain, "bodyContainHotelSummaryGain");
 	}
 	
 	public static DoubleCondition bodyContainUnitGain(double unitGain) {
-		return new DoubleCondition(unitGain);
+		return new DoubleCondition(unitGain, "bodyContainHotelSummaryGain");
 	}
 	
 	@Override
