@@ -1,15 +1,9 @@
 package dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import org.apache.log4j.Logger;
+import java.sql.*;
 public class Singleton {
 
-	private static final Logger log = Logger.getLogger(Singleton.class);
+//	private static final Logger log = Logger.getLogger(Singleton.class);
 	
 	private ResultSet rset;
 	private static Singleton instance = null;
@@ -34,7 +28,7 @@ public class Singleton {
 
 	public ResultSet query(String s) {
 		try {
-			log.info(s);
+//			log.info(s);
 			stmt = (Statement) con.createStatement();
 			rset = stmt.executeQuery(s);
 			return rset;

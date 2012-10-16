@@ -3,7 +3,7 @@ package service.statistic;
 import assertions.DiagramBarsAssert;
 import dao.StatisticDao;
 import dao.StatisticDaoImpl;
-import dto.*;
+import dto.statictic.*;
 import exception.DAOException;
 import org.apache.log4j.Logger;
 import org.fest.assertions.Condition;

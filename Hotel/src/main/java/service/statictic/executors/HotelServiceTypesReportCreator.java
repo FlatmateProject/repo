@@ -1,15 +1,15 @@
 package service.statictic.executors;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import dto.ServiceTypeData;
+import dto.statictic.ServiceTypeData;
 import exception.DAOException;
 import service.dictionary.MONTH;
 import service.statictic.DiagramElement;
 import service.statictic.REPORT_KIND;
 import service.statictic.StatisticReport;
 import service.statictic.templates.ReportTemplateBuilder;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class HotelServiceTypesReportCreator extends ReportCreator {
 

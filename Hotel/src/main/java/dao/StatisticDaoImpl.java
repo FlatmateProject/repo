@@ -1,6 +1,6 @@
 package dao;
 
-import dto.*;
+import dto.statictic.*;
 import exception.DAOException;
 
 import java.util.List;

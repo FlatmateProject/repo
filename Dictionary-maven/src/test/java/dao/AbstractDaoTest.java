@@ -1,23 +1,20 @@
 package dao;
 
+import com.mchange.util.AssertException;
+import exception.DaoException;
+import exception.MyException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 import service.AbstractProvider;
 import service.AbstractService;
-
-import com.mchange.util.AssertException;
-
-import exception.DaoException;
-import exception.MyException;
 
 public abstract class  AbstractDaoTest {
 
 	private AbstractProvider daoProvider = createDaoProvider();
 	
-	private ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application-context.xml");
+	private ApplicationContext applicationContext;
 	
 	private Session session;
 
@@ -36,6 +33,7 @@ public abstract class  AbstractDaoTest {
 	public <T extends AbstractDao, X> void patternTestMethod(TestDaoPattern testDaoPattern, Class<?> serviceName) {
 		
 		try {
+            applicationContext = new ClassPathXmlApplicationContext("application-context.xml");
 
 			T dao = (T) daoProvider.getInstance(serviceName);
 			
@@ -54,7 +52,7 @@ public abstract class  AbstractDaoTest {
 			if(transaction != null){
 				transaction.rollback();
 			}
-			if (e instanceof MyException == false || !testDaoPattern.assertException((MyException)e)) {
+			if (!(e instanceof MyException) || !testDaoPattern.assertException((MyException)e)) {
 				e.printStackTrace();
 				throw new AssertException(e.getMessage());
 			}

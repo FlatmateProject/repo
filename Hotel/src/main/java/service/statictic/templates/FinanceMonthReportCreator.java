@@ -1,6 +1,6 @@
 package service.statictic.templates;
 
-import dto.MonthSummaryGainData;
+import dto.statictic.MonthSummaryGainData;
 import exception.DAOException;
 import service.dictionary.MONTH;
 import service.statictic.DiagramElement;

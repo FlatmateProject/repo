@@ -1,16 +1,14 @@
 package service;
 
+import com.mchange.util.AssertException;
+import datasource.DictionaryDatasource;
+import exception.MyException;
+import exception.ServiceException;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import com.mchange.util.AssertException;
-
-import datasource.DictionaryDatasource;
-import exception.MyException;
-import exception.ServiceException;
 
 public abstract class AbstractServiceTest {
 
@@ -35,7 +33,7 @@ public abstract class AbstractServiceTest {
 		dictionaryDatasource = (DictionaryDatasource)applicationContext.getBean("myDictionarytDatasource");
 		dictionaryDatasource.setApplicationContext(applicationContext);
 	}
-	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public <T> void patternTestMethod(TestPattern testPattern, Class<?> serviceName) {
 		
@@ -59,7 +57,7 @@ public abstract class AbstractServiceTest {
 				transaction.rollback();
 			}
 
-			if (e instanceof MyException == false || !testPattern.assertException((MyException)e)) {
+			if (!(e instanceof MyException) || !testPattern.assertException((MyException)e)) {
 				e.printStackTrace();
 				throw new AssertException(e.getMessage());
 			}

@@ -1,6 +1,6 @@
 package service.statictic.executors;
 
-import dto.YearSummaryGainData;
+import dto.statictic.YearSummaryGainData;
 import exception.DAOException;
 import service.statictic.DiagramElement;
 import service.statictic.REPORT_KIND;

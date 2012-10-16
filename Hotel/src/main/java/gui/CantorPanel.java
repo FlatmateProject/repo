@@ -1,32 +1,19 @@
 package gui;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.border.Border;
-
-import org.apache.log4j.Logger;
-
 import service.Cantor;
 import validation.ValidationUtils;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CantorPanel extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	
-	private static final Logger log = Logger.getLogger(CantorPanel.class);
+//	private static final Logger log = Logger.getLogger(CantorPanel.class);
 	
 	private float results[];
 	private JTextField canAmountJta = new JTextField();
@@ -150,7 +137,7 @@ public class CantorPanel extends JPanel{
 						if (canClientTable.getRowCount() < 1)
 							JOptionPane.showMessageDialog(getParent(),
 									"Brak klienta w bazie");
-						log.info(canClientTable.getRowCount());
+//						log.info(canClientTable.getRowCount());
 						canScrollClientPane.setViewportView(canClientTable);
 						canScrollClientPane.repaint();
 					} else if (ValidationUtils.isKRS(canPESJta.getText())) {
@@ -240,8 +227,7 @@ public class CantorPanel extends JPanel{
 		java.text.NumberFormat nf = java.text.NumberFormat.getInstance();
 		nf.setMaximumFractionDigits(ic);
 		nf.setMinimumFractionDigits(ic);
-		log.info((nf.format(d)).replaceAll(",", ".").replaceAll("",
-				""));
+//		log.info((nf.format(d)).replaceAll(",", ".").replaceAll("",	""));
 		return Double.parseDouble((nf.format(d)).replaceAll(",", ".")
 				.replaceAll("", ""));
 	}

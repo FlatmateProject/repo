@@ -1,24 +1,16 @@
 package dao;
 
+import exception.DaoException;
+import exception.MyException;
+import model.dictionary.WordEntity;
+import org.testng.annotations.Test;
+
 import java.util.HashSet;
 import java.util.Set;
 
-import model.dictionary.WordEntity;
-
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.testng.annotations.Test;
-
-import exception.DaoException;
-import exception.MyException;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 public class DictionaryDaoTest extends AbstractDaoTest {
-	
-	final Logger log = LogManager.getLogger(DictionaryDaoTest.class);
 	
 	private void patternTestMethod(TestDaoPattern<DictionaryDao, ?> testDaoPattern) {
 		patternTestMethod(testDaoPattern, DictionaryDao.class);

@@ -1,24 +1,24 @@
-package dto;
+package dto.statictic;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-public class ServiceData {
+public class ServiceTypeData {
 
-	private String serviceName;
+	private String typeName;
 	
 	private long summaryTime;
 	
 	private float summaryGain;
 
-    public ServiceData(String serviceName, long summaryTime, float summaryGain) {
-        this.serviceName = serviceName;
+    public ServiceTypeData(String typeName, long summaryTime, float summaryGain) {
+        this.typeName = typeName;
         this.summaryTime = summaryTime;
         this.summaryGain = summaryGain;
     }
 
-	public String getServiceName() {
-		return serviceName;
+    public String getTypeName() {
+		return typeName;
 	}
 
 	public long getSummaryTime() {
@@ -33,4 +33,5 @@ public class ServiceData {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this,	ToStringStyle.SHORT_PREFIX_STYLE);
 	}
+	
 }

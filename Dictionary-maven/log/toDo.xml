@@ -71,5 +71,6 @@
       <subitem label="60. Add service UpdateElementsService"></subitem>
       <subitem label="61. Add service AddExamplesToWordService"></subitem>
       <subitem label="64. Create new dao"></subitem>
-   </item>   
+      <subitem label="65. Create new instance of spring application context per test case not only one for all tests"></subitem>
+   </item>
 </cheatsheet>
