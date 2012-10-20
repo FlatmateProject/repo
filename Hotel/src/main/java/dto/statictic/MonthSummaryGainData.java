@@ -10,6 +10,10 @@ public class MonthSummaryGainData {
 
 	private double cantorSummaryGain;
 
+    public MonthSummaryGainData(){
+
+    }
+
     public MonthSummaryGainData(int month, double reservationSummaryGain, double serviceSummaryGain, double cantorSummaryGain) {
         this.month = month;
         this.reservationSummaryGain = reservationSummaryGain;

@@ -11,6 +11,9 @@ public class RoomTypesData {
 
 	private float summaryGain;
 
+    public RoomTypesData() {
+    }
+
     public RoomTypesData(String roomTypeName, int numberOccupiedRooms, float summaryGain) {
         this.roomTypeName = roomTypeName;
         this.numberOccupiedRooms = numberOccupiedRooms;

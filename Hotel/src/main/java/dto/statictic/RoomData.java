@@ -11,6 +11,9 @@ public class RoomData {
 
 	private float summaryGain;
 
+    public RoomData() {
+    }
+
     public RoomData(long roomId, int occupationNumber, float summaryGain) {
         this.roomId = roomId;
         this.occupationNumber = occupationNumber;

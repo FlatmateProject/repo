@@ -1,6 +1,6 @@
 package dao;
 
-import dto.statictic.cantor.CurrencyColumnData;
+import dto.cantor.CurrencyColumnData;
 import exception.DAOException;
 
 import java.sql.ResultSet;

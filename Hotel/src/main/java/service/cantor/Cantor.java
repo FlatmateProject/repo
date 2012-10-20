@@ -1,11 +1,10 @@
-package service;
+package service.cantor;
 
 import dao.CantorDao;
 import dao.CantorDaoImpl;
 import dao.Singleton;
-import dto.statictic.cantor.CurrencyColumnData;
+import dto.cantor.CurrencyColumnData;
 
-import javax.swing.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -13,8 +12,6 @@ import java.util.Date;
 import java.util.List;
 
 public class Cantor {
-
-//    private static final Logger log = Logger.getLogger(Cantor.class);
 
     private Singleton singleton = Singleton.getInstance();
 
@@ -24,7 +21,18 @@ public class Cantor {
         cantorDao = new CantorDaoImpl();
     }
 
-    public JTable createCurrTable() {
+    private String[] createColumnNames(List<CurrencyColumnData> currencyColumns) {
+        int i = 0;
+        int cols = currencyColumns.size();
+        String columnNames[] = new String[cols];
+        for (CurrencyColumnData currencyColumn : currencyColumns) {
+            columnNames[i] = currencyColumn.getColumnName();
+            i++;
+        }
+        return columnNames;
+    }
+
+    public CantorResult createCurrTable() {
         try {
             List<CurrencyColumnData> currencyColumns = cantorDao.showColumnsForCurrency();
             int cols = currencyColumns.size();
@@ -43,35 +51,17 @@ public class Cantor {
                 }
                 i++;
             } while (currencies.next());
-            JTable table = new JTable(rowData, columnNames);
-            table.setFillsViewportHeight(true);
-            return table;
+            return CantorResult.store(rowData, columnNames);
         } catch (Exception e) {
-//            log.info("Brak danych");
-            Object rowData[][] = {{"Brak danych"}};
-            String columnNames[] = {"Brak danych"};
-            return new JTable(rowData, columnNames);
+            return CantorResult.EMPTY;
         }
     }
 
-    private String[] createColumnNames(List<CurrencyColumnData> currencyColumns) {
-        int i = 0;
-        int cols = currencyColumns.size();
-        String columnNames[] = new String[cols];
-        for(CurrencyColumnData currencyColumn : currencyColumns){
-            columnNames[i] = currencyColumn.getColumnName();
-            i++;
-        }
-        return columnNames;
-    }
-
-    public JTable createClientTable(String s1) {
+    public CantorResult createClientTable(String s1) {
         try {
             int i = 0, cols, rows;
-            ResultSet rset3 = singleton
-                    .query("show columns from hotel.klienci");
-            ResultSet rset4 = singleton.query("select * from hotel.klienci"
-                    + s1);
+            ResultSet rset3 = singleton.query("show columns from hotel.klienci");
+            ResultSet rset4 = singleton.query("select * from hotel.klienci" + s1);
             rset3.last();
             cols = rset3.getRow();
             rset4.last();
@@ -91,15 +81,13 @@ public class Cantor {
                 }
                 i++;
             } while (rset4.next());
-            JTable t = new JTable(rowData, columnNames);
-            t.setFillsViewportHeight(true);
-            return t;
+            return CantorResult.store(rowData, columnNames);
         } catch (Exception e) {
-            return new JTable();
+            return CantorResult.EMPTY;
         }
     }
 
-    public JTable createCompTable(String s1) {
+    public CantorResult createCompTable(String s1) {
         try {
             int i = 0, cols, rows;
             ResultSet rset5 = singleton.query("show columns from hotel.firmy");
@@ -123,9 +111,7 @@ public class Cantor {
                 }
                 i++;
             } while (rset6.next());
-            JTable t = new JTable(rowData, columnNames);
-            t.setFillsViewportHeight(true);
-            return t;
+            return CantorResult.store(rowData, columnNames);
         } catch (Exception e) {
         }
         return null;
@@ -139,16 +125,12 @@ public class Cantor {
         float curr1 = 0, curr2 = 0, curr3 = 0, cost = 0, temp = 0, temp1 = 0, temp2 = 0;
         float resulRet[] = new float[3];
         try {
-            ResultSet change1 = singleton
-                    .query("select * from hotel.waluty where NAZWA=" + "'" + s1
-                            + "'");
+            ResultSet change1 = singleton.query("select * from hotel.waluty where NAZWA=" + "'" + s1 + "'");
             change1.first();
             curr1 = change1.getFloat("CENA_KU");
             curr2 = change1.getFloat("CENA_SP");
 
-            ResultSet change2 = singleton
-                    .query("select * from hotel.waluty where NAZWA=" + "'" + s2
-                            + "'");
+            ResultSet change2 = singleton.query("select * from hotel.waluty where NAZWA=" + "'" + s2 + "'");
             change2.first();
             curr3 = change2.getFloat("CENA_SP");
             if (s1 == "PLN") {
@@ -173,17 +155,12 @@ public class Cantor {
         return resulRet;
     }
 
-    public boolean changeMoney(boolean whatIs, String id, String data,
-                               String cur1, String cur2, float val1, float val2, float profit) {
+    public boolean changeMoney(boolean whatIs, String id, String data, String cur1, String cur2, float val1, float val2, float profit) {
         float number = 0, newNumber = 0;
         try {
 
-            ResultSet change1 = singleton
-                    .query("select * from hotel.waluty where NAZWA=" + "'"
-                            + cur1 + "'");
-            ResultSet change2 = singleton
-                    .query("select * from hotel.waluty where NAZWA=" + "'"
-                            + cur2 + "'");
+            ResultSet change1 = singleton.query("select * from hotel.waluty where NAZWA=" + "'" + cur1 + "'");
+            ResultSet change2 = singleton.query("select * from hotel.waluty where NAZWA=" + "'" + cur2 + "'");
             change1.first();
             change2.first();
             number = change2.getFloat("ILOSC");
@@ -191,63 +168,21 @@ public class Cantor {
                 return false;
             else {
                 if (whatIs) {
-                    singleton
-                            .queryUp("insert into hotel.kantor (IDK_PESEL, DATA, WALUTA_1, WALUTA_2, WARTOSC_1, WARTOSC_2, ZYSK) VALUES("
-                                    + id
-                                    + ", "
-                                    + "'"
-                                    + data
-                                    + "'"
-                                    + ", "
-                                    + "'"
-                                    + cur1
-                                    + "'"
-                                    + ", "
-                                    + "'"
-                                    + cur2
-                                    + "'"
-                                    + ", "
-                                    + val1
-                                    + ", "
-                                    + val2
-                                    + ", "
-                                    + profit
-                                    + ")");
+                    singleton.queryUp("insert into hotel.kantor (IDK_PESEL, DATA, WALUTA_1, WALUTA_2, WARTOSC_1, WARTOSC_2, ZYSK) VALUES("
+                            + id + ", '" + data + "', '" + cur1 + "', '" + cur2 + "', " + val1 + ", " + val2 + ", " + profit + ")");
 
                 } else {
-                    singleton
-                            .queryUp("insert into hotel.kantor (IDF_KRS, DATA, WALUTA_1, WALUTA_2, WARTOSC_1, WARTOSC_2, ZYSK) VALUES("
-                                    + id
-                                    + ", "
-                                    + "'"
-                                    + data
-                                    + "'"
-                                    + ", "
-                                    + "'"
-                                    + cur1
-                                    + "'"
-                                    + ", "
-                                    + "'"
-                                    + cur2
-                                    + "'"
-                                    + ", "
-                                    + val1
-                                    + ", "
-                                    + val2
-                                    + ", "
-                                    + profit
-                                    + ")");
+                    singleton.queryUp("insert into hotel.kantor (IDF_KRS, DATA, WALUTA_1, WALUTA_2, WARTOSC_1, WARTOSC_2, ZYSK) VALUES("
+                            + id + ", '" + data + "', '" + cur1 + "', '" + cur2 + "', " + val1 + ", " + val2 + ", " + profit + ")");
                 }
                 change1.first();
                 number = change1.getFloat("ILOSC");
                 newNumber = number + val1;
-                singleton.queryUp("update hotel.waluty set ILOSC="
-                        + (int) newNumber + " where NAZWA = '" + cur1 + "';");
+                singleton.queryUp("update hotel.waluty set ILOSC=" + (int) newNumber + " where NAZWA = '" + cur1 + "';");
                 change2.first();
                 number = change2.getFloat("ILOSC");
                 newNumber = number - val2;
-                singleton.queryUp("update hotel.waluty set ILOSC="
-                        + (int) newNumber + " where NAZWA = '" + cur2 + "';");
+                singleton.queryUp("update hotel.waluty set ILOSC=" + (int) newNumber + " where NAZWA = '" + cur2 + "';");
             }
 
         } catch (SQLException e) {

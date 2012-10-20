@@ -1,8 +1,12 @@
-package dto.statictic.cantor;
+package dto.cantor;
 
 public class CurrencyColumnData {
 
     private String columnName;
+
+    public CurrencyColumnData(){
+
+    }
 
     public CurrencyColumnData(String columnName) {
         this.columnName = columnName;

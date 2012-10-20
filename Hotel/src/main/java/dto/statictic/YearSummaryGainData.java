@@ -10,6 +10,9 @@ public class YearSummaryGainData {
 
     private double cantorSummaryGain;
 
+    public YearSummaryGainData() {
+    }
+
     public YearSummaryGainData(int year, double reservationSummaryGain, double serviceSummaryGain, double cantorSummaryGain) {
         this.year = year;
         this.reservationSummaryGain = reservationSummaryGain;

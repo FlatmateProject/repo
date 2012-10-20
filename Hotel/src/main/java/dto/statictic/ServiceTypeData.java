@@ -11,6 +11,9 @@ public class ServiceTypeData {
 	
 	private float summaryGain;
 
+    public ServiceTypeData() {
+    }
+
     public ServiceTypeData(String typeName, long summaryTime, float summaryGain) {
         this.typeName = typeName;
         this.summaryTime = summaryTime;

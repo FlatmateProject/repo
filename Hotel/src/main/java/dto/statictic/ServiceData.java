@@ -11,6 +11,9 @@ public class ServiceData {
 	
 	private float summaryGain;
 
+    public ServiceData() {
+    }
+
     public ServiceData(String serviceName, long summaryTime, float summaryGain) {
         this.serviceName = serviceName;
         this.summaryTime = summaryTime;
