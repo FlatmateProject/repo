@@ -3,6 +3,7 @@ package dao;
 import dto.statictic.*;
 import exception.DAOException;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
@@ -98,4 +99,16 @@ public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
 		query += "  GROUP BY rrk.id_rez ) tab";
 		return (Integer) uniqueResult(query);
 	}
+
+    @Override
+    public ResultSet findAllServiceTypes() throws DAOException {
+        String query = "SELECT typ FROM uslugi GROUP BY typ";
+        return session.query(query);
+    }
+
+    @Override
+    public ResultSet findAllRoomTypes() throws DAOException {
+        String query = "SELECT opis FROM klasy";
+        return session.query(query);
+    }
 }

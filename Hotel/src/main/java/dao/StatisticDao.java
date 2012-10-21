@@ -3,6 +3,7 @@ package dao;
 import dto.statictic.*;
 import exception.DAOException;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 public interface StatisticDao {
@@ -22,4 +23,8 @@ public interface StatisticDao {
 	int countUseNumberForServiceType(String serviceTypeName) throws DAOException;
 
 	int countUseNumberForServiceName(String serviceName) throws DAOException;
+
+    ResultSet findAllRoomTypes() throws DAOException;
+
+    ResultSet findAllServiceTypes() throws DAOException;
 }

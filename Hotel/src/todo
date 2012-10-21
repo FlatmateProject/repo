@@ -6,3 +6,4 @@
 9. extend finance month report in way that we can make report a cross the years
 10. check statistic custom assertion classes if are used only assertThat a invocations
 11. Test on AbstractDao
+12. refactor StatisticPanel.fillBoxes

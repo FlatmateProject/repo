@@ -49,15 +49,22 @@ public class CantorPanel extends JPanel{
 	}
 
 	private void create() {
-		setBounds(0, 0, getWidth(), getHeight());
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBounds(0, 0, getWidth(), getHeight());
+		setLayout(null);
 		setMinimumSize(new Dimension(800, 600));
 		setBackground(bgColor);
 		setVisible(true);
-		
+
 		cantorPESJta = new JTextField("");
-		add(cantorPESJta);
-		
+
+		cantorTable = createTable(cantor.createCurrTable());
+		cantorScrollPane = new JScrollPane();
+		cantorScrollPane.setBorder(border);
+		cantorScrollPane.setViewportView(cantorTable);
+
+		cantorScrollClientPane = new JScrollPane();
+		cantorScrollClientPane.setBorder(border);
+
 		cantorTable = new JTable();
 		cantorClientTable = new JTable();
 		cantorBuyLabel = new JLabel("Dostepno�� oraz kursy walut");
@@ -70,14 +77,27 @@ public class CantorPanel extends JPanel{
 		cantorAmountJta.setBorder(border);
 		cantorCostJta.setBorder(border);
 		cantorPESJta.setBorder(border);
+
+		cantorPrice = new JLabel("Kwota transakcji:");
+		cantorCostLabel = new JLabel("Do zap�aty:");
+
+		cantorCurrBox1 = new JComboBox(currencies);
+		cantorCurrBox2 = new JComboBox(currencies);
+		cantorResButton = new JButton("Przelicz");
+		cantorPESButton = new JButton("Szukaj");
+		cantorDoIt = new JButton("Dokonaj transakcji");
+		cantorResButton.setBackground(buttonColor);
+		cantorPESButton.setBackground(buttonColor);
+		cantorDoIt.setBackground(buttonColor);
+
+        resizeCantor(getWidth(), getHeight());
+
+        add(cantorPESJta);
 		add(cantorPrice);
 		add(cantorAmountJta);
 		add(cantorCostJta);
-
 		add(cantorTable);
 		add(cantorClientTable);
-		cantorPrice = new JLabel("Kwota transakcji:");
-		cantorCostLabel = new JLabel("Do zap�aty:");
 		add(cantorCostLabel);
 		add(cantorBuyLabel);
 		add(cantorCurrL1);
@@ -85,30 +105,15 @@ public class CantorPanel extends JPanel{
 		add(cantorClientL);
 		add(cantorPrice);
 		add(cantorPay);
-		cantorCurrBox1 = new JComboBox(currencies);
-		cantorCurrBox2 = new JComboBox(currencies);
 		add(cantorCurrBox1);
 		add(cantorCurrBox2);
-		cantorResButton = new JButton("Przelicz");
-		cantorPESButton = new JButton("Szukaj");
-		cantorDoIt = new JButton("Dokonaj transakcji");
-		cantorResButton.setBackground(buttonColor);
-		cantorPESButton.setBackground(buttonColor);
-		cantorDoIt.setBackground(buttonColor);
 		add(cantorResButton);
 		add(cantorPESButton);
 		add(cantorDoIt);
-		cantorTable = createTable(cantor.createCurrTable());
-		cantorScrollPane = new JScrollPane(cantorTable);
-		cantorScrollPane.setBorder(border);
-		cantorScrollPane.setViewportView(cantorTable);
 		add(cantorScrollPane);
-		cantorScrollClientPane = new JScrollPane(cantorClientTable);
-		cantorScrollClientPane.setBorder(border);
-		cantorScrollClientPane.setViewportView(cantorClientTable);
 		add(cantorScrollClientPane);
 	}
-	
+
 	private void addEvents() {
 
 		cantorPESButton.addActionListener(new ActionListener() {
@@ -180,11 +185,9 @@ public class CantorPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (cantorCostJta.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(getParent(),
-							"Brak nale�nej kwoty");
+					JOptionPane.showMessageDialog(getParent(), "Brak nale�nej kwoty");
 				} else if (cantorClientTable.getSelectedRow() < 0) {
-					JOptionPane.showMessageDialog(getParent(),
-							"Nie zaznaczono klienta");
+					JOptionPane.showMessageDialog(getParent(), "Nie zaznaczono klienta");
 				} else {
 					if (cantor.changeMoney(
 							ValidationUtils.isPesel(cantorPESJta.getText()),
@@ -194,8 +197,7 @@ public class CantorPanel extends JPanel{
 									.getSelectedItem().toString(), cantorCurrBox2
 									.getSelectedItem().toString(), results[0],
 							results[1], results[2])) {
-						JOptionPane.showMessageDialog(getParent(),
-								"Dokonano transakcji");
+						JOptionPane.showMessageDialog(getParent(), "Dokonano transakcji");
 						cantorPESJta.setText("");
 						cantorCurrBox1.setSelectedIndex(0);
 						cantorCurrBox2.setSelectedIndex(0);
@@ -235,34 +237,21 @@ public class CantorPanel extends JPanel{
         int cantorBHeight = 25;
 		cantorPay.setBounds(10, 10, 150, cantorJtaHeight);
 		cantorCurrL1.setBounds(10, 10, 150, 18);
-		cantorScrollPane.setBounds(cantorCurrL1.getX() + cantorCurrL1.getWidth() + 40,
-				cantorYList - 270, 500, 230);
-		cantorBuyLabel.setBounds(cantorScrollPane.getX(), cantorScrollPane.getY() - 20,
-                cantorEWidth, 18);
+		cantorScrollPane.setBounds(cantorCurrL1.getX() + cantorCurrL1.getWidth() + 40, cantorYList - 270, 500, 230);
+		cantorBuyLabel.setBounds(cantorScrollPane.getX(), cantorScrollPane.getY() - 20, cantorEWidth, 18);
 		cantorCurrBox1.setBounds(10, cantorCurrL1.getY() + 20, 50, 20);
 		cantorCurrL2.setBounds(10, cantorCurrBox1.getY() + 20, cantorEWidth, 18);
-		cantorCurrBox2
-				.setBounds(cantorCurrBox1.getX(), cantorCurrL2.getY() + 20, 50, 20);
-		cantorPrice.setBounds(cantorCurrBox2.getX(), cantorCurrBox2.getY() + 30, 150,
-                cantorJtaHeight);
-		cantorAmountJta.setBounds(cantorPrice.getX(), cantorPrice.getY() + 20, 100,
-                cantorJtaHeight);
-		cantorResButton.setBounds(cantorAmountJta.getX(), cantorAmountJta.getY() + 22,
-                cantorBWidth, cantorBHeight);
-		cantorCostLabel.setBounds(cantorResButton.getX(), cantorResButton.getY() + 28,
-				150, cantorJtaHeight);
-		cantorCostJta.setBounds(cantorCostLabel.getX(), cantorCostLabel.getY() + 22,
-				100, cantorJtaHeight);
+		cantorCurrBox2.setBounds(cantorCurrBox1.getX(), cantorCurrL2.getY() + 20, 50, 20);
+		cantorPrice.setBounds(cantorCurrBox2.getX(), cantorCurrBox2.getY() + 30, 150, cantorJtaHeight);
+		cantorAmountJta.setBounds(cantorPrice.getX(), cantorPrice.getY() + 20, 100, cantorJtaHeight);
+		cantorResButton.setBounds(cantorAmountJta.getX(), cantorAmountJta.getY() + 22, cantorBWidth, cantorBHeight);
+		cantorCostLabel.setBounds(cantorResButton.getX(), cantorResButton.getY() + 28, 150, cantorJtaHeight);
+		cantorCostJta.setBounds(cantorCostLabel.getX(), cantorCostLabel.getY() + 22, 100, cantorJtaHeight);
 		cantorClientL.setBounds(10, cantorCostJta.getY() + 80, cantorEWidth, 18);
-		cantorPESJta.setBounds(cantorClientL.getX(), cantorClientL.getY() + 22, 100,
-                cantorJtaHeight);
-		cantorPESButton.setBounds(cantorPESJta.getX(), cantorPESJta.getY() + 22,
-                cantorBWidth, cantorBHeight);
-		cantorScrollClientPane
-				.setBounds(cantorScrollPane.getX(), cantorScrollPane.getY()
-						+ cantorScrollPane.getHeight() + 30, 550, 230);
-		cantorDoIt.setBounds(cantorCostJta.getX(), cantorCostJta.getY() + 300,
-				cantorBWidth + 50, cantorBHeight);
+		cantorPESJta.setBounds(cantorClientL.getX(), cantorClientL.getY() + 22, 100, cantorJtaHeight);
+		cantorPESButton.setBounds(cantorPESJta.getX(), cantorPESJta.getY() + 22, cantorBWidth, cantorBHeight);
+		cantorScrollClientPane.setBounds(cantorScrollPane.getX(), cantorScrollPane.getY() + cantorScrollPane.getHeight() + 30, 550, 230);
+		cantorDoIt.setBounds(cantorCostJta.getX(), cantorCostJta.getY() + 300, cantorBWidth + 50, cantorBHeight);
 	}
 	
 	@Override

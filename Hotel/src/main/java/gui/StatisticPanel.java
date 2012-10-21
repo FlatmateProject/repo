@@ -1,39 +1,26 @@
 package gui;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
-
+import dao.StatisticDao;
 import dao.StatisticDaoImpl;
 import service.GraphDraw;
 import service.dictionary.MONTH;
 import service.statictic.REPORT_KIND;
 import service.statictic.Statistic;
 import service.statictic.StatisticReport;
-import dao.Singleton;
-import dao.StatisticDao;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
 
 public class StatisticPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private JButton exec;
-	private JLabel titleLabel;
-	private JLabel typeLabel;
-	private JLabel subLabel;
+    private JButton executeButton;
 	private JLabel monthLabel;
 	private JLabel yearLabel;
 	private JLabel monthLabelFrom;
@@ -51,16 +38,17 @@ public class StatisticPanel extends JPanel {
 	private JComboBox chooseYear2;
 	private JComboBox chooseClass;
 	private JComboBox chooseServe;
-	private JScrollPane raportScroll;
-	private JTextPane raportText;
+	private JScrollPane reportScroll;
+	private JTextPane reportText;
 	private GraphDraw graphDraw;
-	private Singleton db = Singleton.getInstance();
 
 	private StatisticDao statisticDao;
 	
 	private Statistic statistic;
 
 	public StatisticPanel() {
+		statisticDao = new StatisticDaoImpl();
+		statistic = new Statistic(statisticDao);
 		create();
 		addEvents();
 	}
@@ -69,21 +57,18 @@ public class StatisticPanel extends JPanel {
 		Color color = new Color(224, 230, 233);
 		Font font = new Font("arial", Font.ROMAN_BASELINE, 15);
 
-		statisticDao = new StatisticDaoImpl();
 		graphDraw = new GraphDraw();
-		statistic = new Statistic(statisticDao);
-
 
 		setBounds(0, 0, 900, 650);
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		setLayout(null);
 		setBackground(color);
 		setVisible(true);
 
-		exec = new JButton("Wykonaj");
-		exec.setBounds(380, 60, 100, 60);
-		exec.setFont(font);
-		exec.setVisible(true);
-		add(exec);
+		executeButton = new JButton("Wykonaj");
+		executeButton.setBounds(380, 60, 100, 60);
+		executeButton.setFont(font);
+		executeButton.setVisible(true);
+		add(executeButton);
 
 		chooseType = new JComboBox();
 		chooseType.setBounds(20, 60, 230, 20);
@@ -102,7 +87,8 @@ public class StatisticPanel extends JPanel {
 		add(chooseSubHotel);
 
 		chooseMonth = new JComboBox();
-		chooseMonth.addItem(MONTH.January);
+        chooseMonth.setBounds(260, 100, 100, 20);
+        chooseMonth.addItem(MONTH.January);
 		chooseMonth.addItem(MONTH.February);
 		chooseMonth.addItem(MONTH.March);
 		chooseMonth.addItem(MONTH.April);
@@ -115,7 +101,8 @@ public class StatisticPanel extends JPanel {
 		chooseMonth.addItem(MONTH.November);
 		chooseMonth.addItem(MONTH.December);
 		chooseMonth.setSelectedIndex(0);
-		add(chooseMonth);
+        chooseMonth.setVisible(true);
+        add(chooseMonth);
 
 		chooseMonth2 = new JComboBox();
 		chooseMonth2.setBounds(260, 60, 100, 20);
@@ -171,45 +158,45 @@ public class StatisticPanel extends JPanel {
 		createComboBoxStat();
 
 		font = new Font("arial", Font.BOLD, 20);
-		titleLabel = new JLabel("Statystyki");
+		JLabel titleLabel = new JLabel("Statystyki");
 		titleLabel.setBounds(20, 5, 100, 20);
 		titleLabel.setFont(font);
 		add(titleLabel);
 
 		font = new Font("arial", Font.ROMAN_BASELINE, 15);
-		typeLabel = new JLabel("Wybierz rodzaj staStatystyk");
+        JLabel typeLabel = new JLabel("Wybierz rodzaj statystyk");
 		typeLabel.setBounds(20, 45, 200, 15);
 		typeLabel.setFont(font);
 		add(typeLabel);
 
-		subLabel = new JLabel("Wybierz jedna");
+        JLabel subLabel = new JLabel("Wybierz jedna");
 		subLabel.setBounds(20, 85, 100, 15);
 		subLabel.setFont(font);
 		add(subLabel);
 
-		monthLabel = new JLabel("Wybierz miesi�c");
+        monthLabel = new JLabel("Wybierz miesiąc");
 		monthLabel.setBounds(260, 85, 200, 15);
 		monthLabel.setFont(font);
 		add(monthLabel);
 
-		yearLabel = new JLabel("Wybierz rok");
+        yearLabel = new JLabel("Wybierz rok");
 		yearLabel.setBounds(260, 45, 100, 15);
 		yearLabel.setFont(font);
 		add(yearLabel);
 
-		classLabel = new JLabel("Wybierz klas� pokuju");
+		classLabel = new JLabel("Wybierz klasę pokuju");
 		classLabel.setBounds(500, 45, 200, 15);
 		classLabel.setFont(font);
 		classLabel.setVisible(false);
 		add(classLabel);
 
-		serveLabel = new JLabel("Wybierz typ us�ugi");
+		serveLabel = new JLabel("Wybierz typ usługi");
 		serveLabel.setBounds(500, 45, 200, 15);
 		serveLabel.setFont(font);
 		serveLabel.setVisible(false);
 		add(serveLabel);
 
-		monthLabelFrom = new JLabel("Miesi�cy od");
+		monthLabelFrom = new JLabel("Miesiący od");
 		monthLabelFrom.setBounds(260, 45, 200, 15);
 		monthLabelFrom.setFont(font);
 		monthLabelFrom.setVisible(false);
@@ -233,16 +220,20 @@ public class StatisticPanel extends JPanel {
 		yearLabelTo.setVisible(false);
 		add(yearLabelTo);
 
-		raportText = new JTextPane();
-		raportText.setBounds(20, 130, 360, 444);
-		raportText.setFont(font);
+		reportText = new JTextPane();
+		reportText.setBounds(20, 130, 360, 444);
+		reportText.setFont(font);
 
-		raportScroll = new JScrollPane(raportText);
-		raportScroll.setVisible(false);
-		add(raportScroll);
+		reportScroll = new JScrollPane(reportText);
+		reportScroll.setVisible(false);
+
 
 		graphDraw.setBackground(Color.WHITE);
 		graphDraw.setVisible(false);
+
+        resizeStatistic(getWidth(), getHeight());
+
+		add(reportScroll);
 		add(graphDraw);
 	}
 
@@ -254,58 +245,58 @@ public class StatisticPanel extends JPanel {
 		chooseServe.setBounds(500, 60, 230, 20);
 		chooseClass.setVisible(false);
 		chooseServe.setVisible(false);
-		fillBox();
+		fillBoxes();
 	}
 
-	private void fillBox() {
+	private void fillBoxes() {
 		try {
-			ResultSet reSet = db.query("SELECT opis FROM klasy");
+			ResultSet reSet = statisticDao.findAllRoomTypes();
 			if (reSet != null) {
 
 				while (reSet.next()){
 					chooseClass.addItem(reSet.getString(1));
 				}
-				chooseClass.setSelectedIndex(-1);//should be 0
+				chooseClass.setSelectedIndex(0);
 				add(chooseClass);
 			}
-			reSet = db.query("SELECT typ FROM uslugi GROUP BY typ");
+			reSet = statisticDao.findAllServiceTypes();
 			if (reSet != null) {
 				while (reSet.next())
 					chooseServe.addItem(reSet.getString(1));
-				chooseServe.setSelectedIndex(-1);//should be 0
+				chooseServe.setSelectedIndex(0);
 				add(chooseServe);
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	private void addEvents() {
-		exec.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				graphDraw.setVisible(false);
-				StatisticReport report = null;
-				if (chooseType.getSelectedIndex() == 0){
-					report = statistic.hotel(//
-								(REPORT_KIND) chooseSubHotel.getSelectedItem(),
-								(MONTH) chooseMonth.getSelectedItem(),
-								chooseYear.getSelectedIndex() + 2010,
-								(String) chooseClass.getSelectedItem(),
-								(String) chooseServe.getSelectedItem());
-				}else{
-					report = statistic.finance(//
-							(REPORT_KIND) chooseSubFinance.getSelectedItem(),
-							(MONTH) chooseMonth2.getSelectedItem(),
-							(MONTH) chooseMonth.getSelectedItem(),
-							chooseYear.getSelectedIndex() + 2010,
-							chooseYear2.getSelectedIndex() + 2010);
-				}
-				graphDraw.setArray(report.getArrayResult());
-				raportText.setText(report.getTextResult());
-				graphDraw.setVisible(true);
-				raportScroll.setVisible(true);
-			}
-		});
+		executeButton.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                graphDraw.setVisible(false);
+                StatisticReport report;
+                if (chooseType.getSelectedIndex() == 0) {
+                    report = statistic.hotel(//
+                            (REPORT_KIND) chooseSubHotel.getSelectedItem(),
+                            (MONTH) chooseMonth.getSelectedItem(),
+                            chooseYear.getSelectedIndex() + 2010,
+                            (String) chooseClass.getSelectedItem(),
+                            (String) chooseServe.getSelectedItem());
+                } else {
+                    report = statistic.finance(//
+                            (REPORT_KIND) chooseSubFinance.getSelectedItem(),
+                            (MONTH) chooseMonth2.getSelectedItem(),
+                            (MONTH) chooseMonth.getSelectedItem(),
+                            chooseYear.getSelectedIndex() + 2010,
+                            chooseYear2.getSelectedIndex() + 2010);
+                }
+                graphDraw.setArray(report.getArrayResult());
+                reportText.setText(report.getTextResult());
+                graphDraw.setVisible(true);
+                reportScroll.setVisible(true);
+            }
+        });
 		chooseType.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				if (chooseType.getSelectedIndex() == 0) {
@@ -396,16 +387,12 @@ public class StatisticPanel extends JPanel {
 	}
 
 	public void resizeStatistic(int width, int height) {
-		int x = 0, y = 0, hh = 0, ww = 0, w = 0, h = 0;
-		w = width - 8;
-		h = height - 33;
-		setBounds(0, 0, w, h);
-		x = 20;
-		y = 130;
-		w -= 2 * x;
-		hh = (int) (h - y - x);
-		ww = (int) (0.4 * w);
-		raportScroll.setBounds(x, y, ww, hh);
+        int x = 20;
+        int y = 130;
+		int w = width - x * 2;
+        int hh = height - y - x;
+        int ww = (int) (0.4 * w);
+		reportScroll.setBounds(x, y, ww, hh);
 		x += ww;
 		ww = (int) (0.59 * w);
 		graphDraw.setBounds(x, y, ww, hh);
