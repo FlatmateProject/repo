@@ -1,4 +1,4 @@
-package conditions.raport.contain;
+package conditions.raport;
 
 import org.fest.assertions.Condition;
 import service.dictionary.MONTH;

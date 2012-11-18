@@ -1,14 +1,14 @@
 package dao;
 
-import dto.cantor.CurrencyColumnData;
+import dto.SimpleNameData;
+import dto.cantor.CurrencyData;
 import exception.DAOException;
 
-import java.sql.ResultSet;
 import java.util.List;
 
 public interface CantorDao {
 
-    List<CurrencyColumnData> showColumnsForCurrency() throws DAOException;
+    List<SimpleNameData> showColumnsForCurrency() throws DAOException;
 
-    ResultSet findAllCurrency();
+    List<CurrencyData> findAllCurrency() throws DAOException;
 }

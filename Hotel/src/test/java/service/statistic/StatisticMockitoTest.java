@@ -2,7 +2,6 @@ package service.statistic;
 
 import assertions.DiagramBarsAssert;
 import dao.StatisticDao;
-import dao.StatisticDaoImpl;
 import dto.statictic.*;
 import exception.DAOException;
 import org.apache.log4j.Logger;
@@ -18,13 +17,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static conditions.raport.contain.DoubleCondition.*;
-import static conditions.raport.contain.IntegerCondition.*;
-import static conditions.raport.contain.LongCondition.bodyContainSummaryTime;
-import static conditions.raport.contain.MonthCondition.headerContainMonth;
-import static conditions.raport.contain.PeriodOfMonthsCondition.headerContainPeriodOfMonths;
-import static conditions.raport.contain.PeriodOfYearsCondition.headerContainPeriodOfYears;
-import static conditions.raport.contain.StringCondition.*;
+import static conditions.raport.DoubleCondition.*;
+import static conditions.raport.IntegerCondition.*;
+import static conditions.raport.LongCondition.bodyContainSummaryTime;
+import static conditions.raport.MonthCondition.headerContainMonth;
+import static conditions.raport.PeriodOfMonthsCondition.headerContainPeriodOfMonths;
+import static conditions.raport.PeriodOfYearsCondition.headerContainPeriodOfYears;
+import static conditions.raport.StringCondition.*;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -53,7 +52,7 @@ public class StatisticMockitoTest {
 		when(statisticDao.findRoomTypes(month.id(), year)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic(new StatisticDaoImpl());
+		Statistic statistic = new Statistic(statisticDao);
 		StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
 
 		// then
@@ -125,7 +124,7 @@ public class StatisticMockitoTest {
 		when(statisticDao.findRoomsByType(month.id(), year, roomType)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic(new StatisticDaoImpl());
+		Statistic statistic = new Statistic(statisticDao);
 		StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
 
 		// then
@@ -199,7 +198,7 @@ public class StatisticMockitoTest {
 		when(statisticDao.findServiceTypes(month.id(), year)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic(new StatisticDaoImpl());
+		Statistic statistic = new Statistic(statisticDao);
 		StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
 
 		// then
@@ -274,7 +273,7 @@ public class StatisticMockitoTest {
 		when(statisticDao.findServiceByType(month.id(), year, serviceTypeName)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic(new StatisticDaoImpl());
+		Statistic statistic = new Statistic(statisticDao);
 		StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
 
 		// then

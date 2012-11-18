@@ -1,9 +1,9 @@
 package dao;
 
+import dto.SimpleNameData;
 import dto.statictic.*;
 import exception.DAOException;
 
-import java.sql.ResultSet;
 import java.util.List;
 
 public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
@@ -101,14 +101,14 @@ public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
 	}
 
     @Override
-    public ResultSet findAllServiceTypes() throws DAOException {
+    public List<SimpleNameData> findAllServiceTypes() throws DAOException {
         String query = "SELECT typ FROM uslugi GROUP BY typ";
-        return session.query(query);
+        return executeQuery(query, SimpleNameData.class);
     }
 
     @Override
-    public ResultSet findAllRoomTypes() throws DAOException {
+    public List<SimpleNameData> findAllRoomTypes() throws DAOException {
         String query = "SELECT opis FROM klasy";
-        return session.query(query);
+        return executeQuery(query, SimpleNameData.class);
     }
 }

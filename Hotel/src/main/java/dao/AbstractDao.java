@@ -1,5 +1,8 @@
 package dao;
 
+import exception.DAOException;
+import org.apache.log4j.Logger;
+
 import java.lang.reflect.Field;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -7,9 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
-
-import exception.DAOException;
-import org.apache.log4j.Logger;
 
  abstract class AbstractDao {
 	
@@ -36,7 +36,7 @@ import org.apache.log4j.Logger;
 		ArrayList<T> EMPTY_LIST = new ArrayList<T>();
 		try {
 			if (dataSet != null) {
-				return createTransformedResult(dataSet, resultClass);
+				return createTransformedRows(dataSet, resultClass);
 			}
 			return EMPTY_LIST;
 		} catch (Exception e) {
@@ -45,14 +45,14 @@ import org.apache.log4j.Logger;
 		}
 	}
 
-	private <T> List<T> createTransformedResult(ResultSet dataSet,	Class<T> objectClass) throws Exception {
-		List<T> transformedResult = new ArrayList<T>();
+	private <T> List<T> createTransformedRows(ResultSet dataSet, Class<T> objectClass) throws Exception {
+		List<T> transformedRows = new ArrayList<T>();
 		while (dataSet.next()) {
 			T object = createObject(objectClass);
 			fillObject(object, objectClass.getDeclaredFields(), dataSet);
-			transformedResult.add(objectClass.cast(object));
+			transformedRows.add(objectClass.cast(object));
 		}
-		return transformedResult;
+		return transformedRows;
 	}
 
 	private <T> T createObject(Class<T> resultClass) throws InstantiationException, IllegalAccessException {

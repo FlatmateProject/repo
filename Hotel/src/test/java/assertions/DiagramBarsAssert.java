@@ -5,7 +5,7 @@ import org.fest.assertions.DoubleArrayAssert;
 
 public class DiagramBarsAssert extends DoubleArrayAssert {
 
-	protected DiagramBarsAssert(double[] actual) {
+	private DiagramBarsAssert(double[] actual) {
 		super(actual);
 	}
 	

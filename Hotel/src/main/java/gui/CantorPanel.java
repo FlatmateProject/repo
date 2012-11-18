@@ -1,7 +1,9 @@
 package gui;
 
+import dao.CantorDao;
+import dao.CantorDaoImpl;
 import service.cantor.Cantor;
-import service.cantor.CantorResult;
+import service.cantor.CantorTableResult;
 import validation.ValidationUtils;
 
 import javax.swing.*;
@@ -9,6 +11,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 
 public class CantorPanel extends JPanel{
 
@@ -40,8 +43,9 @@ public class CantorPanel extends JPanel{
     private Color bgColor = new Color(224, 230, 233);
 	private Border border = BorderFactory.createLineBorder(new Color(60, 124, 142));
 	private Color buttonColor = new Color(174, 205, 214);
-	
-	private Cantor cantor = new Cantor();
+
+    private CantorDao cantorDao = new CantorDaoImpl();
+	private Cantor cantor = new Cantor(cantorDao);
 	
 	public CantorPanel() {
 		create();
@@ -57,7 +61,7 @@ public class CantorPanel extends JPanel{
 
 		cantorPESJta = new JTextField("");
 
-		cantorTable = createTable(cantor.createCurrTable());
+		cantorTable = createTable(cantor.createCurrencyTable());
 		cantorScrollPane = new JScrollPane();
 		cantorScrollPane.setBorder(border);
 		cantorScrollPane.setViewportView(cantorTable);
@@ -202,7 +206,7 @@ public class CantorPanel extends JPanel{
 						cantorCurrBox1.setSelectedIndex(0);
 						cantorCurrBox2.setSelectedIndex(0);
 						cantorCostJta.setText("");
-						cantorTable = createTable(cantor.createCurrTable());
+						cantorTable = createTable(cantor.createCurrencyTable());
 						cantorScrollPane.setViewportView(cantorTable);
 						cantorScrollPane.repaint();
 					} else
@@ -213,19 +217,17 @@ public class CantorPanel extends JPanel{
 		});
 	}
 
-    private JTable createTable(CantorResult result) {
-        JTable cantorTable = new JTable(result.getRowData(), result.getColumnNames());
+    private JTable createTable(CantorTableResult result) {
+        JTable cantorTable = new JTable(result.getRowsData(), result.getColumnNames());
         cantorTable.setFillsViewportHeight(true);
         return cantorTable;
     }
 
     public static double round(double d, int ic) {
-		java.text.NumberFormat nf = java.text.NumberFormat.getInstance();
+		NumberFormat nf = java.text.NumberFormat.getInstance();
 		nf.setMaximumFractionDigits(ic);
 		nf.setMinimumFractionDigits(ic);
-//		log.info((nf.format(d)).replaceAll(",", ".").replaceAll("",	""));
-		return Double.parseDouble((nf.format(d)).replaceAll(",", ".")
-				.replaceAll("", ""));
+		return Double.parseDouble((nf.format(d)).replaceAll(",", ".").replaceAll("", ""));
 	}
 	
 	private void resizeCantor(int width, int height) {

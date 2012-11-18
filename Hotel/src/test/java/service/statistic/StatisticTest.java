@@ -10,11 +10,11 @@ import service.statictic.REPORT_KIND;
 import service.statictic.Statistic;
 import service.statictic.StatisticReport;
 
-import static conditions.raport.contain.IntegerCondition.headerContainYear;
-import static conditions.raport.contain.MonthCondition.headerContainMonth;
-import static conditions.raport.contain.PeriodOfMonthsCondition.headerContainPeriodOfMonths;
-import static conditions.raport.contain.PeriodOfYearsCondition.headerContainPeriodOfYears;
-import static conditions.raport.contain.StringCondition.footerContainLegend;
+import static conditions.raport.IntegerCondition.headerContainYear;
+import static conditions.raport.MonthCondition.headerContainMonth;
+import static conditions.raport.PeriodOfMonthsCondition.headerContainPeriodOfMonths;
+import static conditions.raport.PeriodOfYearsCondition.headerContainPeriodOfYears;
+import static conditions.raport.StringCondition.footerContainLegend;
 import static org.fest.assertions.Assertions.assertThat;
 
 public class StatisticTest {

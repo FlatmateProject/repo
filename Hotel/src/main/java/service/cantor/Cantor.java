@@ -1,9 +1,10 @@
 package service.cantor;
 
 import dao.CantorDao;
-import dao.CantorDaoImpl;
 import dao.Singleton;
-import dto.cantor.CurrencyColumnData;
+import dto.SimpleNameData;
+import dto.cantor.CurrencyData;
+import exception.DAOException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,47 +18,21 @@ public class Cantor {
 
     private CantorDao cantorDao;
 
-    public Cantor() {
-        cantorDao = new CantorDaoImpl();
+    public Cantor(CantorDao cantorDao) {
+        this.cantorDao = cantorDao;
     }
 
-    private String[] createColumnNames(List<CurrencyColumnData> currencyColumns) {
-        int i = 0;
-        int cols = currencyColumns.size();
-        String columnNames[] = new String[cols];
-        for (CurrencyColumnData currencyColumn : currencyColumns) {
-            columnNames[i] = currencyColumn.getColumnName();
-            i++;
-        }
-        return columnNames;
-    }
-
-    public CantorResult createCurrTable() {
+    public CantorTableResult createCurrencyTable() {
         try {
-            List<CurrencyColumnData> currencyColumns = cantorDao.showColumnsForCurrency();
-            int cols = currencyColumns.size();
-            String columnNames[] = createColumnNames(currencyColumns);
-
-            ResultSet currencies = cantorDao.findAllCurrency();
-            currencies.last();
-            int rows = currencies.getRow();
-            Object rowData[][] = new Object[rows][cols];
-            currencies.first();
-
-            int i = 0;
-            do {
-                for (int j = 0; j < cols; j++) {
-                    rowData[i][j] = currencies.getString(j + 1);
-                }
-                i++;
-            } while (currencies.next());
-            return CantorResult.store(rowData, columnNames);
-        } catch (Exception e) {
-            return CantorResult.EMPTY;
+            List<SimpleNameData> currencyColumns = cantorDao.showColumnsForCurrency();
+            List<CurrencyData> currencies = cantorDao.findAllCurrency();
+            return TableBuilder.table().columns(currencyColumns).data(currencies).build();
+        } catch (DAOException e) {
+            return CantorTableResult.EMPTY;
         }
     }
 
-    public CantorResult createClientTable(String s1) {
+    public CantorTableResult createClientTable(String s1) {
         try {
             int i = 0, cols, rows;
             ResultSet rset3 = singleton.query("show columns from hotel.klienci");
@@ -81,13 +56,13 @@ public class Cantor {
                 }
                 i++;
             } while (rset4.next());
-            return CantorResult.store(rowData, columnNames);
+            return CantorTableResult.store(rowData, columnNames);
         } catch (Exception e) {
-            return CantorResult.EMPTY;
+            return CantorTableResult.EMPTY;
         }
     }
 
-    public CantorResult createCompTable(String s1) {
+    public CantorTableResult createCompTable(String s1) {
         try {
             int i = 0, cols, rows;
             ResultSet rset5 = singleton.query("show columns from hotel.firmy");
@@ -111,7 +86,7 @@ public class Cantor {
                 }
                 i++;
             } while (rset6.next());
-            return CantorResult.store(rowData, columnNames);
+            return CantorTableResult.store(rowData, columnNames);
         } catch (Exception e) {
         }
         return null;

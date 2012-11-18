@@ -1,20 +1,22 @@
 package dao;
 
-import dto.cantor.CurrencyColumnData;
+import dto.SimpleNameData;
+import dto.cantor.CurrencyData;
 import exception.DAOException;
 
-import java.sql.ResultSet;
 import java.util.List;
 
 public class CantorDaoImpl extends AbstractDao implements CantorDao{
 
-    public List<CurrencyColumnData> showColumnsForCurrency() throws DAOException {
+    public List<SimpleNameData> showColumnsForCurrency() throws DAOException {
         String query = "show columns from hotel.waluty;";
-        return executeQuery(query, CurrencyColumnData.class);
+        return executeQuery(query, SimpleNameData.class);
     }
 
     @Override
-    public ResultSet findAllCurrency() {
-        return session.query("select * from waluty;");
+    public List<CurrencyData> findAllCurrency() throws DAOException {
+        String query = "select * from waluty;";
+        return executeQuery(query, CurrencyData.class);
+
     }
 }
