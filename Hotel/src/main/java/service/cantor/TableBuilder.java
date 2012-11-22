@@ -12,8 +12,16 @@ public class TableBuilder {
     private List<SimpleNameData> columnNames;
 
     private TableBuilder() {
-        rowsData = new ArrayList<String>();
+        final String EMPTY_LABEL = CantorTableResult.EMPTY_LABEL;
+        rowsData = new ArrayList<ArrayObtained>();
+        rowsData.add(new ArrayObtained() {
+            @Override
+            public Object[] getArray() {
+                return new Object[]{EMPTY_LABEL};
+            }
+        });
         columnNames = new ArrayList<SimpleNameData>();
+        columnNames.add(new SimpleNameData(EMPTY_LABEL));
     }
 
     public static TableBuilder table() {
@@ -21,20 +29,29 @@ public class TableBuilder {
     }
 
     public TableBuilder columns(List<SimpleNameData> columnNames) {
-        this.columnNames = columnNames;
+        if (isNotEmptyList(columnNames)) {
+            this.columnNames = columnNames;
+        }
         return this;
     }
 
-    public <T extends GetArray> TableBuilder data(List<T> rowsData) {
-        this.rowsData = rowsData;
+
+    public <T extends ArrayObtained> TableBuilder data(List<T> rowsData) {
+        if (isNotEmptyList(rowsData)) {
+            this.rowsData = rowsData;
+        }
         return this;
+    }
+
+    private <T> boolean isNotEmptyList(List<T> columnNames) {
+        return columnNames != null && columnNames.size() > 0;
     }
 
     public CantorTableResult build() {
         return createTable(rowsData);
     }
 
-    private <T extends GetArray> CantorTableResult createTable(List<T> rowsData) {
+    private <T extends ArrayObtained> CantorTableResult createTable(List<T> rowsData) {
         String columns[] = createTableColumns(columnNames);
         Object[][] rows = createTableRows(rowsData);
         return CantorTableResult.store(rows, columns);
@@ -51,7 +68,7 @@ public class TableBuilder {
         return columnNames;
     }
 
-    private <T extends GetArray> Object[][] createTableRows(List<T> rows) {
+    private <T extends ArrayObtained> Object[][] createTableRows(List<T> rows) {
         Object[][] rowsData = new Object[rows.size()][];
         int i = 0;
         for (T row : rows) {

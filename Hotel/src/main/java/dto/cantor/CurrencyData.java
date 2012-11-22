@@ -1,9 +1,9 @@
 package dto.cantor;
 
 import org.fest.util.Arrays;
-import service.cantor.GetArray;
+import service.cantor.ArrayObtained;
 
-public class CurrencyData implements GetArray {
+public class CurrencyData implements ArrayObtained {
 
     private long currencyId;
 

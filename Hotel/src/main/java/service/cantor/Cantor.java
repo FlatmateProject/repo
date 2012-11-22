@@ -4,6 +4,7 @@ import dao.CantorDao;
 import dao.Singleton;
 import dto.SimpleNameData;
 import dto.cantor.CurrencyData;
+import dto.cantor.CustomerData;
 import exception.DAOException;
 
 import java.sql.ResultSet;
@@ -34,29 +35,9 @@ public class Cantor {
 
     public CantorTableResult createClientTable(String s1) {
         try {
-            int i = 0, cols, rows;
-            ResultSet rset3 = singleton.query("show columns from hotel.klienci");
-            ResultSet rset4 = singleton.query("select * from hotel.klienci" + s1);
-            rset3.last();
-            cols = rset3.getRow();
-            rset4.last();
-            rows = rset4.getRow();
-            Object rowData[][] = new Object[rows][cols];
-            String columnNames[] = new String[cols];
-            rset3.first();
-            rset4.first();
-            do {
-                columnNames[i] = rset3.getString(1);
-                i++;
-            } while (rset3.next());
-            i = 0;
-            do {
-                for (int j = 0; j < cols; j++) {
-                    rowData[i][j] = rset4.getString(j + 1);
-                }
-                i++;
-            } while (rset4.next());
-            return CantorTableResult.store(rowData, columnNames);
+            List<SimpleNameData> customerColumns = cantorDao.showColumnsForCustomer();
+            List<CustomerData> customers = cantorDao.findAllCustomers(s1);
+            return TableBuilder.table().columns(customerColumns).data(customers).build();
         } catch (Exception e) {
             return CantorTableResult.EMPTY;
         }

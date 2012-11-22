@@ -4,13 +4,6 @@ import org.fest.assertions.Assertions;
 import org.fest.assertions.GenericAssert;
 import service.cantor.CantorTableResult;
 
-/**
- * Created with IntelliJ IDEA.
- * User: piotro
- * Date: 11/11/12
- * Time: 11:40 AM
- * To change this template use File | Settings | File Templates.
- */
 public class TableAssert extends GenericAssert<TableAssert, CantorTableResult>{
 
     private TableAssert(CantorTableResult actual) {
@@ -30,4 +23,6 @@ public class TableAssert extends GenericAssert<TableAssert, CantorTableResult>{
         Assertions.assertThat(actual.getColumnNames().length).isEqualTo(columnNumber);
         return this;
     }
+
+
 }

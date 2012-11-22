@@ -108,9 +108,14 @@ public class StatisticMockitoTest {
 		log.info(textReport);
 		
 		double[][] array = report.getArrayResult();
-		assertThat(array).isNotNull().hasSize(1);
-		assertThat(array[0]).isNotNull().hasSize(expectedNumberOfBars);
-        DiagramBarsAssert.assertThat(array[0]).isSummaryGainEqualTo(summaryGain).isUnitGainEqualTo(unitGain);
+		assertThat(array)
+                .isNotNull()
+                .hasSize(1);
+        DiagramBarsAssert.assertThat(array[0])
+                .isNotNull()
+                .hasSize(expectedNumberOfBars)
+                .isSummaryGainEqualTo(summaryGain)
+                .isUnitGainEqualTo(unitGain);
 	}
 
 	@Test
@@ -183,9 +188,14 @@ public class StatisticMockitoTest {
 		log.info(textReport);
 		
 		double[][] array = report.getArrayResult();
-		assertThat(array).isNotNull().hasSize(1);
-		assertThat(array[0]).isNotNull().hasSize(expectedNumberOfBars);
-		DiagramBarsAssert.assertThat(array[0]).isSummaryGainEqualTo(summaryGain).isUnitGainEqualTo(unitGain);
+		assertThat(array)
+                .isNotNull()
+                .hasSize(1);
+		DiagramBarsAssert.assertThat(array[0])
+                .isNotNull()
+                .hasSize(expectedNumberOfBars)
+                .isSummaryGainEqualTo(summaryGain)
+                .isUnitGainEqualTo(unitGain);
 	}
 	
 	@Test
@@ -257,9 +267,14 @@ public class StatisticMockitoTest {
 		log.info(textReport);
 		
 		double[][] array = report.getArrayResult();
-		assertThat(array).isNotNull().hasSize(1);
-		assertThat(array[0]).isNotNull().hasSize(expectedNumberOfBars);
-		DiagramBarsAssert.assertThat(array[0]).isSummaryGainEqualTo(summaryGain).isUnitGainEqualTo(unitGain);
+		assertThat(array)
+                .isNotNull()
+                .hasSize(1);
+		DiagramBarsAssert.assertThat(array[0])
+                .isNotNull()
+                .hasSize(expectedNumberOfBars)
+                .isSummaryGainEqualTo(summaryGain)
+                .isUnitGainEqualTo(unitGain);
 	}
 	
 	@Test             
@@ -336,8 +351,14 @@ public class StatisticMockitoTest {
 		
 		double[][] array = report.getArrayResult();
 		assertThat(array).isNotNull().hasSize(1);
-		assertThat(array[0]).isNotNull().hasSize(expectedNumberOfBars);
-		DiagramBarsAssert.assertThat(array[0]).isSummaryGainEqualTo(summaryGain).isUnitGainEqualTo(unitGain);
+		assertThat(array[0])
+                .isNotNull()
+                .hasSize(expectedNumberOfBars);
+		DiagramBarsAssert.assertThat(array[0])
+                .isNotNull()
+                .hasSize(expectedNumberOfBars)
+                .isSummaryGainEqualTo(summaryGain)
+                .isUnitGainEqualTo(unitGain);
 	}
 	
 	@Test(dataProvider = "prepareCasesForFinanceMonthReport")
@@ -420,9 +441,13 @@ public class StatisticMockitoTest {
 		log.info(textReport);
 		
 		double[][] array = report.getArrayResult();
-		assertThat(array).isNotNull().hasSize(1);
-		assertThat(array[0]).isNotNull().hasSize(expectedNumberOfBars);
-        DiagramBarsAssert.assertThat(array[0]).isReservationSummaryGainEqualTo(reservationSummaryGain)
+		assertThat(array)
+                .isNotNull()
+                .hasSize(1);
+        DiagramBarsAssert.assertThat(array[0])
+                .isNotNull()
+                .hasSize(expectedNumberOfBars)
+                .isReservationSummaryGainEqualTo(reservationSummaryGain)
 				.isServiceSummaryGainEqualTo(serviceSummaryGain)//
 				.isCantorSummaryGainEqualTo(cantorSummaryGain)//
 				.isHotelSummaryGainEqualTo(summaryGain);
@@ -506,9 +531,12 @@ public class StatisticMockitoTest {
         log.info(textReport);
 
         double[][] array = report.getArrayResult();
-        assertThat(array).isNotNull().hasSize(1);
-        assertThat(array[0]).isNotNull().hasSize(expectedNumberOfBars);
-        DiagramBarsAssert.assertThat(array[0])//
+        assertThat(array)
+                .isNotNull()
+                .hasSize(1);
+        DiagramBarsAssert.assertThat(array[0])
+                .isNotNull().
+                hasSize(expectedNumberOfBars)
                 .isReservationSummaryGainEqualTo(reservationSummaryGain)
                 .isServiceSummaryGainEqualTo(serviceSummaryGain)//
                 .isCantorSummaryGainEqualTo(cantorSummaryGain)//

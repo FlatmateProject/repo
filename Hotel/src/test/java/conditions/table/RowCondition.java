@@ -1,28 +1,48 @@
 package conditions.table;
 
 import org.fest.assertions.Condition;
+import service.cantor.CantorTableResult;
 
 /**
- * Created with IntelliJ IDEA.
  * User: piotro
  * Date: 11/11/12
  * Time: 12:08 PM
- * To change this template use File | Settings | File Templates.
  */
-public class RowCondition extends Condition<Object[]> {
+public class RowCondition extends Condition<CantorTableResult> {
 
-    private Object object;
+    private Object[] expectedCells;
 
-    public RowCondition(Object object) {
-        this.object = object;
+    private RowCondition(Object[] expectedCells, String description) {
+        this.expectedCells = expectedCells;
+        as(description);
+    }
+
+    public static RowCondition containsRow(Object[] expectedColumnNames){
+        return new RowCondition(expectedColumnNames, "containsRow");
     }
 
     @Override
-    public boolean matches(Object[] objects) {
+    public boolean matches(CantorTableResult cantorTableResult) {
+        Object[][] data = cantorTableResult.getRowsData();
+        for (int i = 0; i < data.length; i++) {
+            Object[] actualCells = data[i];
+            if(isActualRowEqualToExpectedRow(actualCells)) {
+                return true;
+            }
+        }
         return false;
     }
 
-    public static RowCondition containsRow(Object object){
-        return new RowCondition(object);
+    private boolean isActualRowEqualToExpectedRow(Object[] actualCells) {
+        for (int i = 0; i < actualCells.length; i++) {
+            if (isNotEqual(actualCells[i], expectedCells[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isNotEqual(Object actualCell, Object expectedCell) {
+        return !actualCell.equals(expectedCell);
     }
 }

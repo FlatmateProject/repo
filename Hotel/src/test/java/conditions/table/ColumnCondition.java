@@ -1,21 +1,33 @@
 package conditions.table;
 
 import org.fest.assertions.Condition;
+import service.cantor.CantorTableResult;
 
-public class ColumnCondition extends Condition<String> {
+public class ColumnCondition extends Condition<CantorTableResult> {
 
-    private String object;
+    private String[] expectedColumnNames;
 
-    public ColumnCondition(String object) {
-        this.object = object;
+    private ColumnCondition(String[] object, String description) {
+        this.expectedColumnNames = object;
+        as(description);
+    }
+
+    public static ColumnCondition containColumns(String[] expectedColumnNames){
+      return new ColumnCondition(expectedColumnNames, "containColumns");
     }
 
     @Override
-    public boolean matches(String objects) {
-        return false;
+    public boolean matches(CantorTableResult cantorTableResult) {
+        String[] actualColumnNames = cantorTableResult.getColumnNames();
+        for (int i = 0; i < actualColumnNames.length; i++) {
+           if(isNotEqual(actualColumnNames[i], expectedColumnNames[i])){
+               return false;
+           }
+        }
+        return true;
     }
 
-    public static ColumnCondition containColumn(String object){
-      return new ColumnCondition(object);
+    private boolean isNotEqual(String actualColumnName, String expectedColumnName) {
+        return !actualColumnName.equals(expectedColumnName);
     }
 }

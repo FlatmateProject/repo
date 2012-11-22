@@ -1,7 +1,9 @@
 package gui;
 
 import dao.CantorDao;
-import dao.CantorDaoImpl;
+import dto.SimpleNameData;
+import dto.cantor.CurrencyData;
+import exception.DAOException;
 import service.cantor.Cantor;
 import service.cantor.CantorTableResult;
 import validation.ValidationUtils;
@@ -12,6 +14,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
+import java.util.Arrays;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static validation.ValidationUtils.isKRS;
+import static validation.ValidationUtils.isPesel;
 
 public class CantorPanel extends JPanel{
 
@@ -44,7 +52,7 @@ public class CantorPanel extends JPanel{
 	private Border border = BorderFactory.createLineBorder(new Color(60, 124, 142));
 	private Color buttonColor = new Color(174, 205, 214);
 
-    private CantorDao cantorDao = new CantorDaoImpl();
+    private CantorDao cantorDao = createCantorDaoMock();
 	private Cantor cantor = new Cantor(cantorDao);
 	
 	public CantorPanel() {
@@ -127,16 +135,12 @@ public class CantorPanel extends JPanel{
 					JOptionPane.showMessageDialog(getParent(),
 							"Nie podano numeru PESEL/KRS");
 				} else {
-					if (!ValidationUtils.isPesel(cantorPESJta.getText())
-							&& !ValidationUtils.isKRS(cantorPESJta.getText()))
-						JOptionPane.showMessageDialog(getParent(),
-								"Nieprawid�owy PESEL/KRS");
+					if (!isPesel(cantorPESJta.getText()) && !isKRS(cantorPESJta.getText()))
+						JOptionPane.showMessageDialog(getParent(), "Nieprawid�owy PESEL/KRS");
 					else if (ValidationUtils.isPesel(cantorPESJta.getText())) {
 						cantorClientTable = createTable(cantor.createClientTable(" where IDK_PESEL=" + cantorPESJta.getText()));
                         if (cantorClientTable.getRowCount() < 1)
-							JOptionPane.showMessageDialog(getParent(),
-									"Brak klienta w bazie");
-//						log.info(cantorClientTable.getRowCount());
+							JOptionPane.showMessageDialog(getParent(), "Brak klienta w bazie");
 						cantorScrollClientPane.setViewportView(cantorClientTable);
 						cantorScrollClientPane.repaint();
 					} else if (ValidationUtils.isKRS(cantorPESJta.getText())) {
@@ -261,4 +265,26 @@ public class CantorPanel extends JPanel{
 		resizeCantor(width, height);
 		super.setSize(width, height);
 	}
+
+    public static CantorDao createCantorDaoMock(){
+        try {
+            Object[] row = new Object[]{1, "USD", 3.2, 3.0, 100};
+            String[] columnNames = new String[]{"Id", "Name", "Sale Price", "Buy Price", "Quantity"};
+
+            CurrencyData currencyData = mock(CurrencyData.class);
+            when(currencyData.getArray()).thenReturn(row);
+
+            SimpleNameData simpleNameData = mock(SimpleNameData.class);
+            when(simpleNameData.getName()).thenReturn(columnNames[0], columnNames[1], columnNames[2], columnNames[3], columnNames[4]);
+
+            CantorDao cantorDao = mock(CantorDao.class);
+            when(cantorDao.showColumnsForCurrency()).thenReturn(Arrays.asList(simpleNameData, simpleNameData, simpleNameData, simpleNameData, simpleNameData));
+            when(cantorDao.findAllCurrency()).thenReturn(Arrays.asList(currencyData));
+
+            return cantorDao;
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

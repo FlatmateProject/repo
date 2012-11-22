@@ -2,9 +2,11 @@ package service.cantor;
 
 public class CantorTableResult {
 
-    public static final Object[] EMPTY_ROW = new Object[]{"Brak danych"};
+    public static final String EMPTY_LABEL = "Brak danych";
 
-    public static final String[] EMPTY_COLUMN = new String[]{"Brak danych"};
+    public static final Object[] EMPTY_ROW = new Object[]{EMPTY_LABEL};
+
+    public static final String[] EMPTY_COLUMN = new String[]{EMPTY_LABEL};
 
     public static final CantorTableResult EMPTY = new CantorTableResult(new Object[][]{EMPTY_ROW}, EMPTY_COLUMN);
 

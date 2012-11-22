@@ -1,5 +1,5 @@
 package service.cantor;
 
-public interface GetArray {
+public interface ArrayObtained {
     Object[] getArray();
 }
