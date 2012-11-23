@@ -5,6 +5,7 @@ import dto.cantor.CompanyData;
 import dto.cantor.CurrencyData;
 import dto.cantor.CustomerData;
 import exception.DAOException;
+import service.cantor.CURRENCY;
 
 import java.util.List;
 
@@ -46,4 +47,11 @@ public class CantorDaoImpl extends AbstractDao implements CantorDao{
         String query = "select * from hotel.firmy where IDF_KRS=" + companyId;
         return executeQuery(query, CompanyData.class);
     }
+
+    @Override
+    public CurrencyData findCurrencyByName(CURRENCY currency) throws DAOException {
+        String query = "select * from hotel.waluty where NAZWA=" + "'" + currency + "'";
+        return uniqueResult(query, CurrencyData.class);
+    }
+
 }

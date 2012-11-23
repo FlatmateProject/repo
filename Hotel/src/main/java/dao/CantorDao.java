@@ -5,6 +5,7 @@ import dto.cantor.CompanyData;
 import dto.cantor.CurrencyData;
 import dto.cantor.CustomerData;
 import exception.DAOException;
+import service.cantor.CURRENCY;
 
 import java.util.List;
 
@@ -21,4 +22,6 @@ public interface CantorDao {
     List<SimpleNameData> showColumnsForCompany() throws DAOException;
 
     List<CompanyData> findAllComparable(String companyId) throws DAOException;
+
+    CurrencyData findCurrencyByName(CURRENCY currency) throws DAOException;
 }

@@ -4,10 +4,10 @@ import exception.DAOException;
 import org.apache.log4j.Logger;
 
 import java.lang.reflect.Field;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -26,12 +26,16 @@ import java.util.List;
 			return new Object();
 		}
 	}
-	
-	<T> List<T> executeQuery(String query, Class<T> dtoClass) throws DAOException {
+
+     <T> T  uniqueResult(String query, Class<T> dtoClass) throws DAOException {
+         return executeQuery(query, dtoClass).get(0);
+     }
+
+     <T> List<T> executeQuery(String query, Class<T> dtoClass) throws DAOException {
 		ResultSet resultSet = session.query(query);
 		return transform(resultSet, dtoClass);
 	}
-	
+
 	private <T> List<T> transform(ResultSet dataSet, Class<T> resultClass) {
 		ArrayList<T> EMPTY_LIST = new ArrayList<T>();
 		try {

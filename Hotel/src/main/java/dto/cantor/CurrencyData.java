@@ -19,4 +19,23 @@ public class CurrencyData implements ArrayObtained {
         return Arrays.array(currencyId, name, salePrice, buyPrice, quantity);
     }
 
+    public long getCurrencyId() {
+        return currencyId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public long getSalePrice() {
+        return salePrice;
+    }
+
+    public long getBuyPrice() {
+        return buyPrice;
+    }
+
+    public long getQuantity() {
+        return quantity;
+    }
 }

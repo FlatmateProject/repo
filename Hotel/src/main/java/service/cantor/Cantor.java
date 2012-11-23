@@ -54,42 +54,35 @@ public class Cantor {
         }
     }
 
-    public String trimInput(String input) {
-        return input.replaceAll("\\D*", "");
-    }
-
-    public float[] changeCalc(String s1, String s2, float much) {
-        float curr1 = 0, curr2 = 0, curr3 = 0, cost = 0, temp = 0, temp1 = 0, temp2 = 0;
-        float resulRet[] = new float[3];
+    public ExchangeCalculation changeCalc(CURRENCY saleCurrency, CURRENCY buyCurrency, float amount) {
         try {
-            ResultSet change1 = singleton.query("select * from hotel.waluty where NAZWA=" + "'" + s1 + "'");
-            change1.first();
-            curr1 = change1.getFloat("CENA_KU");
-            curr2 = change1.getFloat("CENA_SP");
+            CurrencyData currency1 = cantorDao.findCurrencyByName(saleCurrency);
+            CurrencyData currency2 = cantorDao.findCurrencyByName(buyCurrency);
 
-            ResultSet change2 = singleton.query("select * from hotel.waluty where NAZWA=" + "'" + s2 + "'");
-            change2.first();
-            curr3 = change2.getFloat("CENA_SP");
-            if (s1 == "PLN") {
-                cost = much * curr3;
-            } else if (s2 == "PLN") {
-                cost = much * curr1;
+            float buyPrice = currency1.getBuyPrice();
+            float salePrice1 = currency1.getSalePrice();
+            float salePrice2 = currency2.getSalePrice();
+
+            float cost = 0;
+            float gain = 0;
+            if (saleCurrency == CURRENCY.PLN) {
+                cost = amount * salePrice2;
+            } else if (buyCurrency == CURRENCY.PLN) {
+                cost = amount * buyPrice;
             } else {
-                temp = much * curr1;
-                temp1 = temp / curr2;
-                temp2 = temp1 * curr1;
-                cost = temp2 / curr3;
-                //
+                float temp = amount * buyPrice;
+                float temp1 = temp / salePrice1;
+                float temp2 = temp1 * buyPrice;
+                cost = temp2 / salePrice2;
+                gain = temp - temp2;
 //                log.info("Dostaniesz: " + cost + ", zysk: " + (temp - temp2));
-                resulRet[0] = much;
-                resulRet[1] = cost;
-                resulRet[2] = temp - temp2;
             }
+            return ExchangeCalculation.save(amount, cost, gain);
 
         } catch (Exception e) {
-//            log.info("Brak danych");
+            e.printStackTrace();
         }
-        return resulRet;
+        return ExchangeCalculation.ZERO;
     }
 
     public boolean changeMoney(boolean whatIs, String id, String data, String cur1, String cur2, float val1, float val2, float profit) {
