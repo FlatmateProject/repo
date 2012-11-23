@@ -5,6 +5,7 @@
 		<classes>
 			<class name="service.statistic.StatisticMockitoTest" />
 			<class name="service.statistic.StatisticTest" />
+			<class name="service.cantor.CantorMokitoTest" />
 		</classes>
 	</test>
 </suite> 

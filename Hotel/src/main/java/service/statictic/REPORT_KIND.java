@@ -1,9 +1,7 @@
 package service.statictic;
 
 import service.statictic.executors.*;
-import service.statictic.executors.HotelServiceReportCreator;
 import service.statictic.templates.*;
-import service.statictic.templates.FinanceMonthReportTemplateBuilder;
 
 public enum REPORT_KIND {
 	FINANCE_MONTH("Bilansu z miesięcy", new FinanceMonthReportTemplateBuilder(), new FinanceMonthReportCreator()), //
@@ -42,4 +40,20 @@ public enum REPORT_KIND {
 	public String toString() {
 		return desc;
 	}
+
+    public static REPORT_KIND[] hotel(){
+        return new REPORT_KIND[]{
+                HOTEL_ROOM_TYPES,
+                HOTEL_ROOMS,
+                HOTEL_SERVICE_TYPES,
+                HOTEL_SERVICE
+        };
+    }
+
+    public static REPORT_KIND[] finance(){
+        return new REPORT_KIND[]{
+                FINANCE_MONTH,
+                FINANCE_YEAR
+        };
+    }
 }

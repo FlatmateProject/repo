@@ -2,7 +2,6 @@ package service.cantor;
 
 import dto.SimpleNameData;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TableBuilder {
@@ -12,16 +11,7 @@ public class TableBuilder {
     private List<SimpleNameData> columnNames;
 
     private TableBuilder() {
-        final String EMPTY_LABEL = CantorTableResult.EMPTY_LABEL;
-        rowsData = new ArrayList<ArrayObtained>();
-        rowsData.add(new ArrayObtained() {
-            @Override
-            public Object[] getArray() {
-                return new Object[]{EMPTY_LABEL};
-            }
-        });
-        columnNames = new ArrayList<SimpleNameData>();
-        columnNames.add(new SimpleNameData(EMPTY_LABEL));
+
     }
 
     public static TableBuilder table() {
@@ -29,26 +19,26 @@ public class TableBuilder {
     }
 
     public TableBuilder columns(List<SimpleNameData> columnNames) {
-        if (isNotEmptyList(columnNames)) {
-            this.columnNames = columnNames;
-        }
+        this.columnNames = columnNames;
         return this;
     }
 
 
     public <T extends ArrayObtained> TableBuilder data(List<T> rowsData) {
-        if (isNotEmptyList(rowsData)) {
-            this.rowsData = rowsData;
-        }
+        this.rowsData = rowsData;
         return this;
+    }
+
+    public CantorTableResult build() {
+        if (isNotEmptyList(columnNames) && isNotEmptyList(rowsData)) {
+            return createTable(rowsData);
+        } else {
+            return CantorTableResult.EMPTY;
+        }
     }
 
     private <T> boolean isNotEmptyList(List<T> columnNames) {
         return columnNames != null && columnNames.size() > 0;
-    }
-
-    public CantorTableResult build() {
-        return createTable(rowsData);
     }
 
     private <T extends ArrayObtained> CantorTableResult createTable(List<T> rowsData) {

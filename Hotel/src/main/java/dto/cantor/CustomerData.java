@@ -16,15 +16,15 @@ public class CustomerData implements ArrayObtained {
 
     private String street;
 
-    private int block;
+    private String block;
 
-    private int flat;
+    private long flat;
 
     private String status;
 
     private String notes;
 
-    private String phone;
+    private long phone;
 
     private long nip;
 

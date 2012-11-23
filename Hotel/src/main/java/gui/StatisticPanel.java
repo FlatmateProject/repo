@@ -31,15 +31,15 @@ public class StatisticPanel extends JPanel {
     private JLabel yearLabelTo;
     private JLabel classLabel;
     private JLabel serveLabel;
-    private JComboBox chooseType;
-    private JComboBox chooseSubFinance;
-    private JComboBox chooseSubHotel;
-    private JComboBox chooseMonth;
-    private JComboBox chooseYear;
-    private JComboBox chooseMonth2;
-    private JComboBox chooseYear2;
-    private JComboBox roomTypeChoose;
-    private JComboBox serviceTypeChoose;
+    private JComboBox<String> chooseType;
+    private JComboBox<REPORT_KIND> chooseSubFinance;
+    private JComboBox<REPORT_KIND> chooseSubHotel;
+    private JComboBox<MONTH> chooseMonth;
+    private JComboBox<String> chooseYear;
+    private JComboBox<MONTH> chooseMonth2;
+    private JComboBox<String> chooseYear2;
+    private JComboBox<String> roomTypeChoose;
+    private JComboBox<String> serviceTypeChoose;
     private JScrollPane reportScroll;
     private JTextPane reportText;
     private GraphDraw graphDraw;
@@ -72,67 +72,37 @@ public class StatisticPanel extends JPanel {
         executeButton.setVisible(true);
         add(executeButton);
 
-        chooseType = new JComboBox();
+        chooseType = new JComboBox<String>();
         chooseType.setBounds(20, 60, 230, 20);
         chooseType.addItem("hotelowe");
         chooseType.addItem("finansowe");
         chooseType.setSelectedIndex(0);
         add(chooseType);
 
-        chooseSubHotel = new JComboBox();
+        chooseSubHotel = new JComboBox<REPORT_KIND>(REPORT_KIND.hotel());
         chooseSubHotel.setBounds(20, 100, 230, 20);
-        chooseSubHotel.addItem(REPORT_KIND.HOTEL_ROOM_TYPES);
-        chooseSubHotel.addItem(REPORT_KIND.HOTEL_ROOMS);
-        chooseSubHotel.addItem(REPORT_KIND.HOTEL_SERVICE_TYPES);
-        chooseSubHotel.addItem(REPORT_KIND.HOTEL_SERVICE);
         chooseSubHotel.setSelectedIndex(0);
         add(chooseSubHotel);
 
-        chooseMonth = new JComboBox();
+        chooseMonth = new JComboBox<MONTH>(MONTH.values());
         chooseMonth.setBounds(260, 100, 100, 20);
-        chooseMonth.addItem(MONTH.January);
-        chooseMonth.addItem(MONTH.February);
-        chooseMonth.addItem(MONTH.March);
-        chooseMonth.addItem(MONTH.April);
-        chooseMonth.addItem(MONTH.May);
-        chooseMonth.addItem(MONTH.June);
-        chooseMonth.addItem(MONTH.July);
-        chooseMonth.addItem(MONTH.August);
-        chooseMonth.addItem(MONTH.September);
-        chooseMonth.addItem(MONTH.October);
-        chooseMonth.addItem(MONTH.November);
-        chooseMonth.addItem(MONTH.December);
         chooseMonth.setSelectedIndex(0);
         chooseMonth.setVisible(true);
         add(chooseMonth);
 
-        chooseMonth2 = new JComboBox();
+        chooseMonth2 = new JComboBox<MONTH>(MONTH.values());
         chooseMonth2.setBounds(260, 60, 100, 20);
-        chooseMonth2.addItem(MONTH.January);
-        chooseMonth2.addItem(MONTH.February);
-        chooseMonth2.addItem(MONTH.March);
-        chooseMonth2.addItem(MONTH.April);
-        chooseMonth2.addItem(MONTH.May);
-        chooseMonth2.addItem(MONTH.June);
-        chooseMonth2.addItem(MONTH.July);
-        chooseMonth2.addItem(MONTH.August);
-        chooseMonth2.addItem(MONTH.September);
-        chooseMonth2.addItem(MONTH.October);
-        chooseMonth2.addItem(MONTH.November);
-        chooseMonth2.addItem(MONTH.December);
         chooseMonth2.setSelectedIndex(0);
         chooseMonth2.setVisible(false);
         add(chooseMonth2);
 
-        chooseSubFinance = new JComboBox();
+        chooseSubFinance = new JComboBox<REPORT_KIND>(REPORT_KIND.finance());
         chooseSubFinance.setBounds(20, 100, 230, 20);
-        chooseSubFinance.addItem(REPORT_KIND.FINANCE_MONTH);
-        chooseSubFinance.addItem(REPORT_KIND.FINANCE_YEAR);
         chooseSubFinance.setSelectedIndex(0);
         chooseSubFinance.setVisible(false);
         add(chooseSubFinance);
 
-        chooseYear = new JComboBox();
+        chooseYear = new JComboBox<String>();
         chooseYear.setBounds(260, 60, 100, 20);
         chooseYear.addItem("2010");
         chooseYear.addItem("2011");
@@ -144,7 +114,7 @@ public class StatisticPanel extends JPanel {
         chooseYear.setSelectedIndex(0);
         add(chooseYear);
 
-        chooseYear2 = new JComboBox();
+        chooseYear2 = new JComboBox<String>();
         chooseYear2.setBounds(260, 100, 100, 20);
         chooseYear2.addItem("2010");
         chooseYear2.addItem("2011");
@@ -255,20 +225,20 @@ public class StatisticPanel extends JPanel {
         roomTypeChoose = createComboBoxForData(roomTypes);
     }
 
-    private JComboBox createComboBoxForData(List<SimpleNameData> types) {
-        JComboBox choose = new JComboBox();
+    private JComboBox<String> createComboBoxForData(List<SimpleNameData> types) {
+        JComboBox<String> choose = new JComboBox<String>();
         setup(choose);
         fillComboBox(choose, types);
         add(choose);
         return choose;
     }
 
-    private void setup(JComboBox choose) {
+    private void setup(JComboBox<String> choose) {
         choose.setBounds(500, 60, 230, 20);
         choose.setVisible(false);
     }
 
-    private void fillComboBox(JComboBox choose, List<SimpleNameData> types) {
+    private void fillComboBox(JComboBox<String> choose, List<SimpleNameData> types) {
         for (SimpleNameData type : types) {
             choose.addItem(type.getName());
         }

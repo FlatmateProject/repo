@@ -1,9 +1,12 @@
 package gui;
 
 import dao.CantorDao;
+import dao.CantorDaoImpl;
 import dto.SimpleNameData;
 import dto.cantor.CurrencyData;
 import exception.DAOException;
+import org.apache.log4j.Logger;
+import service.cantor.CURRENCY;
 import service.cantor.Cantor;
 import service.cantor.CantorTableResult;
 import validation.ValidationUtils;
@@ -24,6 +27,7 @@ import static validation.ValidationUtils.isPesel;
 public class CantorPanel extends JPanel{
 
 	private static final long serialVersionUID = 1L;
+    private static final Logger log = Logger.getLogger(CantorPanel.class);
 
 	private float results[];
 	private JTextField cantorAmountJta = new JTextField();
@@ -35,7 +39,6 @@ public class CantorPanel extends JPanel{
 	private JLabel cantorPrice = new JLabel();
 	private JComboBox cantorCurrBox1 = new JComboBox();
 	private JComboBox cantorCurrBox2 = new JComboBox();
-	private String currencies[] = { "USD", "EUR", "GBP", "JPY", "CHF", "CAD", "AUD", "BRL", "CZK", "SEK", "CNY", "RUB", "PLN" };
 	private JButton cantorResButton = new JButton();
 	private JButton cantorPESButton = new JButton();
 	private JButton cantorDoIt = new JButton();
@@ -52,7 +55,8 @@ public class CantorPanel extends JPanel{
 	private Border border = BorderFactory.createLineBorder(new Color(60, 124, 142));
 	private Color buttonColor = new Color(174, 205, 214);
 
-    private CantorDao cantorDao = createCantorDaoMock();
+//    private CantorDao cantorDao = createCantorDaoMock();
+    private CantorDao cantorDao = new CantorDaoImpl();
 	private Cantor cantor = new Cantor(cantorDao);
 	
 	public CantorPanel() {
@@ -79,7 +83,7 @@ public class CantorPanel extends JPanel{
 
 		cantorTable = new JTable();
 		cantorClientTable = new JTable();
-		cantorBuyLabel = new JLabel("Dostepno�� oraz kursy walut");
+		cantorBuyLabel = new JLabel("Dostepność oraz kursy walut");
 		cantorCurrL1 = new JLabel("Waluta wymieniana");
 		cantorCurrL2 = new JLabel("Waluta ");
 		cantorClientL = new JLabel("PESEL/KRS Klienta");
@@ -93,8 +97,8 @@ public class CantorPanel extends JPanel{
 		cantorPrice = new JLabel("Kwota transakcji:");
 		cantorCostLabel = new JLabel("Do zap�aty:");
 
-		cantorCurrBox1 = new JComboBox(currencies);
-		cantorCurrBox2 = new JComboBox(currencies);
+		cantorCurrBox1 = new JComboBox(CURRENCY.values());
+		cantorCurrBox2 = new JComboBox(CURRENCY.values());
 		cantorResButton = new JButton("Przelicz");
 		cantorPESButton = new JButton("Szukaj");
 		cantorDoIt = new JButton("Dokonaj transakcji");
@@ -132,19 +136,18 @@ public class CantorPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (cantorPESJta.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(getParent(),
-							"Nie podano numeru PESEL/KRS");
+					JOptionPane.showMessageDialog(getParent(), "Nie podano numeru PESEL/KRS");
 				} else {
-					if (!isPesel(cantorPESJta.getText()) && !isKRS(cantorPESJta.getText()))
-						JOptionPane.showMessageDialog(getParent(), "Nieprawid�owy PESEL/KRS");
+					if (!isPesel(cantorPESJta.getText()) && !isKRS(cantorPESJta.getText())) {
+						JOptionPane.showMessageDialog(getParent(), "Nieprawidłowy PESEL/KRS");
+                    }
 					else if (ValidationUtils.isPesel(cantorPESJta.getText())) {
-						cantorClientTable = createTable(cantor.createClientTable(" where IDK_PESEL=" + cantorPESJta.getText()));
-                        if (cantorClientTable.getRowCount() < 1)
-							JOptionPane.showMessageDialog(getParent(), "Brak klienta w bazie");
+                        long pesel = Long.parseLong(cantorPESJta.getText());
+                        cantorClientTable = createTable(cantor.createCustomerTable(pesel));
 						cantorScrollClientPane.setViewportView(cantorClientTable);
 						cantorScrollClientPane.repaint();
 					} else if (ValidationUtils.isKRS(cantorPESJta.getText())) {
-						cantorClientTable = createTable(cantor.createCompTable(cantorPESJta.getText()));
+						cantorClientTable = createTable(cantor.createCompanyTable(cantorPESJta.getText()));
 						cantorScrollClientPane.setViewportView(cantorClientTable);
 						cantorScrollClientPane.repaint();
 
@@ -167,8 +170,7 @@ public class CantorPanel extends JPanel{
 						}
 					}
 					if (!ifNumber)
-						JOptionPane.showMessageDialog(getParent(),
-								"Podaj prawidlowa ilosc waluty");
+						JOptionPane.showMessageDialog(getParent(), "Podaj prawidlowa ilosc waluty");
 					else {
 						if (cantorCurrBox1.getSelectedItem().toString() == cantorCurrBox2
 								.getSelectedItem().toString())
@@ -245,9 +247,9 @@ public class CantorPanel extends JPanel{
 		cantorCurrL1.setBounds(10, 10, 150, 18);
 		cantorScrollPane.setBounds(cantorCurrL1.getX() + cantorCurrL1.getWidth() + 40, cantorYList - 270, 500, 230);
 		cantorBuyLabel.setBounds(cantorScrollPane.getX(), cantorScrollPane.getY() - 20, cantorEWidth, 18);
-		cantorCurrBox1.setBounds(10, cantorCurrL1.getY() + 20, 50, 20);
+		cantorCurrBox1.setBounds(10, cantorCurrL1.getY() + 20, 100, 20);
 		cantorCurrL2.setBounds(10, cantorCurrBox1.getY() + 20, cantorEWidth, 18);
-		cantorCurrBox2.setBounds(cantorCurrBox1.getX(), cantorCurrL2.getY() + 20, 50, 20);
+		cantorCurrBox2.setBounds(cantorCurrBox1.getX(), cantorCurrL2.getY() + 20, 100, 20);
 		cantorPrice.setBounds(cantorCurrBox2.getX(), cantorCurrBox2.getY() + 30, 150, cantorJtaHeight);
 		cantorAmountJta.setBounds(cantorPrice.getX(), cantorPrice.getY() + 20, 100, cantorJtaHeight);
 		cantorResButton.setBounds(cantorAmountJta.getX(), cantorAmountJta.getY() + 22, cantorBWidth, cantorBHeight);

@@ -3,6 +3,7 @@ package service.cantor;
 import dao.CantorDao;
 import dao.Singleton;
 import dto.SimpleNameData;
+import dto.cantor.CompanyData;
 import dto.cantor.CurrencyData;
 import dto.cantor.CustomerData;
 import exception.DAOException;
@@ -33,44 +34,24 @@ public class Cantor {
         }
     }
 
-    public CantorTableResult createClientTable(String s1) {
+    public CantorTableResult createCustomerTable(long customerId) {
         try {
             List<SimpleNameData> customerColumns = cantorDao.showColumnsForCustomer();
-            List<CustomerData> customers = cantorDao.findAllCustomers(s1);
+            List<CustomerData> customers = cantorDao.findAllCustomers(customerId);
             return TableBuilder.table().columns(customerColumns).data(customers).build();
         } catch (Exception e) {
             return CantorTableResult.EMPTY;
         }
     }
 
-    public CantorTableResult createCompTable(String s1) {
+    public CantorTableResult createCompanyTable(String companyId) {
         try {
-            int i = 0, cols, rows;
-            ResultSet rset5 = singleton.query("show columns from hotel.firmy");
-            ResultSet rset6 = singleton.query("select * from hotel.firmy" + s1);
-            rset5.last();
-            cols = rset5.getRow();
-            rset6.last();
-            rows = rset6.getRow();
-            Object rowData[][] = new Object[rows][cols];
-            String columnNames[] = new String[cols];
-            rset5.first();
-            rset6.first();
-            do {
-                columnNames[i] = rset5.getString(1);
-                i++;
-            } while (rset5.next());
-            i = 0;
-            do {
-                for (int j = 0; j < cols; j++) {
-                    rowData[i][j] = rset6.getString(j + 1);
-                }
-                i++;
-            } while (rset6.next());
-            return CantorTableResult.store(rowData, columnNames);
+            List<SimpleNameData> customerColumns = cantorDao.showColumnsForCompany();
+            List<CompanyData> company = cantorDao.findAllComparable(companyId);
+            return TableBuilder.table().columns(customerColumns).data(company).build();
         } catch (Exception e) {
+            return CantorTableResult.EMPTY;
         }
-        return null;
     }
 
     public String trimInput(String input) {

@@ -2,14 +2,12 @@ package service;
 
 
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import javax.swing.JTable;
-
+import dao.Singleton;
 import org.apache.log4j.Logger;
 
-import dao.Singleton;
+import javax.swing.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class GuestBook {
 	
@@ -24,7 +22,7 @@ public class GuestBook {
 
 	public String[] getLabel(String table) {
 		int i = 0;
-		String s[] = new String[11];
+		String s[] = new String[12];
 		Singleton.getInstance();
 		rset1 = sing.query("show columns from hotel." + table);
 		if(rset1 == null){

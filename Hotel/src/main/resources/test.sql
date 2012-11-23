@@ -1,6 +1,2 @@
-SELECT u.typ, sum(rk.czas) czas, sum(rk.czas*u.cena) zysk 
-FROM rekreacja rk 
-JOIN uslugi u ON rk.id_uslugi=u.id_uslugi 
-JOIN rezerwacje rz ON rk.id_rez=rz.id_rez 
-WHERE MONTH(rz.data_w)=9 and YEAR(rz.data_w)=2012 
-GROUP BY u.typ
+INSERT klienci VALUES(87122206592, 'Piotr', 'Piotrowski', 'Małopolsie', 'Kraków', 'Zdunów', '22c', 30, 'NEW','OK', 889225169, 6582514);
+INSERT INTO waluty(NAZWA, CENA_SP, CENA_KU, ILOSC) VALUES('USD', 320, 300, 100);

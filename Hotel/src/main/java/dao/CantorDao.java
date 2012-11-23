@@ -1,6 +1,7 @@
 package dao;
 
 import dto.SimpleNameData;
+import dto.cantor.CompanyData;
 import dto.cantor.CurrencyData;
 import dto.cantor.CustomerData;
 import exception.DAOException;
@@ -15,5 +16,9 @@ public interface CantorDao {
 
     List<SimpleNameData> showColumnsForCustomer() throws DAOException;
 
-    List<CustomerData> findAllCustomers(String customerId) throws DAOException;
+    List<CustomerData> findAllCustomers(long customerId) throws DAOException;
+
+    List<SimpleNameData> showColumnsForCompany() throws DAOException;
+
+    List<CompanyData> findAllComparable(String companyId) throws DAOException;
 }

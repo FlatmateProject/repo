@@ -4,10 +4,10 @@ import exception.DAOException;
 import org.apache.log4j.Logger;
 
 import java.lang.reflect.Field;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 

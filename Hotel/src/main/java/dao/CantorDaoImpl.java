@@ -1,6 +1,7 @@
 package dao;
 
 import dto.SimpleNameData;
+import dto.cantor.CompanyData;
 import dto.cantor.CurrencyData;
 import dto.cantor.CustomerData;
 import exception.DAOException;
@@ -28,8 +29,21 @@ public class CantorDaoImpl extends AbstractDao implements CantorDao{
     }
 
     @Override
-    public List<CustomerData> findAllCustomers(String customerId) throws DAOException {
-        String query = "select * from hotel.klienci" + customerId;
+    public List<CustomerData> findAllCustomers(long customerId) throws DAOException {
+        String query = "select * from hotel.klienci where IDK_PESEL=" +  customerId;
         return executeQuery(query, CustomerData.class);
+    }
+
+
+    @Override
+    public List<SimpleNameData> showColumnsForCompany() throws DAOException {
+        String query = "show columns from hotel.firmy";
+        return executeQuery(query, SimpleNameData.class);
+    }
+
+    @Override
+    public List<CompanyData> findAllComparable(String companyId) throws DAOException {
+        String query = "select * from hotel.firmy where IDF_KRS=" + companyId;
+        return executeQuery(query, CompanyData.class);
     }
 }
