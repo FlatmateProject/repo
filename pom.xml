@@ -13,7 +13,7 @@
 		<module>Dictionary-maven</module>
 		<module>TestClient</module>
 		<module>Dictionary-ear</module>
-        <module>Hotel</module>
+        	<module>Hotel</module>
         <module>Dictionary-web</module>
     </modules>
 	<dependencies>
