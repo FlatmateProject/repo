@@ -1,15 +1,12 @@
 package service;
 
 
-import java.awt.Color;
-import java.awt.Graphics;
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 
 public class GraphDraw extends JPanel {
 	private static final long serialVersionUID = -169819062522277246L;
-	private int width = 0;
-	private int height = 0;
-	private int change = 0;
+    private int change = 0;
 	private double array[][];
 	private Color col[];
 
@@ -37,8 +34,8 @@ public class GraphDraw extends JPanel {
 		double ii = 0.0;
 		String text = "";
 
-		width = getWidth();
-		height = getHeight();
+        int width = getWidth();
+        int height = getHeight();
 		// log.info("height: "+height);
 		// log.info("width: "+width);
 

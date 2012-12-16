@@ -1,5 +1,9 @@
 package service;
 
+import dao.Singleton;
+import org.apache.log4j.Logger;
+
+import javax.swing.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -8,20 +12,15 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.swing.JTable;
-
-import org.apache.log4j.Logger;
-
-import dao.Singleton;
-
 public class Rezervation {
 	
 	private static final Logger log = Logger.getLogger(Rezervation.class);
 	
 	private Singleton sing = Singleton.getInstance();
-	private ResultSet rset1, rset2, rset4, rset5;
+	private ResultSet rset1;
+    private ResultSet rset2;
 
-	public Rezervation() {
+    public Rezervation() {
 
 	}
 
@@ -329,15 +328,15 @@ public class Rezervation {
 			String servTab[]) {
 		float price, serv, amount, roomCost = 0, servCost = 0;
 		try {
-			rset4 = sing
-					.query("select CENA from hotel.klasy where ID_KLASY=(select ID_KLASY from hotel.pokoje where ID_POKOJU="
-							+ room + ")");
+            ResultSet rset4 = sing
+                    .query("select CENA from hotel.klasy where ID_KLASY=(select ID_KLASY from hotel.pokoje where ID_POKOJU="
+                            + room + ")");
 			rset4.first();
 			price = (Float.parseFloat(rset4.getString(1)));
 			roomCost = price * manyDay;
 			for (int i = 0; i < manyServ; i++) {
-				rset5 = sing.query("select CENA from hotel.uslugi where NAZWA="
-						+ "'" + servTab[i] + "'");
+                ResultSet rset5 = sing.query("select CENA from hotel.uslugi where NAZWA="
+                        + "'" + servTab[i] + "'");
 				rset5.first();
 				serv = Float.parseFloat(rset5.getString(1));
 				amount = manyDay;

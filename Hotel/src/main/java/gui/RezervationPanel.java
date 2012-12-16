@@ -1,28 +1,13 @@
 package gui;
 
-import java.awt.Color;
+import service.Rezervation;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.ParseException;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.border.Border;
-
-import service.Rezervation;
 
 public class RezervationPanel extends JPanel {
 
@@ -41,23 +26,18 @@ public class RezervationPanel extends JPanel {
 			"09", "10", "11", "12" };
 	private String rezYears[] = { "2010", "2011", "2012", "2013", "2015",
 			"2016" };
-	private JLabel rezDateLabel = new JLabel();
-	private JLabel rezDayLabel = new JLabel();
+    private JLabel rezDayLabel = new JLabel();
 	private JComboBox rezDateBox[] = new JComboBox[3];
 	private JComboBox rezDayBox = new JComboBox();
 	private JLabel rezPrice = new JLabel();
 	private JButton rezButton[] = new JButton[5];
-	private int rezXJta, rezYJta, rezYList, rezEWidth, rezJtaHeight, bWidth,
-			bHeight;
-	private JTable rezTable = new JTable();
+    private JTable rezTable = new JTable();
 	private JRadioButton rezClient;
 	private JRadioButton rezCompany;
 	private JRadioButton rezCat1;
 	private JRadioButton rezCat2;
 	private JRadioButton rezCat3;
-	private ButtonGroup rezRadioGroup;
-	private ButtonGroup rezCatGroup;
-	private JTable rezClasTable;
+    private JTable rezClasTable;
 	private JScrollPane rezClasPane;
 	private JScrollPane rezRoomPane;
 	private JTable rezServTable;
@@ -76,8 +56,7 @@ public class RezervationPanel extends JPanel {
 	private Border border = BorderFactory.createLineBorder(new Color(60, 124,
 			142));
 	private Color bgColor = new Color(224, 230, 233);
-	private int k = 50;
-	private Rezervation rezerv = new Rezervation();
+    private Rezervation rezerv = new Rezervation();
 
 	public RezervationPanel() {
 		create();
@@ -96,8 +75,8 @@ public class RezervationPanel extends JPanel {
 		rezCat1 = new JRadioButton("Rekreacja", true);
 		rezCat2 = new JRadioButton("Gastronomia", false);
 		rezCat3 = new JRadioButton("Biznes", false);
-		rezRadioGroup = new ButtonGroup();
-		rezCatGroup = new ButtonGroup();
+        ButtonGroup rezRadioGroup = new ButtonGroup();
+        ButtonGroup rezCatGroup = new ButtonGroup();
 		rezRadioGroup.add(rezClient);
 		rezRadioGroup.add(rezCompany);
 		rezCatGroup.add(rezCat1);
@@ -192,7 +171,7 @@ public class RezervationPanel extends JPanel {
 			add(rezButton[i]);
 		}
 
-		rezDateLabel = new JLabel("Rozpocz�cie pobytu: ");
+        JLabel rezDateLabel = new JLabel("Rozpocz�cie pobytu: ");
 		rezDayLabel = new JLabel("Doby: ");
 		add(rezDateLabel);
 		add(rezDayLabel);
@@ -1167,11 +1146,12 @@ public class RezervationPanel extends JPanel {
 	}
 
 	private void resizeRezervation(int width, int height) {
-		rezEWidth = (width - 200) / 3;
-		rezJtaHeight = 18;
-		rezXJta = k;
-		rezYJta = 50;
-		rezYList = 300;
+        int rezEWidth = (width - 200) / 3;
+        int rezJtaHeight = 18;
+        int k = 50;
+        int rezXJta = k;
+        int rezYJta = 50;
+        int rezYList = 300;
 		rezClient.setBounds(10, 5, 65, 20);
 		rezCompany.setBounds(75, 5, 70, 20);
 		rezClient.setBackground(bgColor2);
@@ -1203,8 +1183,8 @@ public class RezervationPanel extends JPanel {
 		rezRoomLabel[2].setBounds(rezServPane.getX(), rezServPane.getY()
 				+ rezServPane.getHeight() + 5, rezEWidth, 18);
 
-		bWidth = 100;
-		bHeight = 25;
+        int bWidth = 100;
+        int bHeight = 25;
 		rezButton[0].setBounds(150, 70, bWidth, bHeight);
 		rezServPane1.setBounds(rezRoomLabel[2].getX(), rezRoomLabel[2].getY()
 				+ rezRoomLabel[2].getHeight() + 5, 100, 90);
@@ -1221,13 +1201,13 @@ public class RezervationPanel extends JPanel {
 		rezDayBox.setBounds(rezDayLabel.getX(), rezDayLabel.getY()
 				+ rezDayLabel.getHeight() + 5, 50, rezJtaHeight);
 		rezPrice.setBounds(rezDayBox.getX() - 150, rezDayBox.getY() + 40, 150,
-				rezJtaHeight);
+                rezJtaHeight);
 		rezCenaJta.setBounds(rezPrice.getX() + rezPrice.getWidth(),
 				rezPrice.getY(), 70, rezJtaHeight);
 		rezButton[3].setBounds(rezCenaJta.getX() - 80, rezCenaJta.getY() + 25,
 				150, rezJtaHeight);
 		rezButton[2].setBounds(rezButton[3].getX(), rezButton[3].getY() + 40,
-				bWidth, bHeight);
+                bWidth, bHeight);
 
 		for (int i = 0; i < 11; i++) {
 			if (i != 0 && i % 3 == 0) {
@@ -1240,9 +1220,9 @@ public class RezervationPanel extends JPanel {
 			else
 				rezJta[i].setBounds(rezXJta, rezYJta, rezEWidth, rezJtaHeight);
 			rezGuestLabel[i].setBounds(rezXJta, rezYJta - 18, rezEWidth,
-					rezJtaHeight);
+                    rezJtaHeight);
 			rezCompLabel[i].setBounds(rezXJta, rezYJta - 18, rezEWidth,
-					rezJtaHeight);
+                    rezJtaHeight);
 			rezXJta += k + rezEWidth;
 		}
 	}

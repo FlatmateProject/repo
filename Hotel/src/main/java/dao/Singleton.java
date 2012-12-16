@@ -6,9 +6,8 @@ import java.sql.*;
 public class Singleton {
 
 	private static final Logger log = Logger.getLogger(Singleton.class);
-	
-	private ResultSet rset;
-	private static Singleton instance = null;
+
+    private static Singleton instance = null;
 	private static Connection con;
 	private Statement stmt = null;
 
@@ -32,7 +31,7 @@ public class Singleton {
 		try {
 			log.info(s);
 			stmt = (Statement) con.createStatement();
-			rset = stmt.executeQuery(s);
+            ResultSet rset = stmt.executeQuery(s);
 			return rset;
 		} catch (SQLException e) {
 			e.printStackTrace();

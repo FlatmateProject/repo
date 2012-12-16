@@ -1,7 +1,13 @@
 package gui;
 
-import java.awt.Color;
-import java.awt.Font;
+import dao.Singleton;
+import org.apache.log4j.Logger;
+import service.EmployeeManager;
+import service.dictionary.MONTH;
+import validation.ValidationUtils;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
@@ -10,27 +16,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.SwingConstants;
-
-import org.apache.log4j.Logger;
-
-import dao.Singleton;
-
-import service.EmployeeManager;
-import service.dictionary.MONTH;
-import validation.ValidationUtils;
 
 public class EmployeeManagerPanel extends JPanel {
 
@@ -43,14 +28,9 @@ public class EmployeeManagerPanel extends JPanel {
 	private JComboBox mgpChooseDel;
 	private JComboBox mgpChooseMonth;
 	private JComboBox mgpChooseEmployee;
-	private JLabel mgpTitle;
-	private JLabel mgpTypeLabel;
-	private JLabel mgpMonthLabel;
-	private JLabel mgpCalMonthLabel;
-	private JLabel mgpSubTitle[];
-	private JLabel mgpAddLabel[];
-	private JLabel mgpDelLabel[];
-	private JLabel mgpDayLabel[];
+    private JLabel mgpCalMonthLabel;
+    private JLabel mgpAddLabel[];
+    private JLabel mgpDayLabel[];
 	private JTextField mgpAddEmploy[];
 	private JTextField mgpDelEmploy[];
 	private JButton mgpAdd;
@@ -109,13 +89,13 @@ public class EmployeeManagerPanel extends JPanel {
 		setVisible(true);
 
 		font = new Font("arial", Font.BOLD, 20);
-		mgpTitle = new JLabel("Manager personalny");
+        JLabel mgpTitle = new JLabel("Manager personalny");
 		mgpTitle.setBounds(20, 5, 300, 20);
 		mgpTitle.setFont(font);
 		add(mgpTitle);
 
 		mgpServe = new JPanel[4];
-		mgpSubTitle = new JLabel[4];
+        JLabel[] mgpSubTitle = new JLabel[4];
 		mgpSubTitle[0] = new JLabel("Grafik misi�czny");
 		mgpSubTitle[1] = new JLabel("Dodaj pracownika");
 		mgpSubTitle[2] = new JLabel("Usu� pracownika");
@@ -136,7 +116,7 @@ public class EmployeeManagerPanel extends JPanel {
 		mgpAddEmploy = new JTextField[8];
 		mgpDelEmploy = new JTextField[4];
 		mgpAddLabel = new JLabel[9];
-		mgpDelLabel = new JLabel[4];
+        JLabel[] mgpDelLabel = new JLabel[4];
 		mgpColsName = new String[4];
 		rset = db.query("SHOW COLUMNS FROM pracownicy");
 		log.info("SHOW COLUMNS FROM pracownicy");
@@ -238,7 +218,7 @@ public class EmployeeManagerPanel extends JPanel {
 		mgpTableScroll.setVisible(false);
 		mgpServe[2].add(mgpTableScroll);
 
-		mgpTypeLabel = new JLabel("Wybirz czynno��");
+        JLabel mgpTypeLabel = new JLabel("Wybirz czynno��");
 		mgpTypeLabel.setBounds(20, 40, 300, 20);
 		mgpTypeLabel.setFont(font);
 		mgpChooseType = new JComboBox();
@@ -255,7 +235,7 @@ public class EmployeeManagerPanel extends JPanel {
 		add(mgpChooseType);
 		add(mgpTypeLabel);
 
-		mgpMonthLabel = new JLabel("Wybirz miesi�c");
+        JLabel mgpMonthLabel = new JLabel("Wybirz miesi�c");
 		mgpMonthLabel.setBounds(20, 40, 300, 20);
 		mgpMonthLabel.setFont(font);
 		mgpChooseMonth = new JComboBox();

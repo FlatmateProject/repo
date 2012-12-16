@@ -1,13 +1,12 @@
 package service;
 
+import dao.Singleton;
+import org.apache.log4j.Logger;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
-import org.apache.log4j.Logger;
-
-import dao.Singleton;
 
 public class EmployeeManager {
 
@@ -15,18 +14,13 @@ public class EmployeeManager {
 
 	private Singleton db;
 	private ResultSet result;
-	private ResultSet resEmp;
-	private double time = 0;
-	private int j = 0;
+    private int j = 0;
 	private int shift = 0;
 	private int count = 0;
-	private int workHour[];
-	private int days;
-	private final int[] dayInMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31,
+    private final int[] dayInMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31,
 			30, 31 };
 	private boolean exist = false;
-	private String matrix[][];
-	private String array[];
+    private String array[];
 	private String resultText;
 	private String stmt;
 
@@ -192,18 +186,18 @@ public class EmployeeManager {
 							+ "p.id_klasy=k.id_klasy ORDER BY id_pokoju");
 			log.info("SELECT p.id_pokoju, k.czassp FROM pokoje p JOIN klasy k ON p.id_klasy=k.id_klasy");
 			log.info("SELECT imie, nazwisko FROM pracownicy WHERE id_stanowiska=1");
-			resEmp = db
-					.query("SELECT imie, nazwisko, idp_pesel FROM pracownicy WHERE id_stanowiska=1");
+            ResultSet resEmp = db
+                    .query("SELECT imie, nazwisko, idp_pesel FROM pracownicy WHERE id_stanowiska=1");
 			// resultText="Grafik \n";
 			if (result != null && resEmp != null) {
 				exist = true;
 				resEmp.last();
-				workHour = new int[resEmp.getRow()];
+                int[] workHour = new int[resEmp.getRow()];
 				resEmp.beforeFirst();
 				for (j = 0; j < workHour.length; j++)
 					workHour[j] = 0;
 
-				days = dayInMonth[month - 1];
+                int days = dayInMonth[month - 1];
 				if (calendar.get(Calendar.YEAR) % 4 == 0)
 					days++;
 				log.info("days: " + days);
@@ -220,7 +214,7 @@ public class EmployeeManager {
 							// if(isNext)
 							// resultText+=" "+resEmp.getString(1)+" "+resEmp.getString(2)+" pokoje: ";//
 							// else resultText+=" [nadgodziny] pokoje: "; //
-							time = 0;
+                            double time = 0;
 							rf = rt;
 							while ((cont = result.next())
 									&& (time += result.getDouble(2)) < 8) {
@@ -291,7 +285,7 @@ public class EmployeeManager {
 	}
 
 	public String[][] findEmployee(String p, String i, String n, String s) {
-		matrix = null;
+        String[][] matrix = null;
 		try {
 			count = 0;
 			log.info("p: " + p + " i: " + i + " n: " + n + " s: " + s);

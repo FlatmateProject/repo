@@ -1,13 +1,11 @@
 package service;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import javax.swing.JOptionPane;
-
+import dao.Singleton;
 import org.apache.log4j.Logger;
 
-import dao.Singleton;
+import javax.swing.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Manager {
 
@@ -15,9 +13,9 @@ public class Manager {
 	private static final Logger log = Logger.getLogger(Manager.class);
 
 	private Singleton sing = Singleton.getInstance();
-	private ResultSet rset1, rset2;
+	private ResultSet rset1;
 
-	public int getCount(String s) {
+    public int getCount(String s) {
 		String stmt = "select count(*) from " + s;
 		rset1 = sing.query(stmt);
 
@@ -122,7 +120,7 @@ public class Manager {
 		try {
 			int i = 0, j = 0, cols, rows;
 			rset1 = sing.query("show columns from hotel." + table);
-			rset2 = sing.query("select * from hotel." + table);
+            ResultSet rset2 = sing.query("select * from hotel." + table);
 			rset1.last();
 			cols = rset1.getRow();
 			rset2.last();

@@ -1,37 +1,14 @@
 package gui;
 
-import java.awt.Dimension;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
+import javax.swing.*;
+import java.awt.*;
 
 
 public class GUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private JTabbedPane tabbedPane;
-
-	private JPanel cantorPanel;
-
-	private JPanel schegulerPanel;
-
-	private JPanel guessPanel;
-
-	private JPanel receptionPanel;
-
-	private JPanel rezervationPanel;
-
-	private JPanel statisticPanel;
-
-	private JPanel managerPanel;
-
-	private JPanel employeeManagerPanel;
-
-	public GUI() {
+    public GUI() {
 		super();
 		setupLookAndFeel();
 		initializeWindow();
@@ -57,38 +34,38 @@ public class GUI extends JFrame {
 	}
 	
 	private void createGUI() {
-		tabbedPane = new JTabbedPane();
-		
-		cantorPanel = new CantorPanel();
+        JTabbedPane tabbedPane = new JTabbedPane();
+
+        JPanel cantorPanel = new CantorPanel();
 		add(cantorPanel);
 		tabbedPane.addTab("Cantor", cantorPanel);
-		
-		schegulerPanel = new SchedulerPanel();
+
+        JPanel schegulerPanel = new SchedulerPanel();
 		add(schegulerPanel);
 		tabbedPane.addTab("Grafik", schegulerPanel);
-		
-		receptionPanel = new ReceptionPanel();
+
+        JPanel receptionPanel = new ReceptionPanel();
 		add(receptionPanel);
 		tabbedPane.addTab("Recepcja", receptionPanel);
-		
-		rezervationPanel = new RezervationPanel();
+
+        JPanel rezervationPanel = new RezervationPanel();
 		add(rezervationPanel);
 		tabbedPane.addTab("Rezerwacje", rezervationPanel);
-		
-		
-		managerPanel = new ManagerPanel();
+
+
+        JPanel managerPanel = new ManagerPanel();
 		add(managerPanel);
 		tabbedPane.addTab("Manager", managerPanel);
-		
-		guessPanel = new GuestBookPanel();
+
+        JPanel guessPanel = new GuestBookPanel();
 		add(guessPanel);
 		tabbedPane.addTab("Ksi�ga go�ci", guessPanel);
-		
-		statisticPanel = new StatisticPanel();
+
+        JPanel statisticPanel = new StatisticPanel();
 		add(statisticPanel);
 		tabbedPane.addTab("Statystyka", statisticPanel);
-		
-		employeeManagerPanel = new EmployeeManagerPanel();
+
+        JPanel employeeManagerPanel = new EmployeeManagerPanel();
 		add(employeeManagerPanel);
 		tabbedPane.addTab("Menad�er personelu", employeeManagerPanel);
 		

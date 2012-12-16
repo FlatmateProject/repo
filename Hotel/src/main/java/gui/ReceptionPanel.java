@@ -1,26 +1,15 @@
 package gui;
 
-import java.awt.Color;
+import service.Reception;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.border.Border;
-
-import service.Reception;
 
 public class ReceptionPanel extends JPanel {
 
@@ -34,9 +23,7 @@ public class ReceptionPanel extends JPanel {
 	private JLabel recPrice = new JLabel();
 	private JLabel recPay = new JLabel();
 	private JLabel recBil = new JLabel();
-	private ButtonGroup recPayGroup = new ButtonGroup();
-	private ButtonGroup recBilGroup = new ButtonGroup();
-	private JRadioButton recPayButton[] = new JRadioButton[2];
+    private JRadioButton recPayButton[] = new JRadioButton[2];
 	private JRadioButton recBilButton[] = new JRadioButton[2];
 	private JButton recButton[] = new JButton[5];
 	private JTable recTable = new JTable();
@@ -44,11 +31,8 @@ public class ReceptionPanel extends JPanel {
 	private Border border = BorderFactory.createLineBorder(new Color(60, 124, 142));
 	private Color bgColor = new Color(224, 230, 233);
 	private Color buttonColor = new Color(174, 205, 214);
-	
-	private int yJta, recYList, recEWidth, recJtaHeight, recBWidth, recBHeight;
-	private int k = 50;
-	
-	private Reception recept = new Reception();
+
+    private Reception recept = new Reception();
 	
 	public ReceptionPanel(){
 		create();
@@ -106,8 +90,8 @@ public class ReceptionPanel extends JPanel {
 		add(recPayButton[1]);
 		add(recBilButton[0]);
 		add(recBilButton[1]);
-		recPayGroup = new ButtonGroup();
-		recBilGroup = new ButtonGroup();
+        ButtonGroup recPayGroup = new ButtonGroup();
+        ButtonGroup recBilGroup = new ButtonGroup();
 		recPayGroup.add(recPayButton[0]);
 		recPayGroup.add(recPayButton[1]);
 		recBilGroup.add(recBilButton[0]);
@@ -482,10 +466,10 @@ public class ReceptionPanel extends JPanel {
 	
 	public void resizeReception(int width, int height) {
 
-		recEWidth = (width - 200) / 3;
-		recJtaHeight = 18;
-		yJta = 30;
-		recYList = 300;
+        int recEWidth = (width - 200) / 3;
+        int recJtaHeight = 18;
+        int yJta = 30;
+        int recYList = 300;
 		for (int i = 0; i < 3; i++) {
 			if (i != 0 && i % 1 == 0) {
 				yJta += 50;
@@ -497,28 +481,29 @@ public class ReceptionPanel extends JPanel {
 				recYList - 270, recEWidth + 200, 200);
 		recRezLabel.setBounds(recTable.getX(), recTable.getY() - 20, recEWidth,
 				18);
-		recBWidth = 100;
-		recBHeight = 25;
+        int recBWidth = 100;
+        int recBHeight = 25;
 		recButton[0].setBounds(50, 200, recBWidth, recBHeight);
 		recButton[1].setBounds(recScrollPane.getX() + recScrollPane.getWidth()
 				+ 10, recScrollPane.getY(), recBWidth, recBHeight);
 		recButton[2].setBounds(recButton[1].getX(), recButton[1].getY() + 100,
-				recBWidth, recBHeight);
+                recBWidth, recBHeight);
 		recButton[3].setBounds(recButton[1].getX(), recButton[1].getY() + 170,
-				recBWidth, recBHeight);
-		recDateLabel.setBounds(k, recYList + 20, recEWidth, 18);
+                recBWidth, recBHeight);
+        int k = 50;
+        recDateLabel.setBounds(k, recYList + 20, recEWidth, 18);
 		recDayLabel.setBounds(recDateLabel.getX() + 390, recDateLabel.getY(),
 				50, recJtaHeight);
 		recPrice.setBounds(recJta[0].getX(), recDateLabel.getY(), 150,
-				recJtaHeight);
+                recJtaHeight);
 		recCenaJta.setBounds(recJta[0].getX() + 110, recDateLabel.getY(), 50,
-				recJtaHeight);
+                recJtaHeight);
 		recPay.setBounds(recPrice.getX(),
 				recCenaJta.getY() + recCenaJta.getHeight() + 10, 150,
-				recJtaHeight);
+                recJtaHeight);
 		recBil.setBounds(recPay.getX() + recPay.getWidth() + 30,
 				recCenaJta.getY() + recCenaJta.getHeight() + 10, 150,
-				recJtaHeight);
+                recJtaHeight);
 		recPayButton[0].setBounds(recPrice.getX(), recCenaJta.getY()
 				+ recCenaJta.getHeight() + 40, 150, recJtaHeight);
 		recPayButton[1].setBounds(recPrice.getX(), recCenaJta.getY()

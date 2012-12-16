@@ -1,20 +1,18 @@
 package service;
 
-import java.sql.ResultSet;
-
-import javax.swing.JTable;
-
+import dao.Singleton;
 import org.apache.log4j.Logger;
 
-import dao.Singleton;
+import javax.swing.*;
+import java.sql.ResultSet;
 
 public class Schedule {
 	
 	private static final Logger log = Logger.getLogger(Schedule.class);
 	private Singleton sing = Singleton.getInstance();
-	private ResultSet rset1, rset2;
+	private ResultSet rset1;
 
-	public Schedule() {
+    public Schedule() {
 
 	}
 
@@ -56,7 +54,7 @@ public class Schedule {
 		try {
 			int i = 0, j = 0, cols, rows;
 			rset1 = sing.query("show columns from hotel." + s);
-			rset2 = sing.query("select * from hotel." + s + " " + s2);
+            ResultSet rset2 = sing.query("select * from hotel." + s + " " + s2);
 			rset1.last();
 			cols = rset1.getRow();
 			rset2.last();

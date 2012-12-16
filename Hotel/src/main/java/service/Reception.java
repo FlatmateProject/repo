@@ -1,5 +1,9 @@
 package service;
 
+import dao.Singleton;
+import org.apache.log4j.Logger;
+
+import javax.swing.*;
 import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -7,20 +11,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.swing.JTable;
-
-import org.apache.log4j.Logger;
-
-import dao.Singleton;
-
 public class Reception {
 	
 	private static final Logger log = Logger.getLogger(Reception.class);
 	
 	private Singleton sing = Singleton.getInstance();
-	private ResultSet rset1, rset2, rset3, rset4, rset5, rset6, rset7;
+	private ResultSet rset1;
 
-	public Reception() {
+    public Reception() {
 
 	}
 
@@ -28,7 +26,7 @@ public class Reception {
 		try {
 			int i = 0, j = 0, cols, rows;
 			rset1 = sing.query("show columns from hotel.rezerwacje");
-			rset2 = sing.query("select * from hotel.rezerwacje" + s1);
+            ResultSet rset2 = sing.query("select * from hotel.rezerwacje" + s1);
 			rset1.last();
 			cols = rset1.getRow();
 			rset2.last();
@@ -153,9 +151,9 @@ public class Reception {
 		Calendar c1 = Calendar.getInstance();
 		Calendar c2 = Calendar.getInstance();
 		try {
-			rset3 = sing
-					.query("select DATA_Z,TYP from hotel.rezerwacje where ID_REZ="
-							+ idRez);
+            ResultSet rset3 = sing
+                    .query("select DATA_Z,TYP from hotel.rezerwacje where ID_REZ="
+                            + idRez);
 			rset3.first();
 			date = (Date) df.parse(rset3.getString(1));
 			String sYear1 = dfY.format(date);
@@ -166,22 +164,22 @@ public class Reception {
 			c2.set(Integer.parseInt(sYear1), Integer.parseInt(sMonth1), Integer
 					.parseInt(sDay1));
 			diff = diffInDays3(c1.getTime(), c2.getTime());
-			rset4 = sing.query("select CENA from hotel.klasy where ID_KLASY="
-					+ Integer.parseInt(rset3.getString(2)));
+            ResultSet rset4 = sing.query("select CENA from hotel.klasy where ID_KLASY="
+                    + Integer.parseInt(rset3.getString(2)));
 			rset4.first();
 			price = (Float.parseFloat(rset4.getString(1)));
 			if(diff<1)
 				return -1;
 			else{
 			roomCost = price * diff;
-			rset5 = sing
-					.query("select ID_USLUGI, CZAS from hotel.rekreacja where ID_REZ="
-							+ idRez);
+                ResultSet rset5 = sing
+                        .query("select ID_USLUGI, CZAS from hotel.rekreacja where ID_REZ="
+                                + idRez);
 			rset5.first();
 			do {
-				rset6 = sing
-						.query("select CENA from hotel.uslugi where ID_USLUGI="
-								+ rset5.getString(1));
+                ResultSet rset6 = sing
+                        .query("select CENA from hotel.uslugi where ID_USLUGI="
+                                + rset5.getString(1));
 				rset6.first();
 				serv = Float.parseFloat(rset6.getString(1));
 				amount = Float.parseFloat(rset5.getString(2));
@@ -196,9 +194,9 @@ public class Reception {
 	public boolean checkPay(int idRez) {
 		int idR = 0;
 		try {
-			rset7 = sing
-					.query("select id_rachunku from hotel.rachunki where id_rez="
-							+ idRez);
+            ResultSet rset7 = sing
+                    .query("select id_rachunku from hotel.rachunki where id_rez="
+                            + idRez);
 			rset7.first();
 			idR = Integer.parseInt(rset7.getString(1));
 			if (idR > 0)
