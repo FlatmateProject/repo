@@ -2,6 +2,10 @@ package service.cantor;
 
 public class ExchangeCalculation {
 
+    private CURRENCY sellingCurrency;
+
+    private CURRENCY buyingCurrency;
+
     private float amount;
 
     private float cost;
@@ -16,8 +20,19 @@ public class ExchangeCalculation {
         this.gain = gain;
     }
 
-    public static ExchangeCalculation save(float amount, float cost, float gain) {
-        return new ExchangeCalculation(amount, cost, gain);
+    public static ExchangeCalculation save(CURRENCY sellingCurrency, CURRENCY buyingCurrency, float amount, float cost, float gain) {
+        ExchangeCalculation exchangeCalculation = new ExchangeCalculation(amount, cost, gain);
+        exchangeCalculation.sellingCurrency = sellingCurrency;
+        exchangeCalculation.buyingCurrency = buyingCurrency;
+        return exchangeCalculation;
+    }
+
+    public CURRENCY getSellingCurrency() {
+        return sellingCurrency;
+    }
+
+    public CURRENCY getBuyingCurrency() {
+        return buyingCurrency;
     }
 
     public float getAmount() {

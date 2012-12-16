@@ -5,10 +5,12 @@ import dto.SimpleNameData;
 import dto.cantor.CurrencyData;
 import dto.cantor.CustomerData;
 import exception.DAOException;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
 
+import static assertions.ExchangeCalculationAssertion.assertThat;
 import static assertions.TableAssert.assertThat;
 import static conditions.table.ColumnCondition.containColumns;
 import static conditions.table.RowCondition.containsRow;
@@ -113,5 +115,45 @@ public class CantorMokitoTest {
                 .hasRowNumber(1)
                 .is(containColumns(columnNames))
                 .is(containsRow(row));
+    }
+
+    @Test(dataProvider = "prepareCasesForCalculateMoneyExchange")
+    public void shouldCalculateMoneyExchangeForGivenCurrency(CURRENCY saleCurrency, CURRENCY buyCurrency, float amount, float cost, float gain,
+                                                             float buyPriceForSaleCurrency, float salePriceForSaleCurrency, float salePriceForBuyCurrency) throws DAOException {
+        // given
+        CantorDao cantorDao = mock(CantorDao.class);
+
+        CurrencyData saleCurrencyData = mock(CurrencyData.class);
+        when(saleCurrencyData.getBuyPrice()).thenReturn(buyPriceForSaleCurrency);
+        when(saleCurrencyData.getSalePrice()).thenReturn(salePriceForSaleCurrency);
+
+        CurrencyData buyCurrencyData = mock(CurrencyData.class);
+        when(buyCurrencyData.getSalePrice()).thenReturn(salePriceForBuyCurrency);
+
+        when(cantorDao.findCurrencyByName(buyCurrency)).thenReturn(buyCurrencyData);
+        when(cantorDao.findCurrencyByName(saleCurrency)).thenReturn(saleCurrencyData);
+
+        // when
+        Cantor cantor = new Cantor(cantorDao);
+        ExchangeCalculation exchangeCalculation = cantor.calculateExchange(saleCurrency, buyCurrency, amount);
+
+        // then
+        assertThat(exchangeCalculation)
+            .isNotNull()
+            .isSaleCurrency(saleCurrency)
+            .isBuyingCurrency(buyCurrency)
+            .isAmount(amount)
+            .isCost(cost)
+            .isGain(gain);
+    }
+
+    @DataProvider
+    public static Object[][] prepareCasesForCalculateMoneyExchange() {
+        return new Object[][]{
+                { CURRENCY.PLN, CURRENCY.EUR, 100.0f, 25.0f, 0.0f, 1.0f, 1.0f, 4.0f },
+                { CURRENCY.EUR, CURRENCY.PLN, 100.0f, 300.0f, 100.0f, 3.0f, 4.0f, 1.0f },
+                { CURRENCY.EUR, CURRENCY.USD, 100.0f, 150.0f, 100.0f, 3.0f, 4.0f, 2.0f },
+                { CURRENCY.EUR, CURRENCY.EUR, 100.0f, 75.0f, 100.0f, 3.0f, 4.0f, 4.0f }
+        };
     }
 }

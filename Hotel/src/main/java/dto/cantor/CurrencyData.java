@@ -9,11 +9,11 @@ public class CurrencyData implements ArrayObtained {
 
     private String name;
 
-    private long salePrice;
+    private float salePrice;
 
-    private long buyPrice;
+    private float buyPrice;
 
-    private long quantity;
+    private float quantity;
 
     public Object[] getArray() {
         return Arrays.array(currencyId, name, salePrice, buyPrice, quantity);
@@ -27,15 +27,23 @@ public class CurrencyData implements ArrayObtained {
         return name;
     }
 
-    public long getSalePrice() {
+    public float getSalePrice() {
         return salePrice;
     }
 
-    public long getBuyPrice() {
+    public float getBuyPrice() {
         return buyPrice;
     }
 
-    public long getQuantity() {
+    public float getQuantity() {
         return quantity;
+    }
+
+    public void increaseQuantity(float amount) {
+        quantity = quantity + amount;
+    }
+
+    public void decreaseQuantity(float amount) {
+        quantity = quantity - amount;
     }
 }

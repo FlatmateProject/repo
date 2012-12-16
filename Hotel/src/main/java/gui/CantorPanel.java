@@ -45,7 +45,7 @@ public class CantorPanel extends JPanel {
     private JButton cantorPESButton = new JButton();
     private JButton cantorDoIt = new JButton();
     private JTextField cantorCostJta = new JTextField();
-    private JTextField cantorPESJta = new JTextField();
+    private JTextField peselOrKrsInput = new JTextField();
     private JLabel cantorCostLabel = new JLabel();
     private JLabel cantorPay = new JLabel();
     private JTable cantorTable = new JTable();
@@ -73,7 +73,7 @@ public class CantorPanel extends JPanel {
         setBackground(bgColor);
         setVisible(true);
 
-        cantorPESJta = new JTextField("");
+        peselOrKrsInput = new JTextField("");
 
         cantorTable = createTable(cantor.createCurrencyTable());
         cantorScrollPane = new JScrollPane();
@@ -94,7 +94,7 @@ public class CantorPanel extends JPanel {
 
         cantorAmountJta.setBorder(border);
         cantorCostJta.setBorder(border);
-        cantorPESJta.setBorder(border);
+        peselOrKrsInput.setBorder(border);
 
         cantorPrice = new JLabel("Kwota transakcji:");
         cantorCostLabel = new JLabel("Do zap�aty:");
@@ -110,7 +110,7 @@ public class CantorPanel extends JPanel {
 
         resizeCantor(getWidth(), getHeight());
 
-        add(cantorPESJta);
+        add(peselOrKrsInput);
         add(cantorPrice);
         add(cantorAmountJta);
         add(cantorCostJta);
@@ -137,18 +137,18 @@ public class CantorPanel extends JPanel {
         cantorPESButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (cantorPESJta.getText().isEmpty()) {
+                if (peselOrKrsInput.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(getParent(), "Nie podano numeru PESEL/KRS");
                 } else {
-                    if (!isPesel(cantorPESJta.getText()) && !isKRS(cantorPESJta.getText())) {
+                    if (!isPesel(peselOrKrsInput.getText()) && !isKRS(peselOrKrsInput.getText())) {
                         JOptionPane.showMessageDialog(getParent(), "Nieprawidłowy PESEL/KRS");
-                    } else if (ValidationUtils.isPesel(cantorPESJta.getText())) {
-                        long pesel = Long.parseLong(cantorPESJta.getText());
+                    } else if (ValidationUtils.isPesel(peselOrKrsInput.getText())) {
+                        long pesel = Long.parseLong(peselOrKrsInput.getText());
                         cantorClientTable = createTable(cantor.createCustomerTable(pesel));
                         cantorScrollClientPane.setViewportView(cantorClientTable);
                         cantorScrollClientPane.repaint();
-                    } else if (ValidationUtils.isKRS(cantorPESJta.getText())) {
-                        cantorClientTable = createTable(cantor.createCompanyTable(cantorPESJta.getText()));
+                    } else if (ValidationUtils.isKRS(peselOrKrsInput.getText())) {
+                        cantorClientTable = createTable(cantor.createCompanyTable(peselOrKrsInput.getText()));
                         cantorScrollClientPane.setViewportView(cantorClientTable);
                         cantorScrollClientPane.repaint();
 
@@ -179,9 +179,9 @@ public class CantorPanel extends JPanel {
                                     "Nie mo�na wymienia� na t� sam� walut�");
                         else {
                             Float amount = Float.valueOf(cantorAmountJta.getText());
-                            exchangeCalculation = cantor.changeCalc(
+                            exchangeCalculation = cantor.calculateExchange(
                                     (CURRENCY) cantorCurrBox1.getSelectedItem(),
-                                    (CURRENCY)cantorCurrBox2.getSelectedItem(),
+                                    (CURRENCY) cantorCurrBox2.getSelectedItem(),
                                     amount);
                             cantorCostJta.setText(Double.toString(round(exchangeCalculation.getCost(), 2)));
 
@@ -200,17 +200,11 @@ public class CantorPanel extends JPanel {
                 } else if (cantorClientTable.getSelectedRow() < 0) {
                     JOptionPane.showMessageDialog(getParent(), "Nie zaznaczono klienta");
                 } else {
-                    if (cantor.changeMoney(
-                            ValidationUtils.isPesel(cantorPESJta.getText()),
-                            cantorClientTable.getValueAt(cantorClientTable.getSelectedRow(), 0).toString(),
-                            cantor.showCurrentDate(),
-                            cantorCurrBox1.getSelectedItem().toString(),
-                            cantorCurrBox2.getSelectedItem().toString(),
-                            exchangeCalculation.getAmount(),
-                            exchangeCalculation.getCost(),
-                            exchangeCalculation.getGain())) {
+                    String clientId = cantorClientTable.getValueAt(cantorClientTable.getSelectedRow(), 0).toString();
+                    boolean b = cantor.exchangeMoney(clientId, exchangeCalculation);
+                    if (b) {
                         JOptionPane.showMessageDialog(getParent(), "Dokonano transakcji");
-                        cantorPESJta.setText("");
+                        peselOrKrsInput.setText("");
                         cantorCurrBox1.setSelectedIndex(0);
                         cantorCurrBox2.setSelectedIndex(0);
                         cantorCostJta.setText("");
@@ -258,8 +252,8 @@ public class CantorPanel extends JPanel {
         cantorCostLabel.setBounds(cantorResButton.getX(), cantorResButton.getY() + 28, 150, cantorJtaHeight);
         cantorCostJta.setBounds(cantorCostLabel.getX(), cantorCostLabel.getY() + 22, 100, cantorJtaHeight);
         cantorClientL.setBounds(10, cantorCostJta.getY() + 80, cantorEWidth, 18);
-        cantorPESJta.setBounds(cantorClientL.getX(), cantorClientL.getY() + 22, 100, cantorJtaHeight);
-        cantorPESButton.setBounds(cantorPESJta.getX(), cantorPESJta.getY() + 22, cantorBWidth, cantorBHeight);
+        peselOrKrsInput.setBounds(cantorClientL.getX(), cantorClientL.getY() + 22, 100, cantorJtaHeight);
+        cantorPESButton.setBounds(peselOrKrsInput.getX(), peselOrKrsInput.getY() + 22, cantorBWidth, cantorBHeight);
         cantorScrollClientPane.setBounds(cantorScrollPane.getX(), cantorScrollPane.getY() + cantorScrollPane.getHeight() + 30, 550, 230);
         cantorDoIt.setBounds(cantorCostJta.getX(), cantorCostJta.getY() + 300, cantorBWidth + 50, cantorBHeight);
     }
