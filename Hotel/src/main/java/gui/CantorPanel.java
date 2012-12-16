@@ -47,19 +47,18 @@ public class CantorPanel extends JPanel {
     private JTextField cantorCostJta = new JTextField();
     private JTextField peselOrKrsInput = new JTextField();
     private JLabel cantorCostLabel = new JLabel();
-    private JLabel cantorPay = new JLabel();
+    private final JLabel cantorPay = new JLabel();
     private JTable cantorTable = new JTable();
     private JTable cantorClientTable = new JTable();
     private JScrollPane cantorScrollPane;
     private JScrollPane cantorScrollClientPane;
 
-    private Color bgColor = new Color(224, 230, 233);
-    private Border border = BorderFactory.createLineBorder(new Color(60, 124, 142));
-    private Color buttonColor = new Color(174, 205, 214);
+    private final Color bgColor = new Color(224, 230, 233);
+    private final Border border = BorderFactory.createLineBorder(new Color(60, 124, 142));
+    private final Color buttonColor = new Color(174, 205, 214);
 
-    //    private CantorDao cantorDao = createCantorDaoMock();
-    private CantorDao cantorDao = new CantorDaoImpl();
-    private Cantor cantor = new Cantor(cantorDao);
+    private final CantorDao cantorDao = new CantorDaoImpl();
+    private final Cantor cantor = new Cantor(cantorDao);
 
     public CantorPanel() {
         create();
@@ -183,7 +182,7 @@ public class CantorPanel extends JPanel {
                                     (CURRENCY) cantorCurrBox1.getSelectedItem(),
                                     (CURRENCY) cantorCurrBox2.getSelectedItem(),
                                     amount);
-                            cantorCostJta.setText(Double.toString(round(exchangeCalculation.getCost(), 2)));
+                            cantorCostJta.setText(Double.toString(round(exchangeCalculation.getCost())));
 
                         }
                     }
@@ -225,10 +224,10 @@ public class CantorPanel extends JPanel {
         return cantorTable;
     }
 
-    public static double round(double d, int ic) {
+    private static double round(double d) {
         NumberFormat nf = java.text.NumberFormat.getInstance();
-        nf.setMaximumFractionDigits(ic);
-        nf.setMinimumFractionDigits(ic);
+        nf.setMaximumFractionDigits(2);
+        nf.setMinimumFractionDigits(2);
         return Double.parseDouble((nf.format(d)).replaceAll(",", ".").replaceAll("", ""));
     }
 

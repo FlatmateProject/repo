@@ -48,7 +48,7 @@ public class EmployeeManagerPanel extends JPanel {
 	private JTextPane mgpRaportText;
 	private JPanel mgpServe[];
 	
-	private EmployeeManager mgp = new EmployeeManager();
+	private final EmployeeManager mgp = new EmployeeManager();
 
 	private String mgpColsName[];
 	private String mgpMatrix[][];
@@ -58,15 +58,15 @@ public class EmployeeManagerPanel extends JPanel {
 	
 	private final int[] dayInMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31,
 			30, 31 };
-	private Calendar schCalendar = GregorianCalendar.getInstance();
+	private final Calendar schCalendar = GregorianCalendar.getInstance();
 	private int mgpDay = schCalendar.get(Calendar.DAY_OF_MONTH);
 	private int mgpMonth = schCalendar.get(Calendar.MONTH);
 	private int mgpYear = schCalendar.get(Calendar.YEAR);
 	private int mgpClickCount = 0;
 
-	private Color bgColor = new Color(224, 230, 233);
+	private final Color bgColor = new Color(224, 230, 233);
 	
-	private Singleton db = Singleton.getInstance();
+	private final Singleton db = Singleton.getInstance();
 	
 	public EmployeeManagerPanel() {
 		try {
@@ -377,7 +377,7 @@ public class EmployeeManagerPanel extends JPanel {
 					if (mgpAddEmploy[i].getText().equals(""))
 						msg += "Nie wype�ni�es pola "
 								+ mgpAddLabel[i].getText() + "\n";
-				if (!ValidationUtils.isNumber(mgpAddEmploy[7].getText()))
+				if (ValidationUtils.isNotNumber(mgpAddEmploy[7].getText()))
 					msg += "Pole NR_LOKALU ma nieprawid�ow� warto��\n";
 				if (msg == "") {
 					ret = mgp.addEmployee(mgpAddEmploy[0].getText(),

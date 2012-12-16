@@ -14,25 +14,25 @@ import java.util.Calendar;
 public class ReceptionPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField recJta[] = new JTextField[3];
+	private final JTextField[] recJta = new JTextField[3];
 	private JTextField recCenaJta = new JTextField();
-	private JLabel recGuestLabel[] = new JLabel[3];
+	private final JLabel[] recGuestLabel = new JLabel[3];
 	private JLabel recRezLabel = new JLabel();
 	private JLabel recDateLabel = new JLabel();
 	private JLabel recDayLabel = new JLabel();
 	private JLabel recPrice = new JLabel();
 	private JLabel recPay = new JLabel();
 	private JLabel recBil = new JLabel();
-    private JRadioButton recPayButton[] = new JRadioButton[2];
-	private JRadioButton recBilButton[] = new JRadioButton[2];
-	private JButton recButton[] = new JButton[5];
+    private final JRadioButton[] recPayButton = new JRadioButton[2];
+	private final JRadioButton[] recBilButton = new JRadioButton[2];
+	private final JButton[] recButton = new JButton[5];
 	private JTable recTable = new JTable();
 	private JScrollPane recScrollPane;
-	private Border border = BorderFactory.createLineBorder(new Color(60, 124, 142));
-	private Color bgColor = new Color(224, 230, 233);
-	private Color buttonColor = new Color(174, 205, 214);
+	private final Border border = BorderFactory.createLineBorder(new Color(60, 124, 142));
+	private final Color bgColor = new Color(224, 230, 233);
+	private final Color buttonColor = new Color(174, 205, 214);
 
-    private Reception recept = new Reception();
+    private final Reception recept = new Reception();
 	
 	public ReceptionPanel(){
 		create();

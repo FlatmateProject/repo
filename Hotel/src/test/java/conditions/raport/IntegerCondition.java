@@ -4,9 +4,9 @@ import org.fest.assertions.Condition;
 
 public class IntegerCondition extends Condition<String> {
 
-    private int value;
+    private final int value;
 
-    public IntegerCondition(int value, String assertFailDescription) {
+    private IntegerCondition(int value, String assertFailDescription) {
         this.value = value;
         as(assertFailDescription);
     }

@@ -2,6 +2,7 @@ package service;
 
 import dao.Singleton;
 import org.apache.log4j.Logger;
+import validation.ValidationUtils;
 
 import javax.swing.*;
 import java.sql.ResultSet;
@@ -16,7 +17,7 @@ public class Rezervation {
 	
 	private static final Logger log = Logger.getLogger(Rezervation.class);
 	
-	private Singleton sing = Singleton.getInstance();
+	private final Singleton sing = Singleton.getInstance();
 	private ResultSet rset1;
     private ResultSet rset2;
 
@@ -243,11 +244,11 @@ public class Rezervation {
 		return (control == csum);
 	}
 
-	public boolean isPesel(String pesel) {
+	public boolean isNotPesel(String pesel) {
 		pesel = trimInput(pesel);
 		int psize = pesel.length();
 		if (psize != 11) {
-			return false;
+			return true;
 		}
 		int[] weights = { 1, 3, 7, 9, 1, 3, 7, 9, 1, 3 };
 		int j = 0, sum = 0, control = 0;
@@ -261,18 +262,18 @@ public class Rezervation {
 		if (control == 10) {
 			control = 0;
 		}
-		return (control == csum);
+		return (control != csum);
 	}
 
-	public boolean isKRS(String krs) {
+	public boolean isNotKRS(String krs) {
 		if (krs.length() != 10)
-			return false;
+			return true;
 		for (int i = 0; i < krs.length(); ++i) {
 			if (krs.charAt(i) <= '0' || krs.charAt(i) > '9') {
-				return false;
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	public JTable fillForm() {
@@ -306,10 +307,7 @@ public class Rezervation {
 		c2.set(Integer.parseInt(sYear1), Integer.parseInt(sMonth1), Integer
 				.parseInt(sDay1));
 		diff = diffInDays3(c2.getTime(), c1.getTime());
-		if (diff <= 0)
-			return false;
-		else
-			return true;
+        return diff > 0;
 
 	}
 
@@ -509,13 +507,8 @@ public class Rezervation {
 		return true;
 	}
 
-	public boolean isNumber(String num) {
-		for (int i = 0; i < num.length(); ++i) {
-			if (num.charAt(i) <= '0' || num.charAt(i) > '9') {
-				return false;
-			}
-		}
-		return true;
+	public boolean isNotNumber(String num) {
+		return !ValidationUtils.isNotNumber(num);
 	}
 
 }

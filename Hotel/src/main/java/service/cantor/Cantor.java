@@ -15,9 +15,9 @@ import java.util.List;
 
 public class Cantor {
 
-    private Singleton singleton = Singleton.getInstance();
+    private final Singleton singleton = Singleton.getInstance();
 
-    private CantorDao cantorDao;
+    private final CantorDao cantorDao;
 
     public Cantor(CantorDao cantorDao) {
         this.cantorDao = cantorDao;

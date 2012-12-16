@@ -4,9 +4,9 @@ import org.fest.assertions.Condition;
 
 public class DoubleCondition extends Condition<String> {
 
-	private double value;
+	private final double value;
 
-	public DoubleCondition(double value, String assertFailDescription) {
+	private DoubleCondition(double value, String assertFailDescription) {
 		this.value = value;
         as(assertFailDescription);
 	}

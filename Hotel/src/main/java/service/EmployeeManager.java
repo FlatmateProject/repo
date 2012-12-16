@@ -24,7 +24,7 @@ public class EmployeeManager {
 	private String resultText;
 	private String stmt;
 
-	private Calendar calendar = GregorianCalendar.getInstance();
+	private final Calendar calendar = GregorianCalendar.getInstance();
 
 	public EmployeeManager() {
 		try {
@@ -156,10 +156,7 @@ public class EmployeeManager {
 		try {
 			result = db.query("SELECT count(*) from grafik WHERE MONTH(data)="
 					+ month);
-			if (result.next() && result.getInt(1) > 0)
-				exist = true;
-			else
-				exist = false;
+            exist = result.next() && result.getInt(1) > 0;
 			log.info("SELECT count(*) from grafik WHERE MONTH(data)=" + month);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -272,12 +269,9 @@ public class EmployeeManager {
 					+ "',SHA1('" + h + "'),'" + w + "','" + m + "','" + u
 					+ "'," + l + "," + j + ")");
 
-			if (db.queryUp("INSERT INTO pracownicy VALUE(" + p + ",'" + i
-					+ "','" + n + "',SHA1('" + h + "'),'" + w + "','" + m
-					+ "','" + u + "'," + l + "," + j + ")"))
-				return true;
-			else
-				return false;
+            return db.queryUp("INSERT INTO pracownicy VALUE(" + p + ",'" + i
+                    + "','" + n + "',SHA1('" + h + "'),'" + w + "','" + m
+                    + "','" + u + "'," + l + "," + j + ")");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;

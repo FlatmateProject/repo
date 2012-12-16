@@ -9,28 +9,30 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.ParseException;
 
+import static validation.ValidationUtils.isNotNumber;
+
 public class RezervationPanel extends JPanel {
 
-	private JTextField rezJta[] = new JTextField[11];
+	private final JTextField[] rezJta = new JTextField[11];
 	private JTextField rezCenaJta = new JTextField();
-	private JLabel rezGuestLabel[] = new JLabel[11];
-	private JLabel rezCompLabel[] = new JLabel[11];
-	private JLabel rezRoomLabel[] = new JLabel[5];
+	private final JLabel[] rezGuestLabel = new JLabel[11];
+	private final JLabel[] rezCompLabel = new JLabel[11];
+	private final JLabel[] rezRoomLabel = new JLabel[5];
 	private JCheckBox rezIfExistC = new JCheckBox();
 	private JCheckBox rezIfExistF = new JCheckBox();
-	private String rezDays[] = { "01", "02", "03", "04", "05", "06", "07",
+	private final String[] rezDays = { "01", "02", "03", "04", "05", "06", "07",
 			"08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18",
 			"19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
 			"30", "31" };
-	private String months[] = { "01", "02", "03", "04", "05", "06", "07", "08",
+	private final String[] months = { "01", "02", "03", "04", "05", "06", "07", "08",
 			"09", "10", "11", "12" };
-	private String rezYears[] = { "2010", "2011", "2012", "2013", "2015",
+	private final String[] rezYears = { "2010", "2011", "2012", "2013", "2015",
 			"2016" };
     private JLabel rezDayLabel = new JLabel();
-	private JComboBox rezDateBox[] = new JComboBox[3];
+	private final JComboBox[] rezDateBox = new JComboBox[3];
 	private JComboBox rezDayBox = new JComboBox();
 	private JLabel rezPrice = new JLabel();
-	private JButton rezButton[] = new JButton[5];
+	private final JButton[] rezButton = new JButton[5];
     private JTable rezTable = new JTable();
 	private JRadioButton rezClient;
 	private JRadioButton rezCompany;
@@ -44,19 +46,19 @@ public class RezervationPanel extends JPanel {
 	private JScrollPane rezServPane;
 	private String rezRoomListLabel[];
 	private JList rezRoomList;
-	private JComboBox rezCatBox = new JComboBox();
+	private final JComboBox rezCatBox = new JComboBox();
 	private JScrollPane rezServPane1;
 	private String rezServListLabel[];
 	private JList rezServList;
 	private DefaultListModel listMod;
 	private MouseListener rezMous;
-	private Color buttonColor = new Color(174, 205, 214);
+	private final Color buttonColor = new Color(174, 205, 214);
 
-	private Color bgColor2 = new Color(227, 239, 243);
-	private Border border = BorderFactory.createLineBorder(new Color(60, 124,
+	private final Color bgColor2 = new Color(227, 239, 243);
+	private final Border border = BorderFactory.createLineBorder(new Color(60, 124,
 			142));
-	private Color bgColor = new Color(224, 230, 233);
-    private Rezervation rezerv = new Rezervation();
+	private final Color bgColor = new Color(224, 230, 233);
+    private final Rezervation rezerv = new Rezervation();
 
 	public RezervationPanel() {
 		create();
@@ -140,9 +142,9 @@ public class RezervationPanel extends JPanel {
 			add(rezCompLabel[i]);
 		}
 
-		for (int i = 0; i < rezCompLabel.length; i++) {
-			rezCompLabel[i].setVisible(false);
-		}
+        for (JLabel aRezCompLabel : rezCompLabel) {
+            aRezCompLabel.setVisible(false);
+        }
 		rezRoomLabel[0] = new JLabel("Klasa pokoju");
 		rezRoomLabel[1] = new JLabel("Wolne pokoje");
 		rezRoomLabel[2] = new JLabel("Wybrane us�ugi");
@@ -268,7 +270,7 @@ public class RezervationPanel extends JPanel {
 							"Podaj parametry", "B��d", 0);
 				else {
 					if (rezClient.isSelected()) {
-						if (!rezerv.isPesel(rezJta[0].getText()))
+						if (rezerv.isNotPesel(rezJta[0].getText()))
 							JOptionPane.showMessageDialog(getParent(),
 									"�le wprowadzono PESEL", "B��d", 0);
 						else {
@@ -313,7 +315,7 @@ public class RezervationPanel extends JPanel {
 										.getValueAt(0, 10));
 							}
 						}
-					} else if (!rezerv.isKRS(rezJta[0].getText()))
+					} else if (rezerv.isNotKRS(rezJta[0].getText()))
 						JOptionPane.showMessageDialog(getParent(),
 								"�le wprowadzono KRS", "B��d", 0);
 					else {
@@ -826,29 +828,33 @@ public class RezervationPanel extends JPanel {
 						JOptionPane.showMessageDialog(getParent(),
 								"Wprowad� kompletne dane", "B��d", 1);
 					else {
-						if (!rezerv.isPesel(rezJta[0].getText())) {
+						if (rezerv.isNotPesel(rezJta[0].getText())) {
 							JOptionPane.showMessageDialog(getParent(),
 									"Niepoprawny PESEL", "B��d", 1);
 							err = false;
-						} else if (!rezerv.isNumber(rezJta[6].getText())) {
-							JOptionPane.showMessageDialog(getParent(),
-									"Niepoprawny numer lokalu", "B��d", 1);
-							err = false;
-						} else if (!rezerv.isNumber(rezJta[8].getText())) {
-							JOptionPane.showMessageDialog(getParent(),
-									"Niepoprawny numer telefonu", "B��d", 1);
-							err = false;
-						} else if (rezerv.isValidNip(rezJta[9].getText())) {
-							JOptionPane.showMessageDialog(getParent(),
-									"Niepoprawny NIP", "B��d", 1);
-							err = false;
 						} else {
-							if (rezCenaJta.getText().isEmpty()) {
-								JOptionPane.showMessageDialog(getParent(),
-										"Nie przeliczono pobytu", "B��d", 1);
-								err = false;
-							}
-						}
+                            if (isNotNumber(rezJta[6].getText())) {
+                                JOptionPane.showMessageDialog(getParent(),
+                                        "Niepoprawny numer lokalu", "B��d", 1);
+                                err = false;
+                            } else {
+                                if (isNotNumber(rezJta[8].getText())) {
+                                    JOptionPane.showMessageDialog(getParent(),
+                                            "Niepoprawny numer telefonu", "B��d", 1);
+                                    err = false;
+                                } else if (rezerv.isValidNip(rezJta[9].getText())) {
+                                    JOptionPane.showMessageDialog(getParent(),
+                                            "Niepoprawny NIP", "B��d", 1);
+                                    err = false;
+                                } else {
+                                    if (rezCenaJta.getText().isEmpty()) {
+                                        JOptionPane.showMessageDialog(getParent(),
+                                                "Nie przeliczono pobytu", "B��d", 1);
+                                        err = false;
+                                    }
+                                }
+                            }
+                        }
 					}
 					if (err) {
 						if (rezJta[5].getText().isEmpty())
@@ -985,37 +991,45 @@ public class RezervationPanel extends JPanel {
 						JOptionPane.showMessageDialog(getParent(),
 								"Wprowad� kompletne dane", "B��d", 0);
 					else {
-						if (!rezerv.isKRS(rezJta[0].getText())) {
+						if (rezerv.isNotKRS(rezJta[0].getText())) {
 							JOptionPane.showMessageDialog(getParent(),
 									"Niepoprawny KRS", "B��d", 0);
 							err = false;
-						} else if (!rezerv.isNumber(rezJta[5].getText())) {
-							JOptionPane.showMessageDialog(getParent(),
-									"Niepoprawny numer lokalu", "B��d", 0);
-							err = false;
-						} else if (!rezerv.isNumber(rezJta[8].getText())) {
-							JOptionPane.showMessageDialog(getParent(),
-									"Niepoprawny numer telefonu", "B��d", 0);
-							err = false;
-						} else if (!rezerv.isNumber(rezJta[7].getText())) {
-							JOptionPane.showMessageDialog(getParent(),
-									"Niepoprawny REGON", "B��d", 0);
-							err = false;
-						} else if (!rezerv.isNumber(rezJta[8].getText())) {
-							JOptionPane.showMessageDialog(getParent(),
-									"Niepoprawny NIP", "B��d", 0);
-							err = false;
-						} else if (rezerv.isValidNip(rezJta[9].getText())) {
-							JOptionPane.showMessageDialog(getParent(),
-									"Niepoprawny numer telefonu", "B��d", 0);
-							err = false;
 						} else {
-							if (rezCenaJta.getText().isEmpty()) {
-								JOptionPane.showMessageDialog(getParent(),
-										"Nie przeliczono pobytu", "B��d", 0);
-								err = false;
-							}
-						}
+                            if (isNotNumber(rezJta[5].getText())) {
+                                JOptionPane.showMessageDialog(getParent(),
+                                        "Niepoprawny numer lokalu", "B��d", 0);
+                                err = false;
+                            } else {
+                                if (isNotNumber(rezJta[8].getText())) {
+                                    JOptionPane.showMessageDialog(getParent(),
+                                            "Niepoprawny numer telefonu", "B��d", 0);
+                                    err = false;
+                                } else {
+                                    if (isNotNumber(rezJta[7].getText())) {
+                                        JOptionPane.showMessageDialog(getParent(),
+                                                "Niepoprawny REGON", "B��d", 0);
+                                        err = false;
+                                    } else {
+                                        if (isNotNumber(rezJta[8].getText())) {
+                                            JOptionPane.showMessageDialog(getParent(),
+                                                    "Niepoprawny NIP", "B��d", 0);
+                                            err = false;
+                                        } else if (rezerv.isValidNip(rezJta[9].getText())) {
+                                            JOptionPane.showMessageDialog(getParent(),
+                                                    "Niepoprawny numer telefonu", "B��d", 0);
+                                            err = false;
+                                        } else {
+                                            if (rezCenaJta.getText().isEmpty()) {
+                                                JOptionPane.showMessageDialog(getParent(),
+                                                        "Nie przeliczono pobytu", "B��d", 0);
+                                                err = false;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
 					}
 					if (err) {
 						if (rezJta[4].getText().isEmpty())

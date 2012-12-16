@@ -10,7 +10,7 @@ public class Login {
 	
 	private static final Logger log = Logger.getLogger(Login.class);
 	
-	private Singleton sing = Singleton.getInstance();
+	private final Singleton sing = Singleton.getInstance();
 
     public Boolean check(String login, char[] pass) {
 		log.info(login + " " + String.valueOf(pass));

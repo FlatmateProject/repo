@@ -5,9 +5,9 @@ import service.dictionary.MONTH;
 
 public class MonthCondition extends Condition<String> {
 
-	private MONTH month;
+	private final MONTH month;
 	
-	public MonthCondition(MONTH month, String assertFailDescription) {
+	private MonthCondition(MONTH month, String assertFailDescription) {
 		this.month = month;
         as(assertFailDescription);
     }

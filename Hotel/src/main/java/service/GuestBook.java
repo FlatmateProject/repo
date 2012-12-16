@@ -13,7 +13,7 @@ public class GuestBook {
 	
 	private static final Logger log = Logger.getLogger(GuestBook.class);
 	
-	private Singleton sing = Singleton.getInstance();
+	private final Singleton sing = Singleton.getInstance();
 	private ResultSet rset1, rset2;
 
 	public GuestBook() {

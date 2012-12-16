@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 public class Schedule {
 	
 	private static final Logger log = Logger.getLogger(Schedule.class);
-	private Singleton sing = Singleton.getInstance();
+	private final Singleton sing = Singleton.getInstance();
 	private ResultSet rset1;
 
     public Schedule() {

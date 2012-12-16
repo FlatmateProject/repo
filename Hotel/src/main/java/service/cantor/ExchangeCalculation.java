@@ -6,11 +6,11 @@ public class ExchangeCalculation {
 
     private CURRENCY buyingCurrency;
 
-    private float amount;
+    private final float amount;
 
-    private float cost;
+    private final float cost;
 
-    private float gain;
+    private final float gain;
 
     public static final ExchangeCalculation ZERO = new ExchangeCalculation(0.0f, 0.0f, 0.0f);
 

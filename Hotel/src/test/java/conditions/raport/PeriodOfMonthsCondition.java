@@ -5,11 +5,11 @@ import service.dictionary.MONTH;
 
 public class PeriodOfMonthsCondition extends Condition<String> {
 
-	private MONTH monthFrom;
+	private final MONTH monthFrom;
 	
-	private MONTH monthTo;
+	private final MONTH monthTo;
 	
-	public PeriodOfMonthsCondition(MONTH monthFrom, MONTH monthTo, String assertFailDescription) {
+	private PeriodOfMonthsCondition(MONTH monthFrom, MONTH monthTo, String assertFailDescription) {
 		this.monthFrom = monthFrom;
 		this.monthTo = monthTo;
         as(assertFailDescription);

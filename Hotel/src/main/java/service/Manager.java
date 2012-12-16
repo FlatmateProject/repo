@@ -12,7 +12,7 @@ public class Manager {
 	
 	private static final Logger log = Logger.getLogger(Manager.class);
 
-	private Singleton sing = Singleton.getInstance();
+	private final Singleton sing = Singleton.getInstance();
 	private ResultSet rset1;
 
     public int getCount(String s) {
@@ -83,11 +83,7 @@ public class Manager {
 		rset1 = sing.query(q);
 		try {
 			rset1.next();
-			if (rset1.getString(1).equals("0")) {
-				return true;
-			} else {
-				return false;
-			}
+            return rset1.getString(1).equals("0");
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Co� zepsu�e�!", "UWAGA!",
 					JOptionPane.ERROR_MESSAGE);
@@ -143,8 +139,7 @@ public class Manager {
 			return tableData;
 		} catch (Exception e) {
 			log.info("Brak danych");
-			String tableData[][] = { { "Brak danych" } };
-			return tableData;
+            return new String[][]{ { "Brak danych" } };
 		}
 	}
 

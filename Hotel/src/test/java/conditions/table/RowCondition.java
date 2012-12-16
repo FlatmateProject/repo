@@ -10,7 +10,7 @@ import service.cantor.CantorTableResult;
  */
 public class RowCondition extends Condition<CantorTableResult> {
 
-    private Object[] expectedCells;
+    private final Object[] expectedCells;
 
     private RowCondition(Object[] expectedCells, String description) {
         this.expectedCells = expectedCells;

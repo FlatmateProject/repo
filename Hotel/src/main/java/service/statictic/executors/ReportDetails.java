@@ -4,9 +4,9 @@ import service.dictionary.MONTH;
 
 public class ReportDetails {
 
-	private MONTH month;
+	private final MONTH month;
 	
-	private int year; 
+	private final int year;
 	
 	private String roomType; 
 	

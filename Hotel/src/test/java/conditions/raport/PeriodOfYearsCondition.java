@@ -4,11 +4,11 @@ import org.fest.assertions.Condition;
 
 public class PeriodOfYearsCondition extends Condition<String> {
 
-    private int yearFrom;
+    private final int yearFrom;
 
-    private int yearTo;
+    private final int yearTo;
 
-    public PeriodOfYearsCondition(int yearFrom, int yearTo, String assertFailDescription) {
+    private PeriodOfYearsCondition(int yearFrom, int yearTo, String assertFailDescription) {
         this.yearFrom = yearFrom;
         this.yearTo = yearTo;
         as(assertFailDescription);

@@ -1,26 +1,15 @@
 package gui;
 
-import java.awt.Color;
+import org.apache.log4j.Logger;
+import service.GuestBook;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.border.Border;
-
-import org.apache.log4j.Logger;
-
-import service.GuestBook;
 
 public class GuestBookPanel extends JPanel {
 
@@ -29,19 +18,19 @@ public class GuestBookPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private GuestBook gue = new GuestBook();
+	private final GuestBook gue = new GuestBook();
 	
 	private JPanel guePanelCo;
-	private JLabel gueClientLabel[] = new JLabel[12];
-	private JTextField gueClientData[] = new JTextField[11];
-	private JTextArea gueClientNotes = new JTextArea();
-	private JTable gueTable[] = new JTable[3];
-	private JScrollPane gueScrollPane[] = new JScrollPane[3];
-	private JButton gueButton[] = new JButton[4];
-	private Border border = BorderFactory.createLineBorder(new Color(60, 124, 142));
-	private Color bgColor = new Color(224, 230, 233);
-	private Color buttonColor = new Color(174, 205, 214);
-	private MouseListener gueTableMLCl = new MouseListener() {
+	private final JLabel[] gueClientLabel = new JLabel[12];
+	private final JTextField[] gueClientData = new JTextField[11];
+	private final JTextArea gueClientNotes = new JTextArea();
+	private final JTable[] gueTable = new JTable[3];
+	private final JScrollPane[] gueScrollPane = new JScrollPane[3];
+	private final JButton[] gueButton = new JButton[4];
+	private final Border border = BorderFactory.createLineBorder(new Color(60, 124, 142));
+	private final Color bgColor = new Color(224, 230, 233);
+	private final Color buttonColor = new Color(174, 205, 214);
+	private final MouseListener gueTableMLCl = new MouseListener() {
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			try {
@@ -83,7 +72,7 @@ public class GuestBookPanel extends JPanel {
 		public void mouseReleased(MouseEvent arg0) {
 		}
 	};
-	private MouseListener gueTableMLCo = new MouseListener() {
+	private final MouseListener gueTableMLCo = new MouseListener() {
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			gueTable[1] = gue.createTable("rezerwacje", "where IDF_KRS="
@@ -118,7 +107,7 @@ public class GuestBookPanel extends JPanel {
 		public void mouseReleased(MouseEvent arg0) {
 		}
 	};
-	private MouseListener gueTable2MLCl = new MouseListener() {
+	private final MouseListener gueTable2MLCl = new MouseListener() {
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
@@ -151,7 +140,7 @@ public class GuestBookPanel extends JPanel {
 		public void mouseEntered(MouseEvent arg0) {
 		}
 	};
-	private MouseListener gueTable2MLCo = new MouseListener() {
+	private final MouseListener gueTable2MLCo = new MouseListener() {
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {

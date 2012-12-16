@@ -4,9 +4,9 @@ import org.fest.assertions.Condition;
 
 public class LongCondition extends Condition<String> {
 
-	private long value;
+	private final long value;
 	
-	public LongCondition(long value, String assertFailDescription) {
+	private LongCondition(long value, String assertFailDescription) {
 		this.value = value;
         as(assertFailDescription);
     }

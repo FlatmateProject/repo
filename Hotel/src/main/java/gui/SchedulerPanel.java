@@ -1,45 +1,37 @@
 package gui;
 
-import java.awt.Color;
-import java.awt.GridBagLayout;
+import service.Schedule;
+import service.dictionary.MONTH;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.border.Border;
-
-import service.Schedule;
-import service.dictionary.MONTH;
 
 public class SchedulerPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
 	private int d, m, y;
-	private Calendar schCalendar = GregorianCalendar.getInstance();
-	private JButton schDayButton[] = new JButton[31];
+	private final Calendar schCalendar = GregorianCalendar.getInstance();
+	private final JButton[] schDayButton = new JButton[31];
 	private JButton schNext, schPrev;
-	private JLabel schDayLabel[] = new JLabel[7];
-	private JLabel schMonthLabel = new JLabel();
+	private final JLabel[] schDayLabel = new JLabel[7];
+	private final JLabel schMonthLabel = new JLabel();
 	private JScrollPane schScrollPane;
 	private JTable schTable;
-	private Color callendarColor = new Color(255, 255, 255);
-	private Color bgColor = new Color(224, 230, 233);
-	private Border border = BorderFactory.createLineBorder(new Color(60, 124,
+	private final Color callendarColor = new Color(255, 255, 255);
+	private final Color bgColor = new Color(224, 230, 233);
+	private final Border border = BorderFactory.createLineBorder(new Color(60, 124,
 			142));
 
-	private String schDow[] = { "Pn", "Wt", "�r", "Cz", "Pt", "So", "Nd" };
+	private final String[] schDow = { "Pn", "Wt", "�r", "Cz", "Pt", "So", "Nd" };
 	//private int schDom[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
-	private Schedule sch = new Schedule();
+	private final Schedule sch = new Schedule();
 
 	public SchedulerPanel() {
 		create();

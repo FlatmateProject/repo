@@ -1,6 +1,12 @@
 package gui;
 
-import java.awt.Color;
+import org.apache.log4j.Logger;
+import service.GuestBook;
+import service.Manager;
+import validation.ValidationUtils;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -8,28 +14,12 @@ import java.awt.event.MouseListener;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-
-import org.apache.log4j.Logger;
-
-import service.GuestBook;
-import service.Manager;
-import validation.ValidationUtils;
-
 public class ManagerPanel extends JPanel {
 
 	
 	private static final Logger log = Logger.getLogger(ManagerPanel.class);
 	
-	private Calendar schCalendar = GregorianCalendar.getInstance();
+	private final Calendar schCalendar = GregorianCalendar.getInstance();
 
 	private static final long serialVersionUID = 1L;
 	private JPanel manDataPan;
@@ -42,8 +32,8 @@ public class ManagerPanel extends JPanel {
 	private JLabel manLabel[];
 	private JTextField manData[];
 
-	private Color bgColor = new Color(224, 230, 233);
-	private MouseListener manTableML = new MouseListener() {
+	private final Color bgColor = new Color(224, 230, 233);
+	private final MouseListener manTableML = new MouseListener() {
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			try {
@@ -72,9 +62,9 @@ public class ManagerPanel extends JPanel {
 		public void mouseReleased(MouseEvent arg0) {
 		}
 	};
-	private Color buttonColor = new Color(174, 205, 214);
-	private Manager man = new Manager();
-	private GuestBook gue = new GuestBook();
+	private final Color buttonColor = new Color(174, 205, 214);
+	private final Manager man = new Manager();
+	private final GuestBook gue = new GuestBook();
 
 	public ManagerPanel() {
 		create();
@@ -129,7 +119,7 @@ public class ManagerPanel extends JPanel {
 							break;
 						} else if ((l[i].equals("DATA_Z")
 								|| l[i].equals("DATA_W") || l[i].equals("DATA"))
-								&& !ValidationUtils.isDate(d[i])) {
+								&& ValidationUtils.isNotDate(d[i])) {
 							JOptionPane.showMessageDialog(null, "B��dna data!",
 									"UWAGA!", JOptionPane.ERROR_MESSAGE);
 							break;
@@ -149,7 +139,7 @@ public class ManagerPanel extends JPanel {
 								|| l[i].equals("ID_KLASY")
 								|| l[i].equals("ID_REZ") || l[i]
 									.equals("ID_USLUGI"))
-								&& !ValidationUtils.isNumber(d[i])) {
+								&& ValidationUtils.isNotNumber(d[i])) {
 							JOptionPane.showMessageDialog(null,
 									"B��dna liczba!", "UWAGA!",
 									JOptionPane.ERROR_MESSAGE);

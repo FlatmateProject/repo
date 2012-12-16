@@ -8,7 +8,9 @@ public class CantorTableResult {
 
     public static final String[] EMPTY_COLUMN = new String[]{EMPTY_LABEL};
 
-    public static final CantorTableResult EMPTY = new CantorTableResult(new Object[][]{EMPTY_ROW}, EMPTY_COLUMN);
+    public static final Object[][] EMPTY_DATA = new Object[][]{EMPTY_ROW};
+
+    public static final CantorTableResult EMPTY = new CantorTableResult(EMPTY_DATA, EMPTY_COLUMN);
 
     final private Object rowsData[][];
 

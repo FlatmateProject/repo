@@ -13,14 +13,14 @@ public class LoginFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private JFrame logFrame;//= new LoginFrame();
-    private JLabel logLabel[] = new JLabel[3];
+    private final JLabel[] logLabel = new JLabel[3];
 	private JTextField logLogin;
 	private JPasswordField logPass;
-    private Color bgColor2 = new Color(227, 239, 243);
-	private Border border = BorderFactory.createLineBorder(new Color(60, 124, 142));
-	private Color buttonColor = new Color(174, 205, 214);
+    private final Color bgColor2 = new Color(227, 239, 243);
+	private final Border border = BorderFactory.createLineBorder(new Color(60, 124, 142));
+	private final Color buttonColor = new Color(174, 205, 214);
 	
-	private Login log = new Login();
+	private final Login log = new Login();
 	
 	public LoginFrame() throws HeadlessException {
 		createLogin();

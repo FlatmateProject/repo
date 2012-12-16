@@ -1,14 +1,14 @@
 package service.statictic;
 
+import dao.StatisticDao;
 import service.dictionary.MONTH;
 import service.statictic.executors.ReportCreator;
 import service.statictic.executors.ReportDetails;
 import service.statictic.templates.ReportTemplateBuilder;
-import dao.StatisticDao;
 
 public class Statistic {
 
-	private StatisticDao statisticDao;
+	private final StatisticDao statisticDao;
 
 	public Statistic(StatisticDao statisticDao) {
 		this.statisticDao = statisticDao;

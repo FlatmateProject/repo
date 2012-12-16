@@ -8,7 +8,7 @@ public class GUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-    public GUI() {
+    private GUI() {
 		super();
 		setupLookAndFeel();
 		initializeWindow();

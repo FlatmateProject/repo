@@ -7,26 +7,26 @@ import java.text.SimpleDateFormat;
 
 public class ValidationUtils 
 {
-	public static boolean isDate(String date) {
+	public static boolean isNotDate(String date) {
 		try {
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			df.setLenient(false);
 			df.parse(date);
 		} catch (ParseException e) {
-			return false;
+			return true;
 		} catch (IllegalArgumentException e) {
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 
-	public static boolean isNumber(String num)
+	public static boolean isNotNumber(String num)
 	{
      try {
     	 Integer.valueOf(num);
-    	 return true;
-     } catch (NumberFormatException e) {
     	 return false;
+     } catch (NumberFormatException e) {
+    	 return true;
      }
 	}
 	

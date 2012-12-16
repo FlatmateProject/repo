@@ -5,7 +5,7 @@ import service.cantor.CantorTableResult;
 
 public class ColumnCondition extends Condition<CantorTableResult> {
 
-    private String[] expectedColumnNames;
+    private final String[] expectedColumnNames;
 
     private ColumnCondition(String[] object, String description) {
         this.expectedColumnNames = object;

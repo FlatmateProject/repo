@@ -44,9 +44,9 @@ public class StatisticPanel extends JPanel {
     private JTextPane reportText;
     private GraphDraw graphDraw;
 
-    private StatisticDao statisticDao;
+    private final StatisticDao statisticDao;
 
-    private Statistic statistic;
+    private final Statistic statistic;
 
     public StatisticPanel() {
         statisticDao = new StatisticDaoImpl();

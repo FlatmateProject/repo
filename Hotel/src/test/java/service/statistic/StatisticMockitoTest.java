@@ -30,17 +30,17 @@ import static org.mockito.Mockito.when;
 
 public class StatisticMockitoTest {
 	
-	static final Logger log = Logger.getLogger(StatisticMockitoTest.class);
+	private static final Logger log = Logger.getLogger(StatisticMockitoTest.class);
 	
-	int year = 2012;
+	private final int year = 2012;
 	
-	MONTH month = MONTH.September;
+	private final MONTH month = MONTH.September;
 	
-	String roomType = "jednoosobowy";
+	private final String roomType = "jednoosobowy";
 
-	String serviceTypeName = "wynajem";
+	private final String serviceTypeName = "wynajem";
 
-	int yearTo = 2012;
+	private final int yearTo = 2012;
 	
 	@Test
 	public void shouldCreateEmptyRoomTypesReport() throws DAOException{

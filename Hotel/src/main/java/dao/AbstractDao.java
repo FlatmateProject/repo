@@ -13,9 +13,9 @@ abstract class AbstractDao {
 
     private static final Logger log = Logger.getLogger(AbstractDao.class);
 
-    Singleton session = Singleton.getInstance();
+    private Singleton session = Singleton.getInstance();
 
-    private Map<Class, TypeConverter> conversionMap = new HashMap<Class, TypeConverter>();
+    private final Map<Class, TypeConverter> conversionMap = new HashMap<Class, TypeConverter>();
 
     {
         conversionMap.put(long.class, new TypeConverter() {
