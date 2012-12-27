@@ -1,21 +1,17 @@
 package facade;
 
 
-
-import java.util.List;
-import java.util.Set;
+import exception.ApplicationException;
+import facade.response.ResponseFactory;
+import facade.response.WordResponse;
+import model.dictionary.WordEntity;
+import service.GetRandomWordsService;
 
 import javax.ejb.Stateless;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-
-import model.dictionary.WordEntity;
-
-
-import service.GetRandomWordsService;
-import exception.ApplicationException;
-import facade.response.ResponseFactory;
-import facade.response.WordResponse;
+import java.util.List;
+import java.util.Set;
 
 @Stateless
 @WebService(name="Client", endpointInterface = "facade.ClientEndPoint", serviceName="ClientEndPoint")

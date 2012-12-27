@@ -1,8 +1,8 @@
 package service.statictic;
 
-import java.util.List;
-
 import service.statictic.templates.ReportTemplateBuilder;
+
+import java.util.List;
 
 
 public class StatisticReport {

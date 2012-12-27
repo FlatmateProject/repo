@@ -1,15 +1,13 @@
 package datasource;
 
 
-
-import java.util.Set;
-
+import exception.ServiceException;
 import model.dictionary.ExampleEntity;
 import model.dictionary.TranslationEntity;
 import model.dictionary.WordEntity;
-
 import service.AddWordService;
-import exception.ServiceException;
+
+import java.util.Set;
 
 public class DictionarytDatasourceImpl extends AbstractDatasource implements DictionaryDatasource {
 	

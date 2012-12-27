@@ -1,11 +1,7 @@
 package patterns.abstractFactory;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-
 import patterns.abstractFactory.advert.AdvertPaymentsFactory;
 import patterns.abstractFactory.model.AdvertEntity;
 import patterns.abstractFactory.model.OBJECT_STATUS;
@@ -15,6 +11,9 @@ import patterns.abstractFactory.payments.PAYMENTS_STATUS;
 import patterns.abstractFactory.payments.PaymentsRequest;
 import patterns.abstractFactory.payments.PaymentsResult;
 import patterns.abstractFactory.publicity.PublicityPaymentsFactory;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 public class PaymentsFactoryWithMethodTest {
 	

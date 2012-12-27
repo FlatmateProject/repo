@@ -1,14 +1,14 @@
 package service;
 
-import model.dictionary.WordEntity;
-
-import org.springframework.context.ApplicationContext;
-
 import exception.DaoException;
 import exception.ServiceException;
+import model.dictionary.WordEntity;
+import org.springframework.context.ApplicationContext;
 
 import static service.ERROR_MESSAGE.EMPTY_PARAMETERS_LIST;
-import static service.ERROR_MESSAGE.WORD_NOT_FOUND;;
+import static service.ERROR_MESSAGE.WORD_NOT_FOUND;
+
+;
 
 public class FindWordService extends AbstractService<WordEntity> {
 

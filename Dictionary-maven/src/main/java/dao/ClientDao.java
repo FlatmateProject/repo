@@ -1,10 +1,10 @@
 package dao;
 
-import java.util.List;
-
+import exception.DaoException;
 import model.AddSesion;
 import model.dictionary.WordEntity;
-import exception.DaoException;
+
+import java.util.List;
 
 public interface ClientDao extends AddSesion {
 	

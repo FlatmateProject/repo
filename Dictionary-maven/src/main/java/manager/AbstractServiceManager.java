@@ -1,17 +1,16 @@
 package manager;
 
-import static service.ERROR_MESSAGE.CREATE_SERVICE_ERROR;
-import static service.ERROR_MESSAGE.EXECUTE_SERVICE_ERROR;
-
-import org.hibernate.Session;
-import org.springframework.context.ApplicationContext;
-
-import service.AbstractService;
-import service.ERROR_MESSAGE;
 import dao.ClientDao;
 import dao.DictionaryDao;
 import exception.MyException;
 import exception.ServiceException;
+import org.hibernate.Session;
+import org.springframework.context.ApplicationContext;
+import service.AbstractService;
+import service.ERROR_MESSAGE;
+
+import static service.ERROR_MESSAGE.CREATE_SERVICE_ERROR;
+import static service.ERROR_MESSAGE.EXECUTE_SERVICE_ERROR;
 
 public abstract class AbstractServiceManager {
 

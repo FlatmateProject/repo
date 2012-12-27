@@ -1,8 +1,8 @@
 package manager;
 
+import exception.ServiceException;
 import model.dictionary.WordEntity;
 import service.FindWordService;
-import exception.ServiceException;
 
 public class ServiceManagerImpl extends AbstractServiceManager implements ServiceManager {
 

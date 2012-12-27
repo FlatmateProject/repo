@@ -1,12 +1,12 @@
 package dao;
 
 
-import java.util.List;
-import java.util.Set;
-
+import exception.DaoException;
 import model.AddSesion;
 import model.dictionary.WordEntity;
-import exception.DaoException;
+
+import java.util.List;
+import java.util.Set;
 
 public interface DictionaryDao extends AddSesion {
 	

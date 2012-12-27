@@ -1,9 +1,9 @@
 package manager;
 
-import service.AddApplicationContext;
+import exception.ServiceException;
 import model.AddSesion;
 import model.dictionary.WordEntity;
-import exception.ServiceException;
+import service.AddApplicationContext;
 
 public interface ServiceManager extends AddSesion, AddApplicationContext {
 

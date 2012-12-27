@@ -1,15 +1,14 @@
 package service;
 
+import exception.MyException;
+import exception.ServiceException;
+import model.dictionary.ExampleEntity;
+import model.dictionary.WordEntity;
+import org.testng.annotations.Test;
+
 import java.util.HashSet;
 import java.util.Set;
 
-import model.dictionary.ExampleEntity;
-import model.dictionary.WordEntity;
-
-import org.testng.annotations.Test;
-
-import exception.MyException;
-import exception.ServiceException;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 

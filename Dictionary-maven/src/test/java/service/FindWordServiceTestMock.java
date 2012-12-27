@@ -1,11 +1,10 @@
 package service;
 
-import model.dictionary.WordEntity;
-
-import org.testng.annotations.Test;
-
 import exception.DaoException;
 import exception.ServiceException;
+import model.dictionary.WordEntity;
+import org.testng.annotations.Test;
+
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.testng.Assert.assertNotNull;

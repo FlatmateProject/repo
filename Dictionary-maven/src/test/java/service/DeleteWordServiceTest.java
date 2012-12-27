@@ -1,11 +1,10 @@
 package service;
 
-import model.dictionary.WordEntity;
-
-import org.testng.annotations.Test;
-
 import exception.MyException;
 import exception.ServiceException;
+import model.dictionary.WordEntity;
+import org.testng.annotations.Test;
+
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 

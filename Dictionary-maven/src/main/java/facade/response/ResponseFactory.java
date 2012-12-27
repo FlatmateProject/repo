@@ -1,12 +1,11 @@
 package facade.response;
 
 
+import model.dictionary.WordEntity;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import model.dictionary.WordEntity;
 
 
 public class ResponseFactory {

@@ -1,10 +1,9 @@
 package model.dictionary;
 
-import java.util.HashSet;
-
 import model.EntityTest;
-
 import org.testng.annotations.Test;
+
+import java.util.HashSet;
 
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;

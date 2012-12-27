@@ -1,7 +1,10 @@
 package exception;
 
 import service.ERROR_MESSAGE;
-import static service.ERROR_MESSAGE.HIBERNATE_ERROR;;
+
+import static service.ERROR_MESSAGE.HIBERNATE_ERROR;
+
+;
 
 public class DaoException extends MyException {
 

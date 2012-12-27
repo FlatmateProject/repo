@@ -2,6 +2,7 @@ package dto.cantor;
 
 import org.fest.util.Arrays;
 import service.cantor.ArrayObtained;
+import service.cantor.CURRENCY;
 
 public class CurrencyData implements ArrayObtained {
 
@@ -14,6 +15,13 @@ public class CurrencyData implements ArrayObtained {
     private float buyPrice;
 
     private float quantity;
+
+    public CurrencyData() {
+    }
+
+    public CurrencyData(String name) {
+        this.name = name;
+    }
 
     public Object[] getArray() {
         return Arrays.array(currencyId, name, salePrice, buyPrice, quantity);
@@ -46,4 +54,9 @@ public class CurrencyData implements ArrayObtained {
     public void decreaseQuantity(float amount) {
         quantity = quantity - amount;
     }
+
+    public CURRENCY asEnum() {
+        return CURRENCY.valueOf(name);
+    }
+
 }

@@ -1,10 +1,10 @@
 package datasource;
 
-import service.AddApplicationContext;
+import exception.ServiceException;
 import model.dictionary.ExampleEntity;
 import model.dictionary.TranslationEntity;
 import model.dictionary.WordEntity;
-import exception.ServiceException;
+import service.AddApplicationContext;
 
 public interface DictionaryDatasource extends AddApplicationContext {
 

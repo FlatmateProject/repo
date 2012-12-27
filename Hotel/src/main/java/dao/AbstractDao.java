@@ -51,6 +51,10 @@ abstract class AbstractDao {
         });
     }
 
+    public Singleton getSession() {
+        return session;
+    }
+
     Object uniqueResult(String query) throws DAOException {
         try {
             ResultSet resultSet = session.query(query);

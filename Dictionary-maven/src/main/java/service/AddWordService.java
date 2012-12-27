@@ -1,20 +1,15 @@
 package service;
 
 
-import static service.ERROR_MESSAGE.EMPTY_EXAMPLES;
-import static service.ERROR_MESSAGE.EMPTY_TRANSLATIONS;
-import static service.ERROR_MESSAGE.EMPTY_WORD_NAME;
-import static service.ERROR_MESSAGE.WORD_IS_NULL;
+import exception.DaoException;
+import exception.ServiceException;
+import model.dictionary.WordEntity;
+import org.springframework.context.ApplicationContext;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import model.dictionary.WordEntity;
-
-import org.springframework.context.ApplicationContext;
-
-import exception.DaoException;
-import exception.ServiceException;
+import static service.ERROR_MESSAGE.*;
 
 public class AddWordService extends AbstractService<WordEntity> {
 	

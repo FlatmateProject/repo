@@ -1,18 +1,14 @@
 package service;
 
-import static service.ERROR_MESSAGE.EMPTY_WORD_NAME;
-import static service.ERROR_MESSAGE.LIMIT_NEGATIVE_VALUE;
-
+import exception.DaoException;
+import exception.ServiceException;
+import model.dictionary.WordEntity;
+import org.springframework.context.ApplicationContext;
 
 import java.util.List;
 
-
-import model.dictionary.WordEntity;
-
-import org.springframework.context.ApplicationContext;
-
-import exception.DaoException;
-import exception.ServiceException;
+import static service.ERROR_MESSAGE.EMPTY_WORD_NAME;
+import static service.ERROR_MESSAGE.LIMIT_NEGATIVE_VALUE;
 
 public class GetRandomWordsService extends AbstractService<List<WordEntity>> {
 	

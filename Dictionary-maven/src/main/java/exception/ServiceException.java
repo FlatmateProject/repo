@@ -1,7 +1,8 @@
 package exception;
 
-import static service.ERROR_MESSAGE.EXECUTE_SERVICE_ERROR;
 import service.ERROR_MESSAGE;
+
+import static service.ERROR_MESSAGE.EXECUTE_SERVICE_ERROR;
 public class ServiceException extends MyException {
 
 	private static final long serialVersionUID = 1L;

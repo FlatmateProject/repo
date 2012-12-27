@@ -1,7 +1,8 @@
 package model.client;
 
-import static org.testng.Assert.assertTrue;
 import model.EntityTest;
+
+import static org.testng.Assert.assertTrue;
 
 public class ClientEntityTest extends EntityTest {
 

@@ -6,7 +6,10 @@ import dto.cantor.CurrencyData;
 import dto.cantor.CustomerData;
 import exception.DAOException;
 import service.cantor.CURRENCY;
+import service.cantor.ExchangeCalculation;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class CantorDaoImpl extends AbstractDao implements CantorDao{
@@ -54,4 +57,28 @@ public class CantorDaoImpl extends AbstractDao implements CantorDao{
         return uniqueResult(query, CurrencyData.class);
     }
 
+    @Override
+    public void insertTransactionForCustomer(ExchangeCalculation calculation) throws DAOException{
+        insertTransaction(calculation, "IDK_PESEL");
+    }
+
+    @Override
+    public void insertTransactionForCompany(ExchangeCalculation calculation) throws DAOException{
+        insertTransaction(calculation, "IDF_KRS");
+    }
+
+    @Override
+    public void updateCurrency(CurrencyData currencyData) throws DAOException{
+        getSession().queryUp("update hotel.waluty set ILOSC=" + currencyData.getQuantity() + " where NAZWA = '" + currencyData.getName() + "';");
+    }
+
+    private void insertTransaction(ExchangeCalculation calculation, String idColumn) {
+        getSession().queryUp("insert into hotel.kantor (" + idColumn + ", DATA, W_KU, W_SP, ILOSC, WARTOSC, ZYSK) VALUES("
+                + calculation.getClientId() + ", '" + formatCurrentDate() + "', '" + calculation.getSellingCurrency().getCurrencyId() + "', '" + calculation.getBuyingCurrency().getCurrencyId()
+                + "', " + calculation.getAmount() + ", " + calculation.getCost() + ", " + calculation.getGain() + ");");
+    }
+
+    private String formatCurrentDate() {
+        return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+    }
 }

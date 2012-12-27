@@ -1,17 +1,16 @@
 package service;
 
-import java.util.HashSet;
-import java.util.Set;
-
+import exception.MyException;
+import exception.ServiceException;
 import model.dictionary.TranslationEntity;
 import model.dictionary.WordEntity;
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.testng.annotations.Test;
 
-import exception.MyException;
-import exception.ServiceException;
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 

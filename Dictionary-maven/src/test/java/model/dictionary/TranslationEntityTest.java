@@ -2,7 +2,6 @@ package model.dictionary;
 
 
 import model.EntityTest;
-
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertFalse;

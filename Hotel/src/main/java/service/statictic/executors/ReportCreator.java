@@ -1,11 +1,9 @@
 package service.statictic.executors;
 
-import java.sql.SQLException;
-
+import dao.StatisticDao;
 import exception.DAOException;
 import service.statictic.StatisticReport;
 import service.statictic.templates.ReportTemplateBuilder;
-import dao.StatisticDao;
 
 public abstract class ReportCreator {
 

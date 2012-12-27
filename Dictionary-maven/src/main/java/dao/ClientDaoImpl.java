@@ -1,13 +1,11 @@
 package dao;
 
-import java.util.List;
-
+import exception.DaoException;
 import model.dictionary.WordEntity;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 
-import exception.DaoException;
+import java.util.List;
 
 
 public class ClientDaoImpl extends AbstractDao implements ClientDao {

@@ -1,16 +1,13 @@
 package service;
 
+import exception.MyException;
+import exception.ServiceException;
 import model.dictionary.WordEntity;
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.testng.annotations.Test;
 
-import exception.MyException;
-import exception.ServiceException;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 
 public class FindWordServiceTest extends AbstractServiceTest {

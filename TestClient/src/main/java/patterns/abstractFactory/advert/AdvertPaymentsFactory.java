@@ -1,10 +1,6 @@
 package patterns.abstractFactory.advert;
 
-import patterns.abstractFactory.CancelConfirmationHandler;
-import patterns.abstractFactory.CancelPaymentHandler;
-import patterns.abstractFactory.ConfirmationHandle;
-import patterns.abstractFactory.PaymentHandler;
-import patterns.abstractFactory.PaymentsFactory;
+import patterns.abstractFactory.*;
 
 public class AdvertPaymentsFactory extends PaymentsFactory{
 

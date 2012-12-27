@@ -7,3 +7,6 @@
 10. check statistic custom assertion classes if are used only assertThat a invocations
 11. Test on AbstractDao
 12. refactor StatisticPanel.fillBoxes
+13. isPesel add test for case 8712sd2206592
+14. createCompanyTable finish implementation
+15. add transactioning spring support

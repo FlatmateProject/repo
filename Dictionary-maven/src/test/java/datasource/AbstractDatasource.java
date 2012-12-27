@@ -1,20 +1,19 @@
 package datasource;
 
-import static service.ERROR_MESSAGE.CREATE_SERVICE_ERROR;
-import static service.ERROR_MESSAGE.EXECUTE_SERVICE_ERROR;
-import manager.ServiceManager;
-
-import org.hibernate.FlushMode;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.springframework.context.ApplicationContext;
-
-import service.AbstractService;
-import service.ERROR_MESSAGE;
 import dao.ClientDao;
 import dao.DictionaryDao;
 import exception.MyException;
 import exception.ServiceException;
+import manager.ServiceManager;
+import org.hibernate.FlushMode;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.springframework.context.ApplicationContext;
+import service.AbstractService;
+import service.ERROR_MESSAGE;
+
+import static service.ERROR_MESSAGE.CREATE_SERVICE_ERROR;
+import static service.ERROR_MESSAGE.EXECUTE_SERVICE_ERROR;
 
 public abstract class AbstractDatasource {
 	

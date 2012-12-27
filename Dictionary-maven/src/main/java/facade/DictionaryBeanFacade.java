@@ -1,23 +1,19 @@
 package facade;
 
 
-
-import java.util.Set;
-
-import javax.ejb.Stateless;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-
+import exception.ApplicationException;
+import facade.response.ResponseFactory;
+import facade.response.WordResponse;
 import model.dictionary.WordEntity;
-
-
 import service.AddExamplesToWordService;
 import service.AddTranslationsToWordService;
 import service.AddWordService;
 import service.FindWordService;
-import exception.ApplicationException;
-import facade.response.ResponseFactory;
-import facade.response.WordResponse;
+
+import javax.ejb.Stateless;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import java.util.Set;
 
 @Stateless
 @WebService(name="Dictionary", endpointInterface = "facade.DictionaryEndPoint", serviceName="DictionaryEndPoint")

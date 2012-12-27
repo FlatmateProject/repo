@@ -1,10 +1,10 @@
 package exception;
 
-import static service.ERROR_MESSAGE.EXECUTE_SERVICE_ERROR;
+import service.ERROR_MESSAGE;
 
 import java.io.Serializable;
 
-import service.ERROR_MESSAGE;
+import static service.ERROR_MESSAGE.EXECUTE_SERVICE_ERROR;
 
 public class ApplicationException extends MyException implements Serializable {
 

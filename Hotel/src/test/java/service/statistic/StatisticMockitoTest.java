@@ -6,6 +6,7 @@ import dto.statictic.*;
 import exception.DAOException;
 import org.apache.log4j.Logger;
 import org.fest.assertions.Condition;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import service.dictionary.MONTH;
@@ -27,32 +28,42 @@ import static conditions.raport.StringCondition.*;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.Mock;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 public class StatisticMockitoTest {
 	
+    @Mock
+    StatisticDao statisticDao;
+
 	private static final Logger log = Logger.getLogger(StatisticMockitoTest.class);
-	
+
 	private final int year = 2012;
-	
+
 	private final MONTH month = MONTH.September;
-	
+
 	private final String roomType = "jednoosobowy";
 
 	private final String serviceTypeName = "wynajem";
 
 	private final int yearTo = 2012;
-	
+
+    private Statistic statistic;
+
+    @BeforeMethod
+    public void beforeEachTest() {
+        initMocks(this);
+        statistic = new Statistic(statisticDao);
+    }
 	@Test
 	public void shouldCreateEmptyRoomTypesReport() throws DAOException{
 		// given
 		REPORT_KIND reportKind = REPORT_KIND.HOTEL_ROOM_TYPES;
 		List<RoomTypesData> inputData = Collections.emptyList();
 		
-		StatisticDao statisticDao = mock(StatisticDao.class);
 		when(statisticDao.findRoomTypes(month.id(), year)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic(statisticDao);
 		StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
 
 		// then
@@ -86,11 +97,9 @@ public class StatisticMockitoTest {
 		
 		List<RoomTypesData> inputData = Arrays.asList(row);
 		
-		StatisticDao statisticDao = mock(StatisticDao.class);
 		when(statisticDao.findRoomTypes(month.id(), year)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic(statisticDao);
 		StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
 		
 		// then
@@ -125,11 +134,9 @@ public class StatisticMockitoTest {
 		String roomType = "jednoosobowy";
 		List<RoomData> inputData = Collections.emptyList();
 		
-		StatisticDao statisticDao = mock(StatisticDao.class);
 		when(statisticDao.findRoomsByType(month.id(), year, roomType)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic(statisticDao);
 		StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
 
 		// then
@@ -166,11 +173,9 @@ public class StatisticMockitoTest {
 		
 		List<RoomData> inputData = Arrays.asList(row);
 		
-		StatisticDao statisticDao = mock(StatisticDao.class);
 		when(statisticDao.findRoomsByType(month.id(), year, roomType)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic(statisticDao);
 		StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
 		
 		// then
@@ -204,11 +209,9 @@ public class StatisticMockitoTest {
 		REPORT_KIND reportKind = REPORT_KIND.HOTEL_SERVICE_TYPES;
 		List<ServiceTypeData> inputData = Collections.emptyList();
 		
-		StatisticDao statisticDao = mock(StatisticDao.class);
 		when(statisticDao.findServiceTypes(month.id(), year)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic(statisticDao);
 		StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
 
 		// then
@@ -243,12 +246,10 @@ public class StatisticMockitoTest {
 		
 		List<ServiceTypeData> inputData = Arrays.asList(row);
 		
-		StatisticDao statisticDao = mock(StatisticDao.class);
 		when(statisticDao.findServiceTypes(month.id(), year)).thenReturn(inputData);
 		when(statisticDao.countUseNumberForServiceType(serviceTypeName)).thenReturn(useNumber);
 		
 		// when
-		Statistic statistic = new Statistic(statisticDao);
 		StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
 		
 		// then
@@ -284,11 +285,9 @@ public class StatisticMockitoTest {
 		String serviceTypeName = "wynajem";
 		List<ServiceData> inputData = Collections.emptyList();
 		
-		StatisticDao statisticDao = mock(StatisticDao.class);
 		when(statisticDao.findServiceByType(month.id(), year, serviceTypeName)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic(statisticDao);
 		StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
 
 		// then
@@ -326,12 +325,10 @@ public class StatisticMockitoTest {
 		
 		List<ServiceData> inputData = Arrays.asList(row);
 		
-		StatisticDao statisticDao = mock(StatisticDao.class);
 		when(statisticDao.findServiceByType(month.id(), year, serviceTypeName)).thenReturn(inputData);
 		when(statisticDao.countUseNumberForServiceName(serviceName)).thenReturn(useNumber);
 		
 		// when
-		Statistic statistic = new Statistic(statisticDao);
 		StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
 		
 		// then
@@ -368,11 +365,9 @@ public class StatisticMockitoTest {
 
 		List<MonthSummaryGainData> inputData = Collections.emptyList();
 
-		StatisticDao statisticDao = mock(StatisticDao.class);
 		when(statisticDao.findMonthSummaryGains(monthFrom.id(), monthTo.id(), year)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic(statisticDao);
 		StatisticReport report = statistic.finance(reportKind, monthFrom, monthTo, year, yearTo);
 		
 		// then
@@ -419,11 +414,9 @@ public class StatisticMockitoTest {
 		
 		List<MonthSummaryGainData> inputData = Arrays.asList(row);
 
-        StatisticDao statisticDao = mock(StatisticDao.class);
 		when(statisticDao.findMonthSummaryGains(monthTo.id(), monthFrom.id(), year)).thenReturn(inputData);
 		
 		// when
-		Statistic statistic = new Statistic(statisticDao);
 		StatisticReport report = statistic.finance(reportKind, monthFrom, monthTo, year, yearTo);
 		
 		// then
@@ -460,11 +453,9 @@ public class StatisticMockitoTest {
 
         List<YearSummaryGainData> inputData = Collections.emptyList();
 
-        StatisticDao statisticDao = mock(StatisticDao.class);
         when(statisticDao.findYearSummaryGains(yearFrom, yearTo)).thenReturn(inputData);
 
         // when
-        Statistic statistic = new Statistic(statisticDao);
         StatisticReport report = statistic.finance(reportKind, null, null, yearFrom, yearTo);
 
         // then
@@ -510,11 +501,9 @@ public class StatisticMockitoTest {
 
         List<YearSummaryGainData> inputData = Arrays.asList(row);
 
-        StatisticDao statisticDao = mock(StatisticDao.class);
         when(statisticDao.findYearSummaryGains(yearTo, yearFrom)).thenReturn(inputData);
 
         // when
-        Statistic statistic = new Statistic(statisticDao);
         StatisticReport report = statistic.finance(reportKind, null, null, yearFrom, yearTo);
 
         // then

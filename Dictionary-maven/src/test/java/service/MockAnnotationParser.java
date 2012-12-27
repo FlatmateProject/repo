@@ -1,10 +1,10 @@
 package service;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-
 import org.easymock.EasyMock;
 import org.testng.annotations.Test;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class MockAnnotationParser {
 

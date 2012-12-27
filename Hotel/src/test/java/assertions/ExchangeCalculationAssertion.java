@@ -16,12 +16,12 @@ public class ExchangeCalculationAssertion extends GenericAssert<ExchangeCalculat
     }
 
     public ExchangeCalculationAssertion isSaleCurrency(CURRENCY sellingCurrency) {
-        Assertions.assertThat(actual.getSellingCurrency()).isEqualTo(sellingCurrency);
+        Assertions.assertThat(actual.getSellingCurrency().asEnum()).isEqualTo(sellingCurrency);
         return this;
     }
 
     public ExchangeCalculationAssertion isBuyingCurrency(CURRENCY buyingCurrency) {
-        Assertions.assertThat(actual.getBuyingCurrency()).isEqualTo(buyingCurrency);
+        Assertions.assertThat(actual.getBuyingCurrency().asEnum()).isEqualTo(buyingCurrency);
         return this;
     }
 

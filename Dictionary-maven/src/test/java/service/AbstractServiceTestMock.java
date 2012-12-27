@@ -1,9 +1,9 @@
 package service;
 
-import manager.ServiceManager;
 import dao.ClientDao;
 import dao.DictionaryDao;
 import exception.ServiceException;
+import manager.ServiceManager;
 
 public abstract class AbstractServiceTestMock {
 

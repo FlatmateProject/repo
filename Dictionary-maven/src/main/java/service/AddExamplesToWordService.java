@@ -1,17 +1,13 @@
 package service;
 
-import java.util.Set;
-
-import model.dictionary.WordEntity;
-
-import org.springframework.context.ApplicationContext;
-
 import exception.DaoException;
 import exception.ServiceException;
+import model.dictionary.WordEntity;
+import org.springframework.context.ApplicationContext;
 
-import static service.ERROR_MESSAGE.EMPTY_EXAMPLES;
-import static service.ERROR_MESSAGE.EMPTY_PARAMETERS_LIST;
-import static service.ERROR_MESSAGE.WORD_NOT_FOUND;
+import java.util.Set;
+
+import static service.ERROR_MESSAGE.*;
 
 public class AddExamplesToWordService extends AbstractService<WordEntity> {
 	

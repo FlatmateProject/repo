@@ -1,20 +1,18 @@
 package service;
 
-import static service.ERROR_MESSAGE.EXECUTE_SERVICE_ERROR;
-
-import java.util.HashSet;
-import java.util.Set;
-
-import manager.ServiceManager;
-
-import org.hibernate.Session;
-import org.springframework.context.ApplicationContext;
-
 import dao.ClientDao;
 import dao.DictionaryDao;
 import exception.DaoException;
 import exception.MyException;
 import exception.ServiceException;
+import manager.ServiceManager;
+import org.hibernate.Session;
+import org.springframework.context.ApplicationContext;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import static service.ERROR_MESSAGE.EXECUTE_SERVICE_ERROR;
 
 public abstract class AbstractService<T> {
 

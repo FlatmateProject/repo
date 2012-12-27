@@ -1,18 +1,16 @@
 package dao;
 
-import java.util.List;
-import java.util.Set;
-
+import exception.DaoException;
 import model.dictionary.ExampleEntity;
 import model.dictionary.TranslationEntity;
 import model.dictionary.WordEntity;
-
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 
-import exception.DaoException;
+import java.util.List;
+import java.util.Set;
 
 public class DictionaryDaoImpl extends AbstractDao implements DictionaryDao {
 
