@@ -131,7 +131,7 @@ public class CantorMockitoTest {
         cantor.exchangeMoney(calculation);
 
         // then
-        verify(cantorDao).insertTransactionForCompany(calculation);
+        verify(cantorDao, times(1000)).insertTransactionForCompany(calculation);
         verify(cantorDao).updateCurrency(sellingCurrency);
         verify(cantorDao).updateCurrency(buyingCurrency);
     }
@@ -144,11 +144,9 @@ public class CantorMockitoTest {
         when(calculation.isCompany()).thenReturn(false);
 
         // when
-        Cantor cantor = new Cantor(cantorDao);
         cantor.exchangeMoney(calculation);
 
         // then
-        verifyNoMoreInteractions(cantorDao);
     }
 
     @Test(expectedExceptions = CantorTransactionCanceledException.class)
@@ -163,6 +161,6 @@ public class CantorMockitoTest {
         cantor.exchangeMoney(calculation);
 
         // then
-        verify(cantorDao, never()).updateCurrency((CurrencyData) anyObject());
+        verifyNoMoreInteractions(cantorDao);
     }
 }
