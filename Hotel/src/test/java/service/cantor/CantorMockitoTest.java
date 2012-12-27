@@ -131,7 +131,7 @@ public class CantorMockitoTest {
         cantor.exchangeMoney(calculation);
 
         // then
-        verify(cantorDao, times(1000)).insertTransactionForCompany(calculation);
+        verify(cantorDao).insertTransactionForCompany(calculation);
         verify(cantorDao).updateCurrency(sellingCurrency);
         verify(cantorDao).updateCurrency(buyingCurrency);
     }
