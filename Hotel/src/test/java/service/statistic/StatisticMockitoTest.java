@@ -6,6 +6,7 @@ import dto.statictic.*;
 import exception.DAOException;
 import org.apache.log4j.Logger;
 import org.fest.assertions.Condition;
+import org.mockito.Mock;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -28,7 +29,6 @@ import static conditions.raport.StringCondition.*;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.Mock;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class StatisticMockitoTest {
@@ -59,7 +59,7 @@ public class StatisticMockitoTest {
 	public void shouldCreateEmptyRoomTypesReport() throws DAOException{
 		// given
 		REPORT_KIND reportKind = REPORT_KIND.HOTEL_ROOM_TYPES;
-		List<RoomTypesData> inputData = Collections.emptyList();
+		List<RoomTypeData> inputData = Collections.emptyList();
 		
 		when(statisticDao.findRoomTypes(month.id(), year)).thenReturn(inputData);
 		
@@ -90,12 +90,12 @@ public class StatisticMockitoTest {
 		float unitGain = summaryGain / numberOccupiedRooms;
 		int expectedNumberOfBars = 2;
 		
-		RoomTypesData row = mock(RoomTypesData.class);
+		RoomTypeData row = mock(RoomTypeData.class);
 		when(row.getRoomTypeName()).thenReturn(roomType);
 		when(row.getNumberOccupiedRooms()).thenReturn(numberOccupiedRooms);
 		when(row.getSummaryGain()).thenReturn(summaryGain);
 		
-		List<RoomTypesData> inputData = Arrays.asList(row);
+		List<RoomTypeData> inputData = Arrays.asList(row);
 		
 		when(statisticDao.findRoomTypes(month.id(), year)).thenReturn(inputData);
 		

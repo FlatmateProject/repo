@@ -22,7 +22,7 @@ public interface CantorDao {
 
     List<SimpleNameData> showColumnsForCompany() throws DAOException;
 
-    List<CompanyData> findAllComparable(String companyId) throws DAOException;
+    List<CompanyData> findAllCompanies(long companyId) throws DAOException;
 
     CurrencyData findCurrencyByName(CURRENCY currency) throws DAOException;
 

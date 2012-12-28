@@ -1,10 +1,11 @@
 package service;
 
-import org.easymock.EasyMock;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+
+import static org.mockito.Mockito.mock;
 
 public class MockAnnotationParser {
 
@@ -17,7 +18,7 @@ public class MockAnnotationParser {
 		for (Field field : clazz.getDeclaredFields()) {
 			if (field.isAnnotationPresent(Mock.class)) {
 				field.setAccessible(true);
-				field.set(object, EasyMock.createMock(field.getType()));
+				field.set(object, mock(field.getType()));
 				System.out.println("mock: " + field.toString());
 			}
 		}

@@ -4,39 +4,33 @@ import dao.ClientDao;
 import dao.DictionaryDao;
 import exception.ServiceException;
 import manager.ServiceManager;
+import org.mockito.Mock;
+
+import static org.mockito.MockitoAnnotations.initMocks;
 
 public abstract class AbstractServiceTestMock {
-
-	private MockAnnotationParser annotationParser = new MockAnnotationParser();
 
 	@Mock
 	protected DictionaryDao dictionaryDao;
 
 	@Mock
 	protected ClientDao clientDao;
-	
+
 	@Mock
 	protected ServiceManager serviceManager;
 
 	private <S extends AbstractService<?>> void setup(S service) {
-
-		createReflectionMocks();
-
-		// mocks dependencies
-		dictionaryDao.setSession(null);
-
-		clientDao.setSession(null);
-		
-		serviceManager.setSession(null);
-		serviceManager.setApplicationContext(null);
-
-		// inject dependency into service
-		service.setDictionaryDao(dictionaryDao);
-		service.setClientDao(clientDao);
-		service.setServiceManager(serviceManager);
+        initMocks(this);
+        injectDependencyIntoService(service);
 	}
 
-	protected <S extends AbstractService<?>> S getService(Class<? extends AbstractService<?>> className) {
+    private <S extends AbstractService<?>> void injectDependencyIntoService(S service) {
+        service.setDictionaryDao(dictionaryDao);
+        service.setClientDao(clientDao);
+        service.setServiceManager(serviceManager);
+    }
+
+    protected <S extends AbstractService<?>> S getService(Class<? extends AbstractService<?>> className) {
 		S service = getInstance(className);
 		setup(service);
 		return service;
@@ -56,14 +50,5 @@ public abstract class AbstractServiceTestMock {
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	private void createReflectionMocks() {
-		try {
-			annotationParser.parse(getClass(), this);
-			annotationParser.parse(this.getClass().getSuperclass(), this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 }

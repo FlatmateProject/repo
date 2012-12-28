@@ -19,10 +19,6 @@ public class CurrencyData implements ArrayObtained {
     public CurrencyData() {
     }
 
-    public CurrencyData(String name) {
-        this.name = name;
-    }
-
     public Object[] getArray() {
         return Arrays.array(currencyId, name, salePrice, buyPrice, quantity);
     }

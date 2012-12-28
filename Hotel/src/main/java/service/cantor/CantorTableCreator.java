@@ -37,10 +37,10 @@ public class CantorTableCreator {
         }
     }
 
-    public CantorTableResult createCompanyTable(String companyId) {
+    public CantorTableResult createCompanyTable(long companyId) {
         try {
             List<SimpleNameData> customerColumns = cantorDao.showColumnsForCompany();
-            List<CompanyData> company = cantorDao.findAllComparable(companyId);
+            List<CompanyData> company = cantorDao.findAllCompanies(companyId);
             return TableBuilder.table().columns(customerColumns).data(company).build();
         } catch (Exception e) {
             return CantorTableResult.EMPTY;

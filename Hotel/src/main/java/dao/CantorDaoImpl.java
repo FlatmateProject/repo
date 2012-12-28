@@ -46,7 +46,7 @@ public class CantorDaoImpl extends AbstractDao implements CantorDao{
     }
 
     @Override
-    public List<CompanyData> findAllComparable(String companyId) throws DAOException {
+    public List<CompanyData> findAllCompanies(long companyId) throws DAOException {
         String query = "select * from hotel.firmy where IDF_KRS=" + companyId;
         return executeQuery(query, CompanyData.class);
     }

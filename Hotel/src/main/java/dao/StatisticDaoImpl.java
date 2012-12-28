@@ -9,13 +9,13 @@ import java.util.List;
 public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
 	
 	@Override
-	public List<RoomTypesData> findRoomTypes(int month, int year) throws DAOException {
+	public List<RoomTypeData> findRoomTypes(int month, int year) throws DAOException {
 		String query = "SELECT k.opis opis, count(r.id_rez) meldunki, sum((r.data_w-r.data_z)*k.cena) zysk ";
 		query += "FROM rezerwacje r ";
 		query += "JOIN pokoje p ON r.id_pokoju=p.id_pokoju  JOIN klasy k ON p.id_klasy=k.id_klasy ";
 		query += "WHERE MONTH(r.data_w)=" + month + " and YEAR(r.data_w)="
 				+ year + " GROUP BY k.id_klasy ORDER BY k.id_klasy";
-		return executeQuery(query, RoomTypesData.class);
+		return executeQuery(query, RoomTypeData.class);
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
 		query += "rrz ON rrk.id_rez=rrz.id_rez WHERE uu.typ='"
 				+ serveType + "' ";
 		query += "  GROUP BY rrk.id_rez ) tab";
-		return (Integer) uniqueResult(query);
+		return (Integer) simpleResult(query);
 	}
 
 	@Override
@@ -97,7 +97,7 @@ public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
 		query += "rrz ON rrk.id_rez=rrz.id_rez WHERE uu.nazwa='"
 				+ serveName + "' ";
 		query += "  GROUP BY rrk.id_rez ) tab";
-		return (Integer) uniqueResult(query);
+		return (Integer) simpleResult(query);
 	}
 
     @Override

@@ -46,7 +46,7 @@ public class CantorPanel extends JPanel {
     private final Color buttonColor = new Color(174, 205, 214);
 
     private final CantorDao cantorDao = new CantorDaoImpl();
-    private final Cantor cantor = new Cantor(cantorDao);
+    private final CantorMoneyExchanger cantor = new CantorMoneyExchanger(cantorDao);
     private final CantorTableCreator creator = new CantorTableCreator(cantorDao);
 
     public CantorPanel() {
@@ -150,7 +150,8 @@ public class CantorPanel extends JPanel {
             }
 
             private void createCompanyTable() {
-                clientTable = createTable(creator.createCompanyTable(peselOrKrsInput.getText()));
+                long krs = Long.parseLong(peselOrKrsInput.getText());
+                clientTable = createTable(creator.createCompanyTable(krs));
                 scrollClientPane.setViewportView(clientTable);
                 scrollClientPane.repaint();
             }

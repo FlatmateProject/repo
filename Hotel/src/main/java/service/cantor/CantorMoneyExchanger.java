@@ -5,11 +5,11 @@ import dto.cantor.CurrencyData;
 import exception.CantorTransactionCanceledException;
 import exception.DAOException;
 
-public class Cantor {
+public class CantorMoneyExchanger {
 
     private final CantorDao cantorDao;
 
-    public Cantor(CantorDao cantorDao) {
+    public CantorMoneyExchanger(CantorDao cantorDao) {
         this.cantorDao = cantorDao;
     }
 

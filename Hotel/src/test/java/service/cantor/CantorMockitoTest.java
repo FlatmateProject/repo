@@ -4,13 +4,13 @@ import dao.CantorDao;
 import dto.cantor.CurrencyData;
 import exception.CantorTransactionCanceledException;
 import exception.DAOException;
+import org.mockito.Mock;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static assertions.ExchangeCalculationAssertion.assertThat;
 import static org.mockito.Mockito.*;
-import static org.mockito.MockitoAnnotations.Mock;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class CantorMockitoTest {
@@ -18,12 +18,12 @@ public class CantorMockitoTest {
     @Mock
     CantorDao cantorDao;
 
-    private Cantor cantor;
+    private CantorMoneyExchanger cantor;
 
     @BeforeMethod
     public void beforeEachTest() {
         initMocks(this);
-        cantor = new Cantor(cantorDao);
+        cantor = new CantorMoneyExchanger(cantorDao);
     }
 
     @Test(dataProvider = "prepareCasesForCalculateMoneyExchange")

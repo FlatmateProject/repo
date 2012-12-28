@@ -2,23 +2,25 @@ package service.cantor;
 
 import dao.CantorDao;
 import dto.SimpleNameData;
+import dto.cantor.CompanyData;
 import dto.cantor.CurrencyData;
 import dto.cantor.CustomerData;
 import exception.DAOException;
+import org.mockito.Mock;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
+import java.util.Date;
 
 import static assertions.TableAssert.assertThat;
 import static conditions.table.ColumnCondition.containColumns;
 import static conditions.table.RowCondition.containsRow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.Mock;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class CantorTableCreatorTest {
+public class CantorTableCreatorMockitoTest {
 
     @Mock
     CantorDao cantorDao;
@@ -96,7 +98,7 @@ public class CantorTableCreatorTest {
         // given
         long pesel = 87122206592L;
         String[] columnNames = new String[]{"Pesel", "Name", "Family", "County", "City", "Street", "Block", "Flat", "Status", "Notes", "Phone", "Nip"};
-        Object[] row = new Object[]{87122206592L, "Piotr", "Piotrowski", "Małopolsie", "Kraków", "Zdunów", "22c", 30L, "NEW", "OK", 889225169L, 6582514L};
+        Object[] row = new Object[]{pesel, "Piotr", "Piotrowski", "Małopolsie", "Kraków", "Zdunów", "22c", 30L, "NEW", "OK", 889225169L, 6582514L};
 
         SimpleNameData simpleNameData = mock(SimpleNameData.class);
         when(simpleNameData.getName()).thenReturn(columnNames[0], columnNames[1], columnNames[2], columnNames[3], columnNames[4],
@@ -116,6 +118,53 @@ public class CantorTableCreatorTest {
         assertThat(result)
                 .isNotNull()
                 .hasColumnNumber(12)
+                .hasRowNumber(1)
+                .is(containColumns(columnNames))
+                .is(containsRow(row));
+    }
+
+    @Test
+    public void shouldCreateEmptyCompanyTable() throws Exception {
+        //given
+        long krs = 311911L;
+
+        //when
+        CantorTableResult result = creator.createCompanyTable(krs);
+
+        //then
+        assertThat(result)
+                .isNotNull()
+                .hasRowNumber(1)
+                .hasColumnNumber(1)
+                .is(containColumns(CantorTableResult.EMPTY_COLUMN))
+                .is(containsRow(CantorTableResult.EMPTY_ROW));
+    }
+
+    @Test
+    public void shouldCreateCompanyTableWithOneRow() throws DAOException {
+        // given
+        long krs = 311911L;
+        String[] columnNames = new String[]{"Krs", "Name", "Family", "County", "City", "Street", "Block", "Flat", "Status", "Notes", "Regon", "Nip", "Phone", "Data_zalozenia"};
+        Object[] row = new Object[]{krs, "Sabre", "Małopolsie", "Kraków", "Zdunów", "22c", 30L, "NEW", "OK", 260259015L, 8641909961L, 889225169L, new Date()};
+
+        SimpleNameData simpleNameData = mock(SimpleNameData.class);
+        when(simpleNameData.getName()).thenReturn(columnNames[0], columnNames[1], columnNames[2], columnNames[3], columnNames[4],
+                columnNames[5], columnNames[6], columnNames[7], columnNames[8], columnNames[9], columnNames[10], columnNames[11], columnNames[12]);
+
+        CompanyData companyData = mock(CompanyData.class);
+        when(companyData.getArray()).thenReturn(row);
+
+        when(cantorDao.showColumnsForCompany()).thenReturn(Arrays.asList(simpleNameData, simpleNameData, simpleNameData, simpleNameData, simpleNameData, simpleNameData,
+                simpleNameData, simpleNameData, simpleNameData, simpleNameData, simpleNameData, simpleNameData, simpleNameData));
+        when(cantorDao.findAllCompanies(krs)).thenReturn(Arrays.asList(companyData));
+
+        // when
+        CantorTableResult result = creator.createCompanyTable(krs);
+
+        // then
+        assertThat(result)
+                .isNotNull()
+                .hasColumnNumber(13)
                 .hasRowNumber(1)
                 .is(containColumns(columnNames))
                 .is(containsRow(row));
