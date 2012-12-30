@@ -2,6 +2,8 @@ package gui;
 
 import dao.Singleton;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import service.EmployeeManager;
 import service.dictionary.MONTH;
 import validation.ValidationUtils;
@@ -17,6 +19,7 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+@Component
 public class EmployeeManagerPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -47,8 +50,9 @@ public class EmployeeManagerPanel extends JPanel {
 	private JList mgpSchedText;
 	private JTextPane mgpRaportText;
 	private JPanel mgpServe[];
-	
-	private final EmployeeManager mgp = new EmployeeManager();
+
+    @Autowired
+	private final EmployeeManager employeeManager;
 
 	private String mgpColsName[];
 	private String mgpMatrix[][];
@@ -68,8 +72,9 @@ public class EmployeeManagerPanel extends JPanel {
 	
 	private final Singleton db = Singleton.getInstance();
 	
-	public EmployeeManagerPanel() {
-		try {
+	public EmployeeManagerPanel(EmployeeManager employeeManager) {
+        this.employeeManager = employeeManager;
+        try {
 			create();
 			addEvents();
 		} catch (SQLException e) {
@@ -303,7 +308,7 @@ public class EmployeeManagerPanel extends JPanel {
 				if ((i = mgpChooseType.getSelectedIndex()) == 0) {
 					if (++mgpClickCount == 2) {
 						mgpClickCount = 0;
-						ret = mgp.createSchedule(mgpMonth + 1);
+						ret = employeeManager.createSchedule(mgpMonth + 1);
 						log.info((mgpMonth + 1));
 						if (ret)
 							JOptionPane.showMessageDialog(getParent(),
@@ -316,7 +321,7 @@ public class EmployeeManagerPanel extends JPanel {
 				} else if (i == 1) {
 					if (++mgpClickCount == 2) {
 						mgpClickCount = 0;
-						ret = mgp.delSchedule(mgpMonth + 1);
+						ret = employeeManager.delSchedule(mgpMonth + 1);
 						if (ret)
 							JOptionPane.showMessageDialog(getParent(),
 									"Usunieto grafik");
@@ -342,8 +347,8 @@ public class EmployeeManagerPanel extends JPanel {
 					JButton tmp = (JButton) e.getSource();
 					log.info("dzien: " + tmp.getText());
 					mgpDay = Integer.valueOf(tmp.getText());
-					mgpSchedText.setListData(mgp.getDaySchedule(mgpYear + "/"
-							+ (mgpMonth + 1) + "/" + mgpDay));
+					mgpSchedText.setListData(employeeManager.getDaySchedule(mgpYear + "/"
+                            + (mgpMonth + 1) + "/" + mgpDay));
 					mgpChooseEmployee.setVisible(false);
 				}
 			});
@@ -380,7 +385,7 @@ public class EmployeeManagerPanel extends JPanel {
 				if (ValidationUtils.isNotNumber(mgpAddEmploy[7].getText()))
 					msg += "Pole NR_LOKALU ma nieprawid�ow� warto��\n";
 				if (msg == "") {
-					ret = mgp.addEmployee(mgpAddEmploy[0].getText(),
+					ret = employeeManager.addEmployee(mgpAddEmploy[0].getText(),
 							mgpAddEmploy[1].getText(),
 							mgpAddEmploy[2].getText(),
 							mgpAddEmploy[3].getText(),
@@ -426,12 +431,12 @@ public class EmployeeManagerPanel extends JPanel {
 						log.info("pesel: "
 								+ z.substring(ind, z.length()));
 						log.info("dane: " + z.substring(0, ind));
-						mgpSchedText.setListData(mgp.updateSchedule(
-								mgpSchedText.getSelectedIndex(),
-								z.substring(0, ind), mgpYear + "/"
-										+ (mgpMonth + 1) + "/" + mgpDay,
-								z.substring(ind + 1, z.length()),
-								s.substring(1, s.indexOf(" "))));
+						mgpSchedText.setListData(employeeManager.updateSchedule(
+                                mgpSchedText.getSelectedIndex(),
+                                z.substring(0, ind), mgpYear + "/"
+                                + (mgpMonth + 1) + "/" + mgpDay,
+                                z.substring(ind + 1, z.length()),
+                                s.substring(1, s.indexOf(" "))));
 
 						mgpSchedText.repaint();
 					} else
@@ -453,7 +458,7 @@ public class EmployeeManagerPanel extends JPanel {
 							+ (String) mgpTable.getValueAt(i, 2) + " "
 							+ (String) mgpTable.getValueAt(i, 0);
 					log.info("table selected item: " + s);
-					ret = mgp.delEmployee((String) mgpTable.getValueAt(i, 0));
+					ret = employeeManager.delEmployee((String) mgpTable.getValueAt(i, 0));
 					mgpIndel = true;
 					if (ret) {
 						// mgpTable.removeRowSelectionInterval(i,i);
@@ -475,7 +480,7 @@ public class EmployeeManagerPanel extends JPanel {
 		mgpFind.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				int i = (mgpServe[2].getWidth() - 40);
-				mgpMatrix = mgp.findEmployee(mgpDelEmploy[0].getText(),
+				mgpMatrix = employeeManager.findEmployee(mgpDelEmploy[0].getText(),
 						mgpDelEmploy[1].getText(), mgpDelEmploy[2].getText(),
 						(String) mgpChooseDel.getSelectedItem());
 				mgpServe[2].remove(mgpTableScroll);
@@ -487,7 +492,7 @@ public class EmployeeManagerPanel extends JPanel {
 				mgpTable.setSize((int) (i * 0.8), mgpServe[2].getHeight() - 175);
 				mgpServe[2].add(mgpTableScroll);
 				mgpServe[2].repaint();
-				if (mgp.getRowCount() > 0)
+				if (employeeManager.getRowCount() > 0)
 					mgpDel.setVisible(true);
 				if (!mgpDelEmploy[0].getText().equals("")
 						&& !ValidationUtils.isPesel(mgpDelEmploy[0].getText()))
@@ -498,9 +503,9 @@ public class EmployeeManagerPanel extends JPanel {
 		mgpCreat.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				mgpRaportText.setText("Raport z zarobk�w za miesi�c "
-						+ mgpChooseMonth.getSelectedItem()
-						+ "\n"
-						+ mgp.getPaysRaport(mgpChooseMonth.getSelectedIndex() + 1));
+                        + mgpChooseMonth.getSelectedItem()
+                        + "\n"
+                        + employeeManager.getPaysRaport(mgpChooseMonth.getSelectedIndex() + 1));
 				mgpRaportText.setVisible(true);
 
 			}

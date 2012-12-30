@@ -1,9 +1,10 @@
 package gui;
 
 import dao.StatisticDao;
-import dao.StatisticDaoImpl;
 import dto.SimpleNameData;
 import exception.DAOException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import service.GraphDraw;
 import service.dictionary.MONTH;
 import service.statictic.REPORT_KIND;
@@ -18,6 +19,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+@Component
 public class StatisticPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
@@ -44,13 +46,14 @@ public class StatisticPanel extends JPanel {
     private JTextPane reportText;
     private GraphDraw graphDraw;
 
+    @Autowired
     private final StatisticDao statisticDao;
 
-    private final Statistic statistic;
+    @Autowired
+    private Statistic statistic;
 
-    public StatisticPanel() {
-        statisticDao = new StatisticDaoImpl();
-        statistic = new Statistic(statisticDao);
+    public StatisticPanel(StatisticDao statisticDao) {
+        this.statisticDao = statisticDao;
         create();
         addEvents();
     }
@@ -250,24 +253,32 @@ public class StatisticPanel extends JPanel {
                 graphDraw.setVisible(false);
                 StatisticReport report;
                 if (chooseType.getSelectedIndex() == 0) {
-                    report = statistic.hotel(//
-                            (REPORT_KIND) chooseSubHotel.getSelectedItem(),
-                            (MONTH) chooseMonth.getSelectedItem(),
-                            chooseYear.getSelectedIndex() + 2010,
-                            (String) roomTypeChoose.getSelectedItem(),
-                            (String) serviceTypeChoose.getSelectedItem());
+                    report = hotel();
                 } else {
-                    report = statistic.finance(//
-                            (REPORT_KIND) chooseSubFinance.getSelectedItem(),
-                            (MONTH) chooseMonth2.getSelectedItem(),
-                            (MONTH) chooseMonth.getSelectedItem(),
-                            chooseYear.getSelectedIndex() + 2010,
-                            chooseYear2.getSelectedIndex() + 2010);
+                    report = finance();
                 }
                 graphDraw.setArray(report.getArrayResult());
                 reportText.setText(report.getTextResult());
                 graphDraw.setVisible(true);
                 reportScroll.setVisible(true);
+            }
+
+            private StatisticReport hotel() {
+                return statistic.hotel(//
+                        (REPORT_KIND) chooseSubHotel.getSelectedItem(),
+                        (MONTH) chooseMonth.getSelectedItem(),
+                        chooseYear.getSelectedIndex() + 2010,
+                        (String) roomTypeChoose.getSelectedItem(),
+                        (String) serviceTypeChoose.getSelectedItem());
+            }
+
+            private StatisticReport finance() {
+                return statistic.finance(//
+                        (REPORT_KIND) chooseSubFinance.getSelectedItem(),
+                        (MONTH) chooseMonth2.getSelectedItem(),
+                        (MONTH) chooseMonth.getSelectedItem(),
+                        chooseYear.getSelectedIndex() + 2010,
+                        chooseYear2.getSelectedIndex() + 2010);
             }
         });
         chooseType.addItemListener(new ItemListener() {
@@ -375,5 +386,9 @@ public class StatisticPanel extends JPanel {
     public void setSize(int width, int height) {
         resizeStatistic(width, height);
         super.setSize(width, height);
+    }
+
+    public void setStatistic(Statistic statistic) {
+        this.statistic = statistic;
     }
 }

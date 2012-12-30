@@ -1,5 +1,7 @@
 package gui;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import service.Reception;
 
 import javax.swing.*;
@@ -11,6 +13,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+@Component
 public class ReceptionPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -32,10 +35,12 @@ public class ReceptionPanel extends JPanel {
 	private final Color bgColor = new Color(224, 230, 233);
 	private final Color buttonColor = new Color(174, 205, 214);
 
-    private final Reception recept = new Reception();
+    @Autowired
+    private final Reception reception;
 	
-	public ReceptionPanel(){
-		create();
+	public ReceptionPanel(Reception reception){
+        this.reception = reception;
+        create();
 		addEvents();
 	}
 	
@@ -96,7 +101,7 @@ public class ReceptionPanel extends JPanel {
 		recPayGroup.add(recPayButton[1]);
 		recBilGroup.add(recBilButton[0]);
 		recBilGroup.add(recBilButton[1]);
-		recTable = recept.createTable("");
+		recTable = reception.createTable("");
 		recScrollPane = new JScrollPane(recTable);
 		recScrollPane.setBorder(border);
 		recScrollPane.setViewportView(recTable);
@@ -114,13 +119,11 @@ public class ReceptionPanel extends JPanel {
 
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -132,19 +135,19 @@ public class ReceptionPanel extends JPanel {
 					JOptionPane.showMessageDialog(getParent(), "Podaj parametry",
 							"B��d", 0);
 				else {
-					if (!recept.isNumber(recJta[0].getText())) {
+					if (!reception.isNumber(recJta[0].getText())) {
 						id = false;
 						JOptionPane.showMessageDialog(getParent(),
 								"Nieprawidlowy numer rezerwacji",
 								"Nieuznany parametr", 0);
-					} else if (recept.isNumber(recJta[0].getText())
+					} else if (reception.isNumber(recJta[0].getText())
 							&& !recJta[0].getText().isEmpty()) {
 						id = true;
 						sel = sel + " where ID_REZ=" + recJta[0].getText();
 					}
 					if (!recJta[1].getText().isEmpty()) {
-						pes = recept.isPesel(recJta[1].getText());
-						krs = recept.isKRS(recJta[1].getText());
+						pes = reception.isPesel(recJta[1].getText());
+						krs = reception.isKRS(recJta[1].getText());
 						if (!pes && !krs)
 							JOptionPane.showMessageDialog(getParent(),
 									"Nieprawidlowy PESEL/KRS",
@@ -167,7 +170,7 @@ public class ReceptionPanel extends JPanel {
 						}
 					}
 					if (!recJta[2].getText().isEmpty()) {
-						date = recept.isDate(recJta[2].getText());
+						date = reception.isDate(recJta[2].getText());
 						if (!date) {
 							JOptionPane.showMessageDialog(getParent(),
 									"Nieprawid�owa data", "Nieuznany parametr",
@@ -184,7 +187,7 @@ public class ReceptionPanel extends JPanel {
 						}
 					}
 				}
-				recTable = recept.createTable(sel);
+				recTable = reception.createTable(sel);
 				recScrollPane.setViewportView(recTable);
 				recScrollPane.repaint();
 				id = false;
@@ -197,7 +200,6 @@ public class ReceptionPanel extends JPanel {
 
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 
 			}
 		});
@@ -210,13 +212,11 @@ public class ReceptionPanel extends JPanel {
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -256,7 +256,7 @@ public class ReceptionPanel extends JPanel {
 
 						much = Float.parseFloat(recCenaJta.getText());
 						tax = (float) (much * 0.22);
-						if (recept.pay(Integer.parseInt(recTable.getValueAt(
+						if (reception.pay(Integer.parseInt(recTable.getValueAt(
 								recTable.getSelectedRow(), 0).toString()),
 								date1, form, tax, much, name))
 							JOptionPane.showMessageDialog(getParent(),
@@ -272,7 +272,6 @@ public class ReceptionPanel extends JPanel {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 		});
@@ -286,13 +285,11 @@ public class ReceptionPanel extends JPanel {
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -309,7 +306,7 @@ public class ReceptionPanel extends JPanel {
 					if (recTable.getValueAt(0, 0) == "Brak danych") {
 						JOptionPane.showMessageDialog(getParent(), "Brak danych!");
 					} else {
-						if ((cost = recept.calculate(Integer.parseInt(recTable
+						if ((cost = reception.calculate(Integer.parseInt(recTable
 								.getValueAt(recTable.getSelectedRow(), 0)
 								.toString()))) < 1)
 							JOptionPane.showMessageDialog(getParent(),
@@ -325,7 +322,6 @@ public class ReceptionPanel extends JPanel {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 		});
@@ -339,13 +335,11 @@ public class ReceptionPanel extends JPanel {
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -361,11 +355,11 @@ public class ReceptionPanel extends JPanel {
 					if (recTable.getValueAt(0, 0) == "Brak danych") {
 						JOptionPane.showMessageDialog(getParent(), "Brak danych!");
 					} else {
-						recept.deleteRez(Integer.parseInt(recTable.getValueAt(
-								recTable.getSelectedRow(), 0).toString()));
+						reception.deleteRez(Integer.parseInt(recTable.getValueAt(
+                                recTable.getSelectedRow(), 0).toString()));
 						JOptionPane.showMessageDialog(getParent(),
 								"Usuni�to rezerwacj�");
-						recTable = recept.createTable("");
+						recTable = reception.createTable("");
 						recScrollPane.setViewportView(recTable);
 						recScrollPane.repaint();
 
@@ -387,13 +381,11 @@ public class ReceptionPanel extends JPanel {
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -413,7 +405,7 @@ public class ReceptionPanel extends JPanel {
 							.toString() == "Brak danych")
 						JOptionPane.showMessageDialog(getParent(), "Brak danych!",
 								"B��d", 1);
-					else if (recept.checkPay(Integer.parseInt(recTable
+					else if (reception.checkPay(Integer.parseInt(recTable
 							.getValueAt(recTable.getSelectedRow(), 0)
 							.toString()))) {
 						if (recTable.getValueAt(recTable.getSelectedRow(), 2) == null) {
@@ -425,7 +417,7 @@ public class ReceptionPanel extends JPanel {
 							idK = Long.parseLong(recTable.getValueAt(
 									recTable.getSelectedRow(), 2).toString());
 						}
-						recept.archivRez(
+						reception.archivRez(
 								Integer.parseInt(recTable.getValueAt(
 										recTable.getSelectedRow(), 0)
 										.toString()),
@@ -441,9 +433,9 @@ public class ReceptionPanel extends JPanel {
 										5).toString(),
 								recTable.getValueAt(recTable.getSelectedRow(),
 										6).toString());
-						recept.deleteRez(Integer.parseInt(recTable.getValueAt(
+						reception.deleteRez(Integer.parseInt(recTable.getValueAt(
 								recTable.getSelectedRow(), 0).toString()));
-						recTable = recept.createTable("");
+						recTable = reception.createTable("");
 						recScrollPane.setViewportView(recTable);
 						recScrollPane.repaint();
 					} else {
@@ -457,7 +449,6 @@ public class ReceptionPanel extends JPanel {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 		});

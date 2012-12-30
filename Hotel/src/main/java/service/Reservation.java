@@ -13,15 +13,15 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Rezervation {
+public class Reservation {
 	
-	private static final Logger log = Logger.getLogger(Rezervation.class);
+	private static final Logger log = Logger.getLogger(Reservation.class);
 	
 	private final Singleton sing = Singleton.getInstance();
 	private ResultSet rset1;
     private ResultSet rset2;
 
-    public Rezervation() {
+    public Reservation() {
 
 	}
 

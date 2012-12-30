@@ -4,9 +4,13 @@ import dao.CantorDao;
 import dto.cantor.CurrencyData;
 import exception.CantorTransactionCanceledException;
 import exception.DAOException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CantorMoneyExchanger {
 
+    @Autowired
     private final CantorDao cantorDao;
 
     public CantorMoneyExchanger(CantorDao cantorDao) {

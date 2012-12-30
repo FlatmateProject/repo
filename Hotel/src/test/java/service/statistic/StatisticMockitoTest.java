@@ -53,7 +53,8 @@ public class StatisticMockitoTest {
     @BeforeMethod
     public void beforeEachTest() {
         initMocks(this);
-        statistic = new Statistic(statisticDao);
+        statistic = new Statistic();
+        statistic.setStatisticDao(statisticDao);
     }
 	@Test
 	public void shouldCreateEmptyRoomTypesReport() throws DAOException{

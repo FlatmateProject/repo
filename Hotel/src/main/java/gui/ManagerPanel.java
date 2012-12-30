@@ -1,6 +1,8 @@
 package gui;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import service.GuestBook;
 import service.Manager;
 import validation.ValidationUtils;
@@ -14,6 +16,7 @@ import java.awt.event.MouseListener;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+@Component
 public class ManagerPanel extends JPanel {
 
 	
@@ -63,13 +66,19 @@ public class ManagerPanel extends JPanel {
 		}
 	};
 	private final Color buttonColor = new Color(174, 205, 214);
-	private final Manager man = new Manager();
-	private final GuestBook gue = new GuestBook();
 
-	public ManagerPanel() {
-		create();
-		addEvents();
-	}
+    @Autowired
+	private final Manager manager;
+
+    @Autowired
+	private GuestBook guestBook;
+
+    public ManagerPanel(Manager manager) {
+        this.manager = manager;
+        this.guestBook = guestBook;
+        create();
+        addEvents();
+    }
 
 	private void create() {
 
@@ -147,7 +156,7 @@ public class ManagerPanel extends JPanel {
 						}
 					}
 					if (i == manData.length - 1) {
-						if (!man.insertData(manName, l, d, manData.length)) {
+						if (!manager.insertData(manName, l, d, manData.length)) {
 							JOptionPane.showMessageDialog(null,
 									"B��dne ID lub taki klient ju� istnieje!",
 									"UWAGA!", JOptionPane.ERROR_MESSAGE);
@@ -166,7 +175,7 @@ public class ManagerPanel extends JPanel {
 				if (!manData[0].getText().isEmpty()) {
 					String l = new String(manLabel[0].getText());
 					String d = new String(manData[0].getText());
-					if (!man.deleteData(manName, l, d)) {
+					if (!manager.deleteData(manName, l, d)) {
 						JOptionPane.showMessageDialog(null,
 								"Nie mo�na usun�� tego wiersza!", "UWAGA!",
 								JOptionPane.ERROR_MESSAGE);
@@ -187,7 +196,7 @@ public class ManagerPanel extends JPanel {
 					l[i] = manLabel[i].getText();
 					d[i] = manData[i].getText();
 				}
-				man.updateData(manName, l, d, manData.length);
+				manager.updateData(manName, l, d, manData.length);
 				manTable = manGenTable(manName);
 				manTable.addMouseListener(manTableML);
 				manScrollPane.setViewportView(manTable);
@@ -207,7 +216,7 @@ public class ManagerPanel extends JPanel {
 					}
 				}
 				if (!s2.isEmpty()) {
-					manTable = gue.createTable(manName, " where " + s2);
+					manTable = guestBook.createTable(manName, " where " + s2);
 					manTable.addMouseListener(manTableML);
 					manScrollPane.setViewportView(manTable);
 				}
@@ -218,7 +227,7 @@ public class ManagerPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				for (int i = 0; i < manData.length; i++) {
 					manData[i].setText("");
-					manTable = gue.createTable(manName, "");
+					manTable = guestBook.createTable(manName, "");
 					manTable.addMouseListener(manTableML);
 					manScrollPane.setViewportView(manTable);
 				}
@@ -297,19 +306,19 @@ public class ManagerPanel extends JPanel {
 		});
 
 		String news[] = {
-				"Og�lna ilo�� rezerwacji: " + man.getCount("rezerwacje"),
-				"Ilo�� zarejestrowanych go�ci: " + man.getCount("klienci"),
-				man.getCount("pokoje") + " pokoi, z czego "
-//						+ man.getCount("pokoje where id_rez is null")
+				"Og�lna ilo�� rezerwacji: " + manager.getCount("rezerwacje"),
+				"Ilo�� zarejestrowanych go�ci: " + manager.getCount("klienci"),
+				manager.getCount("pokoje") + " pokoi, z czego "
+//						+ manager.getCount("pokoje where id_rez is null")
 						+ " wolnych i "
-//						+ man.getCount("pokoje where id_rez is not null")
+//						+ manager.getCount("pokoje where id_rez is not null")
 						+ " zaj�tych.",
-				"Ilo�� dost�pnych us�ug: " + man.getCount("uslugi"),
+				"Ilo�� dost�pnych us�ug: " + manager.getCount("uslugi"),
 				"W tym miesi�cu oczekujemy na "
-						+ man.getCount("rezerwacje where month(data_z) = "
+						+ manager.getCount("rezerwacje where month(data_z) = "
 								+ (schCalendar.get(Calendar.MONTH) + 1))
 						+ ", a �egnamy "
-						+ man.getCount("rezerwacje where month(data_w) = "
+						+ manager.getCount("rezerwacje where month(data_w) = "
 								+ (schCalendar.get(Calendar.MONTH) + 1))
 						+ " go�ci" };
 		manNews = new JList(news);
@@ -336,7 +345,7 @@ public class ManagerPanel extends JPanel {
 	}
 
 	private JTable manGenTable(String name) {
-		String manData[][] = man.createTable(name);
+		String manData[][] = manager.createTable(name);
 		String columnNames[] = new String[manData[0].length];
 		Object rowData[][] = new Object[manData.length - 1][manData[0].length];
 
@@ -353,7 +362,7 @@ public class ManagerPanel extends JPanel {
 	}
 
 	private JPanel createDataPanel(String name) {
-		String cols[] = man.getColumns(name);
+		String cols[] = manager.getColumns(name);
 		int colCount = (cols != null ? cols.length : 0);
 		manLabel = new JLabel[colCount];
 		manData = new JTextField[colCount];
@@ -438,4 +447,8 @@ public class ManagerPanel extends JPanel {
 		resizeManager(width, height);
 		super.setSize(width, height);
 	}
+
+    public void setGuestBook(GuestBook guestBook) {
+        this.guestBook = guestBook;
+    }
 }

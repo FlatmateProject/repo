@@ -1,5 +1,7 @@
 package gui;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import service.Schedule;
 import service.dictionary.MONTH;
 
@@ -11,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+@Component
 public class SchedulerPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -31,10 +34,12 @@ public class SchedulerPanel extends JPanel {
 	private final String[] schDow = { "Pn", "Wt", "�r", "Cz", "Pt", "So", "Nd" };
 	//private int schDom[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
-	private final Schedule sch = new Schedule();
+    @Autowired
+	private final Schedule schedule;
 
-	public SchedulerPanel() {
-		create();
+	public SchedulerPanel(Schedule schedule) {
+        this.schedule = schedule;
+        create();
 		addEvents();
 	}
 
@@ -55,7 +60,7 @@ public class SchedulerPanel extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					JButton tmp = (JButton) arg0.getSource();
-					schTable = sch.getTable(Integer.valueOf(tmp.getText()),
+					schTable = schedule.getTable(Integer.valueOf(tmp.getText()),
 							m + 1, y);
 					schScrollPane.setViewportView(schTable);
 				}
@@ -72,7 +77,7 @@ public class SchedulerPanel extends JPanel {
 		add(schPrev);
 		add(schNext);
 
-		schTable = sch.getTable(0, m + 1, y);
+		schTable = schedule.getTable(0, m + 1, y);
 		schScrollPane = new JScrollPane(schTable);
 		schScrollPane.setBorder(border);
 		add(schScrollPane);
@@ -135,7 +140,7 @@ public class SchedulerPanel extends JPanel {
 					y--;
 				}
 				schInitCalendar(d, m, y);
-				schTable = sch.getTable(0, m + 1, y);
+				schTable = schedule.getTable(0, m + 1, y);
 				schScrollPane.setViewportView(schTable);
 			}
 		});
@@ -147,7 +152,7 @@ public class SchedulerPanel extends JPanel {
 					y++;
 				}
 				schInitCalendar(d, m, y);
-				schTable = sch.getTable(0, m + 1, y);
+				schTable = schedule.getTable(0, m + 1, y);
 				schScrollPane.setViewportView(schTable);
 			}
 		});
@@ -158,4 +163,5 @@ public class SchedulerPanel extends JPanel {
 		schInitCalendar(d, m, y);
 		super.setSize(width, height);
 	}
+
 }

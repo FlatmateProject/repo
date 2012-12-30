@@ -1,8 +1,9 @@
 package gui;
 
 import dao.CantorDao;
-import dao.CantorDaoImpl;
 import exception.CantorTransactionCanceledException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import service.cantor.*;
 
 import javax.swing.*;
@@ -14,6 +15,7 @@ import java.text.NumberFormat;
 
 import static validation.ValidationUtils.*;
 
+@Component
 public class CantorPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
@@ -45,11 +47,18 @@ public class CantorPanel extends JPanel {
     private final Border border = BorderFactory.createLineBorder(new Color(60, 124, 142));
     private final Color buttonColor = new Color(174, 205, 214);
 
-    private final CantorDao cantorDao = new CantorDaoImpl();
-    private final CantorMoneyExchanger cantor = new CantorMoneyExchanger(cantorDao);
-    private final CantorTableCreator creator = new CantorTableCreator(cantorDao);
+    @Autowired
+    private final CantorDao cantorDao;
 
-    public CantorPanel() {
+    @Autowired
+    private CantorMoneyExchanger cantor;
+
+    @Autowired
+    private final CantorTableCreator creator;
+
+    public CantorPanel(CantorDao cantorDao, CantorTableCreator creator) {
+        this.cantorDao = cantorDao;
+        this.creator = creator;
         create();
         addEvents();
     }
@@ -300,5 +309,9 @@ public class CantorPanel extends JPanel {
     public void setSize(int width, int height) {
         resizeCantor(width);
         super.setSize(width, height);
+    }
+
+    public void setCantor(CantorMoneyExchanger cantor) {
+        this.cantor = cantor;
     }
 }

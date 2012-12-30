@@ -12,10 +12,6 @@ public class Schedule {
 	private final Singleton sing = Singleton.getInstance();
 	private ResultSet rset1;
 
-    public Schedule() {
-
-	}
-
 	public JTable getTable(int d, int m, int y) {
 		try {
 			int i = 0, j, rows;
