@@ -12,8 +12,6 @@ import service.cantor.CantorMoneyExchanger;
 import service.cantor.CantorTableCreator;
 import service.statictic.Statistic;
 
-import javax.swing.*;
-
 @Configuration
 public class ApplicationConfiguration {
 
@@ -30,7 +28,7 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public JPanel statisticPanel() {
+    public StatisticPanel statisticPanel() {
         StatisticPanel statisticPanel = new StatisticPanel(statisticDao());
         statisticPanel.setStatistic(statistic());
         return statisticPanel;
@@ -52,7 +50,7 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public JPanel cantorPanel() {
+    public CantorPanel cantorPanel() {
         CantorPanel cantorPanel = new CantorPanel(cantorDao(), cantorTableCreator());
         cantorPanel.setCantor(cantorMoneyExchanger());
         return cantorPanel;
@@ -64,7 +62,7 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public JPanel schedulerPanel() {
+    public SchedulerPanel schedulerPanel() {
         return new SchedulerPanel(schedule());
     }
 
@@ -74,7 +72,7 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public JPanel receptionPanel() {
+    public ReceptionPanel receptionPanel() {
         return new ReceptionPanel(reception());
     }
 
@@ -84,7 +82,7 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public JPanel reservationPanel() {
+    public ReservationPanel reservationPanel() {
         return new ReservationPanel(reservation());
     }
 
@@ -94,19 +92,19 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public GuestBook guestBook() {
-        return new GuestBook();
-    }
-
-    @Bean
-    public JPanel managerPanel() {
+    public ManagerPanel managerPanel() {
         ManagerPanel managerPanel = new ManagerPanel(manager());
         managerPanel.setGuestBook(guestBook());
         return managerPanel;
     }
 
     @Bean
-    public JPanel guestBookPanel() {
+    public GuestBook guestBook() {
+        return new GuestBook();
+    }
+
+    @Bean
+    public GuestBookPanel guestBookPanel() {
         return new GuestBookPanel(guestBook());
     }
 
@@ -116,7 +114,22 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public JPanel employeeManagerPanel() {
+    public EmployeeManagerPanel employeeManagerPanel() {
         return new EmployeeManagerPanel(employeeManager());
+    }
+
+    @Bean
+    public Gui gui() {
+        Gui gui = new Gui();
+        gui.setCantorPanel(cantorPanel());
+        gui.setSchedulerPanel(schedulerPanel());
+        gui.setReceptionPanel(receptionPanel());
+        gui.setReservationPanel(reservationPanel());
+        gui.setManagerPanel(managerPanel());
+        gui.setGuessBookPanel(guestBookPanel());
+        gui.setStatisticPanel(statisticPanel());
+        gui.setEmployeeManagerPanel(employeeManagerPanel());
+        gui.construct();
+        return gui;
     }
 }
