@@ -31,7 +31,7 @@ public class SimpleNameListAssert extends ListAssert {
     }
 
     public SimpleNameListAssert exactly() {
-        super.onProperty("name").containsExactly(names);
+        super.onProperty("name").containsExactly(names.toArray());
         return this;
     }
 
