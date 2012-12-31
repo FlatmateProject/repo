@@ -1,17 +1,13 @@
 package service.statictic;
 
 import dao.StatisticDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import service.dictionary.MONTH;
 import service.statictic.executors.ReportCreator;
 import service.statictic.executors.ReportDetails;
 import service.statictic.templates.ReportTemplateBuilder;
 
-@Service
 public class Statistic {
 
-    @Autowired
 	private StatisticDao statisticDao;
 
 	public StatisticReport finance(REPORT_KIND REPORTKind, MONTH monthFrom, MONTH monthTo, int yearFrom, int yearTo) {

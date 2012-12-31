@@ -1,7 +1,5 @@
 package gui;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import service.Reservation;
 
 import javax.swing.*;
@@ -13,7 +11,6 @@ import java.text.ParseException;
 
 import static validation.ValidationUtils.isNotNumber;
 
-@Component
 public class ReservationPanel extends JPanel {
 
     private final JTextField[] rezJta = new JTextField[11];
@@ -62,7 +59,6 @@ public class ReservationPanel extends JPanel {
             142));
     private final Color bgColor = new Color(224, 230, 233);
 
-    @Autowired
     private final Reservation reservation;
 
     public ReservationPanel(Reservation reservation) {

@@ -62,7 +62,7 @@ abstract class AbstractDao {
             resultSet = session.query(query);
             return resultSet.next() ? resultSet.getObject(1) : 0;
         } catch (Exception e) {
-            throw  new DAOException(e.getMessage());
+            throw  new DAOException(e);
         }
     }
 
@@ -71,7 +71,7 @@ abstract class AbstractDao {
             List<T> oneElementList = executeQuery(query, dtoClass);
             return oneElementList.get(0);
         } catch (Exception e) {
-            throw new DAOException(e.getMessage());
+            throw new DAOException(e);
         }
     }
 
@@ -88,7 +88,7 @@ abstract class AbstractDao {
             }
             return EMPTY_LIST;
         } catch (Exception e) {
-            throw new DAOException(e.getMessage());
+            throw new DAOException(e);
         }
     }
 

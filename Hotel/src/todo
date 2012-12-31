@@ -10,3 +10,4 @@
 15. add transactioning spring support
 16. run dbunit test on mysql.test database
 17. create runner which replaces method beforeEachTest in my mockito tests
+18. add test on AbstractDao

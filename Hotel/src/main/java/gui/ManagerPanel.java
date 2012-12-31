@@ -1,8 +1,6 @@
 package gui;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import service.GuestBook;
 import service.Manager;
 import validation.ValidationUtils;
@@ -16,7 +14,6 @@ import java.awt.event.MouseListener;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-@Component
 public class ManagerPanel extends JPanel {
 
 	
@@ -67,10 +64,8 @@ public class ManagerPanel extends JPanel {
 	};
 	private final Color buttonColor = new Color(174, 205, 214);
 
-    @Autowired
 	private final Manager manager;
 
-    @Autowired
 	private GuestBook guestBook;
 
     public ManagerPanel(Manager manager) {

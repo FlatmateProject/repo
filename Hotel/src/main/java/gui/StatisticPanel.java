@@ -3,8 +3,6 @@ package gui;
 import dao.StatisticDao;
 import dto.SimpleNameData;
 import exception.DAOException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import service.GraphDraw;
 import service.dictionary.MONTH;
 import service.statictic.REPORT_KIND;
@@ -19,7 +17,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-@Component
 public class StatisticPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
@@ -46,10 +43,8 @@ public class StatisticPanel extends JPanel {
     private JTextPane reportText;
     private GraphDraw graphDraw;
 
-    @Autowired
     private final StatisticDao statisticDao;
 
-    @Autowired
     private Statistic statistic;
 
     public StatisticPanel(StatisticDao statisticDao) {

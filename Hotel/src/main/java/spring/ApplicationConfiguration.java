@@ -15,106 +15,89 @@ import service.statictic.Statistic;
 @Configuration
 public class ApplicationConfiguration {
 
-    @Bean
-    public StatisticDao statisticDao() {
+    private StatisticDao statisticDao() {
         return new StatisticDaoImpl();
     }
 
-    @Bean
-    public Statistic statistic() {
+    private Statistic statistic(StatisticDao statisticDao) {
         Statistic statistic = new Statistic();
-        statistic.setStatisticDao(statisticDao());
+        statistic.setStatisticDao(statisticDao);
         return statistic;
     }
 
-    @Bean
-    public StatisticPanel statisticPanel() {
-        StatisticPanel statisticPanel = new StatisticPanel(statisticDao());
-        statisticPanel.setStatistic(statistic());
+    private StatisticPanel statisticPanel() {
+        StatisticDao statisticDao = statisticDao();
+        StatisticPanel statisticPanel = new StatisticPanel(statisticDao);
+        statisticPanel.setStatistic(statistic(statisticDao));
         return statisticPanel;
     }
 
-    @Bean
-    public CantorDao cantorDao() {
+    private CantorDao cantorDao() {
         return new CantorDaoImpl();
     }
 
-    @Bean
-    public CantorMoneyExchanger cantorMoneyExchanger() {
-        return new CantorMoneyExchanger(cantorDao());
+    private CantorMoneyExchanger cantorMoneyExchanger(CantorDao cantorDao) {
+        return new CantorMoneyExchanger(cantorDao);
     }
 
-    @Bean
-    public CantorTableCreator cantorTableCreator() {
-        return new CantorTableCreator(cantorDao());
+    private CantorTableCreator cantorTableCreator(CantorDao cantorDao) {
+        return new CantorTableCreator(cantorDao);
     }
 
-    @Bean
-    public CantorPanel cantorPanel() {
-        CantorPanel cantorPanel = new CantorPanel(cantorDao(), cantorTableCreator());
-        cantorPanel.setCantor(cantorMoneyExchanger());
+    private CantorPanel cantorPanel() {
+        CantorDao cantorDao = cantorDao();
+        CantorPanel cantorPanel = new CantorPanel(cantorDao, cantorTableCreator(cantorDao));
+        cantorPanel.setCantor(cantorMoneyExchanger(cantorDao));
         return cantorPanel;
     }
 
-    @Bean
-    public Schedule schedule() {
+    private Schedule schedule() {
         return new Schedule();
     }
 
-    @Bean
-    public SchedulerPanel schedulerPanel() {
+    private SchedulerPanel schedulerPanel() {
         return new SchedulerPanel(schedule());
     }
 
-    @Bean
-    public Reception reception() {
+    private Reception reception() {
         return new Reception();
     }
 
-    @Bean
-    public ReceptionPanel receptionPanel() {
+    private ReceptionPanel receptionPanel() {
         return new ReceptionPanel(reception());
     }
 
-    @Bean
-    public Reservation reservation() {
+    private Reservation reservation() {
         return new Reservation();
     }
 
-    @Bean
-    public ReservationPanel reservationPanel() {
+    private ReservationPanel reservationPanel() {
         return new ReservationPanel(reservation());
     }
 
-    @Bean
-    public Manager manager() {
+    private Manager manager() {
         return new Manager();
     }
 
-    @Bean
-    public ManagerPanel managerPanel() {
+    private ManagerPanel managerPanel() {
         ManagerPanel managerPanel = new ManagerPanel(manager());
         managerPanel.setGuestBook(guestBook());
         return managerPanel;
     }
 
-    @Bean
-    public GuestBook guestBook() {
+    private GuestBook guestBook() {
         return new GuestBook();
     }
 
-    @Bean
-    public GuestBookPanel guestBookPanel() {
+    private GuestBookPanel guestBookPanel() {
         return new GuestBookPanel(guestBook());
     }
 
-    @Bean
-    public EmployeeManager employeeManager() {
+    private EmployeeManager employeeManager() {
         return new EmployeeManager();
     }
 
-    @Bean
-    public EmployeeManagerPanel employeeManagerPanel() {
+    private EmployeeManagerPanel employeeManagerPanel() {
         return new EmployeeManagerPanel(employeeManager());
     }
 

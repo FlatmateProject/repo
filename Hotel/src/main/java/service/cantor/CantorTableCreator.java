@@ -6,15 +6,11 @@ import dto.cantor.CompanyData;
 import dto.cantor.CurrencyData;
 import dto.cantor.CustomerData;
 import exception.DAOException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public class CantorTableCreator {
 
-    @Autowired
     private final CantorDao cantorDao;
 
     public CantorTableCreator(CantorDao cantorDao) {

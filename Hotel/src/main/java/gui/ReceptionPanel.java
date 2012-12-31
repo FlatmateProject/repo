@@ -1,7 +1,5 @@
 package gui;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import service.Reception;
 
 import javax.swing.*;
@@ -13,7 +11,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-@Component
 public class ReceptionPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -35,7 +32,6 @@ public class ReceptionPanel extends JPanel {
 	private final Color bgColor = new Color(224, 230, 233);
 	private final Color buttonColor = new Color(174, 205, 214);
 
-    @Autowired
     private final Reception reception;
 	
 	public ReceptionPanel(Reception reception){

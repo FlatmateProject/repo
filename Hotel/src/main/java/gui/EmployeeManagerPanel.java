@@ -2,8 +2,6 @@ package gui;
 
 import dao.Singleton;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import service.EmployeeManager;
 import service.dictionary.MONTH;
 import validation.ValidationUtils;
@@ -19,7 +17,6 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-@Component
 public class EmployeeManagerPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -51,7 +48,6 @@ public class EmployeeManagerPanel extends JPanel {
 	private JTextPane mgpRaportText;
 	private JPanel mgpServe[];
 
-    @Autowired
 	private final EmployeeManager employeeManager;
 
 	private String mgpColsName[];

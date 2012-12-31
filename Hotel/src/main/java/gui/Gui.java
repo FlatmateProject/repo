@@ -1,41 +1,30 @@
 package gui;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.stereotype.Component;
 import spring.ApplicationConfiguration;
 
 import javax.swing.*;
 import java.awt.*;
 
-@Component
 public class Gui extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
-    @Autowired
     private StatisticPanel statisticPanel;
 
-    @Autowired
     private CantorPanel cantorPanel;
 
-    @Autowired
     private SchedulerPanel schedulerPanel;
 
-    @Autowired
     private ReceptionPanel receptionPanel;
 
-    @Autowired
     private ReservationPanel reservationPanel;
 
-    @Autowired
     private ManagerPanel managerPanel;
 
-    @Autowired
     private GuestBookPanel guessBookPanel;
 
-    @Autowired
     private EmployeeManagerPanel employeeManagerPanel;
 
     public Gui() {
@@ -73,9 +62,9 @@ public class Gui extends JFrame {
         tabbedPane.addTab("Recepcja", receptionPanel);
         tabbedPane.addTab("Rezerwacje", reservationPanel);
         tabbedPane.addTab("Manager", managerPanel);
-        tabbedPane.addTab("Ksi�ga go�ci", guessBookPanel);
+        tabbedPane.addTab("Księga gości", guessBookPanel);
         tabbedPane.addTab("Statystyka", statisticPanel);
-        tabbedPane.addTab("Menad�er personelu", employeeManagerPanel);
+        tabbedPane.addTab("Menadżer personelu", employeeManagerPanel);
         tabbedPane.setBounds(0, 0, getWidth(), getHeight());
         add(tabbedPane);
     }

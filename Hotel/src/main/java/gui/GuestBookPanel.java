@@ -1,7 +1,6 @@
 package gui;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import service.GuestBook;
 
@@ -20,7 +19,6 @@ public class GuestBookPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
-    @Autowired
     private final GuestBook guestBook;
 
     private JPanel guePanelCo;
