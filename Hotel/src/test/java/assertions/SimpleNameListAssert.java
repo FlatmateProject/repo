@@ -30,6 +30,11 @@ public class SimpleNameListAssert extends ListAssert {
         return this;
     }
 
+    public SimpleNameListAssert containServiceType(String serviceType) {
+        addToList(serviceType);
+        return this;
+    }
+
     public SimpleNameListAssert exactly() {
         super.onProperty("name").containsExactly(names.toArray());
         return this;

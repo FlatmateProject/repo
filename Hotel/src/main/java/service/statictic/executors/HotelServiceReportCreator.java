@@ -30,7 +30,7 @@ public class HotelServiceReportCreator extends ReportCreator {
     public StatisticReport createReport(ReportTemplateBuilder templateBuilder) throws DAOException {
         int i = 0;
         List<DiagramElement> diagramElements = new LinkedList<DiagramElement>();
-        List<ServiceData> services = statisticDao.findServiceByType(month.id(), year, serviceTypeName);
+        List<ServiceData> services = statisticDao.findServiceStatisticsByType(month.id(), year, serviceTypeName);
         templateBuilder.createHeader(serviceTypeName, month, year);
         for (ServiceData service : services) {
             String serveName = service.getServiceName();

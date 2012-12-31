@@ -3,6 +3,7 @@ package spring;
 import dao.CantorDao;
 import dao.StatisticDao;
 import dao.impl.CantorDaoImpl;
+import dao.impl.Singleton;
 import dao.impl.StatisticDaoImpl;
 import gui.*;
 import org.springframework.context.annotation.Bean;
@@ -15,8 +16,14 @@ import service.statictic.Statistic;
 @Configuration
 public class ApplicationConfiguration {
 
+    private Singleton session() {
+        return Singleton.getInstance();
+    }
+
     private StatisticDao statisticDao() {
-        return new StatisticDaoImpl();
+        StatisticDaoImpl statisticDao = new StatisticDaoImpl();
+        statisticDao.setSession(session());
+        return statisticDao;
     }
 
     private Statistic statistic(StatisticDao statisticDao) {
@@ -33,7 +40,9 @@ public class ApplicationConfiguration {
     }
 
     private CantorDao cantorDao() {
-        return new CantorDaoImpl();
+        CantorDaoImpl cantorDao = new CantorDaoImpl();
+        cantorDao.setSession(session());
+        return cantorDao;
     }
 
     private CantorMoneyExchanger cantorMoneyExchanger(CantorDao cantorDao) {

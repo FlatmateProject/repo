@@ -1,5 +1,6 @@
 package dao;
 
+import dao.impl.Singleton;
 import dao.impl.StatisticDaoImpl;
 import dto.SimpleNameData;
 import exception.DAOException;
@@ -19,10 +20,11 @@ public class StatisticDaoTest {
     public void beforeEachTest() {
         initMocks(this);
         statisticDao = new StatisticDaoImpl();
+        statisticDao.setSession(Singleton.getInstance());
     }
 
     @Test
-    public void shouldFindOneRoomType() throws DAOException {
+    public void shouldFindAllRoomTypes() throws DAOException {
         // given
 
         // when
@@ -36,6 +38,22 @@ public class StatisticDaoTest {
                 .containRoomType("rodzinny")
                 .containRoomType("apartament")
                 .containRoomType("prezydencki")
+                .exactly();
+    }
+
+    @Test
+    public void shouldFindAllServiceTypes() throws DAOException {
+        // given
+
+        // when
+        List<SimpleNameData> allServiceTypes = statisticDao.findAllServiceTypes();
+
+        // then
+        assertThat(allServiceTypes)
+                .isNotEmptyList()
+                .containServiceType("kantor")
+                .containServiceType("rekreacja")
+                .containServiceType("wynajem")
                 .exactly();
     }
 }

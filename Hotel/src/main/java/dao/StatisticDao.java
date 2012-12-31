@@ -6,15 +6,15 @@ import exception.DAOException;
 
 import java.util.List;
 
-public interface StatisticDao {
+public interface StatisticDao extends SessionSupport{
 
-    List<RoomTypeData> findRoomTypes(int month, int year) throws DAOException;
+    List<RoomTypeData> findRoomTypesStatistics(int month, int year) throws DAOException;
 
-    List<RoomData> findRoomsByType(int month, int year, String classRoom) throws DAOException;
+    List<RoomData> findRoomsStatisticsByType(int month, int year, String classRoom) throws DAOException;
 
-    List<ServiceTypeData> findServiceTypes(int month, int year) throws DAOException;
+    List<ServiceTypeData> findServiceTypesStatistics(int month, int year) throws DAOException;
 
-    List<ServiceData> findServiceByType(int month, int year, String serviceName) throws DAOException;
+    List<ServiceData> findServiceStatisticsByType(int month, int year, String serviceName) throws DAOException;
 
     List<MonthSummaryGainData> findMonthSummaryGains(int monthFrom, int monthTo, int year) throws DAOException;
 

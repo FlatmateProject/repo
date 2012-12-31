@@ -11,3 +11,5 @@
 16. run dbunit test on mysql.test database
 17. create runner which replaces method beforeEachTest in my mockito tests
 18. add test on AbstractDao
+19. Create hotel schema in test data base
+20. Create ApplicationConfigurationForTest with mocked dependencies.

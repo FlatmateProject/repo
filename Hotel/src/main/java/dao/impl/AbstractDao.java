@@ -13,7 +13,7 @@ abstract class AbstractDao {
 
     private static final Logger log = Logger.getLogger(AbstractDao.class);
 
-    private Singleton session = Singleton.getInstance();
+    private Singleton session;
 
     private ResultSet resultSet;
 
@@ -55,6 +55,10 @@ abstract class AbstractDao {
 
     public Singleton getSession() {
         return session;
+    }
+
+    public void setSession(Singleton session) {
+        this.session = session;
     }
 
     Object simpleResult(String query) throws DAOException {

@@ -10,7 +10,7 @@ import java.util.List;
 public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
 
     @Override
-    public List<RoomTypeData> findRoomTypes(int month, int year) throws DAOException {
+    public List<RoomTypeData> findRoomTypesStatistics(int month, int year) throws DAOException {
         String query = "SELECT k.opis opis, count(r.id_rez) meldunki, sum((r.data_w-r.data_z)*k.cena) zysk ";
         query += "FROM rezerwacje r ";
         query += "JOIN pokoje p ON r.id_pokoju=p.id_pokoju  JOIN klasy k ON p.id_klasy=k.id_klasy ";
@@ -20,7 +20,7 @@ public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
     }
 
     @Override
-    public List<RoomData> findRoomsByType(int month, int year, String classRoom) throws DAOException {
+    public List<RoomData> findRoomsStatisticsByType(int month, int year, String classRoom) throws DAOException {
         String query = "SELECT p.id_pokoju pokuj, count(r.id_rez) meldunki, sum((r.data_w-r.data_z)*k.cena) zysk ";
         query += "FROM rezerwacje r ";
         query += "JOIN pokoje p ON r.id_pokoju=p.id_pokoju  JOIN klasy k ON p.id_klasy=k.id_klasy ";
@@ -31,7 +31,7 @@ public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
     }
 
     @Override
-    public List<ServiceTypeData> findServiceTypes(int month, int year) throws DAOException {
+    public List<ServiceTypeData> findServiceTypesStatistics(int month, int year) throws DAOException {
         String query = "SELECT u.typ, sum(rk.czas) czas, sum(rk.czas*u.cena) zysk ";
         query += "FROM rekreacja rk JOIN uslugi u ON rk.id_uslugi=u.id_uslugi ";
         query += "JOIN rezerwacje rz ON rk.id_rez=rz.id_rez ";
@@ -41,7 +41,7 @@ public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
     }
 
     @Override
-    public List<ServiceData> findServiceByType(int month, int year, String serve) throws DAOException {
+    public List<ServiceData> findServiceStatisticsByType(int month, int year, String serve) throws DAOException {
         String query = "SELECT u.nazwa, sum(rk.czas) czas, sum(rk.czas*u.cena) zysk ";
         query += "FROM rekreacja rk JOIN uslugi u ON rk.id_uslugi=u.id_uslugi ";
         query += "JOIN rezerwacje rz ON rk.id_rez=rz.id_rez ";
