@@ -4,7 +4,7 @@ public class SimpleNameData {
 
     private String name;
 
-    public SimpleNameData(){
+    public SimpleNameData() {
 
     }
 

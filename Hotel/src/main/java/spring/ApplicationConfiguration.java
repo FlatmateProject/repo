@@ -1,9 +1,9 @@
 package spring;
 
 import dao.CantorDao;
-import dao.CantorDaoImpl;
 import dao.StatisticDao;
-import dao.StatisticDaoImpl;
+import dao.impl.CantorDaoImpl;
+import dao.impl.StatisticDaoImpl;
 import gui.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

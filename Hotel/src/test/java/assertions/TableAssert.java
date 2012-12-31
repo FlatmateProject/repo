@@ -4,7 +4,7 @@ import org.fest.assertions.Assertions;
 import org.fest.assertions.GenericAssert;
 import service.cantor.CantorTableResult;
 
-public class TableAssert extends GenericAssert<TableAssert, CantorTableResult>{
+public class TableAssert extends GenericAssert<TableAssert, CantorTableResult> {
 
     private TableAssert(CantorTableResult actual) {
         super(TableAssert.class, actual);

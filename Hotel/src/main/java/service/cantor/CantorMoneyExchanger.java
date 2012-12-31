@@ -47,7 +47,7 @@ public class CantorMoneyExchanger {
         }
     }
 
-    private void exchangeMoneyInSingleTransaction(ExchangeCalculation calculation) throws DAOException{
+    private void exchangeMoneyInSingleTransaction(ExchangeCalculation calculation) throws DAOException {
         CurrencyData oldCurrency = calculation.getSellingCurrency();
         CurrencyData newCurrency = calculation.getBuyingCurrency();
         if (calculation.isCustomer()) {

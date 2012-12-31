@@ -17,7 +17,7 @@ public class RowCondition extends Condition<CantorTableResult> {
         as(description);
     }
 
-    public static RowCondition containsRow(Object[] expectedColumnNames){
+    public static RowCondition containsRow(Object[] expectedColumnNames) {
         return new RowCondition(expectedColumnNames, "containsRow");
     }
 
@@ -26,7 +26,7 @@ public class RowCondition extends Condition<CantorTableResult> {
         Object[][] data = cantorTableResult.getRowsData();
         for (int i = 0; i < data.length; i++) {
             Object[] actualCells = data[i];
-            if(isActualRowEqualToExpectedRow(actualCells)) {
+            if (isActualRowEqualToExpectedRow(actualCells)) {
                 return true;
             }
         }

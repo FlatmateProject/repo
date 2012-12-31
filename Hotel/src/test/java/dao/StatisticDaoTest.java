@@ -1,5 +1,6 @@
 package dao;
 
+import dao.impl.StatisticDaoImpl;
 import dto.SimpleNameData;
 import exception.DAOException;
 import org.testng.annotations.BeforeMethod;
@@ -30,10 +31,11 @@ public class StatisticDaoTest {
         // then
         assertThat(allRoomTypes)
                 .isNotEmptyList()
-                .containsRoomType("jednoosobowy")
-                .containsRoomType("dwuosobowy")
-                .containsRoomType("rodzinny")
-                .containsRoomType("apartament")
-                .containsRoomType("prezydencki");
+                .containRoomType("jednoosobowy")
+                .containRoomType("dwuosobowy")
+                .containRoomType("rodzinny")
+                .containRoomType("apartament")
+                .containRoomType("prezydencki")
+                .exactly();
     }
 }

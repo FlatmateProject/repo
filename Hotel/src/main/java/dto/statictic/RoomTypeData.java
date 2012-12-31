@@ -5,11 +5,11 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 public class RoomTypeData {
 
-	private String roomTypeName;
+    private String roomTypeName;
 
-	private int numberOccupiedRooms;
+    private int numberOccupiedRooms;
 
-	private float summaryGain;
+    private float summaryGain;
 
     public RoomTypeData() {
     }
@@ -20,20 +20,20 @@ public class RoomTypeData {
         this.summaryGain = summaryGain;
     }
 
-	public String getRoomTypeName() {
-		return roomTypeName;
-	}
+    public String getRoomTypeName() {
+        return roomTypeName;
+    }
 
-	public int getNumberOccupiedRooms() {
-		return numberOccupiedRooms;
-	}
+    public int getNumberOccupiedRooms() {
+        return numberOccupiedRooms;
+    }
 
-	public float getSummaryGain() {
-		return summaryGain;
-	}
+    public float getSummaryGain() {
+        return summaryGain;
+    }
 
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this,	ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 }

@@ -13,34 +13,34 @@ import java.util.List;
 
 public class HotelServiceTypesReportCreator extends ReportCreator {
 
-	private MONTH month;
-	
-	private int year;
-	
-	@Override
-	public void setup(ReportDetails reportDetails) {
-		month = reportDetails.getMonth();
-		year = reportDetails.getYear();
-	}
+    private MONTH month;
 
-	@Override
-	public StatisticReport createReport(ReportTemplateBuilder templateBuilder) throws DAOException {
-		int i = 0;
-		List<DiagramElement> diagramElements = new LinkedList<DiagramElement>();
-		
-		List<ServiceTypeData> serviceTypes = statisticDao.findServiceTypes(month.id(), year);
-		templateBuilder.createHeader(month, year);
-		for (ServiceTypeData serviceType : serviceTypes) {
-			String typeName = serviceType.getTypeName();
-			float summaryGain = serviceType.getSummaryGain();
-			int useNumber = statisticDao.countUseNumberForServiceType(typeName);
-			float unitGain = summaryGain / useNumber;
-			templateBuilder.appendBodyBlock(typeName, i, serviceType.getSummaryTime(), summaryGain, useNumber, unitGain);
-			diagramElements.add(new DiagramElement(summaryGain, unitGain));
-			i++;
-		}
-		templateBuilder.createFoot(serviceTypes.size());
-		return new StatisticReport(REPORT_KIND.HOTEL_SERVICE_TYPES, diagramElements, templateBuilder);
-	}
+    private int year;
+
+    @Override
+    public void setup(ReportDetails reportDetails) {
+        month = reportDetails.getMonth();
+        year = reportDetails.getYear();
+    }
+
+    @Override
+    public StatisticReport createReport(ReportTemplateBuilder templateBuilder) throws DAOException {
+        int i = 0;
+        List<DiagramElement> diagramElements = new LinkedList<DiagramElement>();
+
+        List<ServiceTypeData> serviceTypes = statisticDao.findServiceTypes(month.id(), year);
+        templateBuilder.createHeader(month, year);
+        for (ServiceTypeData serviceType : serviceTypes) {
+            String typeName = serviceType.getTypeName();
+            float summaryGain = serviceType.getSummaryGain();
+            int useNumber = statisticDao.countUseNumberForServiceType(typeName);
+            float unitGain = summaryGain / useNumber;
+            templateBuilder.appendBodyBlock(typeName, i, serviceType.getSummaryTime(), summaryGain, useNumber, unitGain);
+            diagramElements.add(new DiagramElement(summaryGain, unitGain));
+            i++;
+        }
+        templateBuilder.createFoot(serviceTypes.size());
+        return new StatisticReport(REPORT_KIND.HOTEL_SERVICE_TYPES, diagramElements, templateBuilder);
+    }
 
 }

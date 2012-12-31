@@ -8,30 +8,30 @@ import service.statictic.templates.ReportTemplateBuilder;
 
 public class Statistic {
 
-	private StatisticDao statisticDao;
+    private StatisticDao statisticDao;
 
-	public StatisticReport finance(REPORT_KIND REPORTKind, MONTH monthFrom, MONTH monthTo, int yearFrom, int yearTo) {
-		return createStatistic(REPORTKind, new ReportDetails(monthFrom, monthTo, yearFrom, yearTo));
-	}
+    public StatisticReport finance(REPORT_KIND REPORTKind, MONTH monthFrom, MONTH monthTo, int yearFrom, int yearTo) {
+        return createStatistic(REPORTKind, new ReportDetails(monthFrom, monthTo, yearFrom, yearTo));
+    }
 
-	public StatisticReport hotel(REPORT_KIND REPORTKind, MONTH month, int year, String classRoom, String serveTypeName){
-		return createStatistic(REPORTKind, new ReportDetails(month, year, classRoom, serveTypeName));
-	}
+    public StatisticReport hotel(REPORT_KIND REPORTKind, MONTH month, int year, String classRoom, String serveTypeName) {
+        return createStatistic(REPORTKind, new ReportDetails(month, year, classRoom, serveTypeName));
+    }
 
-	private StatisticReport createStatistic(REPORT_KIND reportKind, ReportDetails reportDetails) {
-		try {
-			ReportCreator creator = reportKind.getReportCreator();
-			ReportTemplateBuilder templateBuilder = reportKind.getReportTemplateBuilder();
-			creator.setup(reportDetails);
-			creator.injectStatisticDao(statisticDao);
-			return creator.createReport(templateBuilder);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+    private StatisticReport createStatistic(REPORT_KIND reportKind, ReportDetails reportDetails) {
+        try {
+            ReportCreator creator = reportKind.getReportCreator();
+            ReportTemplateBuilder templateBuilder = reportKind.getReportTemplateBuilder();
+            creator.setup(reportDetails);
+            creator.injectStatisticDao(statisticDao);
+            return creator.createReport(templateBuilder);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
-	public void setStatisticDao(StatisticDao statisticDao) {
-		this.statisticDao = statisticDao;
-	}
+    public void setStatisticDao(StatisticDao statisticDao) {
+        this.statisticDao = statisticDao;
+    }
 }

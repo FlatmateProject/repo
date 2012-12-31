@@ -7,13 +7,13 @@ import service.statictic.templates.ReportTemplateBuilder;
 
 public abstract class ReportCreator {
 
-	protected StatisticDao statisticDao;
-	
-	public abstract void setup(ReportDetails reportDetails);
-	
-	public abstract StatisticReport createReport(ReportTemplateBuilder templateBuilder) throws DAOException;
+    protected StatisticDao statisticDao;
 
-	public void injectStatisticDao(StatisticDao statisticDao) {
-		this.statisticDao = statisticDao;
-	}
+    public abstract void setup(ReportDetails reportDetails);
+
+    public abstract StatisticReport createReport(ReportTemplateBuilder templateBuilder) throws DAOException;
+
+    public void injectStatisticDao(StatisticDao statisticDao) {
+        this.statisticDao = statisticDao;
+    }
 }

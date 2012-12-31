@@ -12,17 +12,17 @@ public class ColumnCondition extends Condition<CantorTableResult> {
         as(description);
     }
 
-    public static ColumnCondition containColumns(String[] expectedColumnNames){
-      return new ColumnCondition(expectedColumnNames, "containColumns");
+    public static ColumnCondition containColumns(String[] expectedColumnNames) {
+        return new ColumnCondition(expectedColumnNames, "containColumns");
     }
 
     @Override
     public boolean matches(CantorTableResult cantorTableResult) {
         String[] actualColumnNames = cantorTableResult.getColumnNames();
         for (int i = 0; i < actualColumnNames.length; i++) {
-           if(isNotEqual(actualColumnNames[i], expectedColumnNames[i])){
-               return false;
-           }
+            if (isNotEqual(actualColumnNames[i], expectedColumnNames[i])) {
+                return false;
+            }
         }
         return true;
     }

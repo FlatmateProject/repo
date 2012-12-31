@@ -1,5 +1,6 @@
-package dao;
+package dao.impl;
 
+import dao.CantorDao;
 import dto.SimpleNameData;
 import dto.cantor.CompanyData;
 import dto.cantor.CurrencyData;
@@ -12,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class CantorDaoImpl extends AbstractDao implements CantorDao{
+public class CantorDaoImpl extends AbstractDao implements CantorDao {
 
     public List<SimpleNameData> showColumnsForCurrency() throws DAOException {
         String query = "show columns from hotel.waluty;";
@@ -34,7 +35,7 @@ public class CantorDaoImpl extends AbstractDao implements CantorDao{
 
     @Override
     public List<CustomerData> findAllCustomers(long customerId) throws DAOException {
-        String query = "select * from hotel.klienci where IDK_PESEL=" +  customerId;
+        String query = "select * from hotel.klienci where IDK_PESEL=" + customerId;
         return executeQuery(query, CustomerData.class);
     }
 
@@ -58,22 +59,22 @@ public class CantorDaoImpl extends AbstractDao implements CantorDao{
     }
 
     @Override
-    public void insertTransactionForCustomer(ExchangeCalculation calculation) throws DAOException{
+    public void insertTransactionForCustomer(ExchangeCalculation calculation) throws DAOException {
         insertTransaction(calculation, "IDK_PESEL");
     }
 
     @Override
-    public void insertTransactionForCompany(ExchangeCalculation calculation) throws DAOException{
+    public void insertTransactionForCompany(ExchangeCalculation calculation) throws DAOException {
         insertTransaction(calculation, "IDF_KRS");
     }
 
     @Override
-    public void updateCurrency(CurrencyData currencyData) throws DAOException{
-        getSession().queryUp("update hotel.waluty set ILOSC=" + currencyData.getQuantity() + " where NAZWA = '" + currencyData.getName() + "';");
+    public void updateCurrency(CurrencyData currencyData) throws DAOException {
+        getSession().update("update hotel.waluty set ILOSC=" + currencyData.getQuantity() + " where NAZWA = '" + currencyData.getName() + "';");
     }
 
     private void insertTransaction(ExchangeCalculation calculation, String idColumn) {
-        getSession().queryUp("insert into hotel.kantor (" + idColumn + ", DATA, W_KU, W_SP, ILOSC, WARTOSC, ZYSK) VALUES("
+        getSession().update("insert into hotel.kantor (" + idColumn + ", DATA, W_KU, W_SP, ILOSC, WARTOSC, ZYSK) VALUES("
                 + calculation.getClientId() + ", '" + formatCurrentDate() + "', '" + calculation.getSellingCurrency().getCurrencyId() + "', '" + calculation.getBuyingCurrency().getCurrencyId()
                 + "', " + calculation.getAmount() + ", " + calculation.getCost() + ", " + calculation.getGain() + ");");
     }

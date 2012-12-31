@@ -1,4 +1,4 @@
-package dao;
+package dao.impl;
 
 import exception.DAOException;
 import org.apache.log4j.Logger;
@@ -62,7 +62,7 @@ abstract class AbstractDao {
             resultSet = session.query(query);
             return resultSet.next() ? resultSet.getObject(1) : 0;
         } catch (Exception e) {
-            throw  new DAOException(e);
+            throw new DAOException(e);
         }
     }
 

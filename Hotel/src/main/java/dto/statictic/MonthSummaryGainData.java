@@ -2,15 +2,15 @@ package dto.statictic;
 
 public class MonthSummaryGainData {
 
-	private int month;
+    private int month;
 
-	private double reservationSummaryGain;
+    private double reservationSummaryGain;
 
-	private double serviceSummaryGain;
+    private double serviceSummaryGain;
 
-	private double cantorSummaryGain;
+    private double cantorSummaryGain;
 
-    public MonthSummaryGainData(){
+    public MonthSummaryGainData() {
 
     }
 
@@ -22,19 +22,19 @@ public class MonthSummaryGainData {
     }
 
     public int getMonth() {
-		return month;
-	}
+        return month;
+    }
 
-	public double getReservationSummaryGain() {
-		return reservationSummaryGain;
-	}
+    public double getReservationSummaryGain() {
+        return reservationSummaryGain;
+    }
 
-	public double getServiceSummaryGain() {
-		return serviceSummaryGain;
-	}
+    public double getServiceSummaryGain() {
+        return serviceSummaryGain;
+    }
 
-	public double getCantorSummaryGain() {
-		return cantorSummaryGain;
-	}
+    public double getCantorSummaryGain() {
+        return cantorSummaryGain;
+    }
 
 }

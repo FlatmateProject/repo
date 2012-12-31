@@ -4,61 +4,61 @@ import service.dictionary.MONTH;
 
 public class ReportDetails {
 
-	private final MONTH month;
-	
-	private final int year;
-	
-	private String roomType; 
-	
-	private String serviceTypeName;
-	
-	private MONTH monthTo;
-	
-	private int yearTo;
-	
-	public ReportDetails(MONTH month, int year, String classRoom, String serviceTypeName) {
-		this.month = month;
-		this.year = year;
-		this.roomType = classRoom;
-		this.serviceTypeName = serviceTypeName;
-	}
+    private final MONTH month;
 
-	public ReportDetails(MONTH monthFrom, MONTH monthTo, int yearFrom, int yearTo)  {
-		this.month = monthFrom;
-		this.year = yearFrom;
-		this.monthTo = monthTo;
-		this.yearTo = yearTo;
-	}
-	
-	public MONTH getMonth() {
-		return month;
-	}
+    private final int year;
 
-	public int getYear() {
-		return year;
-	}
+    private String roomType;
 
-	public MONTH getMonthFrom() {
-		return month;
-	}
+    private String serviceTypeName;
 
-	public int getYearFrom() {
-		return year;
-	}
-	
-	public String getRoomType() {
-		return roomType;
-	}
+    private MONTH monthTo;
 
-	public String getServiceTypeName() {
-		return serviceTypeName;
-	}
+    private int yearTo;
 
-	public MONTH getMonthTo() {
-		return monthTo;
-	}
+    public ReportDetails(MONTH month, int year, String classRoom, String serviceTypeName) {
+        this.month = month;
+        this.year = year;
+        this.roomType = classRoom;
+        this.serviceTypeName = serviceTypeName;
+    }
 
-	public int getYearTo() {
-		return yearTo;
-	}
+    public ReportDetails(MONTH monthFrom, MONTH monthTo, int yearFrom, int yearTo) {
+        this.month = monthFrom;
+        this.year = yearFrom;
+        this.monthTo = monthTo;
+        this.yearTo = yearTo;
+    }
+
+    public MONTH getMonth() {
+        return month;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public MONTH getMonthFrom() {
+        return month;
+    }
+
+    public int getYearFrom() {
+        return year;
+    }
+
+    public String getRoomType() {
+        return roomType;
+    }
+
+    public String getServiceTypeName() {
+        return serviceTypeName;
+    }
+
+    public MONTH getMonthTo() {
+        return monthTo;
+    }
+
+    public int getYearTo() {
+        return yearTo;
+    }
 }

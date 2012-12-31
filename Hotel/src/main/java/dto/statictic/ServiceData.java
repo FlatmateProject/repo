@@ -5,11 +5,11 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 public class ServiceData {
 
-	private String serviceName;
-	
-	private long summaryTime;
-	
-	private float summaryGain;
+    private String serviceName;
+
+    private long summaryTime;
+
+    private float summaryGain;
 
     public ServiceData() {
     }
@@ -20,20 +20,20 @@ public class ServiceData {
         this.summaryGain = summaryGain;
     }
 
-	public String getServiceName() {
-		return serviceName;
-	}
+    public String getServiceName() {
+        return serviceName;
+    }
 
-	public long getSummaryTime() {
-		return summaryTime;
-	}
+    public long getSummaryTime() {
+        return summaryTime;
+    }
 
-	public float getSummaryGain() {
-		return summaryGain;
-	}
+    public float getSummaryGain() {
+        return summaryGain;
+    }
 
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this,	ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 }
