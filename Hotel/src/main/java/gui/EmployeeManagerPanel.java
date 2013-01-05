@@ -66,10 +66,11 @@ public class EmployeeManagerPanel extends JPanel {
 
     private final Color bgColor = new Color(224, 230, 233);
 
-    private final Singleton db = Singleton.getInstance();
+    private final Singleton db;
 
-    public EmployeeManagerPanel(EmployeeManager employeeManager) {
+    public EmployeeManagerPanel(EmployeeManager employeeManager, Singleton db) {
         this.employeeManager = employeeManager;
+        this.db = db;
         try {
             create();
             addEvents();

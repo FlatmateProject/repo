@@ -17,7 +17,8 @@ public class Reservation {
 
     private static final Logger log = Logger.getLogger(Reservation.class);
 
-    private final Singleton sing = Singleton.getInstance();
+    private Singleton sing;
+
     private ResultSet rset1;
     private ResultSet rset2;
 
@@ -507,4 +508,7 @@ public class Reservation {
         return !ValidationUtils.isNotNumber(num);
     }
 
+    public void setSing(Singleton sing) {
+        this.sing = sing;
+    }
 }

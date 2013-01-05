@@ -13,6 +13,7 @@ public class EmployeeManager {
     private static final Logger log = Logger.getLogger(EmployeeManager.class);
 
     private Singleton db;
+
     private ResultSet result;
     private int j = 0;
     private int shift = 0;
@@ -27,11 +28,6 @@ public class EmployeeManager {
     private final Calendar calendar = GregorianCalendar.getInstance();
 
     public EmployeeManager() {
-        try {
-            db = Singleton.getInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public String getPaysRaport(int month) {
@@ -39,15 +35,13 @@ public class EmployeeManager {
         try {
             resultText = "";
             stmt = "";
-            db = Singleton.getInstance();
-            result = db
-                    .query("SELECT p.idp_pesel, p.imie, p.nazwisko, count(g.nadgodziny)*8 , "
-                            + "sum(s.podstawa)*8 podstawa, sum(s.premia)*8 premia FROM grafik g "
-                            + "JOIN pracownicy p ON g.idp_pesel=p.idp_pesel JOIN stanowiska s "
-                            + "ON p.id_stanowiska=s.id_stanowiska WHERE p.id_stanowiska=1 "
-                            + "AND MONTH(data)="
-                            + month
-                            + " GROUP BY p.idp_pesel,  g.nadgodziny");
+            result = db.query("SELECT p.idp_pesel, p.imie, p.nazwisko, count(g.nadgodziny)*8 , "
+                    + "sum(s.podstawa)*8 podstawa, sum(s.premia)*8 premia FROM grafik g "
+                    + "JOIN pracownicy p ON g.idp_pesel=p.idp_pesel JOIN stanowiska s "
+                    + "ON p.id_stanowiska=s.id_stanowiska WHERE p.id_stanowiska=1 "
+                    + "AND MONTH(data)="
+                    + month
+                    + " GROUP BY p.idp_pesel,  g.nadgodziny");
 
             log.info("SELECT p.idp_pesel, p.imie, p.nazwisko, count(g.nadgodziny)*8 , "
                     + "sum(s.podstawa)*8 podstawa, sum(s.premia)*8 premia FROM grafik g "
@@ -370,5 +364,9 @@ public class EmployeeManager {
 
     public int getRowCount() {
         return count;
+    }
+
+    public void setDb(Singleton db) {
+        this.db = db;
     }
 }

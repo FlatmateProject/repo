@@ -7,6 +7,7 @@ import spring.ApplicationConfiguration;
 import javax.swing.*;
 import java.awt.*;
 
+
 public class Gui extends JFrame {
 
     private static final long serialVersionUID = 1L;

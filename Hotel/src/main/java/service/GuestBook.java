@@ -12,7 +12,8 @@ public class GuestBook {
 
     private static final Logger log = Logger.getLogger(GuestBook.class);
 
-    private final Singleton sing = Singleton.getInstance();
+    private Singleton sing;
+
     private ResultSet rset1, rset2;
 
     public GuestBook() {
@@ -22,7 +23,6 @@ public class GuestBook {
     public String[] getLabel(String table) {
         int i = 0;
         String s[] = new String[12];
-        Singleton.getInstance();
         rset1 = sing.query("show columns from hotel." + table);
         if (rset1 == null) {
             return new String[]{"", "", "", "", "", "", "", "", "", "", "", "", ""};
@@ -125,7 +125,6 @@ public class GuestBook {
     public String[] getClientData() {
         int i = 0;
         String s[] = new String[10];
-        Singleton.getInstance();
         rset1 = sing.query("show columns from hotel.klienci;");
         try {
             while (rset1.next()) {
@@ -138,5 +137,9 @@ public class GuestBook {
             e.printStackTrace();
         }
         return s;
+    }
+
+    public void setSing(Singleton sing) {
+        this.sing = sing;
     }
 }

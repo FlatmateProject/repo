@@ -12,7 +12,8 @@ public class Manager {
 
     private static final Logger log = Logger.getLogger(Manager.class);
 
-    private final Singleton sing = Singleton.getInstance();
+    private Singleton sing;
+
     private ResultSet rset1;
 
     public int getCount(String s) {
@@ -143,4 +144,7 @@ public class Manager {
         }
     }
 
+    public void setSing(Singleton sing) {
+        this.sing = sing;
+    }
 }

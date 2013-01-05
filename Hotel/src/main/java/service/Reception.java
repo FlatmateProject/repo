@@ -15,7 +15,8 @@ public class Reception {
 
     private static final Logger log = Logger.getLogger(Reception.class);
 
-    private final Singleton sing = Singleton.getInstance();
+    private Singleton sing;
+
     private ResultSet rset1;
 
     public Reception() {
@@ -280,4 +281,7 @@ public class Reception {
         return true;
     }
 
+    public void setSing(Singleton sing) {
+        this.sing = sing;
+    }
 }

@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 public class Schedule {
 
     private static final Logger log = Logger.getLogger(Schedule.class);
-    private final Singleton sing = Singleton.getInstance();
+    private  Singleton sing;
     private ResultSet rset1;
 
     public JTable getTable(int d, int m, int y) {
@@ -79,5 +79,9 @@ public class Schedule {
             String columnNames[] = {"Brak danych"};
             return new JTable(rowData, columnNames);
         }
+    }
+
+    public void setSing(Singleton sing) {
+        this.sing = sing;
     }
 }

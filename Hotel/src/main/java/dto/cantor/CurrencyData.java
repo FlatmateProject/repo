@@ -1,6 +1,5 @@
 package dto.cantor;
 
-import org.fest.util.Arrays;
 import service.cantor.ArrayObtained;
 import service.cantor.CURRENCY;
 
@@ -20,7 +19,7 @@ public class CurrencyData implements ArrayObtained {
     }
 
     public Object[] getArray() {
-        return Arrays.array(currencyId, name, salePrice, buyPrice, quantity);
+        return new Object[]{currencyId, name, salePrice, buyPrice, quantity};
     }
 
     public long getCurrencyId() {

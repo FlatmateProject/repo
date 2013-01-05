@@ -16,14 +16,21 @@ import service.statictic.Statistic;
 @Configuration
 public class ApplicationConfiguration {
 
-    private Singleton session() {
+    @Bean
+    public Singleton session() {
         return Singleton.getInstance();
     }
 
-    private StatisticDao statisticDao() {
+    @Bean
+    public StatisticDao statisticDao() {
         StatisticDaoImpl statisticDao = new StatisticDaoImpl();
         statisticDao.setSession(session());
         return statisticDao;
+    }
+
+    @Bean
+    public Statistic statistic() {
+        return statistic(statisticDao());
     }
 
     private Statistic statistic(StatisticDao statisticDao) {
@@ -39,14 +46,25 @@ public class ApplicationConfiguration {
         return statisticPanel;
     }
 
-    private CantorDao cantorDao() {
+    @Bean
+    public CantorDao cantorDao() {
         CantorDaoImpl cantorDao = new CantorDaoImpl();
         cantorDao.setSession(session());
         return cantorDao;
     }
 
+    @Bean
+    public CantorMoneyExchanger cantorMoneyExchanger() {
+        return cantorMoneyExchanger(cantorDao());
+    }
+
     private CantorMoneyExchanger cantorMoneyExchanger(CantorDao cantorDao) {
         return new CantorMoneyExchanger(cantorDao);
+    }
+
+    @Bean
+    public CantorTableCreator cantorTableCreator() {
+        return cantorTableCreator(cantorDao());
     }
 
     private CantorTableCreator cantorTableCreator(CantorDao cantorDao) {
@@ -60,32 +78,44 @@ public class ApplicationConfiguration {
         return cantorPanel;
     }
 
-    private Schedule schedule() {
-        return new Schedule();
+    @Bean
+    public Schedule schedule() {
+        Schedule schedule = new Schedule();
+        schedule.setSing(session());
+        return schedule;
     }
 
     private SchedulerPanel schedulerPanel() {
         return new SchedulerPanel(schedule());
     }
 
-    private Reception reception() {
-        return new Reception();
+    @Bean
+    public Reception reception() {
+        Reception reception = new Reception();
+        reception.setSing(session());
+        return reception;
     }
 
     private ReceptionPanel receptionPanel() {
         return new ReceptionPanel(reception());
     }
 
-    private Reservation reservation() {
-        return new Reservation();
+    @Bean
+    public Reservation reservation() {
+        Reservation reservation = new Reservation();
+        reservation.setSing(session());
+        return reservation;
     }
 
     private ReservationPanel reservationPanel() {
         return new ReservationPanel(reservation());
     }
 
-    private Manager manager() {
-        return new Manager();
+    @Bean
+    public Manager manager() {
+        Manager manager = new Manager();
+        manager.setSing(session());
+        return manager;
     }
 
     private ManagerPanel managerPanel() {
@@ -94,20 +124,28 @@ public class ApplicationConfiguration {
         return managerPanel;
     }
 
-    private GuestBook guestBook() {
-        return new GuestBook();
+    @Bean
+    public GuestBook guestBook() {
+        GuestBook guestBook = new GuestBook();
+        guestBook.setSing(session());
+        return guestBook;
     }
 
     private GuestBookPanel guestBookPanel() {
-        return new GuestBookPanel(guestBook());
+        GuestBookPanel guestBookPanel = new GuestBookPanel(guestBook());
+        return guestBookPanel;
     }
 
-    private EmployeeManager employeeManager() {
-        return new EmployeeManager();
+    @Bean
+    public EmployeeManager employeeManager() {
+        EmployeeManager employeeManager = new EmployeeManager();
+        employeeManager.setDb(session());
+        return employeeManager;
     }
 
     private EmployeeManagerPanel employeeManagerPanel() {
-        return new EmployeeManagerPanel(employeeManager());
+        EmployeeManagerPanel employeeManagerPanel = new EmployeeManagerPanel(employeeManager(), session());
+        return employeeManagerPanel;
     }
 
     @Bean

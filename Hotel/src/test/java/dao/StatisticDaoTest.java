@@ -12,6 +12,7 @@ import java.util.List;
 import static assertions.SimpleNameListAssert.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+
 public class StatisticDaoTest {
 
     private StatisticDao statisticDao;
