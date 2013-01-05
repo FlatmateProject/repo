@@ -106,7 +106,8 @@ public class Gui extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 ApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
-                context.getBean(Gui.class);
+                Gui gui = context.getBean(Gui.class);
+                gui.construct();
             }
         });
     }

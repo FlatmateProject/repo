@@ -159,7 +159,6 @@ public class ApplicationConfiguration {
         gui.setGuessBookPanel(guestBookPanel());
         gui.setStatisticPanel(statisticPanel());
         gui.setEmployeeManagerPanel(employeeManagerPanel());
-        gui.construct();
         return gui;
     }
 }
