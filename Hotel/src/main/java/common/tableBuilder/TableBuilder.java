@@ -1,6 +1,7 @@
-package service.cantor;
+package common.tableBuilder;
 
 import dto.SimpleNameData;
+import service.cantor.ArrayObtained;
 
 import java.util.List;
 
@@ -29,11 +30,11 @@ public class TableBuilder {
         return this;
     }
 
-    public CantorTableResult build() {
+    public TableResult build() {
         if (isNotEmptyList(columnNames) && isNotEmptyList(rowsData)) {
             return createTable(rowsData);
         } else {
-            return CantorTableResult.EMPTY;
+            return TableResult.EMPTY;
         }
     }
 
@@ -41,10 +42,10 @@ public class TableBuilder {
         return columnNames != null && columnNames.size() > 0;
     }
 
-    private <T extends ArrayObtained> CantorTableResult createTable(List<T> rowsData) {
+    private <T extends ArrayObtained> TableResult createTable(List<T> rowsData) {
         String columns[] = createTableColumns(columnNames);
         Object[][] rows = createTableRows(rowsData);
-        return CantorTableResult.store(rows, columns);
+        return TableResult.store(rows, columns);
     }
 
     private String[] createTableColumns(List<SimpleNameData> currencyColumns) {

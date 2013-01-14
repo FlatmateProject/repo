@@ -1,4 +1,4 @@
-package service.cantor;
+package common.tableBuilder;
 
 public interface ArrayObtained {
     Object[] getArray();

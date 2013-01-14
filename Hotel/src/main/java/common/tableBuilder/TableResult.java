@@ -1,6 +1,6 @@
-package service.cantor;
+package common.tableBuilder;
 
-public class CantorTableResult {
+public class TableResult {
 
     public static final String EMPTY_LABEL = "Brak danych";
 
@@ -10,14 +10,14 @@ public class CantorTableResult {
 
     public static final Object[][] EMPTY_DATA = new Object[][]{EMPTY_ROW};
 
-    public static final CantorTableResult EMPTY = new CantorTableResult(EMPTY_DATA, EMPTY_COLUMN);
+    public static final TableResult EMPTY = new TableResult(EMPTY_DATA, EMPTY_COLUMN);
 
     final private Object rowsData[][];
 
     final private String columnNames[];
 
-    public static CantorTableResult store(Object[][] rowsData, String[] columnNames) {
-        return new CantorTableResult(rowsData, columnNames);
+    public static TableResult store(Object[][] rowsData, String[] columnNames) {
+        return new TableResult(rowsData, columnNames);
     }
 
     public Object[][] getRowsData() {
@@ -28,7 +28,7 @@ public class CantorTableResult {
         return columnNames;
     }
 
-    private CantorTableResult(Object[][] rowsData, String[] columnNames) {
+    private TableResult(Object[][] rowsData, String[] columnNames) {
         this.columnNames = columnNames;
         this.rowsData = rowsData;
     }
