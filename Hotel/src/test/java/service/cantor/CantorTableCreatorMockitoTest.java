@@ -1,5 +1,6 @@
 package service.cantor;
 
+import common.tableBuilder.TableResult;
 import dao.CantorDao;
 import dto.SimpleNameData;
 import dto.cantor.CompanyData;
@@ -38,15 +39,15 @@ public class CantorTableCreatorMockitoTest {
         //given
 
         //when
-        CantorTableResult result = creator.createCurrencyTable();
+        TableResult result = creator.createCurrencyTable();
 
         //then
         assertThat(result)
                 .isNotNull()
                 .hasRowNumber(1)
                 .hasColumnNumber(1)
-                .is(containColumns(CantorTableResult.EMPTY_COLUMN))
-                .is(containsRow(CantorTableResult.EMPTY_ROW));
+                .is(containColumns(TableResult.EMPTY_COLUMN))
+                .is(containsRow(TableResult.EMPTY_ROW));
     }
 
     @Test
@@ -65,7 +66,7 @@ public class CantorTableCreatorMockitoTest {
         when(cantorDao.findAllCurrency()).thenReturn(Arrays.asList(currencyData));
 
         // when
-        CantorTableResult result = creator.createCurrencyTable();
+        TableResult result = creator.createCurrencyTable();
 
         // then
         assertThat(result)
@@ -82,15 +83,15 @@ public class CantorTableCreatorMockitoTest {
         long pesel = 87122206592L;
 
         //when
-        CantorTableResult result = creator.createCustomerTable(pesel);
+        TableResult result = creator.createCustomerTable(pesel);
 
         //then
         assertThat(result)
                 .isNotNull()
                 .hasRowNumber(1)
                 .hasColumnNumber(1)
-                .is(containColumns(CantorTableResult.EMPTY_COLUMN))
-                .is(containsRow(CantorTableResult.EMPTY_ROW));
+                .is(containColumns(TableResult.EMPTY_COLUMN))
+                .is(containsRow(TableResult.EMPTY_ROW));
     }
 
     @Test
@@ -112,7 +113,7 @@ public class CantorTableCreatorMockitoTest {
         when(cantorDao.findAllCustomers(pesel)).thenReturn(Arrays.asList(customerData));
 
         // when
-        CantorTableResult result = creator.createCustomerTable(pesel);
+        TableResult result = creator.createCustomerTable(pesel);
 
         // then
         assertThat(result)
@@ -129,15 +130,15 @@ public class CantorTableCreatorMockitoTest {
         long krs = 311911L;
 
         //when
-        CantorTableResult result = creator.createCompanyTable(krs);
+        TableResult result = creator.createCompanyTable(krs);
 
         //then
         assertThat(result)
                 .isNotNull()
                 .hasRowNumber(1)
                 .hasColumnNumber(1)
-                .is(containColumns(CantorTableResult.EMPTY_COLUMN))
-                .is(containsRow(CantorTableResult.EMPTY_ROW));
+                .is(containColumns(TableResult.EMPTY_COLUMN))
+                .is(containsRow(TableResult.EMPTY_ROW));
     }
 
     @Test
@@ -159,7 +160,7 @@ public class CantorTableCreatorMockitoTest {
         when(cantorDao.findAllCompanies(krs)).thenReturn(Arrays.asList(companyData));
 
         // when
-        CantorTableResult result = creator.createCompanyTable(krs);
+        TableResult result = creator.createCompanyTable(krs);
 
         // then
         assertThat(result)

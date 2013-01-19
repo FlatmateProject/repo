@@ -1,6 +1,6 @@
 package dto.cantor;
 
-import service.cantor.ArrayObtained;
+import common.tableBuilder.ArrayObtained;
 import service.cantor.CURRENCY;
 
 public class CurrencyData implements ArrayObtained {

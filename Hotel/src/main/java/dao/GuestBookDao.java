@@ -1,11 +1,13 @@
 package dao;
 
-/**
- * Created with IntelliJ IDEA.
- * User: piotro
- * Date: 1/5/13
- * Time: 7:10 PM
- * To change this template use File | Settings | File Templates.
- */
-public class GuestBookDao {
+import dto.SimpleNameData;
+import exception.DAOException;
+
+import java.util.List;
+
+public interface GuestBookDao {
+
+    List<SimpleNameData> showColumnsForTable(String table) throws DAOException;
+
+    <T> List<T> getDataWithTable(String table, String conditions, Class<T> customerDataClass) throws DAOException;
 }

@@ -1,14 +1,14 @@
 package conditions.table;
 
+import common.tableBuilder.TableResult;
 import org.fest.assertions.Condition;
-import service.cantor.CantorTableResult;
 
 /**
  * User: piotro
  * Date: 11/11/12
  * Time: 12:08 PM
  */
-public class RowCondition extends Condition<CantorTableResult> {
+public class RowCondition extends Condition<TableResult> {
 
     private final Object[] expectedCells;
 
@@ -22,8 +22,8 @@ public class RowCondition extends Condition<CantorTableResult> {
     }
 
     @Override
-    public boolean matches(CantorTableResult cantorTableResult) {
-        Object[][] data = cantorTableResult.getRowsData();
+    public boolean matches(TableResult tableResult) {
+        Object[][] data = tableResult.getRowsData();
         for (int i = 0; i < data.length; i++) {
             Object[] actualCells = data[i];
             if (isActualRowEqualToExpectedRow(actualCells)) {

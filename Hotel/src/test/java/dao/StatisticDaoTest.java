@@ -1,28 +1,22 @@
 package dao;
 
-import dao.impl.Singleton;
-import dao.impl.StatisticDaoImpl;
 import dto.SimpleNameData;
 import exception.DAOException;
-import org.testng.annotations.BeforeMethod;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Test;
+import spring.ApplicationConfiguration;
 
 import java.util.List;
 
 import static assertions.SimpleNameListAssert.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
 
+@ContextConfiguration(classes = ApplicationConfiguration.class)
+public class StatisticDaoTest extends AbstractTestNGSpringContextTests   {
 
-public class StatisticDaoTest {
-
-    private StatisticDao statisticDao;
-
-    @BeforeMethod
-    public void beforeEachTest() {
-        initMocks(this);
-        statisticDao = new StatisticDaoImpl();
-        statisticDao.setSession(Singleton.getInstance());
-    }
+    @Autowired
+    StatisticDao statisticDao;
 
     @Test
     public void shouldFindAllRoomTypes() throws DAOException {

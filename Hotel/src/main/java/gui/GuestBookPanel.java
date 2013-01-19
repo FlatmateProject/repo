@@ -190,7 +190,7 @@ public class GuestBookPanel extends JPanel {
 
         for (int i = 0; i < 11; i++) {
             if (i < 10) {
-                gueClientLabel[i] = new JLabel(guestBook.getLabel("klienci")[i]);
+                gueClientLabel[i] = new JLabel(guestBook.getLabels("klienci")[i]);
                 gueClientLabel[i].setBounds(30, (i + 1) * 21, 150, 20);
 
                 gueClientData[i] = new JTextField();
@@ -199,7 +199,7 @@ public class GuestBookPanel extends JPanel {
 
                 add(gueClientData[i]);
             } else {
-                gueClientLabel[i] = new JLabel(guestBook.getLabel("klienci")[i]);
+                gueClientLabel[i] = new JLabel(guestBook.getLabels("klienci")[i]);
                 gueClientLabel[i].setBounds(300, 21, 70, 20);
             }
             add(gueClientLabel[i]);
@@ -317,7 +317,7 @@ public class GuestBookPanel extends JPanel {
 
         for (int i = 0; i < 11; i++) {
             if (i < 10) {
-                gueClientLabel[i] = new JLabel(guestBook.getLabel("firmy")[i]);
+                gueClientLabel[i] = new JLabel(guestBook.getLabels("firmy")[i]);
                 gueClientLabel[i].setBounds(30, (i + 1) * 21, 150, 20);
 
                 gueClientData[i] = new JTextField();
@@ -326,7 +326,7 @@ public class GuestBookPanel extends JPanel {
 
                 guePanelCo.add(gueClientData[i]);
             } else {
-                gueClientLabel[i] = new JLabel(guestBook.getLabel("firmy")[i]);
+                gueClientLabel[i] = new JLabel(guestBook.getLabels("firmy")[i]);
                 gueClientLabel[i].setBounds(300, 21, 70, 20);
             }
             guePanelCo.add(gueClientLabel[i]);

@@ -1,8 +1,10 @@
 package spring;
 
 import dao.CantorDao;
+import dao.GuestBookDao;
 import dao.StatisticDao;
 import dao.impl.CantorDaoImpl;
+import dao.impl.GuestBookDaoImpl;
 import dao.impl.Singleton;
 import dao.impl.StatisticDaoImpl;
 import gui.*;
@@ -12,19 +14,37 @@ import service.*;
 import service.cantor.CantorMoneyExchanger;
 import service.cantor.CantorTableCreator;
 import service.statictic.Statistic;
+import session.DataSource;
+import session.SimpleSession;
 
 @Configuration
 public class ApplicationConfiguration {
 
     @Bean
-    public Singleton session() {
+    public DataSource dataSource() {
+        DataSource dataSource = new DataSource();
+        dataSource.setDriver("com.mysql.jdbc.Driver");
+        dataSource.setHost("jdbc:mysql://localhost:3306/");
+        dataSource.setDatabase("hotel");
+        dataSource.setUser("hotel");
+        dataSource.setPassword("hotel_dupe");
+        return dataSource;
+    }
+
+    @Bean
+    public SimpleSession session() {
+        return new SimpleSession(dataSource());
+    }
+
+    @Bean
+    public Singleton singleton() {
         return Singleton.getInstance();
     }
 
     @Bean
     public StatisticDao statisticDao() {
-        StatisticDaoImpl statisticDao = new StatisticDaoImpl();
-        statisticDao.setSession(session());
+        StatisticDaoImpl statisticDao = new StatisticDaoImpl(session());
+        statisticDao.setSession(singleton());
         return statisticDao;
     }
 
@@ -48,8 +68,8 @@ public class ApplicationConfiguration {
 
     @Bean
     public CantorDao cantorDao() {
-        CantorDaoImpl cantorDao = new CantorDaoImpl();
-        cantorDao.setSession(session());
+        CantorDaoImpl cantorDao = new CantorDaoImpl(session());
+        cantorDao.setSession(singleton());
         return cantorDao;
     }
 
@@ -81,7 +101,7 @@ public class ApplicationConfiguration {
     @Bean
     public Schedule schedule() {
         Schedule schedule = new Schedule();
-        schedule.setSing(session());
+        schedule.setSing(singleton());
         return schedule;
     }
 
@@ -92,7 +112,7 @@ public class ApplicationConfiguration {
     @Bean
     public Reception reception() {
         Reception reception = new Reception();
-        reception.setSing(session());
+        reception.setSing(singleton());
         return reception;
     }
 
@@ -103,7 +123,7 @@ public class ApplicationConfiguration {
     @Bean
     public Reservation reservation() {
         Reservation reservation = new Reservation();
-        reservation.setSing(session());
+        reservation.setSing(singleton());
         return reservation;
     }
 
@@ -114,7 +134,7 @@ public class ApplicationConfiguration {
     @Bean
     public Manager manager() {
         Manager manager = new Manager();
-        manager.setSing(session());
+        manager.setSing(singleton());
         return manager;
     }
 
@@ -125,9 +145,14 @@ public class ApplicationConfiguration {
     }
 
     @Bean
+    public GuestBookDao guestBookDao() {
+        return new GuestBookDaoImpl(session());
+    }
+
+    @Bean
     public GuestBook guestBook() {
-        GuestBook guestBook = new GuestBook();
-        guestBook.setSing(session());
+        GuestBook guestBook = new GuestBook(guestBookDao());
+        guestBook.setSing(singleton());
         return guestBook;
     }
 
@@ -139,12 +164,12 @@ public class ApplicationConfiguration {
     @Bean
     public EmployeeManager employeeManager() {
         EmployeeManager employeeManager = new EmployeeManager();
-        employeeManager.setDb(session());
+        employeeManager.setDb(singleton());
         return employeeManager;
     }
 
     private EmployeeManagerPanel employeeManagerPanel() {
-        EmployeeManagerPanel employeeManagerPanel = new EmployeeManagerPanel(employeeManager(), session());
+        EmployeeManagerPanel employeeManagerPanel = new EmployeeManagerPanel(employeeManager(), singleton());
         return employeeManagerPanel;
     }
 

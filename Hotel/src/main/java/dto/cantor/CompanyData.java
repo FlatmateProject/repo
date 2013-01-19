@@ -1,6 +1,6 @@
 package dto.cantor;
 
-import service.cantor.ArrayObtained;
+import common.tableBuilder.ArrayObtained;
 
 public class CompanyData implements ArrayObtained {
 

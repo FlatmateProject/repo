@@ -1,8 +1,12 @@
 package gui;
 
+import common.tableBuilder.TableResult;
 import dao.CantorDao;
 import exception.CantorTransactionCanceledException;
-import service.cantor.*;
+import service.cantor.CURRENCY;
+import service.cantor.CantorMoneyExchanger;
+import service.cantor.CantorTableCreator;
+import service.cantor.ExchangeCalculation;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -261,7 +265,7 @@ public class CantorPanel extends JPanel {
         JOptionPane.showMessageDialog(getParent(), message);
     }
 
-    private JTable createTable(CantorTableResult result) {
+    private JTable createTable(TableResult result) {
         JTable table = new JTable(result.getRowsData(), result.getColumnNames());
         table.setFillsViewportHeight(true);
         return table;

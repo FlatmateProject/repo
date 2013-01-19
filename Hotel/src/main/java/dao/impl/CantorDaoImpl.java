@@ -8,12 +8,19 @@ import dto.cantor.CustomerData;
 import exception.DAOException;
 import service.cantor.CURRENCY;
 import service.cantor.ExchangeCalculation;
+import session.SimpleSession;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 public class CantorDaoImpl extends AbstractDao implements CantorDao {
+
+    private final SimpleSession session;
+
+    public CantorDaoImpl(SimpleSession session) {
+        this.session = session;
+    }
 
     public List<SimpleNameData> showColumnsForCurrency() throws DAOException {
         String query = "show columns from hotel.waluty;";

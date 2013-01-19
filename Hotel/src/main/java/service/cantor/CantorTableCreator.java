@@ -1,5 +1,7 @@
 package service.cantor;
 
+import common.tableBuilder.TableBuilder;
+import common.tableBuilder.TableResult;
 import dao.CantorDao;
 import dto.SimpleNameData;
 import dto.cantor.CompanyData;
@@ -17,33 +19,33 @@ public class CantorTableCreator {
         this.cantorDao = cantorDao;
     }
 
-    public CantorTableResult createCurrencyTable() {
+    public TableResult createCurrencyTable() {
         try {
             List<SimpleNameData> currencyColumns = cantorDao.showColumnsForCurrency();
             List<CurrencyData> currencies = cantorDao.findAllCurrency();
             return TableBuilder.table().columns(currencyColumns).data(currencies).build();
         } catch (DAOException e) {
-            return CantorTableResult.EMPTY;
+            return TableResult.EMPTY;
         }
     }
 
-    public CantorTableResult createCustomerTable(long customerId) {
+    public TableResult createCustomerTable(long customerId) {
         try {
             List<SimpleNameData> customerColumns = cantorDao.showColumnsForCustomer();
             List<CustomerData> customers = cantorDao.findAllCustomers(customerId);
             return TableBuilder.table().columns(customerColumns).data(customers).build();
         } catch (Exception e) {
-            return CantorTableResult.EMPTY;
+            return TableResult.EMPTY;
         }
     }
 
-    public CantorTableResult createCompanyTable(long companyId) {
+    public TableResult createCompanyTable(long companyId) {
         try {
             List<SimpleNameData> customerColumns = cantorDao.showColumnsForCompany();
             List<CompanyData> company = cantorDao.findAllCompanies(companyId);
             return TableBuilder.table().columns(customerColumns).data(company).build();
         } catch (Exception e) {
-            return CantorTableResult.EMPTY;
+            return TableResult.EMPTY;
         }
     }
 }

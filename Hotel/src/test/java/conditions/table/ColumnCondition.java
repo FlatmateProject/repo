@@ -1,9 +1,9 @@
 package conditions.table;
 
+import common.tableBuilder.TableResult;
 import org.fest.assertions.Condition;
-import service.cantor.CantorTableResult;
 
-public class ColumnCondition extends Condition<CantorTableResult> {
+public class ColumnCondition extends Condition<TableResult> {
 
     private final String[] expectedColumnNames;
 
@@ -17,8 +17,8 @@ public class ColumnCondition extends Condition<CantorTableResult> {
     }
 
     @Override
-    public boolean matches(CantorTableResult cantorTableResult) {
-        String[] actualColumnNames = cantorTableResult.getColumnNames();
+    public boolean matches(TableResult tableResult) {
+        String[] actualColumnNames = tableResult.getColumnNames();
         for (int i = 0; i < actualColumnNames.length; i++) {
             if (isNotEqual(actualColumnNames[i], expectedColumnNames[i])) {
                 return false;

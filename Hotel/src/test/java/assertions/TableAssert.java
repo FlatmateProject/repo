@@ -1,16 +1,16 @@
 package assertions;
 
+import common.tableBuilder.TableResult;
 import org.fest.assertions.Assertions;
 import org.fest.assertions.GenericAssert;
-import service.cantor.CantorTableResult;
 
-public class TableAssert extends GenericAssert<TableAssert, CantorTableResult> {
+public class TableAssert extends GenericAssert<TableAssert, TableResult> {
 
-    private TableAssert(CantorTableResult actual) {
+    private TableAssert(TableResult actual) {
         super(TableAssert.class, actual);
     }
 
-    public static TableAssert assertThat(CantorTableResult actual) {
+    public static TableAssert assertThat(TableResult actual) {
         return new TableAssert(actual);
     }
 

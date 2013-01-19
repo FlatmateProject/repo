@@ -1,7 +1,6 @@
 package common.tableBuilder;
 
 import dto.SimpleNameData;
-import service.cantor.ArrayObtained;
 
 import java.util.List;
 

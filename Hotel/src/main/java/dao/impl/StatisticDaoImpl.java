@@ -4,10 +4,17 @@ import dao.StatisticDao;
 import dto.SimpleNameData;
 import dto.statictic.*;
 import exception.DAOException;
+import session.SimpleSession;
 
 import java.util.List;
 
 public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
+
+    private final SimpleSession session;
+
+    public StatisticDaoImpl(SimpleSession session) {
+        this.session = session;
+    }
 
     @Override
     public List<RoomTypeData> findRoomTypesStatistics(int month, int year) throws DAOException {
@@ -112,4 +119,5 @@ public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
         String query = "SELECT opis FROM klasy";
         return executeQuery(query, SimpleNameData.class);
     }
+
 }
