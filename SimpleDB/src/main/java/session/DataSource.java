@@ -51,4 +51,8 @@ public class DataSource {
     public void setHost(String host) {
         this.host = host;
     }
+
+    public Singleton establishConnection() {
+        return Singleton.getInstance(this);
+    }
 }

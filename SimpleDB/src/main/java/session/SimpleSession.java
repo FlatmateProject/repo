@@ -10,7 +10,7 @@ public class SimpleSession {
     private Singleton singleton;
 
     public SimpleSession(DataSource dataSource) {
-        singleton = Singleton.getInstance(dataSource);
+        singleton = dataSource.establishConnection();
     }
 
     public Object simpleResult(String query) throws DAOException {
