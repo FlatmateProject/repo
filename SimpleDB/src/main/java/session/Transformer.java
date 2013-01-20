@@ -31,7 +31,7 @@ class Transformer {
         return new Transformer(resultSet);
     }
 
-    public <T> T transformTo(Class<T> dtoClass) throws DAOException {
+    public <T> T transformToObjectOf(Class<T> dtoClass) throws DAOException {
         try {
             List<T> oneElementList = transformToListOf(dtoClass);
             return oneElementList.get(0);

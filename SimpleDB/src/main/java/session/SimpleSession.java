@@ -14,31 +14,22 @@ public class SimpleSession {
     }
 
     public Object simpleResult(String query) throws DAOException {
-        return readOneColumnOfFirstRow(query);
+        return SimpleResult.on(resultSet(query)).transformToObject();
     }
 
     public <T> T uniqueResult(String query, Class<T> dtoClass) throws DAOException {
-        ResultSet resultSet = singleton.query(query);
-        return Transformer.on(resultSet).transformTo(dtoClass);
+        return Transformer.on(resultSet(query)).transformToObjectOf(dtoClass);
     }
 
     public <T> List<T> executeQuery(String query, Class<T> dtoClass) throws DAOException {
-        ResultSet resultSet = singleton.query(query);
-        return Transformer.on(resultSet).transformToListOf(dtoClass);
+        return Transformer.on(resultSet(query)).transformToListOf(dtoClass);
+    }
+
+    private ResultSet resultSet(String query) throws DAOException {
+        return singleton.query(query);
     }
 
     public void update(String query) throws DAOException {
         singleton.update(query);
     }
-
-    private Object readOneColumnOfFirstRow(String query) throws DAOException {
-        try {
-            ResultSet resultSet = singleton.query(query);
-            return resultSet.next() ? resultSet.getObject(1) : 0;
-        } catch (Exception e) {
-            throw new DAOException(e);
-        }
-    }
-
-
 }
