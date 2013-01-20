@@ -20,14 +20,29 @@ import session.SimpleSession;
 @Configuration
 public class ApplicationConfiguration {
 
+    //    @Value("#{driver}")
+    private String driver = "com.mysql.jdbc.Driver";
+
+    //    @Value("#{host}")
+    private String host = "jdbc:mysql://localhost:3306/";
+
+    //    @Value("#{database}")
+    private String database = "hotel";
+
+    //    @Value("#{username}")
+    private String user = "hotel";
+
+    //    @Value("#{password}")
+    private String password = "hotel_dupe";
+
     @Bean
     public DataSource dataSource() {
         DataSource dataSource = new DataSource();
-        dataSource.setDriver("com.mysql.jdbc.Driver");
-        dataSource.setHost("jdbc:mysql://localhost:3306/");
-        dataSource.setDatabase("hotel");
-        dataSource.setUser("hotel");
-        dataSource.setPassword("hotel_dupe");
+        dataSource.setDriver(driver);
+        dataSource.setHost(host);
+        dataSource.setDatabase(database);
+        dataSource.setUser(user);
+        dataSource.setPassword(password);
         return dataSource;
     }
 
@@ -43,9 +58,7 @@ public class ApplicationConfiguration {
 
     @Bean
     public StatisticDao statisticDao() {
-        StatisticDaoImpl statisticDao = new StatisticDaoImpl(session());
-        statisticDao.setSession(singleton());
-        return statisticDao;
+        return new StatisticDaoImpl(session());
     }
 
     @Bean
@@ -68,9 +81,7 @@ public class ApplicationConfiguration {
 
     @Bean
     public CantorDao cantorDao() {
-        CantorDaoImpl cantorDao = new CantorDaoImpl(session());
-        cantorDao.setSession(singleton());
-        return cantorDao;
+        return new CantorDaoImpl(session());
     }
 
     @Bean
@@ -151,9 +162,7 @@ public class ApplicationConfiguration {
 
     @Bean
     public GuestBook guestBook() {
-        GuestBook guestBook = new GuestBook(guestBookDao());
-        guestBook.setSing(singleton());
-        return guestBook;
+        return new GuestBook(guestBookDao());
     }
 
     private GuestBookPanel guestBookPanel() {
@@ -176,14 +185,14 @@ public class ApplicationConfiguration {
     @Bean
     public Gui gui() {
         Gui gui = new Gui();
-        gui.setCantorPanel(cantorPanel());
-        gui.setSchedulerPanel(schedulerPanel());
-        gui.setReceptionPanel(receptionPanel());
-        gui.setReservationPanel(reservationPanel());
-        gui.setManagerPanel(managerPanel());
+//        gui.setCantorPanel(cantorPanel());
+//        gui.setSchedulerPanel(schedulerPanel());
+//        gui.setReceptionPanel(receptionPanel());
+//        gui.setReservationPanel(reservationPanel());
+//        gui.setManagerPanel(managerPanel());
         gui.setGuessBookPanel(guestBookPanel());
-        gui.setStatisticPanel(statisticPanel());
-        gui.setEmployeeManagerPanel(employeeManagerPanel());
+//        gui.setStatisticPanel(statisticPanel());
+//        gui.setEmployeeManagerPanel(employeeManagerPanel());
         return gui;
     }
 }

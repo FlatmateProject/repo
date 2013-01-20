@@ -1,5 +1,6 @@
 package gui;
 
+import dto.SimpleNameData;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import service.GuestBook;
@@ -11,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.List;
 
 @Component
 public class GuestBookPanel extends JPanel {
@@ -21,159 +23,20 @@ public class GuestBookPanel extends JPanel {
 
     private final GuestBook guestBook;
 
-    private JPanel guePanelCo;
+    private JPanel panelCo;
     private final JLabel[] gueClientLabel = new JLabel[12];
-    private final JTextField[] gueClientData = new JTextField[11];
+    private final JTextField[] gueClientData = new JTextField[12];
     private final JTextArea gueClientNotes = new JTextArea();
     private final JTable[] gueTable = new JTable[3];
     private final JScrollPane[] gueScrollPane = new JScrollPane[3];
-    private final JButton[] gueButton = new JButton[4];
+    private final JButton[] buttons = new JButton[4];
     private final Border border = BorderFactory.createLineBorder(new Color(60, 124, 142));
     private final Color bgColor = new Color(224, 230, 233);
     private final Color buttonColor = new Color(174, 205, 214);
-    private final MouseListener gueTableMLCl = new MouseListener() {
-        @Override
-        public void mouseClicked(MouseEvent arg0) {
-            try {
-                gueTable[1] = guestBook.createTable(
-                        "rezerwacje",
-                        "where IDK_PESEL="
-                                + gueTable[0].getValueAt(
-                                gueTable[0].getSelectedRow(), 0));
-                gueTable[1].addMouseListener(gueTable2MLCl);
-                gueScrollPane[1].setViewportView(gueTable[1]);
-                add(gueScrollPane[1]);
-
-                for (int i = 0; i < 11; i++) {
-                    if (i < 10)
-                        gueClientData[i].setText((String) gueTable[0]
-                                .getValueAt(gueTable[0].getSelectedRow(), i));
-                    else
-                        gueClientNotes.setText((String) gueTable[0].getValueAt(
-                                gueTable[0].getSelectedRow(), i));
-                }
-            } catch (Exception e) {
-                log.info("Brak danych!");
-            }
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent arg0) {
-        }
-
-        @Override
-        public void mouseExited(MouseEvent arg0) {
-        }
-
-        @Override
-        public void mousePressed(MouseEvent arg0) {
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent arg0) {
-        }
-    };
-    private final MouseListener gueTableMLCo = new MouseListener() {
-        @Override
-        public void mouseClicked(MouseEvent arg0) {
-            gueTable[1] = guestBook.createTable("rezerwacje", "where IDF_KRS="
-                    + gueTable[0].getValueAt(gueTable[0].getSelectedRow(), 0));
-            gueTable[1].addMouseListener(gueTable2MLCo);
-            gueScrollPane[1].setViewportView(gueTable[1]);
-            guePanelCo.add(gueScrollPane[1]);
-
-            for (int i = 0; i < 11; i++) {
-                if (i < 10)
-                    gueClientData[i].setText((String) gueTable[0].getValueAt(
-                            gueTable[0].getSelectedRow(), i));
-                else
-                    gueClientNotes.setText((String) gueTable[0].getValueAt(
-                            gueTable[0].getSelectedRow(), i));
-            }
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent arg0) {
-        }
-
-        @Override
-        public void mouseExited(MouseEvent arg0) {
-        }
-
-        @Override
-        public void mousePressed(MouseEvent arg0) {
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent arg0) {
-        }
-    };
-    private final MouseListener gueTable2MLCl = new MouseListener() {
-
-        @Override
-        public void mouseClicked(MouseEvent arg0) {
-            gueTable[2] = guestBook.createTable(
-                    "uslugi",
-                    ", rekreacja where rekreacja.id_rez ="
-                            + gueTable[1].getValueAt(
-                            gueTable[1].getSelectedRow(), 0)
-                            + " and rekreacja.id_uslugi = uslugi.id_uslugi");
-            gueScrollPane[2].setViewportView(gueTable[2]);
-            add(gueScrollPane[2]);
-            gueClientLabel[11] = new JLabel("US�UGI");
-            gueClientLabel[11].setBounds(510, 21, 100, 20);
-            add(gueClientLabel[11]);
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent arg0) {
-        }
-
-        @Override
-        public void mousePressed(MouseEvent arg0) {
-        }
-
-        @Override
-        public void mouseExited(MouseEvent arg0) {
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent arg0) {
-        }
-    };
-    private final MouseListener gueTable2MLCo = new MouseListener() {
-
-        @Override
-        public void mouseClicked(MouseEvent arg0) {
-            gueTable[2] = guestBook.createTable(
-                    "uslugi",
-                    ", rekreacja where rekreacja.id_rez ="
-                            + gueTable[1].getValueAt(
-                            gueTable[1].getSelectedRow(), 0)
-                            + " and rekreacja.id_uslugi = uslugi.id_uslugi");
-            gueScrollPane[2].setViewportView(gueTable[2]);
-            guePanelCo.add(gueScrollPane[2]);
-            gueClientLabel[11] = new JLabel("US�UGI");
-            gueClientLabel[11].setBounds(510, 21, 100, 20);
-            add(gueClientLabel[11]);
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent arg0) {
-        }
-
-        @Override
-        public void mousePressed(MouseEvent arg0) {
-        }
-
-        @Override
-        public void mouseExited(MouseEvent arg0) {
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent arg0) {
-        }
-    };
+    private MouseListener gueTableMLCl;
+    private MouseListener gueTableMLCo;
+    private MouseListener gueTable2MLCl;
+    private MouseListener gueTable2MLCo;
 
     public GuestBookPanel(GuestBook guestBook) {
         this.guestBook = guestBook;
@@ -186,44 +49,34 @@ public class GuestBookPanel extends JPanel {
 
         setBounds(0, 0, getWidth(), getHeight());
         setBackground(bgColor);
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(null);
+        setVisible(true);
 
-        for (int i = 0; i < 11; i++) {
-            if (i < 10) {
-                gueClientLabel[i] = new JLabel(guestBook.getLabels("klienci")[i]);
-                gueClientLabel[i].setBounds(30, (i + 1) * 21, 150, 20);
 
-                gueClientData[i] = new JTextField();
-                gueClientData[i].setBounds(140, (i + 1) * 21, 150, 18);
-                gueClientData[i].setBorder(border);
-
-                add(gueClientData[i]);
-            } else {
-                gueClientLabel[i] = new JLabel(guestBook.getLabels("klienci")[i]);
-                gueClientLabel[i].setBounds(300, 21, 70, 20);
-            }
+        int i = 0;
+        List<SimpleNameData> columns = guestBook.getLabels("klienci");
+        for (SimpleNameData column : columns) {
+            gueClientLabel[i] = new JLabel(column.getName());
+            gueClientLabel[i].setBounds(30, (i + 1) * 21, 160, 20);
+            gueClientData[i] = new JTextField();
+            gueClientData[i].setBounds(150, (i + 1) * 21, 150, 18);
+            gueClientData[i].setBorder(border);
+            add(gueClientData[i]);
             add(gueClientLabel[i]);
+            i++;
         }
-
-        gueClientNotes.setBorder(border);
-        gueClientNotes.setBounds(gueClientLabel[10].getX(), 41, 200, 187);
 
         add(gueClientNotes);
 
-        for (int i = 0; i < 4; i++) {
-            gueButton[i] = new JButton();
-            if (i == 0)
-                gueButton[i].setBounds(20, 250, 100, 25);
-            else
-                gueButton[i].setBounds(gueButton[i - 1].getX() + 110, 250, 100,
-                        25);
-            gueButton[i].setBackground(buttonColor);
-            add(gueButton[i]);
+        String[] labels = {"Szukaj", "Aktualizuj", "Firmy", "Wyczyść"};
+
+        for (i = 0; i < 4; i++) {
+            buttons[i] = new JButton();
+            buttons[i].setBounds(20 + i * 140, 280, 120, 25);
+            buttons[i].setBackground(buttonColor);
+            buttons[i].setText(labels[i]);
+            add(buttons[i]);
         }
-        gueButton[0].setText("Szukaj");
-        gueButton[1].setText("Aktualizuj");
-        gueButton[2].setText("Firmy");
-        gueButton[3].setText("Wyczy��");
 
         gueTable[0] = guestBook.createTable("klienci", "");
         gueTable[0].addMouseListener(gueTableMLCl);
@@ -236,7 +89,11 @@ public class GuestBookPanel extends JPanel {
         gueScrollPane[2] = new JScrollPane();
         gueScrollPane[2].setBorder(border);
 
-        gueButton[0].addActionListener(new ActionListener() {
+        add(gueScrollPane[0]);
+    }
+
+    private void addEventsForButtons() {
+        buttons[0].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 String s2 = "";
@@ -245,14 +102,12 @@ public class GuestBookPanel extends JPanel {
                         if (!s2.isEmpty()) {
                             s2 = s2 + " and ";
                         }
-                        s2 = s2 + gueClientLabel[i].getText() + "=" + "\""
-                                + gueClientData[i].getText() + "\"";
+                        s2 = s2 + gueClientLabel[i].getText() + "=" + "\"" + gueClientData[i].getText() + "\"";
                     } else if (i >= 10 && !gueClientNotes.getText().isEmpty()) {
                         if (!s2.isEmpty()) {
                             s2 = s2 + " and ";
                         }
-                        s2 = s2 + gueClientLabel[i].getText() + "=" + "\""
-                                + gueClientNotes.getText() + "\"";
+                        s2 = s2 + gueClientLabel[i].getText() + "=" + "\"" + gueClientNotes.getText() + "\"";
                     }
                 }
                 if (!s2.isEmpty()) {
@@ -262,7 +117,7 @@ public class GuestBookPanel extends JPanel {
                 }
             }
         });
-        gueButton[1].addActionListener(new ActionListener() {
+        buttons[1].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 String l[] = new String[10];
@@ -284,17 +139,17 @@ public class GuestBookPanel extends JPanel {
                 }
             }
         });
-        gueButton[2].addActionListener(new ActionListener() {
+        buttons[2].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
 //				jtp.remove(guePanelCl);
                 createGuestBookCo();
-//				jtp.addTab("Ksi�ga Go�ci", guePanelCo);
+//				jtp.addTab("Ksi�ga Go�ci", panelCo);
 //				jtp.setSelectedIndex(jtp.getComponentCount() - 1);
                 resizeGuestBook(getWidth(), getHeight());
             }
         });
-        gueButton[3].addActionListener(new ActionListener() {
+        buttons[3].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for (int i = 0; i < 10; i++) {
@@ -306,51 +161,52 @@ public class GuestBookPanel extends JPanel {
                 }
             }
         });
-        add(gueScrollPane[0]);
     }
 
     private void createGuestBookCo() {
-        guePanelCo = new JPanel();
-        guePanelCo.setBounds(0, 0, getWidth(), getHeight());
-        guePanelCo.setBackground(bgColor);
-        guePanelCo.setLayout(null);
-
-        for (int i = 0; i < 11; i++) {
+        panelCo = new JPanel();
+        panelCo.setBounds(0, 0, getWidth(), getHeight());
+        panelCo.setBackground(bgColor);
+        panelCo.setLayout(null);
+        int i = 0;
+        List<SimpleNameData> firms = guestBook.getLabels("firmy");
+        for (SimpleNameData columns : firms) {
             if (i < 10) {
-                gueClientLabel[i] = new JLabel(guestBook.getLabels("firmy")[i]);
+                gueClientLabel[i] = new JLabel(columns.getName());
                 gueClientLabel[i].setBounds(30, (i + 1) * 21, 150, 20);
 
                 gueClientData[i] = new JTextField();
                 gueClientData[i].setBounds(140, (i + 1) * 21, 150, 18);
                 gueClientData[i].setBorder(border);
 
-                guePanelCo.add(gueClientData[i]);
+                panelCo.add(gueClientData[i]);
             } else {
-                gueClientLabel[i] = new JLabel(guestBook.getLabels("firmy")[i]);
+                gueClientLabel[i] = new JLabel(columns.getName());
                 gueClientLabel[i].setBounds(300, 21, 70, 20);
             }
-            guePanelCo.add(gueClientLabel[i]);
+            panelCo.add(gueClientLabel[i]);
+            i++;
         }
 
         gueClientNotes.setBorder(border);
         gueClientNotes.setBounds(gueClientLabel[10].getX(), 41, 200, 187);
 
-        guePanelCo.add(gueClientNotes);
+        panelCo.add(gueClientNotes);
 
-        for (int i = 0; i < 4; i++) {
-            gueButton[i] = new JButton();
+        for (i = 0; i < 4; i++) {
+            buttons[i] = new JButton();
             if (i == 0)
-                gueButton[i].setBounds(20, 250, 100, 25);
+                buttons[i].setBounds(20, 250, 100, 25);
             else
-                gueButton[i].setBounds(gueButton[i - 1].getX() + 110, 250, 100,
+                buttons[i].setBounds(buttons[i - 1].getX() + 110, 250, 100,
                         25);
-            gueButton[i].setBackground(buttonColor);
-            guePanelCo.add(gueButton[i]);
+            buttons[i].setBackground(buttonColor);
+            panelCo.add(buttons[i]);
         }
-        gueButton[0].setText("Szukaj");
-        gueButton[1].setText("Aktualizuj");
-        gueButton[2].setText("Klienci");
-        gueButton[3].setText("Wyczy��");
+        buttons[0].setText("Szukaj");
+        buttons[1].setText("Aktualizuj");
+        buttons[2].setText("Klienci");
+        buttons[3].setText("Wyczy��");
 
         gueTable[0] = guestBook.createTable("firmy", "");
         gueTable[0].addMouseListener(gueTableMLCo);
@@ -363,9 +219,9 @@ public class GuestBookPanel extends JPanel {
         gueScrollPane[2] = new JScrollPane();
         gueScrollPane[2].setBorder(border);
 
-        guePanelCo.add(gueScrollPane[0]);
+        panelCo.add(gueScrollPane[0]);
 
-        gueButton[0].addActionListener(new ActionListener() {
+        buttons[0].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 String s2 = "";
@@ -391,7 +247,7 @@ public class GuestBookPanel extends JPanel {
                 }
             }
         });
-        gueButton[1].addActionListener(new ActionListener() {
+        buttons[1].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 String l[] = new String[10];
@@ -413,17 +269,17 @@ public class GuestBookPanel extends JPanel {
                 }
             }
         });
-        gueButton[2].addActionListener(new ActionListener() {
+        buttons[2].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-//				jtp.remove(guePanelCo);
+//				jtp.remove(panelCo);
 //				createGuestBook();
 //				jtp.addTab("Ksi�ga Go�ci", this);
 //				jtp.setSelectedIndex(jtp.getComponentCount() - 1);
                 resizeGuestBook(getWidth(), getHeight());
             }
         });
-        gueButton[3].addActionListener(new ActionListener() {
+        buttons[3].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for (int i = 0; i < 10; i++) {
@@ -439,7 +295,152 @@ public class GuestBookPanel extends JPanel {
 
 
     private void addEvents() {
+        addEventsForButtons();
 
+
+        gueTableMLCl = new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+                try {
+                    gueTable[1] = guestBook.createTable(
+                            "rezerwacje",
+                            "where IDK_PESEL="
+                                    + gueTable[0].getValueAt(
+                                    gueTable[0].getSelectedRow(), 0));
+                    gueTable[1].addMouseListener(gueTable2MLCl);
+                    gueScrollPane[1].setViewportView(gueTable[1]);
+                    add(gueScrollPane[1]);
+
+                    for (int i = 0; i < 11; i++) {
+                        if (i < 10)
+                            gueClientData[i].setText((String) gueTable[0]
+                                    .getValueAt(gueTable[0].getSelectedRow(), i));
+                        else
+                            gueClientNotes.setText((String) gueTable[0].getValueAt(
+                                    gueTable[0].getSelectedRow(), i));
+                    }
+                } catch (Exception e) {
+                    log.info("Brak danych!");
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent arg0) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent arg0) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent arg0) {
+            }
+        };
+        gueTableMLCo = new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+                gueTable[1] = guestBook.createTable("rezerwacje", "where IDF_KRS="
+                        + gueTable[0].getValueAt(gueTable[0].getSelectedRow(), 0));
+                gueTable[1].addMouseListener(gueTable2MLCo);
+                gueScrollPane[1].setViewportView(gueTable[1]);
+                panelCo.add(gueScrollPane[1]);
+
+                for (int i = 0; i < 11; i++) {
+                    if (i < 10)
+                        gueClientData[i].setText((String) gueTable[0].getValueAt(
+                                gueTable[0].getSelectedRow(), i));
+                    else
+                        gueClientNotes.setText((String) gueTable[0].getValueAt(
+                                gueTable[0].getSelectedRow(), i));
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent arg0) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent arg0) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent arg0) {
+            }
+        };
+        gueTable2MLCl = new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+                gueTable[2] = guestBook.createTable(
+                        "uslugi",
+                        ", rekreacja where rekreacja.id_rez ="
+                                + gueTable[1].getValueAt(
+                                gueTable[1].getSelectedRow(), 0)
+                                + " and rekreacja.id_uslugi = uslugi.id_uslugi");
+                gueScrollPane[2].setViewportView(gueTable[2]);
+                add(gueScrollPane[2]);
+                gueClientLabel[11] = new JLabel("US�UGI");
+                gueClientLabel[11].setBounds(510, 21, 100, 20);
+                add(gueClientLabel[11]);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent arg0) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent arg0) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent arg0) {
+            }
+        };
+        gueTable2MLCo = new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+                gueTable[2] = guestBook.createTable(
+                        "uslugi",
+                        ", rekreacja where rekreacja.id_rez ="
+                                + gueTable[1].getValueAt(
+                                gueTable[1].getSelectedRow(), 0)
+                                + " and rekreacja.id_uslugi = uslugi.id_uslugi");
+                gueScrollPane[2].setViewportView(gueTable[2]);
+                panelCo.add(gueScrollPane[2]);
+                gueClientLabel[11] = new JLabel("US�UGI");
+                gueClientLabel[11].setBounds(510, 21, 100, 20);
+                add(gueClientLabel[11]);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent arg0) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent arg0) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent arg0) {
+            }
+        };
     }
 
     public void resizeGuestBook(int width, int height) {

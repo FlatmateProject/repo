@@ -13,3 +13,4 @@
 18. add test on AbstractDao
 19. Create hotel schema in test data base
 20. Create ApplicationConfigurationForTest with mocked dependencies.
+21. Use spring @Value annotation in ApplicationConfiguration

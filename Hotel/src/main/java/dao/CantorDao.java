@@ -10,7 +10,7 @@ import service.cantor.ExchangeCalculation;
 
 import java.util.List;
 
-public interface CantorDao extends SessionSupport{
+public interface CantorDao {
 
     List<SimpleNameData> showColumnsForCurrency() throws DAOException;
 

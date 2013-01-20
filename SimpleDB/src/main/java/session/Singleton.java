@@ -1,5 +1,6 @@
 package session;
 
+import exception.DAOException;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
@@ -26,22 +27,22 @@ class Singleton {
             Class.forName(dataSource.getDriver()).newInstance();
             connection = DriverManager.getConnection(dataSource.getHost() + dataSource.getDatabase(), dataSource.getUser(), dataSource.getPassword());
         } catch (Exception e) {
-            System.err.println(e.getLocalizedMessage() + "\nBrak połączenia z bazą danych!");
+            System.out.println(e.getLocalizedMessage() + "\nBrak połączenia z bazą danych!");
         }
     }
 
-    public ResultSet query(String sql) {
+    public ResultSet query(String sql) throws DAOException {
         try {
             log.info(sql);
             Statement statement = connection.createStatement();
             return statement.executeQuery(sql);
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
+            throw new DAOException(e);
         }
     }
 
-    public Boolean update(String sql) {
+    public Boolean update(String sql) throws DAOException {
         try {
             log.info(sql);
             Statement statement = connection.createStatement();
@@ -49,7 +50,7 @@ class Singleton {
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            throw new DAOException(e);
         }
     }
 

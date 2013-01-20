@@ -27,9 +27,10 @@ public class SimpleSession {
         return Transformer.on(resultSet).transformToListOf(dtoClass);
     }
 
-    public void query(String query) {
+    public void update(String query) throws DAOException {
         singleton.update(query);
     }
+
     private Object readOneColumnOfFirstRow(String query) throws DAOException {
         try {
             ResultSet resultSet = singleton.query(query);

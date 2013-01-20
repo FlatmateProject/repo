@@ -6,7 +6,7 @@ import exception.DAOException;
 
 import java.util.List;
 
-public interface StatisticDao extends SessionSupport{
+public interface StatisticDao {
 
     List<RoomTypeData> findRoomTypesStatistics(int month, int year) throws DAOException;
 

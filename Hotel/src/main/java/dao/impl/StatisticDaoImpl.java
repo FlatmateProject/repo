@@ -8,7 +8,7 @@ import session.SimpleSession;
 
 import java.util.List;
 
-public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
+public class StatisticDaoImpl implements StatisticDao {
 
     private final SimpleSession session;
 
@@ -23,7 +23,7 @@ public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
         query += "JOIN pokoje p ON r.id_pokoju=p.id_pokoju  JOIN klasy k ON p.id_klasy=k.id_klasy ";
         query += "WHERE MONTH(r.data_w)=" + month + " and YEAR(r.data_w)="
                 + year + " GROUP BY k.id_klasy ORDER BY k.id_klasy";
-        return executeQuery(query, RoomTypeData.class);
+        return session.executeQuery(query, RoomTypeData.class);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
         query += "WHERE MONTH(r.data_w)=" + month + " and YEAR(r.data_w)="
                 + year + " and k.opis='" + classRoom + "' ";
         query += " GROUP BY p.id_pokoju ORDER BY p.id_pokoju";
-        return executeQuery(query, RoomData.class);
+        return session.executeQuery(query, RoomData.class);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
         query += "JOIN rezerwacje rz ON rk.id_rez=rz.id_rez ";
         query += "WHERE MONTH(rz.data_w)=" + month + " and YEAR(rz.data_w)="
                 + year + " GROUP BY u.typ";
-        return executeQuery(query, ServiceTypeData.class);
+        return session.executeQuery(query, ServiceTypeData.class);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
                 + " and YEAR(rz.data_w)=" + year + " AND u.typ='" + serve
                 + "' ";
         query += "GROUP BY u.nazwa";
-        return executeQuery(query, ServiceData.class);
+        return session.executeQuery(query, ServiceData.class);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
                 + " AND MONTH(r.data_w)<=" + monthTo + " ";
         query += " AND YEAR(r.data_w)=" + year
                 + " GROUP BY MONTH(r.data_w)";
-        return executeQuery(query, MonthSummaryGainData.class);
+        return session.executeQuery(query, MonthSummaryGainData.class);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
         query += "WHERE YEAR(r.data_w)>=" + yearFrom
                 + " AND YEAR(r.data_w)<=" + yearTo + " ";
         query += "GROUP BY YEAR(r.data_w)";
-        return executeQuery(query, YearSummaryGainData.class);
+        return session.executeQuery(query, YearSummaryGainData.class);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
         query += "rrz ON rrk.id_rez=rrz.id_rez WHERE uu.typ='"
                 + serveType + "' ";
         query += "  GROUP BY rrk.id_rez ) tab";
-        return (Integer) simpleResult(query);
+        return (Integer) session.simpleResult(query);
     }
 
     @Override
@@ -105,19 +105,19 @@ public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
         query += "rrz ON rrk.id_rez=rrz.id_rez WHERE uu.nazwa='"
                 + serveName + "' ";
         query += "  GROUP BY rrk.id_rez ) tab";
-        return (Integer) simpleResult(query);
+        return (Integer) session.simpleResult(query);
     }
 
     @Override
     public List<SimpleNameData> findAllServiceTypes() throws DAOException {
         String query = "SELECT typ FROM uslugi GROUP BY typ";
-        return executeQuery(query, SimpleNameData.class);
+        return session.executeQuery(query, SimpleNameData.class);
     }
 
     @Override
     public List<SimpleNameData> findAllRoomTypes() throws DAOException {
         String query = "SELECT opis FROM klasy";
-        return executeQuery(query, SimpleNameData.class);
+        return session.executeQuery(query, SimpleNameData.class);
     }
 
 }

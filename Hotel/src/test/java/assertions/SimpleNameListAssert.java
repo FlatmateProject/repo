@@ -35,6 +35,11 @@ public class SimpleNameListAssert extends ListAssert {
         return this;
     }
 
+    public SimpleNameListAssert containColumn(String column) {
+        addToList(column);
+        return this;
+    }
+
     public SimpleNameListAssert exactly() {
         super.onProperty("name").containsExactly(names.toArray());
         return this;

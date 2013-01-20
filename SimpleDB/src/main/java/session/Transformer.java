@@ -6,7 +6,6 @@ import converter.impl.GregorianCalendarConverter;
 import converter.impl.LongConverter;
 import converter.impl.StringConverter;
 import exception.DAOException;
-import org.apache.log4j.Logger;
 
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
@@ -15,22 +14,17 @@ import java.util.*;
 
 class Transformer {
 
-    private static final Logger log = Logger.getLogger(Transformer.class);
-
     private ResultSet resultSet;
 
-    private final Map<Class, TypeConverter> conversionMap = new HashMap<Class, TypeConverter>();
+    private final Map<Class, TypeConverter> conversionMap;
 
-
-    {
+    private Transformer(ResultSet resultSet) {
+        this.resultSet = resultSet;
+        conversionMap = new HashMap<Class, TypeConverter>();
         conversionMap.put(long.class, new LongConverter(resultSet));
         conversionMap.put(float.class, new FloatConverter(resultSet));
         conversionMap.put(GregorianCalendar.class, new GregorianCalendarConverter(resultSet));
         conversionMap.put(String.class, new StringConverter(resultSet));
-    }
-
-    private Transformer(ResultSet resultSet) {
-        this.resultSet = resultSet;
     }
 
     public static Transformer on(ResultSet resultSet) {
@@ -47,16 +41,16 @@ class Transformer {
     }
 
     public <T> List<T> transformToListOf(Class<T> resultClass) throws DAOException {
-            ArrayList<T> EMPTY_LIST = new ArrayList<T>();
-            try {
-                if (isNotEmptyResult()) {
-                    return createTransformedRows(resultClass);
-                }
-                return EMPTY_LIST;
-            } catch (Exception e) {
-                throw new DAOException(e);
+        ArrayList<T> EMPTY_LIST = new ArrayList<T>();
+        try {
+            if (isNotEmptyResult()) {
+                return createTransformedRows(resultClass);
             }
+            return EMPTY_LIST;
+        } catch (Exception e) {
+            throw new DAOException(e);
         }
+    }
 
     private boolean isNotEmptyResult() {
         return resultSet != null;
@@ -82,7 +76,7 @@ class Transformer {
             field.setAccessible(true);
             field.set(object, getObjectByIndex(index, field.getType()));
             index++;
-            log.info(field.getName() + ": " + field.toString());
+//            log.info(field.getName() + ": " + field.toString());
         }
     }
 
