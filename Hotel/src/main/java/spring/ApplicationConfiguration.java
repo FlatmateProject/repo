@@ -8,6 +8,7 @@ import dao.impl.GuestBookDaoImpl;
 import dao.impl.Singleton;
 import dao.impl.StatisticDaoImpl;
 import gui.*;
+import gui.guestBook.GuestBookPanel;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import service.*;
