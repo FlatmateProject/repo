@@ -8,8 +8,6 @@ public class CompanyData implements ArrayObtained {
 
     private String name;
 
-    private String family;
-
     private String county;
 
     private String city;
@@ -35,6 +33,6 @@ public class CompanyData implements ArrayObtained {
 
     @Override
     public Object[] getArray() {
-        return new Object[]{idKrs, name, family, county, city, street, block, flat, status, notes, regon, nip, phone, createDate};
+        return new Object[]{idKrs, name, county, city, street, block, flat, status, notes, regon, nip, phone, createDate};
     }
 }

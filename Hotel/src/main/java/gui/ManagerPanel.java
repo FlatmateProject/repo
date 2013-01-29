@@ -1,5 +1,6 @@
 package gui;
 
+import dto.cantor.CustomerData;
 import org.apache.log4j.Logger;
 import service.GuestBook;
 import service.Manager;
@@ -211,7 +212,7 @@ public class ManagerPanel extends JPanel {
                     }
                 }
                 if (!s2.isEmpty()) {
-                    manTable = guestBook.createTable(manName, " where " + s2);
+                    manTable = guestBook.createTable(manName, " where " + s2, CustomerData.class);
                     manTable.addMouseListener(manTableML);
                     manScrollPane.setViewportView(manTable);
                 }
@@ -222,7 +223,7 @@ public class ManagerPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 for (int i = 0; i < manData.length; i++) {
                     manData[i].setText("");
-                    manTable = guestBook.createTable(manName, "");
+                    manTable = guestBook.createTable(manName, "", CustomerData.class);
                     manTable.addMouseListener(manTableML);
                     manScrollPane.setViewportView(manTable);
                 }

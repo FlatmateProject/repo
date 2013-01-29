@@ -6,6 +6,7 @@ import converter.impl.GregorianCalendarConverter;
 import converter.impl.LongConverter;
 import converter.impl.StringConverter;
 import exception.DAOException;
+import org.apache.log4j.Logger;
 
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
@@ -18,6 +19,8 @@ class Transformer {
 
     private final Map<Class, TypeConverter> conversionMap;
 
+    private final static Logger log = Logger.getLogger(Transformer.class);
+
     private Transformer(ResultSet resultSet) {
         this.resultSet = resultSet;
         conversionMap = new HashMap<Class, TypeConverter>();
@@ -28,6 +31,7 @@ class Transformer {
     }
 
     public static Transformer on(ResultSet resultSet) {
+        log.info("create Transformer");
         return new Transformer(resultSet);
     }
 
@@ -70,13 +74,18 @@ class Transformer {
         return resultClass.newInstance();
     }
 
-    private <T> void fillObject(T object, Field[] fields) throws IllegalArgumentException, IllegalAccessException, SQLException {
-        int index = 1;
-        for (Field field : fields) {
-            field.setAccessible(true);
-            field.set(object, getObjectByIndex(index, field.getType()));
-            index++;
-//            log.info(field.getName() + ": " + field.toString());
+    private <T> void fillObject(T object, Field[] fields) throws IllegalArgumentException, IllegalAccessException, DAOException {
+        String errorMessage = null;
+        try {
+            int index = 1;
+            for (Field field : fields) {
+                errorMessage = field.getName() + ": " + field.toString();
+                field.setAccessible(true);
+                field.set(object, getObjectByIndex(index, field.getType()));
+                index++;
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e, errorMessage);
         }
     }
 

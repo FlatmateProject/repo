@@ -1,5 +1,6 @@
 package dao.impl;
 
+import common.tableBuilder.ArrayObtained;
 import dao.GuestBookDao;
 import dto.SimpleNameData;
 import exception.DAOException;
@@ -21,8 +22,9 @@ public class GuestBookDaoImpl implements GuestBookDao {
         return session.executeQuery(query, SimpleNameData.class);
     }
 
+
     @Override
-    public <T> List<T> getDataFromTable(String table, String conditions, Class<T> customerDataClass) throws DAOException {
+    public <T extends ArrayObtained> List<T> getDataFromTable(String table, String conditions, Class<T> customerDataClass) throws DAOException {
         String query = "select * from hotel." + table + " " + conditions;
         return session.executeQuery(query, customerDataClass);
     }
