@@ -12,13 +12,13 @@ public class Manager {
 
     private static final Logger log = Logger.getLogger(Manager.class);
 
-    private Singleton sing;
+    private Singleton singleton;
 
     private ResultSet rset1;
 
     public int getCount(String s) {
         String stmt = "select count(*) from " + s;
-        rset1 = sing.query(stmt);
+        rset1 = singleton.query(stmt);
 
         if (rset1 == null) {
             return 0;
@@ -45,12 +45,12 @@ public class Manager {
         }
         q += " where " + l[0] + " = \"" + d[0] + "\"";
         log.info(q);
-        return sing.update(q);
+        return singleton.update(q);
     }
 
     public Boolean deleteData(String table, String l, String d) {
         String q = "delete from hotel." + table + " where " + l + " = " + d;
-        return sing.update(q);
+        return singleton.update(q);
     }
 
     public Boolean insertData(String table, String l[], String d[], int size) {
@@ -76,12 +76,12 @@ public class Manager {
         }
         q += ");";
         log.info(q);
-        return sing.update(q);
+        return singleton.update(q);
     }
 
     public Boolean checkTable(String table, String l, String d) {
         String q = "select count(*) from " + table + " where " + l + " = " + d;
-        rset1 = sing.query(q);
+        rset1 = singleton.query(q);
         try {
             rset1.next();
             return rset1.getString(1).equals("0");
@@ -94,7 +94,7 @@ public class Manager {
 
     public String[] getColumns(String s) {
         int i = 0;
-        rset1 = sing.query("show columns from " + s);
+        rset1 = singleton.query("show columns from " + s);
         try {
             if (rset1 == null) {
                 return null;
@@ -116,8 +116,8 @@ public class Manager {
     public String[][] createTable(String table) {
         try {
             int i = 0, j = 0, cols, rows;
-            rset1 = sing.query("show columns from hotel." + table);
-            ResultSet rset2 = sing.query("select * from hotel." + table);
+            rset1 = singleton.query("show columns from hotel." + table);
+            ResultSet rset2 = singleton.query("select * from hotel." + table);
             rset1.last();
             cols = rset1.getRow();
             rset2.last();
@@ -144,7 +144,7 @@ public class Manager {
         }
     }
 
-    public void setSing(Singleton sing) {
-        this.sing = sing;
+    public void setSingleton(Singleton singleton) {
+        this.singleton = singleton;
     }
 }

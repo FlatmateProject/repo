@@ -17,7 +17,7 @@ public class Reservation {
 
     private static final Logger log = Logger.getLogger(Reservation.class);
 
-    private Singleton sing;
+    private Singleton singleton;
 
     private ResultSet rset1;
     private ResultSet rset2;
@@ -29,8 +29,8 @@ public class Reservation {
     public JTable createClasTable() {
         try {
             int i = 0, j = 0, cols, rows;
-            rset1 = sing.query("show columns from hotel.klasy");
-            rset2 = sing.query("select * from hotel.klasy");
+            rset1 = singleton.query("show columns from hotel.klasy");
+            rset2 = singleton.query("select * from hotel.klasy");
 
             rset1.last();
             cols = rset1.getRow();
@@ -67,9 +67,9 @@ public class Reservation {
         int i = 0;
         try {
             if (idKlasy == 0) {
-                rset1 = sing.query("select * from hotel.pokoje");
+                rset1 = singleton.query("select * from hotel.pokoje");
             } else {
-                rset1 = sing
+                rset1 = singleton
                         .query("select * from hotel.pokoje where ID_KLASY= "
                                 + idKlasy);
             }
@@ -78,7 +78,7 @@ public class Reservation {
             }
             rset1.first();
             do {
-                rset2 = sing
+                rset2 = singleton
                         .query("select count(ID_REZ) from hotel.rezerwacje where ID_POKOJU="
                                 + rset1.getInt(1)
                                 + " AND ("
@@ -143,13 +143,13 @@ public class Reservation {
     public JTable createTable(boolean idKind, long idK) {
         try {
             int i = 0, j = 0, cols, rows;
-            rset1 = sing.query("show columns from hotel.klienci");
+            rset1 = singleton.query("show columns from hotel.klienci");
             if (idKind)
-                rset2 = sing
+                rset2 = singleton
                         .query("select * from hotel.klienci where IDK_PESEL="
                                 + idK);
             else
-                rset2 = sing.query("select * from hotel.firmy where IDF_KRS="
+                rset2 = singleton.query("select * from hotel.firmy where IDF_KRS="
                         + idK);
 
             rset1.last();
@@ -183,11 +183,11 @@ public class Reservation {
     public JTable createServTable(String cat) {
         try {
             int i = 0, j = 0, cols, rows;
-            rset1 = sing.query("show columns from hotel.uslugi");
+            rset1 = singleton.query("show columns from hotel.uslugi");
             if (cat == "")
-                rset2 = sing.query("select * from hotel.uslugi");
+                rset2 = singleton.query("select * from hotel.uslugi");
             else
-                rset2 = sing.query("select * from hotel.uslugi where TYP="
+                rset2 = singleton.query("select * from hotel.uslugi where TYP="
                         + "'" + cat + "'");
             rset1.last();
             cols = rset1.getRow();
@@ -323,14 +323,14 @@ public class Reservation {
                            String servTab[]) {
         float price, serv, amount, roomCost = 0, servCost = 0;
         try {
-            ResultSet rset4 = sing
+            ResultSet rset4 = singleton
                     .query("select CENA from hotel.klasy where ID_KLASY=(select ID_KLASY from hotel.pokoje where ID_POKOJU="
                             + room + ")");
             rset4.first();
             price = (Float.parseFloat(rset4.getString(1)));
             roomCost = price * manyDay;
             for (int i = 0; i < manyServ; i++) {
-                ResultSet rset5 = sing.query("select CENA from hotel.uslugi where NAZWA="
+                ResultSet rset5 = singleton.query("select CENA from hotel.uslugi where NAZWA="
                         + "'" + servTab[i] + "'");
                 rset5.first();
                 serv = Float.parseFloat(rset5.getString(1));
@@ -350,7 +350,7 @@ public class Reservation {
     public boolean addClient(long idK, String name, String surname,
                              String state, String city, String street, int num, String stat,
                              long tel, long nip, String coment) {
-        rset1 = sing
+        rset1 = singleton
                 .query("select * from hotel.klienci where IDK_PESEL=" + idK);
         try {
             rset1.first();
@@ -358,7 +358,7 @@ public class Reservation {
                 return false;
         } catch (SQLException e) {
         }
-        sing
+        singleton
                 .update("insert into hotel.klienci (IDK_PESEL, IMIE, NAZWISKO, WOJEWODZTWO, MIASTO, ULICA, NR_LOKALU, STATUS, TELEFON, NIP, UWAGI) VALUES("
                         + idK
                         + ", "
@@ -400,14 +400,14 @@ public class Reservation {
     public boolean addComp(long idF, String name, String state, String city,
                            String street, int num, String stat, long reg, long nip, long tel,
                            String coment) {
-        rset1 = sing.query("select * from hotel.firmy where IDF_KRS=" + idF);
+        rset1 = singleton.query("select * from hotel.firmy where IDF_KRS=" + idF);
         try {
             rset1.first();
             if (!rset1.getString(1).isEmpty())
                 return false;
         } catch (SQLException e) {
         }
-        sing
+        singleton
                 .update("insert into hotel.firmy (IDF_KRS, NAZWA, WOJEWODZTWO, MIASTO, ULICA, NR_LOKALU, STATUS, REGON, NIP, TELEFON, UWAGI) VALUES("
                         + idF
                         + ", "
@@ -448,7 +448,7 @@ public class Reservation {
 
     public boolean doRezerv(boolean idKind, long id, int idRom,
                             String dateZ, String dateW) {
-        rset1 = sing.query("select ID_KLASY from hotel.pokoje where ID_POKOJU=" + idRom);
+        rset1 = singleton.query("select ID_KLASY from hotel.pokoje where ID_POKOJU=" + idRom);
         try {
             rset1.first();
         } catch (SQLException e) {
@@ -457,7 +457,7 @@ public class Reservation {
         }
         if (idKind)
             try {
-                sing
+                singleton
                         .update("insert into hotel.rezerwacje (IDK_PESEL, ID_POKOJU, TYP, DATA_Z, DATA_W) VALUES("
                                 + id
                                 + ", "
@@ -473,7 +473,7 @@ public class Reservation {
             }
         else
             try {
-                sing
+                singleton
                         .update("insert into hotel.rezerwacje (IDF_KRS, ID_POKOJU, TYP, DATA_Z, DATA_W) VALUES("
                                 + id
                                 + ", "
@@ -508,7 +508,7 @@ public class Reservation {
         return !ValidationUtils.isNotNumber(num);
     }
 
-    public void setSing(Singleton sing) {
-        this.sing = sing;
+    public void setSingleton(Singleton singleton) {
+        this.singleton = singleton;
     }
 }

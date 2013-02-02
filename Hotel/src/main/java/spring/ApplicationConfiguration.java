@@ -8,6 +8,7 @@ import dao.impl.GuestBookDaoImpl;
 import dao.impl.Singleton;
 import dao.impl.StatisticDaoImpl;
 import gui.*;
+import gui.guestBook.ClientPanel;
 import gui.guestBook.GuestBookPanel;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,9 @@ import service.cantor.CantorTableCreator;
 import service.statictic.Statistic;
 import session.DataSource;
 import session.SimpleSession;
+
+import static gui.guestBook.CompanySpecification.companySpecification;
+import static gui.guestBook.CustomerSpecification.customerSpecification;
 
 @Configuration
 public class ApplicationConfiguration {
@@ -124,7 +128,7 @@ public class ApplicationConfiguration {
     @Bean
     public Reception reception() {
         Reception reception = new Reception();
-        reception.setSing(singleton());
+        reception.setSingleton(singleton());
         return reception;
     }
 
@@ -135,7 +139,7 @@ public class ApplicationConfiguration {
     @Bean
     public Reservation reservation() {
         Reservation reservation = new Reservation();
-        reservation.setSing(singleton());
+        reservation.setSingleton(singleton());
         return reservation;
     }
 
@@ -146,7 +150,7 @@ public class ApplicationConfiguration {
     @Bean
     public Manager manager() {
         Manager manager = new Manager();
-        manager.setSing(singleton());
+        manager.setSingleton(singleton());
         return manager;
     }
 
@@ -167,14 +171,23 @@ public class ApplicationConfiguration {
     }
 
     private GuestBookPanel guestBookPanel() {
-        GuestBookPanel guestBookPanel = new GuestBookPanel(guestBook());
+        GuestBook guestBook = guestBook();
+        GuestBookPanel guestBookPanel = new GuestBookPanel(customerPanel(guestBook), companyPanel(guestBook));
         return guestBookPanel;
+    }
+
+    private ClientPanel customerPanel(GuestBook guestBook) {
+        return new ClientPanel(guestBook, customerSpecification());
+    }
+
+    private ClientPanel companyPanel(GuestBook guestBook) {
+        return new ClientPanel(guestBook, companySpecification());
     }
 
     @Bean
     public EmployeeManager employeeManager() {
         EmployeeManager employeeManager = new EmployeeManager();
-        employeeManager.setDb(singleton());
+        employeeManager.setSingleton(singleton());
         return employeeManager;
     }
 

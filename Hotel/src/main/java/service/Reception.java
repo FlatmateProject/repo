@@ -15,7 +15,7 @@ public class Reception {
 
     private static final Logger log = Logger.getLogger(Reception.class);
 
-    private Singleton sing;
+    private Singleton singleton;
 
     private ResultSet rset1;
 
@@ -26,8 +26,8 @@ public class Reception {
     public JTable createTable(String s1) {
         try {
             int i = 0, j = 0, cols, rows;
-            rset1 = sing.query("show columns from hotel.rezerwacje");
-            ResultSet rset2 = sing.query("select * from hotel.rezerwacje" + s1);
+            rset1 = singleton.query("show columns from hotel.rezerwacje");
+            ResultSet rset2 = singleton.query("select * from hotel.rezerwacje" + s1);
             rset1.last();
             cols = rset1.getRow();
             rset2.last();
@@ -97,7 +97,7 @@ public class Reception {
     public boolean pay(int id, String date, String form, float tax, float much,
                        String name) {
         boolean flag = true;
-        rset1 = sing.query("select ID_REZ from hotel.rachunki where ID_REZ=" + id);
+        rset1 = singleton.query("select ID_REZ from hotel.rachunki where ID_REZ=" + id);
         try {
             rset1.first();
             if (rset1.getInt(1) == id)
@@ -106,7 +106,7 @@ public class Reception {
             flag = true;
         }
         if (flag) {
-            sing
+            singleton
                     .update("insert into hotel.rachunki (ID_REZ, DATA, FORMA, PODATEK, WARTOSC, NAZWA) VALUES("
                             + id
                             + ", "
@@ -136,7 +136,7 @@ public class Reception {
     }
 
     public void deleteRez1(int id) {
-        sing.update("delete from hotel.rezerwacje where ID_REZ=" + id);
+        singleton.update("delete from hotel.rezerwacje where ID_REZ=" + id);
     }
 
     public float calculate(int idRez) {
@@ -153,7 +153,7 @@ public class Reception {
         Calendar c1 = Calendar.getInstance();
         Calendar c2 = Calendar.getInstance();
         try {
-            ResultSet rset3 = sing
+            ResultSet rset3 = singleton
                     .query("select DATA_Z,TYP from hotel.rezerwacje where ID_REZ="
                             + idRez);
             rset3.first();
@@ -166,7 +166,7 @@ public class Reception {
             c2.set(Integer.parseInt(sYear1), Integer.parseInt(sMonth1), Integer
                     .parseInt(sDay1));
             diff = diffInDays3(c1.getTime(), c2.getTime());
-            ResultSet rset4 = sing.query("select CENA from hotel.klasy where ID_KLASY="
+            ResultSet rset4 = singleton.query("select CENA from hotel.klasy where ID_KLASY="
                     + Integer.parseInt(rset3.getString(2)));
             rset4.first();
             price = (Float.parseFloat(rset4.getString(1)));
@@ -174,12 +174,12 @@ public class Reception {
                 return -1;
             else {
                 roomCost = price * diff;
-                ResultSet rset5 = sing
+                ResultSet rset5 = singleton
                         .query("select ID_USLUGI, CZAS from hotel.rekreacja where ID_REZ="
                                 + idRez);
                 rset5.first();
                 do {
-                    ResultSet rset6 = sing
+                    ResultSet rset6 = singleton
                             .query("select CENA from hotel.uslugi where ID_USLUGI="
                                     + rset5.getString(1));
                     rset6.first();
@@ -197,7 +197,7 @@ public class Reception {
     public boolean checkPay(int idRez) {
         int idR = 0;
         try {
-            ResultSet rset7 = sing
+            ResultSet rset7 = singleton
                     .query("select id_rachunku from hotel.rachunki where id_rez="
                             + idRez);
             rset7.first();
@@ -213,13 +213,13 @@ public class Reception {
     }
 
     public void deleteRez(int idRez2) {
-        sing.update("delete from hotel.rezerwacje where id_rez=" + idRez2);
+        singleton.update("delete from hotel.rezerwacje where id_rez=" + idRez2);
     }
 
     public void archivRez(int idRez3, boolean idKind, long idK,
                           int idRom, int type, String dZ, String dW) {
         if (idKind)
-            sing
+            singleton
                     .update("insert into hotel.archiwum(ID_REZ, IDK_PESEL, ID_POKOJU, TYP, DATA_Z, DATA_W) VALUES("
                             + idRez3
                             + ", "
@@ -238,7 +238,7 @@ public class Reception {
                             + "'"
                             + ")");
         else
-            sing
+            singleton
                     .update("insert into hotel.archiwum(ID_REZ, IDF_KRS, ID_POKOJU, TYP, DATA_Z, DATA_W) VALUES("
                             + idRez3
                             + ", "
@@ -256,7 +256,7 @@ public class Reception {
                             + dW
                             + "'"
                             + ")");
-        sing.update("update hotel.pokoje set ID_REZ=NULL WHERE ID_POKOJU=" + idRom);
+        singleton.update("update hotel.pokoje set ID_REZ=NULL WHERE ID_POKOJU=" + idRom);
     }
 
     public boolean isDate(String date) {
@@ -281,7 +281,7 @@ public class Reception {
         return true;
     }
 
-    public void setSing(Singleton sing) {
-        this.sing = sing;
+    public void setSingleton(Singleton singleton) {
+        this.singleton = singleton;
     }
 }

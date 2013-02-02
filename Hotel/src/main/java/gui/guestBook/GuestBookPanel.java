@@ -1,8 +1,6 @@
 package gui.guestBook;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
-import service.GuestBook;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,8 +9,6 @@ import java.awt.event.ActionListener;
 
 @Component
 public class GuestBookPanel extends JPanel {
-
-    private static final Logger log = Logger.getLogger(GuestBookPanel.class);
 
     private static final long serialVersionUID = 1L;
 
@@ -26,10 +22,11 @@ public class GuestBookPanel extends JPanel {
 
     private final Color bgColor = new Color(224, 230, 233);
 
-    private final GuestBook guestBook;
 
-    public GuestBookPanel(GuestBook guestBook) {
-        this.guestBook = guestBook;
+    public GuestBookPanel(JPanel customerPanel, JPanel companyPanel) {
+        super();
+        this.customerPanel = customerPanel;
+        this.companyPanel = companyPanel;
         create();
         addEvents();
     }
@@ -40,10 +37,7 @@ public class GuestBookPanel extends JPanel {
         setLayout(null);
         setVisible(true);
 
-        customerPanel = new CustomerPanel(guestBook);
         add(customerPanel);
-
-        companyPanel = new CompanyPanel(guestBook);
         companyPanel.setVisible(false);
         add(companyPanel);
 
@@ -79,5 +73,13 @@ public class GuestBookPanel extends JPanel {
 
     @Override
     public void setSize(int width, int height) {
+    }
+
+    public void setCustomerPanel(JPanel customerPanel) {
+        this.customerPanel = customerPanel;
+    }
+
+    public void setCompanyPanel(JPanel companyPanel) {
+        this.companyPanel = companyPanel;
     }
 }

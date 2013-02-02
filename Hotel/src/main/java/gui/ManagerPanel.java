@@ -1,5 +1,6 @@
 package gui;
 
+import common.adapter.MouseListenerAdapter;
 import common.tableBuilder.TableResult;
 import dto.cantor.CustomerData;
 import org.apache.log4j.Logger;
@@ -35,33 +36,12 @@ public class ManagerPanel extends JPanel {
     private JTextField manData[];
 
     private final Color bgColor = new Color(224, 230, 233);
-    private final MouseListener manTableML = new MouseListener() {
+    private final MouseListener manTableML = new MouseListenerAdapter() {
         @Override
         public void mouseClicked(MouseEvent arg0) {
-            try {
-                for (int i = 0; i < manData.length; i++) {
-                    manData[i].setText((String) manTable.getValueAt(
-                            manTable.getSelectedRow(), i));
-                }
-            } catch (Exception e) {
-                log.info("Brak danych!");
+            for (int i = 0; i < manData.length; i++) {
+                manData[i].setText((String) manTable.getValueAt(manTable.getSelectedRow(), i));
             }
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent arg0) {
-        }
-
-        @Override
-        public void mouseExited(MouseEvent arg0) {
-        }
-
-        @Override
-        public void mousePressed(MouseEvent arg0) {
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent arg0) {
         }
     };
     private final Color buttonColor = new Color(174, 205, 214);
@@ -135,27 +115,25 @@ public class ManagerPanel extends JPanel {
                                 || l[i].equals("PODATEK")
                                 || l[i].equals("IL_OSOB")
                                 || l[i].equals("ID_STANOWISKA")
-                                || l[i].equals("TELEFON") || l[i].equals("NIP")
+                                || l[i].equals("TELEFON")
+                                || l[i].equals("NIP")
                                 || l[i].equals("NR_LOKALU")
-                                || l[i].equals("REGON") || l[i].equals("CENA")
+                                || l[i].equals("REGON")
+                                || l[i].equals("CENA")
                                 || l[i].equals("PODSTAWA")
                                 || l[i].equals("PREMIA")
                                 || l[i].equals("ID_POKOJU")
                                 || l[i].equals("ID_KLASY")
-                                || l[i].equals("ID_REZ") || l[i]
-                                .equals("ID_USLUGI"))
+                                || l[i].equals("ID_REZ")
+                                || l[i].equals("ID_USLUGI"))
                                 && ValidationUtils.isNotNumber(d[i])) {
-                            JOptionPane.showMessageDialog(null,
-                                    "B��dna liczba!", "UWAGA!",
-                                    JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "B��dna liczba!", "UWAGA!", JOptionPane.ERROR_MESSAGE);
                             break;
                         }
                     }
                     if (i == manData.length - 1) {
                         if (!manager.insertData(manName, l, d, manData.length)) {
-                            JOptionPane.showMessageDialog(null,
-                                    "B��dne ID lub taki klient ju� istnieje!",
-                                    "UWAGA!", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "B��dne ID lub taki klient ju� istnieje!", "UWAGA!", JOptionPane.ERROR_MESSAGE);
                             break;
                         }
                         manTable = manGenTable(manName);
@@ -172,9 +150,7 @@ public class ManagerPanel extends JPanel {
                     String l = manLabel[0].getText();
                     String d = manData[0].getText();
                     if (!manager.deleteData(manName, l, d)) {
-                        JOptionPane.showMessageDialog(null,
-                                "Nie mo�na usun�� tego wiersza!", "UWAGA!",
-                                JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Nie mo�na usun�� tego wiersza!", "UWAGA!", JOptionPane.ERROR_MESSAGE);
                     } else {
                         manTable = manGenTable(manName);
                         manTable.addMouseListener(manTableML);
@@ -207,8 +183,7 @@ public class ManagerPanel extends JPanel {
                         if (!s2.isEmpty()) {
                             s2 = s2 + " and ";
                         }
-                        s2 = s2 + manLabel[i].getText() + "=" + "\""
-                                + manData[i].getText() + "\"";
+                        s2 = s2 + manLabel[i].getText() + "=" + "\"" + manData[i].getText() + "\"";
                     }
                 }
                 if (!s2.isEmpty()) {
@@ -304,19 +279,9 @@ public class ManagerPanel extends JPanel {
         String news[] = {
                 "Og�lna ilo�� rezerwacji: " + manager.getCount("rezerwacje"),
                 "Ilo�� zarejestrowanych go�ci: " + manager.getCount("klienci"),
-                manager.getCount("pokoje") + " pokoi, z czego "
-//						+ manager.getCount("pokoje where id_rez is null")
-                        + " wolnych i "
-//						+ manager.getCount("pokoje where id_rez is not null")
-                        + " zaj�tych.",
+                manager.getCount("pokoje") + " pokoi, z czego wolnych i  zaj�tych.",
                 "Ilo�� dost�pnych us�ug: " + manager.getCount("uslugi"),
-                "W tym miesi�cu oczekujemy na "
-                        + manager.getCount("rezerwacje where month(data_z) = "
-                        + (schCalendar.get(Calendar.MONTH) + 1))
-                        + ", a �egnamy "
-                        + manager.getCount("rezerwacje where month(data_w) = "
-                        + (schCalendar.get(Calendar.MONTH) + 1))
-                        + " go�ci"};
+                "W tym miesi�cu oczekujemy na " + manager.getCount("rezerwacje where month(data_z) = " + (schCalendar.get(Calendar.MONTH) + 1)) + ", a �egnamy " + manager.getCount("rezerwacje where month(data_w) = " + (schCalendar.get(Calendar.MONTH) + 1)) + " go�ci"};
         manNews = new JList(news);
         manNews.setBackground(bgColor);
 

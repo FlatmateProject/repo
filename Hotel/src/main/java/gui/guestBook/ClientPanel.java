@@ -3,7 +3,6 @@ package gui.guestBook;
 import common.adapter.MouseListenerAdapter;
 import common.tableBuilder.TableResult;
 import dto.SimpleNameData;
-import dto.cantor.CustomerData;
 import dto.guestBook.ReservationData;
 import dto.guestBook.ServiceData;
 import exception.IncorrectDataException;
@@ -19,9 +18,11 @@ import java.awt.event.MouseListener;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-class CustomerPanel extends JPanel {
+public class ClientPanel extends JPanel {
 
     private final GuestBook guestBook;
+
+    private final Specification specification;
 
     private JLabel[] clientLabel;
 
@@ -48,8 +49,9 @@ class CustomerPanel extends JPanel {
 
     private MouseListener reservationTableMouseListener;
 
-    public CustomerPanel(GuestBook guestBook) {
+    public ClientPanel(GuestBook guestBook, Specification specification) {
         this.guestBook = guestBook;
+        this.specification = specification;
         create();
         addEvents();
         fillDataTable();
@@ -62,7 +64,7 @@ class CustomerPanel extends JPanel {
         setBackground(bgColor);
         setLayout(null);
 
-        List<SimpleNameData> columns = guestBook.getLabels("klienci");
+        List<SimpleNameData> columns = guestBook.getLabels(specification.getTable());
         Form clientForm = Factory.createClientForm(this, columns);
         clientLabel = clientForm.getClientLabels();
         clientData = clientForm.getClientData();
@@ -73,11 +75,11 @@ class CustomerPanel extends JPanel {
 
         dataTableScrollPane = new JScrollPane();
         dataTableScrollPane.setBorder(border);
-        dataTableScrollPane.setBounds(0, 320, 1200, 150);
+        dataTableScrollPane.setBounds(specification.geDataTableBounds());
         add(dataTableScrollPane);
 
         serviceTableScrollPane = new JScrollPane();
-        serviceTableScrollPane.setBounds(0, 480, 1200, 150);
+        serviceTableScrollPane.setBounds(specification.getServiceTableBounds());
         serviceTableScrollPane.setBorder(border);
         serviceTableScrollPane.setVisible(false);
         add(serviceTableScrollPane);
@@ -85,8 +87,9 @@ class CustomerPanel extends JPanel {
         setVisible(true);
     }
 
+
     private void fillDataTable(String conditions) {
-        dataTable = createTable(guestBook.createTable("klienci", conditions, CustomerData.class));
+        dataTable = createTable(guestBook.createTable(specification.getTable(), conditions, specification.getClientDtoClass()));
         dataTable.addMouseListener(dataTableMouseListener);
         dataTableScrollPane.setViewportView(dataTable);
     }
@@ -102,7 +105,7 @@ class CustomerPanel extends JPanel {
                 int selectedRow = dataTable.getSelectedRow();
                 Long clientId = (Long) dataTable.getValueAt(selectedRow, 0);
                 Object[] selectedRowData = getSelectedRowData();
-                String conditions = "where IDK_PESEL=" + clientId;
+                String conditions = "where " + specification.getPrimaryId() + "=" + clientId;
                 TableResult tableResult = guestBook.createTable("rezerwacje", conditions, ReservationData.class);
                 dataTable = createTable(tableResult);
                 dataTable.addMouseListener(reservationTableMouseListener);

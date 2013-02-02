@@ -12,7 +12,7 @@ public class EmployeeManager {
 
     private static final Logger log = Logger.getLogger(EmployeeManager.class);
 
-    private Singleton db;
+    private Singleton singleton;
 
     private ResultSet result;
     private int j = 0;
@@ -35,7 +35,7 @@ public class EmployeeManager {
         try {
             resultText = "";
             stmt = "";
-            result = db.query("SELECT p.idp_pesel, p.imie, p.nazwisko, count(g.nadgodziny)*8 , "
+            result = singleton.query("SELECT p.idp_pesel, p.imie, p.nazwisko, count(g.nadgodziny)*8 , "
                     + "sum(s.podstawa)*8 podstawa, sum(s.premia)*8 premia FROM grafik g "
                     + "JOIN pracownicy p ON g.idp_pesel=p.idp_pesel JOIN stanowiska s "
                     + "ON p.id_stanowiska=s.id_stanowiska WHERE p.id_stanowiska=1 "
@@ -84,7 +84,7 @@ public class EmployeeManager {
         int extra = 0;
         array = null;
         try {
-            result = db
+            result = singleton
                     .query("SELECT p.imie, p.nazwisko, g.zmiana, g.id_poko, g.id_pokd FROM grafik g "
                             + "LEFT JOIN  pracownicy p ON g.idp_pesel=p.idp_pesel WHERE g.data='"
                             + date + "'");
@@ -129,7 +129,7 @@ public class EmployeeManager {
     public String[] updateSchedule(int i, String text, String date,
                                    String pesel, String id) {
         try {
-            db.query("UPDATE grafik SET idp_pesel=" + pesel + " WHERE data='"
+            singleton.query("UPDATE grafik SET idp_pesel=" + pesel + " WHERE data='"
                     + date + "' AND idp_pesel=" + id);
             log.info("UPDATE grafik SET idp_pesel=" + pesel + " WHERE data='"
                     + date + "' AND idp_pesel=" + id);
@@ -148,7 +148,7 @@ public class EmployeeManager {
     // /////////////////////////---------------b
     public boolean createSchedule(int month) {
         try {
-            result = db.query("SELECT count(*) from grafik WHERE MONTH(data)="
+            result = singleton.query("SELECT count(*) from grafik WHERE MONTH(data)="
                     + month);
             exist = result.next() && result.getInt(1) > 0;
             log.info("SELECT count(*) from grafik WHERE MONTH(data)=" + month);
@@ -172,12 +172,12 @@ public class EmployeeManager {
         log.info("ym: " + ym);
         try {
             stmt = "INSERT INTO grafik(idp_pesel,zmiana,data,nadgodziny,id_poko,id_pokd) VALUE";
-            result = db
+            result = singleton
                     .query("SELECT p.id_pokoju, k.czassp FROM pokoje p JOIN klasy k ON "
                             + "p.id_klasy=k.id_klasy ORDER BY id_pokoju");
             log.info("SELECT p.id_pokoju, k.czassp FROM pokoje p JOIN klasy k ON p.id_klasy=k.id_klasy");
             log.info("SELECT imie, nazwisko FROM pracownicy WHERE id_stanowiska=1");
-            ResultSet resEmp = db
+            ResultSet resEmp = singleton
                     .query("SELECT imie, nazwisko, idp_pesel FROM pracownicy WHERE id_stanowiska=1");
             // resultText="Grafik \n";
             if (result != null && resEmp != null) {
@@ -213,12 +213,12 @@ public class EmployeeManager {
                                 rt = result.getInt(1);
                             }
                             if (isNext) {
-                                db.query(stmt + "(" + resEmp.getString(3) + ","
+                                singleton.query(stmt + "(" + resEmp.getString(3) + ","
                                         + shift + ",'" + ym + (i + 1) + "',0,"
                                         + rf + "," + rt + ")");
                                 workHour[j++] += 8;
                             } else {
-                                db.query(stmt + "(" + extra + "," + shift
+                                singleton.query(stmt + "(" + extra + "," + shift
                                         + ",'" + ym + (i + 1) + "',1," + rf
                                         + "," + rt + ")");
                                 extra++;
@@ -254,7 +254,7 @@ public class EmployeeManager {
                                String w, String m, String u, String l, String s) {
         try {
             count = 0;
-            result = db
+            result = singleton
                     .query("SELECT id_stanowiska FROM stanowiska WHERE nazwa='"
                             + s + "'");
             result.next();
@@ -263,7 +263,7 @@ public class EmployeeManager {
                     + "',SHA1('" + h + "'),'" + w + "','" + m + "','" + u
                     + "'," + l + "," + j + ")");
 
-            return db.update("INSERT INTO pracownicy VALUE(" + p + ",'" + i
+            return singleton.update("INSERT INTO pracownicy VALUE(" + p + ",'" + i
                     + "','" + n + "',SHA1('" + h + "'),'" + w + "','" + m
                     + "','" + u + "'," + l + "," + j + ")");
         } catch (SQLException e) {
@@ -308,7 +308,7 @@ public class EmployeeManager {
                 stmt = "SELECT p.idp_pesel, p.imie, p.nazwisko, s.nazwa FROM pracownicy p "
                         + "JOIN stanowiska s ON p.id_stanowiska=s.id_stanowiska";
             log.info(stmt);
-            result = db.query(stmt);
+            result = singleton.query(stmt);
             if (result != null) {
                 result.last();
                 count = result.getRow();
@@ -340,7 +340,7 @@ public class EmployeeManager {
     public boolean delSchedule(int month) {
         boolean ret = false;
         try {
-            ret = db.update("DELETE FROM grafik WHERE YEAR(data)="
+            ret = singleton.update("DELETE FROM grafik WHERE YEAR(data)="
                     + calendar.get(Calendar.YEAR) + " AND MONTH(data)=" + month);
             log.info("DELETE FROM grafik WHERE YEAR(data)="
                     + calendar.get(Calendar.YEAR) + " AND MONTH(data)=" + month);
@@ -355,7 +355,7 @@ public class EmployeeManager {
     public boolean delEmployee(String p) {
         try {
             log.info("DELETE FROM pracownicy WHERE idp_pesel=" + p);
-            return db.update("DELETE FROM pracownicy WHERE idp_pesel=" + p);
+            return singleton.update("DELETE FROM pracownicy WHERE idp_pesel=" + p);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -366,7 +366,7 @@ public class EmployeeManager {
         return count;
     }
 
-    public void setDb(Singleton db) {
-        this.db = db;
+    public void setSingleton(Singleton singleton) {
+        this.singleton = singleton;
     }
 }
