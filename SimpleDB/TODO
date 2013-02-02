@@ -1,0 +1,1 @@
+1. add checking if number of column in ResultSet is the same like in the DTO class, if not throw exception

@@ -1,5 +1,6 @@
 package gui;
 
+import common.tableBuilder.TableResult;
 import dto.cantor.CustomerData;
 import org.apache.log4j.Logger;
 import service.GuestBook;
@@ -71,7 +72,6 @@ public class ManagerPanel extends JPanel {
 
     public ManagerPanel(Manager manager) {
         this.manager = manager;
-        this.guestBook = guestBook;
         create();
         addEvents();
     }
@@ -169,8 +169,8 @@ public class ManagerPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 if (!manData[0].getText().isEmpty()) {
-                    String l = new String(manLabel[0].getText());
-                    String d = new String(manData[0].getText());
+                    String l = manLabel[0].getText();
+                    String d = manData[0].getText();
                     if (!manager.deleteData(manName, l, d)) {
                         JOptionPane.showMessageDialog(null,
                                 "Nie mo�na usun�� tego wiersza!", "UWAGA!",
@@ -212,7 +212,7 @@ public class ManagerPanel extends JPanel {
                     }
                 }
                 if (!s2.isEmpty()) {
-                    manTable = guestBook.createTable(manName, " where " + s2, CustomerData.class);
+                    manTable = createTable(guestBook.createTable(manName, " where " + s2, CustomerData.class));
                     manTable.addMouseListener(manTableML);
                     manScrollPane.setViewportView(manTable);
                 }
@@ -221,9 +221,9 @@ public class ManagerPanel extends JPanel {
         manButton2[4].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (int i = 0; i < manData.length; i++) {
-                    manData[i].setText("");
-                    manTable = guestBook.createTable(manName, "", CustomerData.class);
+                for (JTextField aManData : manData) {
+                    aManData.setText("");
+                    manTable = createTable(guestBook.createTable(manName, "", CustomerData.class));
                     manTable.addMouseListener(manTableML);
                     manScrollPane.setViewportView(manTable);
                 }
@@ -330,13 +330,13 @@ public class ManagerPanel extends JPanel {
         add(manScrollPane);
         add(manNews);
 
-        for (int i = 0; i < manButton.length; i++) {
-            manButton[i].setBackground(buttonColor);
-            add(manButton[i]);
+        for (JButton aManButton : manButton) {
+            aManButton.setBackground(buttonColor);
+            add(aManButton);
         }
-        for (int i = 0; i < manButton2.length; i++) {
-            manButton2[i].setBackground(buttonColor);
-            add(manButton2[i]);
+        for (JButton aManButton2 : manButton2) {
+            aManButton2.setBackground(buttonColor);
+            add(aManButton2);
         }
     }
 
@@ -446,5 +446,11 @@ public class ManagerPanel extends JPanel {
 
     public void setGuestBook(GuestBook guestBook) {
         this.guestBook = guestBook;
+    }
+
+    private JTable createTable(TableResult result) {
+        JTable table = new JTable(result.getRowsData(), result.getColumnNames());
+        table.setFillsViewportHeight(true);
+        return table;
     }
 }

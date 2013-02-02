@@ -285,7 +285,7 @@ public class StatisticMockitoTest {
         // given
         REPORT_KIND reportKind = REPORT_KIND.HOTEL_SERVICE;
         String serviceTypeName = "wynajem";
-        List<ServiceData> inputData = Collections.emptyList();
+        List<ServiceStatisticData> inputData = Collections.emptyList();
 
         when(statisticDao.findServiceStatisticsByType(month.id(), year, serviceTypeName)).thenReturn(inputData);
 
@@ -320,12 +320,12 @@ public class StatisticMockitoTest {
         long summaryTime = 10;
         int expectedNumberOfBars = 2;
 
-        ServiceData row = mock(ServiceData.class);
+        ServiceStatisticData row = mock(ServiceStatisticData.class);
         when(row.getSummaryTime()).thenReturn(summaryTime);
         when(row.getServiceName()).thenReturn(serviceName);
         when(row.getSummaryGain()).thenReturn(summaryGain);
 
-        List<ServiceData> inputData = Arrays.asList(row);
+        List<ServiceStatisticData> inputData = Arrays.asList(row);
 
         when(statisticDao.findServiceStatisticsByType(month.id(), year, serviceTypeName)).thenReturn(inputData);
         when(statisticDao.countUseNumberForServiceName(serviceName)).thenReturn(useNumber);

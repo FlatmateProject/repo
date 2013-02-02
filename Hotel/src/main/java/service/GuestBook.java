@@ -7,8 +7,8 @@ import common.tableBuilder.TableResult;
 import dao.GuestBookDao;
 import dto.SimpleNameData;
 import exception.DAOException;
+import exception.IncorrectDataException;
 
-import javax.swing.*;
 import java.util.List;
 
 public class GuestBook {
@@ -33,26 +33,23 @@ public class GuestBook {
         }
     }
 
-    public <T extends ArrayObtained> JTable createTable(String tableName, String conditions, Class<T> dtoClass) {
+    public <T extends ArrayObtained> TableResult createTable(String tableName, String conditions, Class<T> dtoClass) {
         try {
             List<SimpleNameData> columns = guestBookDao.showColumnsForTable(tableName);
             List<T> data = guestBookDao.getDataFromTable(tableName, conditions, dtoClass);
-            TableResult result = TableBuilder.table().columns(columns).data(data).build();
-            JTable table = new JTable(result.getRowsData(), result.getColumnNames());
-            table.setFillsViewportHeight(true);
-            return table;
+            return TableBuilder.table().columns(columns).data(data).build();
         } catch (Exception e) {
             e.printStackTrace();
-            return new JTable(TableResult.EMPTY_DATA, TableResult.EMPTY_COLUMN);
+            return TableResult.EMPTY;
         }
     }
 
-    public Boolean updateClientData(String labels[], String data[]) {
+    public void updateClientData(String labels[], String data[]) throws IncorrectDataException {
         try {
             guestBookDao.updateClientData(labels, data);
         } catch (DAOException e) {
             e.printStackTrace();
+            throw new IncorrectDataException();
         }
-        return true;
     }
 }

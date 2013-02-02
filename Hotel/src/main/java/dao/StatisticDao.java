@@ -14,7 +14,7 @@ public interface StatisticDao {
 
     List<ServiceTypeData> findServiceTypesStatistics(int month, int year) throws DAOException;
 
-    List<ServiceData> findServiceStatisticsByType(int month, int year, String serviceName) throws DAOException;
+    List<ServiceStatisticData> findServiceStatisticsByType(int month, int year, String serviceName) throws DAOException;
 
     List<MonthSummaryGainData> findMonthSummaryGains(int monthFrom, int monthTo, int year) throws DAOException;
 

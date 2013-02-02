@@ -1,6 +1,6 @@
 package service.statictic.executors;
 
-import dto.statictic.ServiceData;
+import dto.statictic.ServiceStatisticData;
 import exception.DAOException;
 import service.dictionary.MONTH;
 import service.statictic.DiagramElement;
@@ -30,9 +30,9 @@ public class HotelServiceReportCreator extends ReportCreator {
     public StatisticReport createReport(ReportTemplateBuilder templateBuilder) throws DAOException {
         int i = 0;
         List<DiagramElement> diagramElements = new LinkedList<DiagramElement>();
-        List<ServiceData> services = statisticDao.findServiceStatisticsByType(month.id(), year, serviceTypeName);
+        List<ServiceStatisticData> services = statisticDao.findServiceStatisticsByType(month.id(), year, serviceTypeName);
         templateBuilder.createHeader(serviceTypeName, month, year);
-        for (ServiceData service : services) {
+        for (ServiceStatisticData service : services) {
             String serveName = service.getServiceName();
             float summaryGain = service.getSummaryGain();
             int useNumber = statisticDao.countUseNumberForServiceName(serveName);

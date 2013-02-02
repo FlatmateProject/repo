@@ -48,7 +48,7 @@ public class StatisticDaoImpl implements StatisticDao {
     }
 
     @Override
-    public List<ServiceData> findServiceStatisticsByType(int month, int year, String serve) throws DAOException {
+    public List<ServiceStatisticData> findServiceStatisticsByType(int month, int year, String serve) throws DAOException {
         String query = "SELECT u.nazwa, sum(rk.czas) czas, sum(rk.czas*u.cena) zysk ";
         query += "FROM rekreacja rk JOIN uslugi u ON rk.id_uslugi=u.id_uslugi ";
         query += "JOIN rezerwacje rz ON rk.id_rez=rz.id_rez ";
@@ -56,7 +56,7 @@ public class StatisticDaoImpl implements StatisticDao {
                 + " and YEAR(rz.data_w)=" + year + " AND u.typ='" + serve
                 + "' ";
         query += "GROUP BY u.nazwa";
-        return session.executeQuery(query, ServiceData.class);
+        return session.executeQuery(query, ServiceStatisticData.class);
     }
 
     @Override

@@ -1,8 +1,12 @@
 package gui.guestBook;
 
 import common.adapter.MouseListenerAdapter;
+import common.tableBuilder.TableResult;
 import dto.SimpleNameData;
 import dto.cantor.CustomerData;
+import dto.guestBook.ReservationData;
+import dto.guestBook.ServiceData;
+import exception.IncorrectDataException;
 import service.GuestBook;
 
 import javax.swing.*;
@@ -12,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 class CustomerPanel extends JPanel {
@@ -22,17 +27,9 @@ class CustomerPanel extends JPanel {
 
     private JTextField[] clientData;
 
-    private final JTextArea clientNotes = new JTextArea();
-
-    private final JTable[] table = new JTable[3];
-
     private JScrollPane dataTableScrollPane;
 
-    private JScrollPane reservationTableScrollPane;
-
     private JScrollPane serviceTableScrollPane;
-
-    private JTable reservationTable;
 
     private JTable serviceTable;
 
@@ -47,20 +44,21 @@ class CustomerPanel extends JPanel {
 
     private final Color bgColor = new Color(224, 230, 233);
 
-    private MouseListener tableML;
+    private MouseListener dataTableMouseListener;
 
-    private MouseListener table2ML;
+    private MouseListener reservationTableMouseListener;
 
     public CustomerPanel(GuestBook guestBook) {
         this.guestBook = guestBook;
         create();
         addEvents();
+        fillDataTable();
     }
 
     private void create() {
         Border border = BorderFactory.createLineBorder(new Color(60, 124, 142));
 
-        setBounds(0, 20, 1200, 580);
+        setBounds(0, 20, 1200, 650);
         setBackground(bgColor);
         setLayout(null);
 
@@ -73,22 +71,13 @@ class CustomerPanel extends JPanel {
         updateButton = buttons[1];
         cleanButton = buttons[2];
 
-        dataTable = guestBook.createTable("klienci", "", CustomerData.class);
-        dataTable.addMouseListener(tableML);
-
-        dataTableScrollPane = new JScrollPane(dataTable);
+        dataTableScrollPane = new JScrollPane();
         dataTableScrollPane.setBorder(border);
-        dataTableScrollPane.setBounds(0, 380, 1200, 200);
+        dataTableScrollPane.setBounds(0, 320, 1200, 150);
         add(dataTableScrollPane);
 
-        reservationTableScrollPane = new JScrollPane();
-        reservationTableScrollPane.setBounds(0, 380, 1200, 200);
-        reservationTableScrollPane.setBorder(border);
-        reservationTableScrollPane.setVisible(false);
-        add(reservationTableScrollPane);
-
         serviceTableScrollPane = new JScrollPane();
-        serviceTableScrollPane.setBounds(0, 380, 1200, 200);
+        serviceTableScrollPane.setBounds(0, 480, 1200, 150);
         serviceTableScrollPane.setBorder(border);
         serviceTableScrollPane.setVisible(false);
         add(serviceTableScrollPane);
@@ -96,54 +85,82 @@ class CustomerPanel extends JPanel {
         setVisible(true);
     }
 
+    private void fillDataTable(String conditions) {
+        dataTable = createTable(guestBook.createTable("klienci", conditions, CustomerData.class));
+        dataTable.addMouseListener(dataTableMouseListener);
+        dataTableScrollPane.setViewportView(dataTable);
+    }
+
+    private void fillDataTable() {
+        fillDataTable("");
+    }
+
     private void addEvents() {
-        tableML = new MouseListenerAdapter() {
+        dataTableMouseListener = new MouseListenerAdapter() {
             @Override
             public void mouseClicked(MouseEvent arg0) {
-                try {
-                    reservationTable = guestBook.createTable("rezerwacje", "where IDK_PESEL=" + dataTable.getValueAt(dataTable.getSelectedRow(), 0), CustomerData.class);
-                    reservationTable.addMouseListener(table2ML);
-                    reservationTableScrollPane.setViewportView(reservationTable);
-                    add(reservationTableScrollPane);
+                int selectedRow = dataTable.getSelectedRow();
+                Long clientId = (Long) dataTable.getValueAt(selectedRow, 0);
+                Object[] selectedRowData = getSelectedRowData();
+                String conditions = "where IDK_PESEL=" + clientId;
+                TableResult tableResult = guestBook.createTable("rezerwacje", conditions, ReservationData.class);
+                dataTable = createTable(tableResult);
+                dataTable.addMouseListener(reservationTableMouseListener);
+                dataTableScrollPane.setViewportView(dataTable);
+                fillDataFields(selectedRowData);
+            }
 
-                    for (int i = 0; i < 11; i++) {
-                        if (i < 10) {
-                            clientData[i].setText((String) dataTable.getValueAt(dataTable.getSelectedRow(), i));
-                        } else {
-                            clientNotes.setText((String) dataTable.getValueAt(dataTable.getSelectedRow(), i));
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+            private Object[] getSelectedRowData() {
+                int columnCount = dataTable.getColumnCount();
+                Object[] getSelectedRowData = new Object[columnCount];
+                int selectedRow = dataTable.getSelectedRow();
+                for (int i = 0; i < columnCount; i++) {
+                    getSelectedRowData[i] = dataTable.getValueAt(selectedRow, i);
+                }
+                return getSelectedRowData;
+            }
+
+            private void fillDataFields(Object[] rowData) {
+                for (int i = 0; i < clientData.length; i++) {
+                    Object cell = rowData[i];
+                    String text = getString(cell);
+                    clientData[i].setText(text);
                 }
             }
-        };
-        table2ML = new MouseListenerAdapter() {
 
+            private String getString(Object cell) {
+                if (cell.getClass().equals(GregorianCalendar.class)) {
+                    GregorianCalendar gregorianCalendar = (GregorianCalendar) cell;
+                    return gregorianCalendar.getTime().toString();
+                }
+                return cell.toString();
+            }
+        };
+
+        reservationTableMouseListener = new MouseListenerAdapter() {
             @Override
             public void mouseClicked(MouseEvent arg0) {
-                serviceTable = guestBook.createTable("uslugi", ", rekreacja where rekreacja.id_rez =" + reservationTable.getValueAt(reservationTable.getSelectedRow(), 0) + " and rekreacja.id_uslugi = uslugi.id_uslugi", CustomerData.class);
+                int selectedRow = dataTable.getSelectedRow();
+                Object idRez = dataTable.getValueAt(selectedRow, 0);
+                String conditions = ", rekreacja where rekreacja.id_rez =" + idRez + " and rekreacja.id_uslugi = uslugi.id_uslugi";
+                TableResult tableResult = guestBook.createTable("uslugi", conditions, ServiceData.class);
+                serviceTable = createTable(tableResult);
                 serviceTableScrollPane.setViewportView(serviceTable);
-                add(serviceTableScrollPane);
-                clientLabel[11] = new JLabel("US�UGI");
-                clientLabel[11].setBounds(510, 21, 100, 20);
-                add(clientLabel[11]);
+                serviceTableScrollPane.setVisible(true);
             }
         };
 
         cleanButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dataTable = guestBook.createTable("klienci", "", CustomerData.class);
-                dataTable.addMouseListener(tableML);
-                dataTableScrollPane.setViewportView(dataTable);
+                fillDataTable();
                 cleanFields();
+                serviceTableScrollPane.setVisible(false);
             }
 
             private void cleanFields() {
-                clientNotes.setText("");
-                for (int i = 0; i < clientData.length; i++) {
-                    clientData[i].setText("");
+                for (JTextField aClientData : clientData) {
+                    aClientData.setText("");
                 }
             }
         });
@@ -151,20 +168,29 @@ class CustomerPanel extends JPanel {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
+                String conditions = createConditions();
+                if (!conditions.isEmpty()) {
+                    conditions = " where " + conditions;
+                    fillDataTable(conditions);
+                    serviceTableScrollPane.setVisible(false);
+                }
+            }
+
+            private String createConditions() {
                 String conditions = "";
                 for (int i = 0; i < clientData.length; i++) {
                     if (!isNotClientDataEmpty(i)) {
                         if (!conditions.isEmpty()) {
                             conditions = conditions + " and ";
                         }
-                        conditions = conditions + clientLabel[i].getText() + "=" + "\"" + clientData[i].getText() + "\"";
+                        conditions = conditions + addCondition(i);
                     }
                 }
-                if (!conditions.isEmpty()) {
-                    dataTable = guestBook.createTable("klienci", " where " + conditions, CustomerData.class);
-                    dataTable.addMouseListener(tableML);
-                    dataTableScrollPane.setViewportView(dataTable);
-                }
+                return conditions;
+            }
+
+            private String addCondition(int i) {
+                return String.format("%s=\"%s\"", clientLabel[i].getText(), clientData[i].getText());
             }
 
             private boolean isNotClientDataEmpty(int i) {
@@ -174,33 +200,47 @@ class CustomerPanel extends JPanel {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                String l[] = new String[10];
-                String d[] = new String[10];
-                for (int i = 0; i < 10; i++) {
-                    l[i] = clientLabel[i].getText();
-                    d[i] = clientData[i].getText();
-                    // clientData[i].getText());
+                try {
+                    String[] labels = getLabels();
+                    String[] data = getData();
+                    guestBook.updateClientData(labels, data);
+                    fillDataTable();
+                } catch (IncorrectDataException e) {
+                    JOptionPane.showMessageDialog(null, "Blad aktualizacji! Sprawdz dane!", "UWAGA!", JOptionPane.ERROR_MESSAGE);
+                    e.printStackTrace();
                 }
-                if (guestBook.updateClientData(l, d)) {
-                    dataTable = guestBook.createTable("klienci", "", CustomerData.class);
-                    dataTable.addMouseListener(tableML);
-                    dataTableScrollPane.setViewportView(dataTable);
-                } else {
-                    JOptionPane.showMessageDialog(null, "B��d aktualizacji! Sprawd� dane!", "UWAGA!", JOptionPane.ERROR_MESSAGE);
+            }
+
+            private String[] getLabels() {
+                int length = clientLabel.length;
+                String[] labels = new String[length];
+                for (int i = 0; i < length; i++) {
+                    labels[i] = clientLabel[i].getText();
                 }
+                return labels;
+            }
+
+            private String[] getData() {
+                int length = clientData.length;
+                String data[] = new String[length];
+                for (int i = 0; i < length; i++) {
+                    data[i] = clientData[i].getText();
+                }
+                return data;
             }
         });
     }
 
-    private void resizeGuestBook(int width, int height) {
-        dataTableScrollPane.setBounds(20, 300, width - 50, height / 2 - 190);
-        reservationTableScrollPane.setBounds(20, dataTableScrollPane.getY() + dataTableScrollPane.getHeight() + 5, width - 50, height / 2 - 190);
-        serviceTableScrollPane.setBounds(510, 41, width - 540, 187);
-    }
-
     @Override
     public void setSize(int width, int height) {
-        resizeGuestBook(width, height);
+        dataTableScrollPane.setBounds(0, 320, 1200, 150);
+        serviceTableScrollPane.setBounds(0, 480, 1200, 150);
         super.setSize(width, height);
+    }
+
+    private JTable createTable(TableResult result) {
+        JTable table = new JTable(result.getRowsData(), result.getColumnNames());
+        table.setFillsViewportHeight(true);
+        return table;
     }
 }

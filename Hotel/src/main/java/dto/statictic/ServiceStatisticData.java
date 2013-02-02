@@ -3,7 +3,7 @@ package dto.statictic;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-public class ServiceData {
+public class ServiceStatisticData {
 
     private String serviceName;
 
@@ -11,10 +11,10 @@ public class ServiceData {
 
     private float summaryGain;
 
-    public ServiceData() {
+    public ServiceStatisticData() {
     }
 
-    public ServiceData(String serviceName, long summaryTime, float summaryGain) {
+    public ServiceStatisticData(String serviceName, long summaryTime, float summaryGain) {
         this.serviceName = serviceName;
         this.summaryTime = summaryTime;
         this.summaryGain = summaryGain;
