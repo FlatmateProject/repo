@@ -199,14 +199,14 @@ public class ApplicationConfiguration {
     @Bean
     public Gui gui() {
         Gui gui = new Gui();
-//        gui.setCantorPanel(cantorPanel());
-//        gui.setSchedulerPanel(schedulerPanel());
-//        gui.setReceptionPanel(receptionPanel());
-//        gui.setReservationPanel(reservationPanel());
-//        gui.setManagerPanel(managerPanel());
+        gui.setCantorPanel(cantorPanel());
+        gui.setSchedulerPanel(schedulerPanel());
+        gui.setReceptionPanel(receptionPanel());
+        gui.setReservationPanel(reservationPanel());
+        gui.setManagerPanel(managerPanel());
         gui.setGuessBookPanel(guestBookPanel());
-//        gui.setStatisticPanel(statisticPanel());
-//        gui.setEmployeeManagerPanel(employeeManagerPanel());
+        gui.setStatisticPanel(statisticPanel());
+        gui.setEmployeeManagerPanel(employeeManagerPanel());
         return gui;
     }
 }
