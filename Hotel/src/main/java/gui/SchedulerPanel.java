@@ -9,14 +9,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class SchedulerPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
     private int d, m, y;
-    private final Calendar schCalendar = GregorianCalendar.getInstance();
+    private final Calendar calendar;
     private final JButton[] schDayButton = new JButton[31];
     private JButton schNext, schPrev;
     private final JLabel[] schDayLabel = new JLabel[7];
@@ -32,7 +31,8 @@ public class SchedulerPanel extends JPanel {
 
     private final Schedule schedule;
 
-    public SchedulerPanel(Schedule schedule) {
+    public SchedulerPanel(Calendar calendar, Schedule schedule) {
+        this.calendar = calendar;
         this.schedule = schedule;
         create();
         addEvents();
@@ -40,9 +40,9 @@ public class SchedulerPanel extends JPanel {
 
     public void create() {
 
-        d = schCalendar.get(Calendar.DAY_OF_MONTH);
-        m = schCalendar.get(Calendar.MONTH);
-        y = schCalendar.get(Calendar.YEAR);
+        d = calendar.get(Calendar.DAY_OF_MONTH);
+        m = calendar.get(Calendar.MONTH);
+        y = calendar.get(Calendar.YEAR);
 
         setBackground(bgColor);
         setBounds(0, 0, getWidth(), getHeight());
@@ -83,15 +83,15 @@ public class SchedulerPanel extends JPanel {
     public void schInitCalendar(int day, int month, int year) {
         int tmp, dayTmp, dX, h = 0;
 
-        schCalendar.set(Calendar.YEAR, year);
-        schCalendar.set(Calendar.MONTH, month);
-        schCalendar.set(Calendar.DAY_OF_MONTH, day);
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, day);
 
         dX = getWidth() / 2 - 182;
         h = 70;
-        dayTmp = schCalendar.get(Calendar.DAY_OF_MONTH);
-        schCalendar.set(Calendar.DAY_OF_MONTH, 0);
-        tmp = schCalendar.get(Calendar.DAY_OF_WEEK) - 1;
+        dayTmp = calendar.get(Calendar.DAY_OF_MONTH);
+        calendar.set(Calendar.DAY_OF_MONTH, 0);
+        tmp = calendar.get(Calendar.DAY_OF_WEEK) - 1;
 
         dX += tmp * 51;
         for (int i = 0, k = 51; i < 31; i++, dX += k, tmp++) {
@@ -120,7 +120,7 @@ public class SchedulerPanel extends JPanel {
                 100, 20);
         schNext.setBounds(schDayLabel[6].getX() - 68, schMonthLabel.getY(),
                 100, 20);
-        schCalendar.set(Calendar.DAY_OF_MONTH, dayTmp);
+        calendar.set(Calendar.DAY_OF_MONTH, dayTmp);
         schDayButton[day - 1].requestFocus();
 
         schScrollPane.setBounds(20, 300, getWidth() - 50, getHeight() - 400);

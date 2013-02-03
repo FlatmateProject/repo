@@ -19,6 +19,9 @@ import service.statictic.Statistic;
 import session.DataSource;
 import session.SimpleSession;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import static gui.guestBook.CompanySpecification.companySpecification;
 import static gui.guestBook.CustomerSpecification.customerSpecification;
 
@@ -39,6 +42,8 @@ public class ApplicationConfiguration {
 
     //    @Value("#{password}")
     private String password = "hotel_dupe";
+
+    private Calendar calendar = GregorianCalendar.getInstance();
 
     @Bean
     public DataSource dataSource() {
@@ -122,7 +127,7 @@ public class ApplicationConfiguration {
     }
 
     private SchedulerPanel schedulerPanel() {
-        return new SchedulerPanel(schedule());
+        return new SchedulerPanel(calendar(), schedule());
     }
 
     @Bean
@@ -155,7 +160,7 @@ public class ApplicationConfiguration {
     }
 
     private ManagerPanel managerPanel() {
-        ManagerPanel managerPanel = new ManagerPanel(manager());
+        ManagerPanel managerPanel = new ManagerPanel(manager(), calendar());
         managerPanel.setGuestBook(guestBook());
         return managerPanel;
     }
@@ -188,12 +193,18 @@ public class ApplicationConfiguration {
     public EmployeeManager employeeManager() {
         EmployeeManager employeeManager = new EmployeeManager();
         employeeManager.setSingleton(singleton());
+        employeeManager.setCalendar(calendar());
         return employeeManager;
     }
 
     private EmployeeManagerPanel employeeManagerPanel() {
-        EmployeeManagerPanel employeeManagerPanel = new EmployeeManagerPanel(employeeManager(), singleton());
+        EmployeeManagerPanel employeeManagerPanel = new EmployeeManagerPanel(employeeManager(), singleton(), calendar());
         return employeeManagerPanel;
+    }
+
+    @Bean
+    public Calendar calendar() {
+        return calendar;
     }
 
     @Bean

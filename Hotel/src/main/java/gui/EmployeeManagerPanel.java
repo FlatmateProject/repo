@@ -15,7 +15,6 @@ import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class EmployeeManagerPanel extends JPanel {
 
@@ -58,19 +57,28 @@ public class EmployeeManagerPanel extends JPanel {
 
     private final int[] dayInMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31,
             30, 31};
-    private final Calendar schCalendar = GregorianCalendar.getInstance();
-    private int mgpDay = schCalendar.get(Calendar.DAY_OF_MONTH);
-    private int mgpMonth = schCalendar.get(Calendar.MONTH);
-    private int mgpYear = schCalendar.get(Calendar.YEAR);
+
+    private final Calendar calendar;
+
+    private int mgpDay;
+
+    private int mgpMonth;
+
+    private int mgpYear;
+
     private int mgpClickCount = 0;
 
     private final Color bgColor = new Color(224, 230, 233);
 
     private final Singleton db;
 
-    public EmployeeManagerPanel(EmployeeManager employeeManager, Singleton db) {
+    public EmployeeManagerPanel(EmployeeManager employeeManager, Singleton db, Calendar calendar) {
         this.employeeManager = employeeManager;
         this.db = db;
+        this.calendar = calendar;
+        mgpDay = calendar.get(Calendar.DAY_OF_MONTH);
+        mgpMonth = calendar.get(Calendar.MONTH);
+        mgpYear = calendar.get(Calendar.YEAR);
         try {
             create();
             addEvents();
@@ -528,15 +536,15 @@ public class EmployeeManagerPanel extends JPanel {
         mgpDel.setBounds(20 + (int) (i * 0.82), 165, (int) (i * 0.18), 40);
         if (index <= 2) {
             hh = 80;
-            y = schCalendar.get(Calendar.YEAR);
-            m = schCalendar.get(Calendar.MONTH);
-            schCalendar.set(Calendar.YEAR, mgpYear);
-            schCalendar.set(Calendar.MONTH, mgpMonth);
-            schCalendar.set(Calendar.DAY_OF_MONTH, mgpDay);
+            y = calendar.get(Calendar.YEAR);
+            m = calendar.get(Calendar.MONTH);
+            calendar.set(Calendar.YEAR, mgpYear);
+            calendar.set(Calendar.MONTH, mgpMonth);
+            calendar.set(Calendar.DAY_OF_MONTH, mgpDay);
             dX = ww / 2 - 182;
-            dayTmp = schCalendar.get(Calendar.DAY_OF_MONTH);
-            schCalendar.set(Calendar.DAY_OF_MONTH, 0);
-            tmp = schCalendar.get(Calendar.DAY_OF_WEEK) - 1;
+            dayTmp = calendar.get(Calendar.DAY_OF_MONTH);
+            calendar.set(Calendar.DAY_OF_MONTH, 0);
+            tmp = calendar.get(Calendar.DAY_OF_WEEK) - 1;
             dX += tmp * 51;
             dayNum = dayInMonth[mgpMonth];
             if (mgpMonth == 1 && mgpYear % 4 == 0)
@@ -566,9 +574,9 @@ public class EmployeeManagerPanel extends JPanel {
                     mgpCalMonthLabel.getY(), 100, 20);
             mgpNext.setBounds(mgpDayLabel[6].getX() - 68,
                     mgpCalMonthLabel.getY(), 100, 20);
-            schCalendar.set(Calendar.DAY_OF_MONTH, dayTmp);
-            schCalendar.set(Calendar.YEAR, y);
-            schCalendar.set(Calendar.MONTH, m);
+            calendar.set(Calendar.DAY_OF_MONTH, dayTmp);
+            calendar.set(Calendar.YEAR, y);
+            calendar.set(Calendar.MONTH, m);
             mgpDays[dayTmp - 1].requestFocus();
             i = (mgpServe[2].getWidth() - 40);
             hh = h - mgpDays[j].getY() - 120;

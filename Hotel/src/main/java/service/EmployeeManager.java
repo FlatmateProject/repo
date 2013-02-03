@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class EmployeeManager {
 
@@ -25,7 +24,7 @@ public class EmployeeManager {
     private String resultText;
     private String stmt;
 
-    private final Calendar calendar = GregorianCalendar.getInstance();
+    private Calendar calendar;
 
     public EmployeeManager() {
     }
@@ -368,5 +367,9 @@ public class EmployeeManager {
 
     public void setSingleton(Singleton singleton) {
         this.singleton = singleton;
+    }
+
+    public void setCalendar(Calendar calendar) {
+        this.calendar = calendar;
     }
 }
