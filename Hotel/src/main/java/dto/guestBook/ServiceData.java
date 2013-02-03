@@ -12,8 +12,10 @@ public class ServiceData implements ArrayObtained {
 
     private String type;
 
+    private long time;
+
     @Override
     public Object[] getArray() {
-        return new Object[]{idService, name, price, type};
+        return new Object[]{idService, name, price, type, time};
     }
 }

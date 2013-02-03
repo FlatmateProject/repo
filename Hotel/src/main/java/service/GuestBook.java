@@ -6,6 +6,7 @@ import common.tableBuilder.TableBuilder;
 import common.tableBuilder.TableResult;
 import dao.GuestBookDao;
 import dto.SimpleNameData;
+import dto.guestBook.ServiceData;
 import exception.DAOException;
 import exception.IncorrectDataException;
 
@@ -38,6 +39,22 @@ public class GuestBook {
             List<SimpleNameData> columns = guestBookDao.showColumnsForTable(tableName);
             List<T> data = guestBookDao.getDataFromTable(tableName, conditions, dtoClass);
             return TableBuilder.table().columns(columns).data(data).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return TableResult.EMPTY;
+        }
+    }
+
+    public TableResult createRecreationTable(long idReservation) {
+        try {
+            List<SimpleNameData> columns = guestBookDao.showColumnsForTable("uslugi");
+            List<ServiceData> data = guestBookDao.getServiceByReservationId(idReservation);
+            return TableBuilder
+                    .table()
+                    .columns(columns)
+                    .appendColumn("CZAS")
+                    .data(data)
+                    .build();
         } catch (Exception e) {
             e.printStackTrace();
             return TableResult.EMPTY;

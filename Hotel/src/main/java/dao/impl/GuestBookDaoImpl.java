@@ -3,6 +3,7 @@ package dao.impl;
 import common.tableBuilder.ArrayObtained;
 import dao.GuestBookDao;
 import dto.SimpleNameData;
+import dto.guestBook.ServiceData;
 import exception.DAOException;
 import session.SimpleSession;
 
@@ -22,11 +23,17 @@ public class GuestBookDaoImpl implements GuestBookDao {
         return session.executeQuery(query, SimpleNameData.class);
     }
 
-
     @Override
     public <T extends ArrayObtained> List<T> getDataFromTable(String table, String conditions, Class<T> customerDataClass) throws DAOException {
         String query = "select * from hotel." + table + " " + conditions;
         return session.executeQuery(query, customerDataClass);
+    }
+
+    @Override
+    public List<ServiceData> getServiceByReservationId(long reservationId) throws DAOException {
+        String query = "select uslugi.ID_USLUGI, NAZWA, CENA, TYP, CZAS from hotel.uslugi, rekreacja where rekreacja.id_rez ="
+                + reservationId + " and rekreacja.id_uslugi = uslugi.id_uslugi";
+        return session.executeQuery(query, ServiceData.class);
     }
 
     @Override

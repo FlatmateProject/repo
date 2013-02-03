@@ -7,8 +7,17 @@ public class SimpleNameData {
 
     private String name;
 
-    public SimpleNameData() {
+    private String dataType;
 
+    private String nullable;
+
+    private String key;
+
+    private String defaultValue;
+
+    private String extra;
+
+    public SimpleNameData() {
     }
 
     public SimpleNameData(String name) {

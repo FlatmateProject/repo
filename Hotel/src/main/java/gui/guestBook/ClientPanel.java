@@ -4,7 +4,6 @@ import common.adapter.MouseListenerAdapter;
 import common.tableBuilder.TableResult;
 import dto.SimpleNameData;
 import dto.guestBook.ReservationData;
-import dto.guestBook.ServiceData;
 import exception.IncorrectDataException;
 import service.GuestBook;
 
@@ -144,9 +143,8 @@ public class ClientPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent arg0) {
                 int selectedRow = dataTable.getSelectedRow();
-                Object idRez = dataTable.getValueAt(selectedRow, 0);
-                String conditions = ", rekreacja where rekreacja.id_rez =" + idRez + " and rekreacja.id_uslugi = uslugi.id_uslugi";
-                TableResult tableResult = guestBook.createTable("uslugi", conditions, ServiceData.class);
+                Long idRez = (Long) dataTable.getValueAt(selectedRow, 0);
+                TableResult tableResult = guestBook.createRecreationTable(idRez);
                 serviceTable = createTable(tableResult);
                 serviceTableScrollPane.setViewportView(serviceTable);
                 serviceTableScrollPane.setVisible(true);

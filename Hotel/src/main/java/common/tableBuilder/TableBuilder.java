@@ -29,6 +29,11 @@ public class TableBuilder {
         return this;
     }
 
+    public TableBuilder appendColumn(String columnName) {
+        columnNames.add(new SimpleNameData(columnName));
+        return this;
+    }
+
     public TableResult build() {
         if (isNotEmptyList(columnNames) && isNotEmptyList(rowsData)) {
             return createTable(rowsData);

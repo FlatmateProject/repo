@@ -6,7 +6,6 @@ import converter.impl.GregorianCalendarConverter;
 import converter.impl.LongConverter;
 import converter.impl.StringConverter;
 import exception.DAOException;
-import org.apache.log4j.Logger;
 
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
@@ -19,8 +18,6 @@ class Transformer {
 
     private final Map<Class, TypeConverter> conversionMap;
 
-    private final static Logger log = Logger.getLogger(Transformer.class);
-
     private Transformer(ResultSet resultSet) {
         this.resultSet = resultSet;
         conversionMap = new HashMap<Class, TypeConverter>();
@@ -31,7 +28,6 @@ class Transformer {
     }
 
     public static Transformer on(ResultSet resultSet) {
-        log.info("create Transformer");
         return new Transformer(resultSet);
     }
 
@@ -78,6 +74,7 @@ class Transformer {
         String errorMessage = null;
         try {
             int index = 1;
+            checkColumnNumberIsNotEqualToFieldNumber(fields);
             for (Field field : fields) {
                 errorMessage = field.getName() + ": " + field.toString();
                 field.setAccessible(true);
@@ -89,6 +86,17 @@ class Transformer {
         }
     }
 
+    private void checkColumnNumberIsNotEqualToFieldNumber(Field[] fields) throws DAOException, SQLException {
+        int fieldsNumber = fields.length;
+        if (fieldsNumber == 0) {
+            throw new DAOException("Class does not have fields");
+        }
+        int columnCount = resultSet.getMetaData().getColumnCount();
+        if (fieldsNumber != columnCount) {
+            throw new DAOException(String.format("Class fields number %d is not equal to column number %d", fieldsNumber, columnCount));
+        }
+    }
+
     private Object getObjectByIndex(int index, Class<?> type) throws SQLException {
         TypeConverter typeConverter = getConverterForType(type);
         return typeConverter.convert(index);
@@ -97,7 +105,7 @@ class Transformer {
     private TypeConverter getConverterForType(Class<?> type) {
         TypeConverter typeConverter = conversionMap.get(type);
         if (typeConverter == null) {
-            throw new RuntimeException("Nie ma implementcaji konwertera dla typu: " + type + " dodaj ja");
+            throw new RuntimeException("There is not converter implementation for type: " + type + " - add it");
         }
         return typeConverter;
     }

@@ -18,4 +18,7 @@ public class DAOException extends Exception {
         e.printStackTrace();
     }
 
+    public DAOException(String errorMessage) {
+        super(errorMessage);
+    }
 }
