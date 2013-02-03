@@ -2,15 +2,19 @@ package session;
 
 import converter.TypeConverter;
 import converter.impl.FloatConverter;
-import converter.impl.GregorianCalendarConverter;
+import converter.impl.LocalDateConverter;
 import converter.impl.LongConverter;
 import converter.impl.StringConverter;
 import exception.DAOException;
+import org.joda.time.LocalDate;
 
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 class Transformer {
 
@@ -23,7 +27,7 @@ class Transformer {
         conversionMap = new HashMap<Class, TypeConverter>();
         conversionMap.put(long.class, new LongConverter(resultSet));
         conversionMap.put(float.class, new FloatConverter(resultSet));
-        conversionMap.put(GregorianCalendar.class, new GregorianCalendarConverter(resultSet));
+        conversionMap.put(LocalDate.class, new LocalDateConverter(resultSet));
         conversionMap.put(String.class, new StringConverter(resultSet));
     }
 

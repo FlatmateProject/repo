@@ -14,6 +14,4 @@
 19. Create hotel schema in test data base
 20. Create ApplicationConfigurationForTest with mocked dependencies.
 21. Use spring @Value annotation in ApplicationConfiguration
-22. GuestBookPanel - toString for GregorianCalendar is not good idea in reservation table
-22. GuestBookPanel - create new better dto object instead of ServiceData in service table
 

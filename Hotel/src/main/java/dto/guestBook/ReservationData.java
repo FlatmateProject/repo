@@ -1,8 +1,7 @@
 package dto.guestBook;
 
 import common.tableBuilder.ArrayObtained;
-
-import java.util.GregorianCalendar;
+import org.joda.time.LocalDate;
 
 public class ReservationData implements ArrayObtained {
     private long idRez;
@@ -17,9 +16,9 @@ public class ReservationData implements ArrayObtained {
 
     private long type;
 
-    private GregorianCalendar checkInData;
+    private LocalDate checkInData;
 
-    private GregorianCalendar checkOutData;
+    private LocalDate checkOutData;
 
     @Override
     public Object[] getArray() {

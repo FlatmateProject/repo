@@ -1,6 +1,6 @@
 package service;
 
-import dto.SimpleNameData;
+import dto.ColumnData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -9,7 +9,7 @@ import spring.ApplicationConfiguration;
 
 import java.util.List;
 
-import static assertions.SimpleNameListAssert.assertThat;
+import static assertions.ColumnListAssert.assertThat;
 
 @ContextConfiguration(classes = ApplicationConfiguration.class)
 public class GuestBookTest extends AbstractTestNGSpringContextTests {
@@ -23,7 +23,7 @@ public class GuestBookTest extends AbstractTestNGSpringContextTests {
         String tableName = "klienci";
 
         // when
-        List<SimpleNameData> labels = guestBook.getLabels(tableName);
+        List<ColumnData> labels = guestBook.getLabels(tableName);
 
         // then
         assertThat(labels)

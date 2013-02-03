@@ -1,6 +1,6 @@
 package common.tableBuilder;
 
-import dto.SimpleNameData;
+import dto.ColumnData;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ public class TableBuilder {
 
     private List rowsData;
 
-    private List<SimpleNameData> columnNames;
+    private List<ColumnData> columnNames;
 
     private TableBuilder() {
 
@@ -18,7 +18,7 @@ public class TableBuilder {
         return new TableBuilder();
     }
 
-    public TableBuilder columns(List<SimpleNameData> columnNames) {
+    public TableBuilder columns(List<ColumnData> columnNames) {
         this.columnNames = columnNames;
         return this;
     }
@@ -30,7 +30,7 @@ public class TableBuilder {
     }
 
     public TableBuilder appendColumn(String columnName) {
-        columnNames.add(new SimpleNameData(columnName));
+        columnNames.add(new ColumnData(columnName));
         return this;
     }
 
@@ -52,11 +52,11 @@ public class TableBuilder {
         return TableResult.store(rows, columns);
     }
 
-    private String[] createTableColumns(List<SimpleNameData> currencyColumns) {
+    private String[] createTableColumns(List<ColumnData> currencyColumns) {
         int i = 0;
         int cols = currencyColumns.size();
         String columnNames[] = new String[cols];
-        for (SimpleNameData currencyColumn : currencyColumns) {
+        for (ColumnData currencyColumn : currencyColumns) {
             columnNames[i] = currencyColumn.getName();
             i++;
         }

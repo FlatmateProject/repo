@@ -1,7 +1,7 @@
 package dao.impl;
 
 import dao.CantorDao;
-import dto.SimpleNameData;
+import dto.ColumnData;
 import dto.cantor.CompanyData;
 import dto.cantor.CurrencyData;
 import dto.cantor.CustomerData;
@@ -22,9 +22,9 @@ public class CantorDaoImpl implements CantorDao {
         this.session = session;
     }
 
-    public List<SimpleNameData> showColumnsForCurrency() throws DAOException {
+    public List<ColumnData> showColumnsForCurrency() throws DAOException {
         String query = "show columns from hotel.waluty;";
-        return session.executeQuery(query, SimpleNameData.class);
+        return session.executeQuery(query, ColumnData.class);
     }
 
     @Override
@@ -35,9 +35,9 @@ public class CantorDaoImpl implements CantorDao {
     }
 
     @Override
-    public List<SimpleNameData> showColumnsForCustomer() throws DAOException {
+    public List<ColumnData> showColumnsForCustomer() throws DAOException {
         String query = "show columns from hotel.klienci";
-        return session.executeQuery(query, SimpleNameData.class);
+        return session.executeQuery(query, ColumnData.class);
     }
 
     @Override
@@ -48,9 +48,9 @@ public class CantorDaoImpl implements CantorDao {
 
 
     @Override
-    public List<SimpleNameData> showColumnsForCompany() throws DAOException {
+    public List<ColumnData> showColumnsForCompany() throws DAOException {
         String query = "show columns from hotel.firmy";
-        return session.executeQuery(query, SimpleNameData.class);
+        return session.executeQuery(query, ColumnData.class);
     }
 
     @Override

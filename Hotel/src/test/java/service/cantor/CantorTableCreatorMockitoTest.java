@@ -2,7 +2,7 @@ package service.cantor;
 
 import common.tableBuilder.TableResult;
 import dao.CantorDao;
-import dto.SimpleNameData;
+import dto.ColumnData;
 import dto.cantor.CompanyData;
 import dto.cantor.CurrencyData;
 import dto.cantor.CustomerData;
@@ -58,10 +58,10 @@ public class CantorTableCreatorMockitoTest {
         CurrencyData currencyData = mock(CurrencyData.class);
         when(currencyData.getArray()).thenReturn(row);
 
-        SimpleNameData simpleNameData = mock(SimpleNameData.class);
-        when(simpleNameData.getName()).thenReturn(columnNames[0], Arrays.copyOfRange(columnNames, 1, columnNames.length));
+        ColumnData columnData = mock(ColumnData.class);
+        when(columnData.getName()).thenReturn(columnNames[0], Arrays.copyOfRange(columnNames, 1, columnNames.length));
 
-        when(cantorDao.showColumnsForCurrency()).thenReturn(Arrays.asList(simpleNameData, simpleNameData, simpleNameData, simpleNameData, simpleNameData));
+        when(cantorDao.showColumnsForCurrency()).thenReturn(Arrays.asList(columnData, columnData, columnData, columnData, columnData));
         when(cantorDao.findAllCurrency()).thenReturn(Arrays.asList(currencyData));
 
         // when
@@ -100,14 +100,14 @@ public class CantorTableCreatorMockitoTest {
         String[] columnNames = new String[]{"Pesel", "Name", "Family", "County", "City", "Street", "Block", "Flat", "Status", "Notes", "Phone", "Nip"};
         Object[] row = new Object[]{pesel, "Piotr", "Piotrowski", "Małopolsie", "Kraków", "Zdunów", "22c", 30L, "NEW", "OK", 889225169L, 6582514L};
 
-        SimpleNameData simpleNameData = mock(SimpleNameData.class);
-        when(simpleNameData.getName()).thenReturn(columnNames[0], Arrays.copyOfRange(columnNames, 1, columnNames.length));
+        ColumnData columnData = mock(ColumnData.class);
+        when(columnData.getName()).thenReturn(columnNames[0], Arrays.copyOfRange(columnNames, 1, columnNames.length));
 
         CustomerData customerData = mock(CustomerData.class);
         when(customerData.getArray()).thenReturn(row);
 
-        when(cantorDao.showColumnsForCustomer()).thenReturn(Arrays.asList(simpleNameData, simpleNameData, simpleNameData, simpleNameData, simpleNameData, simpleNameData,
-                simpleNameData, simpleNameData, simpleNameData, simpleNameData, simpleNameData, simpleNameData));
+        when(cantorDao.showColumnsForCustomer()).thenReturn(Arrays.asList(columnData, columnData, columnData, columnData, columnData, columnData,
+                columnData, columnData, columnData, columnData, columnData, columnData));
         when(cantorDao.findAllCustomers(pesel)).thenReturn(Arrays.asList(customerData));
 
         // when
@@ -146,14 +146,14 @@ public class CantorTableCreatorMockitoTest {
         String[] columnNames = new String[]{"Krs", "Name", "County", "City", "Street", "Block", "Flat", "Status", "Notes", "Regon", "Nip", "Phone", "Data_zalozenia"};
         Object[] row = new Object[]{krs, "Sabre", "Małopolsie", "Kraków", "Zdunów", "22c", 30L, "NEW", "OK", 260259015L, 8641909961L, 889225169L, new Date()};
 
-        SimpleNameData simpleNameData = mock(SimpleNameData.class);
-        when(simpleNameData.getName()).thenReturn(columnNames[0], Arrays.copyOfRange(columnNames, 1, columnNames.length));
+        ColumnData columnData = mock(ColumnData.class);
+        when(columnData.getName()).thenReturn(columnNames[0], Arrays.copyOfRange(columnNames, 1, columnNames.length));
 
         CompanyData companyData = mock(CompanyData.class);
         when(companyData.getArray()).thenReturn(row);
 
-        when(cantorDao.showColumnsForCompany()).thenReturn(Arrays.asList(simpleNameData, simpleNameData, simpleNameData, simpleNameData, simpleNameData, simpleNameData,
-                simpleNameData, simpleNameData, simpleNameData, simpleNameData, simpleNameData, simpleNameData, simpleNameData));
+        when(cantorDao.showColumnsForCompany()).thenReturn(Arrays.asList(columnData, columnData, columnData, columnData, columnData, columnData,
+                columnData, columnData, columnData, columnData, columnData, columnData, columnData));
         when(cantorDao.findAllCompanies(krs)).thenReturn(Arrays.asList(companyData));
 
         // when

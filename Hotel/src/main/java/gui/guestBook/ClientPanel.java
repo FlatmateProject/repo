@@ -2,7 +2,7 @@ package gui.guestBook;
 
 import common.adapter.MouseListenerAdapter;
 import common.tableBuilder.TableResult;
-import dto.SimpleNameData;
+import dto.ColumnData;
 import dto.guestBook.ReservationData;
 import exception.IncorrectDataException;
 import service.GuestBook;
@@ -14,7 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 public class ClientPanel extends JPanel {
@@ -63,7 +62,7 @@ public class ClientPanel extends JPanel {
         setBackground(bgColor);
         setLayout(null);
 
-        List<SimpleNameData> columns = guestBook.getLabels(specification.getTable());
+        List<ColumnData> columns = guestBook.getLabels(specification.getTable());
         Form clientForm = Factory.createClientForm(this, columns);
         clientLabel = clientForm.getClientLabels();
         clientData = clientForm.getClientData();
@@ -125,17 +124,8 @@ public class ClientPanel extends JPanel {
             private void fillDataFields(Object[] rowData) {
                 for (int i = 0; i < clientData.length; i++) {
                     Object cell = rowData[i];
-                    String text = getString(cell);
-                    clientData[i].setText(text);
+                    clientData[i].setText(cell.toString());
                 }
-            }
-
-            private String getString(Object cell) {
-                if (cell.getClass().equals(GregorianCalendar.class)) {
-                    GregorianCalendar gregorianCalendar = (GregorianCalendar) cell;
-                    return gregorianCalendar.getTime().toString();
-                }
-                return cell.toString();
             }
         };
 

@@ -1,6 +1,6 @@
 package dao;
 
-import dto.SimpleNameData;
+import dto.ColumnData;
 import dto.cantor.CompanyData;
 import dto.cantor.CurrencyData;
 import dto.cantor.CustomerData;
@@ -12,15 +12,15 @@ import java.util.List;
 
 public interface CantorDao {
 
-    List<SimpleNameData> showColumnsForCurrency() throws DAOException;
+    List<ColumnData> showColumnsForCurrency() throws DAOException;
 
     List<CurrencyData> findAllCurrency() throws DAOException;
 
-    List<SimpleNameData> showColumnsForCustomer() throws DAOException;
+    List<ColumnData> showColumnsForCustomer() throws DAOException;
 
     List<CustomerData> findAllCustomers(long customerId) throws DAOException;
 
-    List<SimpleNameData> showColumnsForCompany() throws DAOException;
+    List<ColumnData> showColumnsForCompany() throws DAOException;
 
     List<CompanyData> findAllCompanies(long companyId) throws DAOException;
 

@@ -5,7 +5,7 @@ import common.tableBuilder.ArrayObtained;
 import common.tableBuilder.TableBuilder;
 import common.tableBuilder.TableResult;
 import dao.GuestBookDao;
-import dto.SimpleNameData;
+import dto.ColumnData;
 import dto.guestBook.ServiceData;
 import exception.DAOException;
 import exception.IncorrectDataException;
@@ -20,10 +20,10 @@ public class GuestBook {
         this.guestBookDao = guestBookDao;
     }
 
-    public List<SimpleNameData> getLabels(String tableName) {
-        List<SimpleNameData> emptyColumns = SimpleNameData.arrayOfMe("", 13);
+    public List<ColumnData> getLabels(String tableName) {
+        List<ColumnData> emptyColumns = ColumnData.arrayOfMe("", 13);
         try {
-            List<SimpleNameData> columns = guestBookDao.showColumnsForTable(tableName);
+            List<ColumnData> columns = guestBookDao.showColumnsForTable(tableName);
             if (columns.isEmpty()) {
                 return emptyColumns;
             }
@@ -36,7 +36,7 @@ public class GuestBook {
 
     public <T extends ArrayObtained> TableResult createTable(String tableName, String conditions, Class<T> dtoClass) {
         try {
-            List<SimpleNameData> columns = guestBookDao.showColumnsForTable(tableName);
+            List<ColumnData> columns = guestBookDao.showColumnsForTable(tableName);
             List<T> data = guestBookDao.getDataFromTable(tableName, conditions, dtoClass);
             return TableBuilder.table().columns(columns).data(data).build();
         } catch (Exception e) {
@@ -47,7 +47,7 @@ public class GuestBook {
 
     public TableResult createRecreationTable(long idReservation) {
         try {
-            List<SimpleNameData> columns = guestBookDao.showColumnsForTable("uslugi");
+            List<ColumnData> columns = guestBookDao.showColumnsForTable("uslugi");
             List<ServiceData> data = guestBookDao.getServiceByReservationId(idReservation);
             return TableBuilder
                     .table()

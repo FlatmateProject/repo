@@ -1,6 +1,6 @@
 package gui.guestBook;
 
-import dto.SimpleNameData;
+import dto.ColumnData;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -26,13 +26,13 @@ public class Factory {
         return buttons;
     }
 
-    public static Form createClientForm(JPanel panel, List<SimpleNameData> columns) {
+    public static Form createClientForm(JPanel panel, List<ColumnData> columns) {
         int i = 0;
         Border border = BorderFactory.createLineBorder(new Color(60, 124, 142));
         int size = columns.size();
         JLabel[] clientLabel = new JLabel[size];
         JTextField[] clientData = new JTextField[size];
-        for (SimpleNameData column : columns) {
+        for (ColumnData column : columns) {
             clientLabel[i] = new JLabel(column.getName());
             clientLabel[i].setBounds(30, (i + 1) * 21, 160, 20);
             clientData[i] = new JTextField();
