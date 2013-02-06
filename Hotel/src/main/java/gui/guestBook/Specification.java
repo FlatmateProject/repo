@@ -1,18 +1,16 @@
 package gui.guestBook;
 
-import common.tableBuilder.ArrayObtained;
+import service.dictionary.TABLE;
 
 import java.awt.*;
 
 public interface Specification {
 
-    String getTable();
+    TABLE getTable();
 
     Rectangle geDataTableBounds();
 
     Rectangle getServiceTableBounds();
-
-    <T extends ArrayObtained> Class<T> getClientDtoClass();
 
     String getPrimaryId();
 }

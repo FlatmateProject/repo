@@ -1,7 +1,8 @@
 package exception;
 
-public class ApplicationException extends Exception {
+public class ApplicationException extends DAOException {
 
-    private static final long serialVersionUID = 1L;
-
+    public ApplicationException(Exception exception) {
+        super(exception);
+    }
 }

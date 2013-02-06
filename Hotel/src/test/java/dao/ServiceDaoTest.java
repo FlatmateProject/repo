@@ -5,23 +5,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Test;
+import service.dictionary.TABLE;
 import spring.ApplicationConfiguration;
 
 @ContextConfiguration(classes = ApplicationConfiguration.class)
-public class GuessBookDaoTest extends AbstractTestNGSpringContextTests {
+public class ServiceDaoTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
-    GuestBookDao guestBookDao;
+    ServiceDao serviceDao;
 
-    //update hotel.klienci set , WOJEWODZTWO = "Małopolsie" where IDK_PESEL = "87122206592"
     @Test
     public void shouldUpdateCustomerData() throws DAOException {
         // given
+        TABLE table = TABLE.Customer;
         String[] labels = new String[]{"IDK_PESEL", "MIASTO", "WOJEWODZTWO"};
         String[] data = new String[]{"87122206592", "", "Małopolsie"};
 
         // when
-        guestBookDao.updateClientData(labels, data);
+        serviceDao.updateClientData(table, labels, data);
 
         // then
     }

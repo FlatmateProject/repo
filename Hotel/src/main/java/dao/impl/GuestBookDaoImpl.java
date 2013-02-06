@@ -3,8 +3,10 @@ package dao.impl;
 import common.tableBuilder.ArrayObtained;
 import dao.GuestBookDao;
 import dto.ColumnData;
-import dto.guestBook.ServiceData;
+import dto.guestBook.RecreationServiceData;
+import dto.guestBook.ReservationData;
 import exception.DAOException;
+import service.dictionary.TABLE;
 import session.SimpleSession;
 
 import java.util.List;
@@ -24,32 +26,21 @@ public class GuestBookDaoImpl implements GuestBookDao {
     }
 
     @Override
-    public <T extends ArrayObtained> List<T> getDataFromTable(String table, String conditions, Class<T> customerDataClass) throws DAOException {
+    public List<? extends ArrayObtained> getDataFromTable(TABLE table, String conditions) throws DAOException {
         String query = "select * from hotel." + table + " " + conditions;
-        return session.executeQuery(query, customerDataClass);
+        return session.executeQuery(query, table.getTableDtoClass());
     }
 
     @Override
-    public List<ServiceData> getServiceByReservationId(long reservationId) throws DAOException {
+    public List<ReservationData> getReservationsByClientId(String primaryId, long clientId) throws DAOException {
+        String query = "select * from hotel.rezerwacje where " + primaryId + "=" + clientId;
+        return session.executeQuery(query, ReservationData.class);
+    }
+
+    @Override
+    public List<RecreationServiceData> getServiceByReservationId(long reservationId) throws DAOException {
         String query = "select uslugi.ID_USLUGI, NAZWA, CENA, TYP, CZAS from hotel.uslugi, rekreacja where rekreacja.id_rez ="
                 + reservationId + " and rekreacja.id_uslugi = uslugi.id_uslugi";
-        return session.executeQuery(query, ServiceData.class);
-    }
-
-    @Override
-    public void updateClientData(String[] labels, String[] data) throws DAOException {
-        int count = 0;
-        String query = "update hotel.klienci set ";
-        for (int i = 1; i < data.length; i++) {
-            if (!data[i].isEmpty()) {
-                if (count > 0) {
-                    query += ", ";
-                }
-                query += labels[i] + " = \"" + data[i] + "\"";
-                count++;
-            }
-        }
-        query += " where " + labels[0] + " = \"" + data[0] + "\"";
-        session.update(query);
+        return session.executeQuery(query, RecreationServiceData.class);
     }
 }

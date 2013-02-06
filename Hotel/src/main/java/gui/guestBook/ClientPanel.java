@@ -3,9 +3,9 @@ package gui.guestBook;
 import common.adapter.MouseListenerAdapter;
 import common.tableBuilder.TableResult;
 import dto.ColumnData;
-import dto.guestBook.ReservationData;
 import exception.IncorrectDataException;
-import service.GuestBook;
+import service.UpdateService;
+import service.guessBook.GuestBook;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -19,6 +19,8 @@ import java.util.List;
 public class ClientPanel extends JPanel {
 
     private final GuestBook guestBook;
+
+    private final UpdateService updateService;
 
     private final Specification specification;
 
@@ -47,8 +49,9 @@ public class ClientPanel extends JPanel {
 
     private MouseListener reservationTableMouseListener;
 
-    public ClientPanel(GuestBook guestBook, Specification specification) {
+    public ClientPanel(GuestBook guestBook, UpdateService updateService, Specification specification) {
         this.guestBook = guestBook;
+        this.updateService = updateService;
         this.specification = specification;
         create();
         addEvents();
@@ -87,7 +90,8 @@ public class ClientPanel extends JPanel {
 
 
     private void fillDataTable(String conditions) {
-        dataTable = createTable(guestBook.createTable(specification.getTable(), conditions, specification.getClientDtoClass()));
+        TableResult tableResult = guestBook.createTable(specification.getTable(), conditions);
+        dataTable = createTable(tableResult);
         dataTable.addMouseListener(dataTableMouseListener);
         dataTableScrollPane.setViewportView(dataTable);
     }
@@ -103,8 +107,7 @@ public class ClientPanel extends JPanel {
                 int selectedRow = dataTable.getSelectedRow();
                 Long clientId = (Long) dataTable.getValueAt(selectedRow, 0);
                 Object[] selectedRowData = getSelectedRowData();
-                String conditions = "where " + specification.getPrimaryId() + "=" + clientId;
-                TableResult tableResult = guestBook.createTable("rezerwacje", conditions, ReservationData.class);
+                TableResult tableResult = guestBook.createReservationTable(specification.getPrimaryId(), clientId);
                 dataTable = createTable(tableResult);
                 dataTable.addMouseListener(reservationTableMouseListener);
                 dataTableScrollPane.setViewportView(dataTable);
@@ -194,7 +197,7 @@ public class ClientPanel extends JPanel {
                 try {
                     String[] labels = getLabels();
                     String[] data = getData();
-                    guestBook.updateClientData(labels, data);
+                    updateService.updateClientData(specification.getTable(), labels, data);
                     fillDataTable();
                 } catch (IncorrectDataException e) {
                     JOptionPane.showMessageDialog(null, "Blad aktualizacji! Sprawdz dane!", "UWAGA!", JOptionPane.ERROR_MESSAGE);

@@ -1,6 +1,6 @@
 package service.cantor;
 
-import dto.cantor.CurrencyData;
+import dto.CurrencyData;
 
 import static validation.ValidationUtils.isKRS;
 import static validation.ValidationUtils.isPesel;

@@ -1,14 +1,16 @@
-package dto.cantor;
+package dto;
 
 import common.tableBuilder.ArrayObtained;
 
-public class CustomerData implements ArrayObtained {
+public class EmployeeData implements ArrayObtained {
 
     private long idPesel;
 
     private String name;
 
     private String family;
+
+    private String password;
 
     private String county;
 
@@ -20,16 +22,14 @@ public class CustomerData implements ArrayObtained {
 
     private long flat;
 
-    private String status;
-
-    private String notes;
-
     private long phone;
 
     private long nip;
 
+    private long idOccupation;
+
     @Override
     public Object[] getArray() {
-        return new Object[]{idPesel, name, family, county, city, street, block, flat, status, notes, phone, nip};
+        return new Object[]{idPesel, name, family, password, county, city, street, block, flat, phone, nip, idOccupation};
     }
 }

@@ -14,4 +14,5 @@
 19. Create hotel schema in test data base
 20. Create ApplicationConfigurationForTest with mocked dependencies.
 21. Use spring @Value annotation in ApplicationConfiguration
+22. Use TABLE in SPECIFICATION.getTable() and SPECIFICATION.getClientDtoClass()
 

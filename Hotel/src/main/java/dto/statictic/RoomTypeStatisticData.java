@@ -3,7 +3,7 @@ package dto.statictic;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-public class RoomTypeData {
+public class RoomTypeStatisticData {
 
     private String roomTypeName;
 
@@ -11,10 +11,10 @@ public class RoomTypeData {
 
     private float summaryGain;
 
-    public RoomTypeData() {
+    public RoomTypeStatisticData() {
     }
 
-    public RoomTypeData(String roomTypeName, int numberOccupiedRooms, float summaryGain) {
+    public RoomTypeStatisticData(String roomTypeName, int numberOccupiedRooms, float summaryGain) {
         this.roomTypeName = roomTypeName;
         this.numberOccupiedRooms = numberOccupiedRooms;
         this.summaryGain = summaryGain;

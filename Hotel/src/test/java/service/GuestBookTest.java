@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Test;
+import service.dictionary.TABLE;
+import service.guessBook.GuestBook;
 import spring.ApplicationConfiguration;
 
 import java.util.List;
@@ -20,10 +22,10 @@ public class GuestBookTest extends AbstractTestNGSpringContextTests {
     @Test
     public void shouldGetLabels() {
         // given
-        String tableName = "klienci";
+        TABLE table = TABLE.Customer;
 
         // when
-        List<ColumnData> labels = guestBook.getLabels(tableName);
+        List<ColumnData> labels = guestBook.getLabels(table);
 
         // then
         assertThat(labels)

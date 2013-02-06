@@ -17,24 +17,24 @@ public class StatisticDaoImpl implements StatisticDao {
     }
 
     @Override
-    public List<RoomTypeData> findRoomTypesStatistics(int month, int year) throws DAOException {
+    public List<RoomTypeStatisticData> findRoomTypesStatistics(int month, int year) throws DAOException {
         String query = "SELECT k.opis opis, count(r.id_rez) meldunki, sum((r.data_w-r.data_z)*k.cena) zysk ";
         query += "FROM rezerwacje r ";
         query += "JOIN pokoje p ON r.id_pokoju=p.id_pokoju  JOIN klasy k ON p.id_klasy=k.id_klasy ";
         query += "WHERE MONTH(r.data_w)=" + month + " and YEAR(r.data_w)="
                 + year + " GROUP BY k.id_klasy ORDER BY k.id_klasy";
-        return session.executeQuery(query, RoomTypeData.class);
+        return session.executeQuery(query, RoomTypeStatisticData.class);
     }
 
     @Override
-    public List<RoomData> findRoomsStatisticsByType(int month, int year, String classRoom) throws DAOException {
+    public List<RoomStatisticData> findRoomsStatisticsByType(int month, int year, String classRoom) throws DAOException {
         String query = "SELECT p.id_pokoju pokuj, count(r.id_rez) meldunki, sum((r.data_w-r.data_z)*k.cena) zysk ";
         query += "FROM rezerwacje r ";
         query += "JOIN pokoje p ON r.id_pokoju=p.id_pokoju  JOIN klasy k ON p.id_klasy=k.id_klasy ";
         query += "WHERE MONTH(r.data_w)=" + month + " and YEAR(r.data_w)="
                 + year + " and k.opis='" + classRoom + "' ";
         query += " GROUP BY p.id_pokoju ORDER BY p.id_pokoju";
-        return session.executeQuery(query, RoomData.class);
+        return session.executeQuery(query, RoomStatisticData.class);
     }
 
     @Override

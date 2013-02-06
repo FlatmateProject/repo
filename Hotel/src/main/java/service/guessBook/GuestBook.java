@@ -1,4 +1,4 @@
-package service;
+package service.guessBook;
 
 
 import common.tableBuilder.ArrayObtained;
@@ -6,9 +6,9 @@ import common.tableBuilder.TableBuilder;
 import common.tableBuilder.TableResult;
 import dao.GuestBookDao;
 import dto.ColumnData;
-import dto.guestBook.ServiceData;
-import exception.DAOException;
-import exception.IncorrectDataException;
+import dto.guestBook.RecreationServiceData;
+import dto.guestBook.ReservationData;
+import service.dictionary.TABLE;
 
 import java.util.List;
 
@@ -20,10 +20,10 @@ public class GuestBook {
         this.guestBookDao = guestBookDao;
     }
 
-    public List<ColumnData> getLabels(String tableName) {
+    public List<ColumnData> getLabels(TABLE tableName) {
         List<ColumnData> emptyColumns = ColumnData.arrayOfMe("", 13);
         try {
-            List<ColumnData> columns = guestBookDao.showColumnsForTable(tableName);
+            List<ColumnData> columns = guestBookDao.showColumnsForTable(tableName.getTableName());
             if (columns.isEmpty()) {
                 return emptyColumns;
             }
@@ -34,10 +34,21 @@ public class GuestBook {
         }
     }
 
-    public <T extends ArrayObtained> TableResult createTable(String tableName, String conditions, Class<T> dtoClass) {
+    public TableResult createReservationTable(String primaryId, long clientId) {
         try {
-            List<ColumnData> columns = guestBookDao.showColumnsForTable(tableName);
-            List<T> data = guestBookDao.getDataFromTable(tableName, conditions, dtoClass);
+            List<ColumnData> columns = guestBookDao.showColumnsForTable("rezerwacje");
+            List<ReservationData> data = guestBookDao.getReservationsByClientId(primaryId, clientId);
+            return TableBuilder.table().columns(columns).data(data).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return TableResult.EMPTY;
+        }
+    }
+
+    public TableResult createTable(TABLE tableName, String conditions) {
+        try {
+            List<ColumnData> columns = guestBookDao.showColumnsForTable(tableName.getTableName());
+            List<? extends ArrayObtained> data = guestBookDao.getDataFromTable(tableName, conditions);
             return TableBuilder.table().columns(columns).data(data).build();
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,7 +59,7 @@ public class GuestBook {
     public TableResult createRecreationTable(long idReservation) {
         try {
             List<ColumnData> columns = guestBookDao.showColumnsForTable("uslugi");
-            List<ServiceData> data = guestBookDao.getServiceByReservationId(idReservation);
+            List<RecreationServiceData> data = guestBookDao.getServiceByReservationId(idReservation);
             return TableBuilder
                     .table()
                     .columns(columns)
@@ -58,15 +69,6 @@ public class GuestBook {
         } catch (Exception e) {
             e.printStackTrace();
             return TableResult.EMPTY;
-        }
-    }
-
-    public void updateClientData(String labels[], String data[]) throws IncorrectDataException {
-        try {
-            guestBookDao.updateClientData(labels, data);
-        } catch (DAOException e) {
-            e.printStackTrace();
-            throw new IncorrectDataException();
         }
     }
 }

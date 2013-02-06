@@ -1,12 +1,7 @@
 package spring;
 
-import dao.CantorDao;
-import dao.GuestBookDao;
-import dao.StatisticDao;
-import dao.impl.CantorDaoImpl;
-import dao.impl.GuestBookDaoImpl;
-import dao.impl.Singleton;
-import dao.impl.StatisticDaoImpl;
+import dao.*;
+import dao.impl.*;
 import gui.*;
 import gui.guestBook.ClientPanel;
 import gui.guestBook.GuestBookPanel;
@@ -15,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import service.*;
 import service.cantor.CantorMoneyExchanger;
 import service.cantor.CantorTableCreator;
+import service.guessBook.GuestBook;
+import service.manager.Manager;
 import service.statictic.Statistic;
 import session.DataSource;
 import session.SimpleSession;
@@ -153,8 +150,13 @@ public class ApplicationConfiguration {
     }
 
     @Bean
+    public ManagerDao managerDao() {
+        return new ManagerDaoImpl(session());
+    }
+
+    @Bean
     public Manager manager() {
-        Manager manager = new Manager();
+        Manager manager = new Manager(managerDao());
         manager.setSingleton(singleton());
         return manager;
     }
@@ -162,6 +164,7 @@ public class ApplicationConfiguration {
     private ManagerPanel managerPanel() {
         ManagerPanel managerPanel = new ManagerPanel(manager(), calendar());
         managerPanel.setGuestBook(guestBook());
+        managerPanel.setUpdateService(updateService());
         return managerPanel;
     }
 
@@ -175,18 +178,32 @@ public class ApplicationConfiguration {
         return new GuestBook(guestBookDao());
     }
 
+    @Bean
+    public ServiceDao serviceDao() {
+        return new ServiceDaoImpl(session());
+    }
+
+    @Bean
+    public UpdateService updateService() {
+        return new UpdateService(serviceDao());
+    }
+
+
     private GuestBookPanel guestBookPanel() {
         GuestBook guestBook = guestBook();
-        GuestBookPanel guestBookPanel = new GuestBookPanel(customerPanel(guestBook), companyPanel(guestBook));
+        UpdateService updateService = updateService();
+        ClientPanel customerPanel = customerPanel(guestBook, updateService);
+        ClientPanel companyPanel = companyPanel(guestBook, updateService);
+        GuestBookPanel guestBookPanel = new GuestBookPanel(customerPanel, companyPanel);
         return guestBookPanel;
     }
 
-    private ClientPanel customerPanel(GuestBook guestBook) {
-        return new ClientPanel(guestBook, customerSpecification());
+    private ClientPanel customerPanel(GuestBook guestBook, UpdateService updateService) {
+        return new ClientPanel(guestBook, updateService, customerSpecification());
     }
 
-    private ClientPanel companyPanel(GuestBook guestBook) {
-        return new ClientPanel(guestBook, companySpecification());
+    private ClientPanel companyPanel(GuestBook guestBook, UpdateService updateService) {
+        return new ClientPanel(guestBook, updateService, companySpecification());
     }
 
     @Bean

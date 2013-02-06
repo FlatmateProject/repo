@@ -4,9 +4,9 @@ import common.tableBuilder.TableBuilder;
 import common.tableBuilder.TableResult;
 import dao.CantorDao;
 import dto.ColumnData;
-import dto.cantor.CompanyData;
-import dto.cantor.CurrencyData;
-import dto.cantor.CustomerData;
+import dto.CompanyData;
+import dto.CurrencyData;
+import dto.CustomerData;
 import exception.DAOException;
 
 import java.util.List;

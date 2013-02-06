@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface StatisticDao {
 
-    List<RoomTypeData> findRoomTypesStatistics(int month, int year) throws DAOException;
+    List<RoomTypeStatisticData> findRoomTypesStatistics(int month, int year) throws DAOException;
 
-    List<RoomData> findRoomsStatisticsByType(int month, int year, String classRoom) throws DAOException;
+    List<RoomStatisticData> findRoomsStatisticsByType(int month, int year, String classRoom) throws DAOException;
 
     List<ServiceTypeData> findServiceTypesStatistics(int month, int year) throws DAOException;
 

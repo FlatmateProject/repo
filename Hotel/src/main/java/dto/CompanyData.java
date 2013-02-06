@@ -1,4 +1,4 @@
-package dto.cantor;
+package dto;
 
 import common.tableBuilder.ArrayObtained;
 

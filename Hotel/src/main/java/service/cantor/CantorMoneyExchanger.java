@@ -1,7 +1,7 @@
 package service.cantor;
 
 import dao.CantorDao;
-import dto.cantor.CurrencyData;
+import dto.CurrencyData;
 import exception.CantorTransactionCanceledException;
 import exception.DAOException;
 

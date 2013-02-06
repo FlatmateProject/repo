@@ -2,10 +2,13 @@ package gui;
 
 import common.adapter.MouseListenerAdapter;
 import common.tableBuilder.TableResult;
-import dto.cantor.CustomerData;
+import exception.DAOException;
+import exception.IncorrectDataException;
 import org.apache.log4j.Logger;
-import service.GuestBook;
-import service.Manager;
+import service.UpdateService;
+import service.dictionary.TABLE;
+import service.guessBook.GuestBook;
+import service.manager.Manager;
 import validation.ValidationUtils;
 
 import javax.swing.*;
@@ -23,14 +26,22 @@ public class ManagerPanel extends JPanel {
     private final Calendar calendar;
 
     private JPanel dataPanel;
+
     private JButton actionButtons[];
+
     private JButton tableButtons[];
+
     private JList news;
+
     private JScrollPane scrollPanel = new JScrollPane();
+
     private JTable table;
-    private String manName = "klienci";
-    private JLabel manLabel[];
-    private JTextField manData[];
+
+    private TABLE tableName = TABLE.Customer;
+
+    private JLabel labels[];
+
+    private JTextField dataFields[];
 
     private final Color bgColor = new Color(224, 230, 233);
 
@@ -38,7 +49,19 @@ public class ManagerPanel extends JPanel {
 
     private final Color buttonColor = new Color(174, 205, 214);
 
+    private JButton addButton;
+
+    private JButton deleteButton;
+
+    private JButton updateButton;
+
+    private JButton searchButton;
+
+    private JButton cleanButton;
+
     private final Manager manager;
+
+    private UpdateService updateService;
 
     private GuestBook guestBook;
 
@@ -51,67 +74,74 @@ public class ManagerPanel extends JPanel {
 
     private void create() {
         setBackground(bgColor);
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(null);
 
 
         tableButtons = new JButton[5];
-        tableButtons[0] = createButton("Dodaj");
-        tableButtons[1] = createButton("Usuń");
-        tableButtons[2] = createButton("Edytuj");
-        tableButtons[3] = createButton("Szukaj");
-        tableButtons[4] = createButton("Wyczyść");
+        addButton = createButton("Dodaj", new Point(0, 10));
+        deleteButton = createButton("Usuń", new Point(100, 10));
+        updateButton = createButton("Edytuj", new Point(200, 10));
+        searchButton = createButton("Szukaj", new Point(300, 10));
+        cleanButton = createButton("Wyczyść", new Point(400, 10));
 
         actionButtons = new JButton[10];
-        actionButtons[0] = createButton("Klienci");
-        actionButtons[1] = createButton("Firmy");
-        actionButtons[2] = createButton("Usługi");
-        actionButtons[3] = createButton("Pokoje");
-        actionButtons[4] = createButton("Stanowiska");
-        actionButtons[5] = createButton("Waluty");
-        actionButtons[6] = createButton("Pracownicy");
-        actionButtons[7] = createButton("Klasy");
-        actionButtons[8] = createButton("Archiwum");
-        actionButtons[9] = createButton("Rachunki");
+        actionButtons[0] = createButton("Klienci", new Point(0, 40));
+        actionButtons[1] = createButton("Firmy", new Point(100, 40));
+        actionButtons[2] = createButton("Usługi", new Point(200, 40));
+        actionButtons[3] = createButton("Pokoje", new Point(300, 40));
+        actionButtons[4] = createButton("Stanowiska", new Point(400, 40));
+        actionButtons[5] = createButton("Waluty", new Point(500, 40));
+        actionButtons[6] = createButton("Pracownicy", new Point(600, 40));
+        actionButtons[7] = createButton("Klasy", new Point(700, 40));
+        actionButtons[8] = createButton("Archiwum", new Point(800, 40));
+        actionButtons[9] = createButton("Rachunki", new Point(900, 40));
 
-        news = new JList(createNews());
-        news.setBackground(bgColor);
-
-        table = manGenTable("klienci");
-        table.addMouseListener(tableMouseListener);
-        scrollPanel = new JScrollPane(table);
-        add(scrollPanel);
-
-        dataPanel = createDataPanel("klienci");
-        add(dataPanel);
-        add(news);
+//        news = new JList(createNews());
+//        news.setBackground(bgColor);
+//
+//        table = createReservationTable("klienci");
+//        table.addMouseListener(tableMouseListener);
+//        scrollPanel = new JScrollPane(table);
+//        add(scrollPanel);
+//
+//        dataPanel = createDataPanel("klienci");
+//        add(dataPanel);
+//        add(news);
     }
 
-    private JButton createButton(String buttonLabel) {
+    private JButton createButton(String buttonLabel, Point point) {
         JButton button = new JButton(buttonLabel);
+        button.setBounds(new Rectangle(point, new Dimension(100, 20)));
         button.setBackground(buttonColor);
         add(button);
         return button;
     }
 
     private String[] createNews() {
-        return new String[]{
-                "Ogólna ilość rezerwacji: " + manager.getCount("rezerwacje"),
-                "Ilość zarejestrowanych gości: " + manager.getCount("klienci"),
-                manager.getCount("pokoje") + " pokoi, z czego wolnych i  zajętych.",
-                "Ilość dostąpnych usług: " + manager.getCount("uslugi"),
-                "W tym miesiącu oczekujemy na " + manager.getCount("rezerwacje where month(data_z) = " + (calendar.get(Calendar.MONTH) + 1)) + ", a żegnamy " + manager.getCount("rezerwacje where month(data_w) = " + (calendar.get(Calendar.MONTH) + 1)) + " gości"};
+        try {
+            return new String[]{
+                    "Ogólna ilość rezerwacji: " + manager.getCount("rezerwacje"),
+                    "Ilość zarejestrowanych gości: " + manager.getCount("klienci"),
+                    manager.getCount("pokoje") + " pokoi, z czego wolnych i  zajętych.",
+                    "Ilość dostąpnych usług: " + manager.getCount("uslugi"),
+                    "W tym miesiącu oczekujemy na " + manager.getCount("rezerwacje where month(data_z) = " + (calendar.get(Calendar.MONTH) + 1)) + ", a żegnamy " + manager.getCount("rezerwacje where month(data_w) = " + (calendar.get(Calendar.MONTH) + 1)) + " gości"};
+        } catch (DAOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Something went wrong", "ATTENTION!", JOptionPane.ERROR_MESSAGE);
+            return new String[]{"ERROR"};
+        }
     }
 
 
     private void addEvents() {
-        tableButtons[0].addActionListener(new ActionListener() {
+        addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                String l[] = new String[manData.length];
-                String d[] = new String[manData.length];
-                for (int i = 0; i < manData.length; i++) {
-                    l[i] = manLabel[i].getText();
-                    d[i] = manData[i].getText();
+                String l[] = new String[dataFields.length];
+                String d[] = new String[dataFields.length];
+                for (int i = 0; i < dataFields.length; i++) {
+                    l[i] = labels[i].getText();
+                    d[i] = dataFields[i].getText();
                     if (!d[i].isEmpty()) {
                         if ((l[i].equals("IDK_PESEL") || l[i]
                                 .equals("IDP_PESEL"))
@@ -154,74 +184,95 @@ public class ManagerPanel extends JPanel {
                             break;
                         }
                     }
-                    if (i == manData.length - 1) {
-                        if (!manager.insertData(manName, l, d, manData.length)) {
+                    if (i == dataFields.length - 1) {
+                        if (!manager.insertData(tableName, l, d, dataFields.length)) {
                             JOptionPane.showMessageDialog(null, "B��dne ID lub taki klient ju� istnieje!", "UWAGA!", JOptionPane.ERROR_MESSAGE);
                             break;
                         }
-                        table = manGenTable(manName);
+                        table = createTable(tableName);
                         table.addMouseListener(tableMouseListener);
                         scrollPanel.setViewportView(table);
                     }
                 }
             }
         });
-        tableButtons[1].addActionListener(new ActionListener() {
+        deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                if (!manData[0].getText().isEmpty()) {
-                    String l = manLabel[0].getText();
-                    String d = manData[0].getText();
-                    if (!manager.deleteData(manName, l, d)) {
+                if (!dataFields[0].getText().isEmpty()) {
+                    String l = labels[0].getText();
+                    String d = dataFields[0].getText();
+                    if (!manager.deleteData(tableName, l, d)) {
                         JOptionPane.showMessageDialog(null, "Nie mo�na usun�� tego wiersza!", "UWAGA!", JOptionPane.ERROR_MESSAGE);
                     } else {
-                        table = manGenTable(manName);
+                        table = createTable(tableName);
                         table.addMouseListener(tableMouseListener);
                         scrollPanel.setViewportView(table);
                     }
                 }
             }
         });
-        tableButtons[2].addActionListener(new ActionListener() {
+        updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                String l[] = new String[manData.length];
-                String d[] = new String[manData.length];
-                for (int i = 0; i < manData.length; i++) {
-                    l[i] = manLabel[i].getText();
-                    d[i] = manData[i].getText();
+                try {
+                    String[] labels = getLabels();
+                    String[] data = getData();
+                    updateService.updateClientData(tableName, labels, data);
+                    table = createTable(tableName);
+                    table.addMouseListener(tableMouseListener);
+                    scrollPanel.setViewportView(table);
+                } catch (IncorrectDataException e) {
+                    JOptionPane.showMessageDialog(null, "Blad aktualizacji! Sprawdz dane!", "UWAGA!", JOptionPane.ERROR_MESSAGE);
+                    e.printStackTrace();
                 }
-                manager.updateData(manName, l, d, manData.length);
-                table = manGenTable(manName);
-                table.addMouseListener(tableMouseListener);
-                scrollPanel.setViewportView(table);
             }
+
+            private String[] getLabels() {
+                int length = labels.length;
+                String[] array = new String[length];
+                for (int i = 0; i < length; i++) {
+                    array[i] = labels[i].getText();
+                }
+                return array;
+            }
+
+            private String[] getData() {
+                int length = dataFields.length;
+                String array[] = new String[length];
+                for (int i = 0; i < length; i++) {
+                    array[i] = dataFields[i].getText();
+                }
+                return array;
+            }
+
         });
-        tableButtons[3].addActionListener(new ActionListener() {
+        searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 String s2 = "";
-                for (int i = 0; i < manData.length; i++) {
-                    if (!manData[i].getText().isEmpty()) {
+                for (int i = 0; i < dataFields.length; i++) {
+                    if (!dataFields[i].getText().isEmpty()) {
                         if (!s2.isEmpty()) {
                             s2 = s2 + " and ";
                         }
-                        s2 = s2 + manLabel[i].getText() + "=" + "\"" + manData[i].getText() + "\"";
+                        s2 = s2 + labels[i].getText() + "=" + "\"" + dataFields[i].getText() + "\"";
                     }
                 }
                 if (!s2.isEmpty()) {
-                    table = createTable(guestBook.createTable(manName, " where " + s2, CustomerData.class));
+                    table = createTable(guestBook.createTable(tableName, " where " + s2));
                     table.addMouseListener(tableMouseListener);
                     scrollPanel.setViewportView(table);
                 }
             }
         });
-        tableButtons[4].addActionListener(new ActionListener() {
+        cleanButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (JTextField aManData : manData) {
-                    aManData.setText("");
-                    table = createTable(guestBook.createTable(manName, "", CustomerData.class));
+                for (JTextField field : dataFields) {
+                    field.setText("");
+                    TableResult tableResult = guestBook.createTable(tableName, "");
+                    table = createTable(tableResult);
                     table.addMouseListener(tableMouseListener);
                     scrollPanel.setViewportView(table);
                 }
@@ -231,97 +282,87 @@ public class ManagerPanel extends JPanel {
         actionButtons[0].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                manName = "klienci";
-                manAction(manName);
+                tableName = TABLE.Customer;
+                manAction(tableName);
             }
         });
         actionButtons[1].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                manName = "firmy";
-                manAction(manName);
+                tableName = TABLE.Company;
+                manAction(tableName);
             }
         });
         actionButtons[2].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                manName = "uslugi";
-                manAction(manName);
+                tableName = TABLE.Service;
+                manAction(tableName);
             }
         });
         actionButtons[3].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                manName = "pokoje";
-                manAction(manName);
+                tableName = TABLE.Room;
+                manAction(tableName);
             }
         });
         actionButtons[4].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                manName = "stanowiska";
-                manAction(manName);
+                tableName = TABLE.Occupation;
+                manAction(tableName);
             }
         });
         actionButtons[5].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                manName = "waluty";
-                manAction(manName);
+                tableName = TABLE.Currency;
+                manAction(tableName);
             }
         });
         actionButtons[6].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                manName = "pracownicy";
-                manAction(manName);
+                tableName = TABLE.Employee;
+                manAction(tableName);
             }
         });
         actionButtons[7].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                manName = "klasy";
-                manAction(manName);
+                tableName = TABLE.RoomType;
+                manAction(tableName);
             }
         });
         actionButtons[8].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                manName = "archiwum";
-                manAction(manName);
+                tableName = TABLE.Archive;
+                manAction(tableName);
             }
         });
         actionButtons[9].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                manName = "rachunki";
-                manAction(manName);
+                tableName = TABLE.Bill;
+                manAction(tableName);
             }
         });
     }
 
-    private JTable manGenTable(String name) {
-        String manData[][] = manager.createTable(name);
-        String columnNames[] = new String[manData[0].length];
-        Object rowData[][] = new Object[manData.length - 1][manData[0].length];
-
-        for (int i = 0; i < manData.length; i++) {
-            for (int j = 0; j < manData[i].length; j++) {
-                if (i == 0) {
-                    columnNames[j] = manData[i][j];
-                } else {
-                    rowData[i - 1][j] = manData[i][j];
-                }
-            }
-        }
-        return new JTable(rowData, columnNames);
+    private JTable createTable(TABLE tableName) {
+        TableResult result = manager.createTable(tableName);
+        JTable table = new JTable(result.getRowsData(), result.getColumnNames());
+        table.setFillsViewportHeight(true);
+        return table;
     }
 
-    private JPanel createDataPanel(String name) {
-        String cols[] = manager.getColumns(name);
+    private JPanel createDataPanel(TABLE name) {
+        String cols[] = getColumns(name);
         int colCount = (cols != null ? cols.length : 0);
-        manLabel = new JLabel[colCount];
-        manData = new JTextField[colCount];
+        labels = new JLabel[colCount];
+        dataFields = new JTextField[colCount];
 
         JPanel manDataPan = new JPanel();
         manDataPan.setLayout(null);
@@ -333,26 +374,35 @@ public class ManagerPanel extends JPanel {
             return manDataPan;
         }
         for (int i = 0; i < cols.length; i++) {
-            manLabel[i] = new JLabel(cols[i]);
+            labels[i] = new JLabel(cols[i]);
             if (i == 0)
                 manY = 20;
             else
                 manY = 20 * (i + 1);
-            manLabel[i].setBounds(manX, manY, 150, 20);
+            labels[i].setBounds(manX, manY, 150, 20);
 
-            manData[i] = new JTextField();
-            manData[i].setBounds(manLabel[i].getX() + 150, manLabel[i].getY(),
+            dataFields[i] = new JTextField();
+            dataFields[i].setBounds(labels[i].getX() + 150, labels[i].getY(),
                     150, 19);
-            // manData[i].setBorder(border);
+            // dataFields[i].setBorder(border);
 
-            manDataPan.add(manLabel[i]);
-            manDataPan.add(manData[i]);
+            manDataPan.add(labels[i]);
+            manDataPan.add(dataFields[i]);
         }
         return manDataPan;
     }
 
-    private void manAction(String manName) {
-        table = manGenTable(manName);
+    private String[] getColumns(TABLE name) {
+        try {
+            return manager.getColumns(name);
+        } catch (DAOException e) {
+            JOptionPane.showMessageDialog(null, "Co� zepsu�e�!", "UWAGA!", JOptionPane.ERROR_MESSAGE);
+        }
+        return null;
+    }
+
+    private void manAction(TABLE manName) {
+        table = createTable(manName);
         table.addMouseListener(tableMouseListener);
         scrollPanel.setViewportView(table);
         remove(dataPanel);
@@ -365,48 +415,16 @@ public class ManagerPanel extends JPanel {
         return new MouseListenerAdapter() {
             @Override
             public void mouseClicked(MouseEvent arg0) {
-                for (int i = 0; i < manData.length; i++) {
-                    manData[i].setText((String) table.getValueAt(table.getSelectedRow(), i));
+                for (int i = 0; i < dataFields.length; i++) {
+                    dataFields[i].setText((String) table.getValueAt(table.getSelectedRow(), i));
                 }
             }
         };
     }
 
-    public void resizeManager(int width, int height) {
-        scrollPanel.setBounds(20, 300, width - 50, height - 470);
-
-        tableButtons[0].setBounds(scrollPanel.getX(),
-                scrollPanel.getY() - 35, 150, 25);
-        for (int i = 1; i < tableButtons.length; i++) {
-            tableButtons[i].setBounds(tableButtons[i - 1].getX() + 160,
-                    scrollPanel.getY() - 35, 150, 25);
-        }
-        tableButtons[1].setBounds(tableButtons[0].getX() + 160,
-                scrollPanel.getY() - 35, 150, 25);
-        tableButtons[2].setBounds(tableButtons[1].getX() + 160,
-                scrollPanel.getY() - 35, 150, 25);
-        tableButtons[3].setBounds(tableButtons[2].getX() + 160,
-                scrollPanel.getY() - 35, 150, 25);
-
-        int tmp, manX = tableButtons[2].getX(), manY = 20;
-        tmp = manX;
-        actionButtons[0].setBounds(manX, manY, 150, 30);
-        for (int i = 1; i < actionButtons.length; i++) {
-            manX += 160;
-            if (i % 2 == 0) {
-                manX = tmp;
-                manY += 31;
-            }
-            actionButtons[i].setBounds(manX, manY, 150, 30);
-        }
-
-        news.setBounds(20, scrollPanel.getY() + scrollPanel.getHeight()
-                + 10, width - 50, 100);
-    }
 
     @Override
     public void setSize(int width, int height) {
-        resizeManager(width, height);
         super.setSize(width, height);
     }
 
@@ -418,5 +436,9 @@ public class ManagerPanel extends JPanel {
 
     public void setGuestBook(GuestBook guestBook) {
         this.guestBook = guestBook;
+    }
+
+    public void setUpdateService(UpdateService updateService) {
+        this.updateService = updateService;
     }
 }

@@ -1,6 +1,6 @@
 package gui.guestBook;
 
-import dto.cantor.CustomerData;
+import service.dictionary.TABLE;
 
 import java.awt.*;
 
@@ -16,8 +16,8 @@ public class CustomerSpecification implements Specification {
     }
 
     @Override
-    public String getTable() {
-        return "klienci";
+    public TABLE getTable() {
+        return TABLE.Customer;
     }
 
     @Override
@@ -28,11 +28,6 @@ public class CustomerSpecification implements Specification {
     @Override
     public Rectangle getServiceTableBounds() {
         return new Rectangle(0, 480, 1200, 150);
-    }
-
-    @Override
-    public Class<CustomerData> getClientDtoClass() {
-        return CustomerData.class;
     }
 
     @Override

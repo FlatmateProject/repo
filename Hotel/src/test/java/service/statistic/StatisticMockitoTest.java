@@ -61,7 +61,7 @@ public class StatisticMockitoTest {
     public void shouldCreateEmptyRoomTypesReport() throws DAOException {
         // given
         REPORT_KIND reportKind = REPORT_KIND.HOTEL_ROOM_TYPES;
-        List<RoomTypeData> inputData = Collections.emptyList();
+        List<RoomTypeStatisticData> inputData = Collections.emptyList();
 
         when(statisticDao.findRoomTypesStatistics(month.id(), year)).thenReturn(inputData);
 
@@ -92,12 +92,12 @@ public class StatisticMockitoTest {
         float unitGain = summaryGain / numberOccupiedRooms;
         int expectedNumberOfBars = 2;
 
-        RoomTypeData row = mock(RoomTypeData.class);
+        RoomTypeStatisticData row = mock(RoomTypeStatisticData.class);
         when(row.getRoomTypeName()).thenReturn(roomType);
         when(row.getNumberOccupiedRooms()).thenReturn(numberOccupiedRooms);
         when(row.getSummaryGain()).thenReturn(summaryGain);
 
-        List<RoomTypeData> inputData = Arrays.asList(row);
+        List<RoomTypeStatisticData> inputData = Arrays.asList(row);
 
         when(statisticDao.findRoomTypesStatistics(month.id(), year)).thenReturn(inputData);
 
@@ -134,7 +134,7 @@ public class StatisticMockitoTest {
         // given
         REPORT_KIND reportKind = REPORT_KIND.HOTEL_ROOMS;
         String roomType = "jednoosobowy";
-        List<RoomData> inputData = Collections.emptyList();
+        List<RoomStatisticData> inputData = Collections.emptyList();
 
         when(statisticDao.findRoomsStatisticsByType(month.id(), year, roomType)).thenReturn(inputData);
 
@@ -168,12 +168,12 @@ public class StatisticMockitoTest {
         int expectedNumberOfBars = 2;
         long roomId = 1;
 
-        RoomData row = mock(RoomData.class);
+        RoomStatisticData row = mock(RoomStatisticData.class);
         when(row.getRoomId()).thenReturn(roomId);
         when(row.getOccupationNumber()).thenReturn(occupationNumber);
         when(row.getSummaryGain()).thenReturn(summaryGain);
 
-        List<RoomData> inputData = Arrays.asList(row);
+        List<RoomStatisticData> inputData = Arrays.asList(row);
 
         when(statisticDao.findRoomsStatisticsByType(month.id(), year, roomType)).thenReturn(inputData);
 
