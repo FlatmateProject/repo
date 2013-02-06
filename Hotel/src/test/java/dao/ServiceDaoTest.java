@@ -22,7 +22,7 @@ public class ServiceDaoTest extends AbstractTestNGSpringContextTests {
         String[] data = new String[]{"87122206592", "", "Małopolsie"};
 
         // when
-        serviceDao.updateClientData(table, labels, data);
+        serviceDao.updateData(table, labels, data);
 
         // then
     }

@@ -5,6 +5,8 @@ import common.tableBuilder.TableResult;
 import exception.DAOException;
 import exception.IncorrectDataException;
 import org.apache.log4j.Logger;
+import service.AddService;
+import service.DeleteService;
 import service.UpdateService;
 import service.dictionary.TABLE;
 import service.guessBook.GuestBook;
@@ -61,9 +63,14 @@ public class ManagerPanel extends JPanel {
 
     private final Manager manager;
 
+    private GuestBook guestBook;
+
+    private AddService addService;
+
     private UpdateService updateService;
 
-    private GuestBook guestBook;
+    private DeleteService deleteService;
+
 
     public ManagerPanel(Manager manager, Calendar calendar) {
         this.calendar = calendar;
@@ -185,7 +192,7 @@ public class ManagerPanel extends JPanel {
                         }
                     }
                     if (i == dataFields.length - 1) {
-                        if (!manager.insertData(tableName, l, d, dataFields.length)) {
+                        if (!addService.insertData(tableName, l, d)) {
                             JOptionPane.showMessageDialog(null, "B��dne ID lub taki klient ju� istnieje!", "UWAGA!", JOptionPane.ERROR_MESSAGE);
                             break;
                         }
@@ -202,7 +209,7 @@ public class ManagerPanel extends JPanel {
                 if (!dataFields[0].getText().isEmpty()) {
                     String l = labels[0].getText();
                     String d = dataFields[0].getText();
-                    if (!manager.deleteData(tableName, l, d)) {
+                    if (!deleteService.deleteData(tableName, l, d)) {
                         JOptionPane.showMessageDialog(null, "Nie mo�na usun�� tego wiersza!", "UWAGA!", JOptionPane.ERROR_MESSAGE);
                     } else {
                         table = createTable(tableName);
@@ -438,7 +445,15 @@ public class ManagerPanel extends JPanel {
         this.guestBook = guestBook;
     }
 
+    public void setAddService(AddService addService) {
+        this.addService = addService;
+    }
+
     public void setUpdateService(UpdateService updateService) {
         this.updateService = updateService;
+    }
+
+    public void setDeleteService(DeleteService deleteService) {
+        this.deleteService = deleteService;
     }
 }

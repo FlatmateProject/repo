@@ -16,7 +16,7 @@ public class UpdateService {
 
     public void updateClientData(TABLE table, String labels[], String data[]) throws IncorrectDataException {
         try {
-            serviceDao.updateClientData(table, labels, data);
+            serviceDao.updateData(table, labels, data);
         } catch (DAOException e) {
             e.printStackTrace();
             throw new IncorrectDataException();

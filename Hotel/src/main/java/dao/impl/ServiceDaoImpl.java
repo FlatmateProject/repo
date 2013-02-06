@@ -14,7 +14,7 @@ public class ServiceDaoImpl implements ServiceDao {
     }
 
     @Override
-    public void updateClientData(TABLE table, String[] labels, String[] data) throws DAOException {
+    public void updateData(TABLE table, String[] labels, String[] data) throws DAOException {
         int count = 0;
         String query = "update hotel." + table + " set ";
         for (int i = 1; i < data.length; i++) {
@@ -28,5 +28,40 @@ public class ServiceDaoImpl implements ServiceDao {
         }
         query += " where " + labels[0] + " = \"" + data[0] + "\"";
         session.update(query);
+    }
+
+    @Override
+    public boolean insertData(TABLE table, String[] labels, String[] data) throws DAOException {
+        String query = "insert into hotel." + table + "(";
+        int length = data.length;
+        for (int i = 0; i < length; i++) {
+            if (i == 0 && data[i].isEmpty()) {
+                return false;
+            } else if (!data[i].isEmpty()) {
+                if (i != 0)
+                    query += ", ";
+                query += labels[i];
+            }
+        }
+        query += ") values(";
+        for (int i = 0; i < length; i++) {
+            if (i == 0 && data[i].isEmpty()) {
+                return false;
+            } else if (!data[i].isEmpty()) {
+                if (i != 0)
+                    query += ", ";
+                query += "\"" + data[i] + "\"";
+            }
+        }
+        query += ");";
+        session.update(query);
+        return true;
+    }
+
+    @Override
+    public boolean deleteData(TABLE table, String label, String data) throws DAOException {
+        String query = "delete from hotel." + table + " where " + label + " = " + data;
+        session.update(query);
+        return true;
     }
 }

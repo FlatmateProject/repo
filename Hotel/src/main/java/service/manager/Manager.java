@@ -49,37 +49,6 @@ public class Manager {
         return managerDao.getCountForTable(tableName);
     }
 
-    public Boolean deleteData(TABLE table, String l, String d) {
-        String q = "delete from hotel." + table + " where " + l + " = " + d;
-        return singleton.update(q);
-    }
-
-    public Boolean insertData(TABLE table, String l[], String d[], int size) {
-        String q = "insert into hotel." + table + "(";
-        for (int i = 0; i < size; i++) {
-            if (i == 0 && d[i].isEmpty()) {
-                return false;
-            } else if (!d[i].isEmpty()) {
-                if (i != 0)
-                    q += ", ";
-                q += l[i];
-            }
-        }
-        q += ") values(";
-        for (int i = 0; i < size; i++) {
-            if (i == 0 && d[i].isEmpty()) {
-                return false;
-            } else if (!d[i].isEmpty()) {
-                if (i != 0)
-                    q += ", ";
-                q += "\"" + d[i] + "\"";
-            }
-        }
-        q += ");";
-        log.info(q);
-        return singleton.update(q);
-    }
-
     public Boolean checkTable(String table, String l, String d) {
         String q = "select count(*) from " + table + " where " + l + " = " + d;
         rset1 = singleton.query(q);

@@ -64,6 +64,26 @@ public class ApplicationConfiguration {
     }
 
     @Bean
+    public ServiceDao serviceDao() {
+        return new ServiceDaoImpl(session());
+    }
+
+    @Bean
+    public AddService addService() {
+        return new AddService(serviceDao());
+    }
+
+    @Bean
+    public UpdateService updateService() {
+        return new UpdateService(serviceDao());
+    }
+
+    @Bean
+    public DeleteService deleteService() {
+        return new DeleteService(serviceDao());
+    }
+
+    @Bean
     public StatisticDao statisticDao() {
         return new StatisticDaoImpl(session());
     }
@@ -164,7 +184,9 @@ public class ApplicationConfiguration {
     private ManagerPanel managerPanel() {
         ManagerPanel managerPanel = new ManagerPanel(manager(), calendar());
         managerPanel.setGuestBook(guestBook());
+        managerPanel.setAddService(addService());
         managerPanel.setUpdateService(updateService());
+        managerPanel.setDeleteService(deleteService());
         return managerPanel;
     }
 
@@ -177,17 +199,6 @@ public class ApplicationConfiguration {
     public GuestBook guestBook() {
         return new GuestBook(guestBookDao());
     }
-
-    @Bean
-    public ServiceDao serviceDao() {
-        return new ServiceDaoImpl(session());
-    }
-
-    @Bean
-    public UpdateService updateService() {
-        return new UpdateService(serviceDao());
-    }
-
 
     private GuestBookPanel guestBookPanel() {
         GuestBook guestBook = guestBook();
