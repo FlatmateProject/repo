@@ -17,27 +17,27 @@ public enum MONTH {
 
     private final String desc;
 
-    private final int dayOfMonth;
+    private final int numberOfDayInMonth;
 
-    private MONTH(String desc, int dayOfMonth) {
+    private MONTH(String desc, int numberOfDayInMonth) {
         this.desc = desc;
-        this.dayOfMonth = dayOfMonth;
+        this.numberOfDayInMonth = numberOfDayInMonth;
     }
 
     public String getDesc() {
         return desc;
     }
 
-    public int getDayOfMonth() {
-        return dayOfMonth;
+    public int getNumberOfDayInMonth() {
+        return numberOfDayInMonth;
     }
 
-    public int id() {
+    public int numberCountedFormOne() {
         return ordinal() + 1;
     }
 
     public boolean after(MONTH month) {
-        return id() > month.id();
+        return numberCountedFormOne() > month.numberCountedFormOne();
     }
 
     public static MONTH getMonth(int indexCountedFromZero) {
@@ -50,7 +50,7 @@ public enum MONTH {
     }
 
     public static int getDayOfMonth(int i) {
-        return getMonth(i).dayOfMonth;
+        return getMonth(i).numberOfDayInMonth;
     }
 
 

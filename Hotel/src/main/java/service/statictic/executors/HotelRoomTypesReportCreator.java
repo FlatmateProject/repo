@@ -27,7 +27,7 @@ public class HotelRoomTypesReportCreator extends ReportCreator {
     public StatisticReport createReport(ReportTemplateBuilder templateBuilder) throws DAOException {
         int i = 0;
         List<DiagramElement> diagramElements = new LinkedList<DiagramElement>();
-        List<RoomTypeStatisticData> roomTypes = statisticDao.findRoomTypesStatistics(month.id(), year);//
+        List<RoomTypeStatisticData> roomTypes = statisticDao.findRoomTypesStatistics(month.numberCountedFormOne(), year);//
         templateBuilder.createHeader(month, year);
         for (RoomTypeStatisticData roomType : roomTypes) {
             int numberOccupiedRooms = roomType.getNumberOccupiedRooms();

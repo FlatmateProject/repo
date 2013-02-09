@@ -34,7 +34,7 @@ public class FinanceMonthReportCreator extends ReportCreator {
     public StatisticReport createReport(ReportTemplateBuilder templateBuilder) throws DAOException {
         int i = 0;
         List<DiagramElement> plotPoints = new LinkedList<DiagramElement>();
-        List<MonthSummaryGainData> monthSummaryGains = statisticDao.findMonthSummaryGains(monthFrom.id(), monthTo.id(), year);
+        List<MonthSummaryGainData> monthSummaryGains = statisticDao.findMonthSummaryGains(monthFrom.numberCountedFormOne(), monthTo.numberCountedFormOne(), year);
         templateBuilder.createHeader(monthFrom, monthTo, year);
         for (MonthSummaryGainData financeMonthReportData : monthSummaryGains) {
             int month = financeMonthReportData.getMonth();

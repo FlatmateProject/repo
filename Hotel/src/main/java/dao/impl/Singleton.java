@@ -30,22 +30,22 @@ public class Singleton {
         }
     }
 
-    public ResultSet query(String sql) {
+    public ResultSet query(String query) {
         try {
-            log.info(sql);
+            log.info(query);
             Statement statement = connection.createStatement();
-            return statement.executeQuery(sql);
+            return statement.executeQuery(query);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public Boolean update(String sql) {
+    public Boolean update(String query) {
         try {
-            log.info(sql);
+            log.info(query);
             Statement statement = connection.createStatement();
-            statement.executeUpdate(sql);
+            statement.executeUpdate(query);
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

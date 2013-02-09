@@ -4,7 +4,7 @@ import common.tableBuilder.ArrayObtained;
 
 public class EmployeeData implements ArrayObtained {
 
-    private long idPesel;
+    private long pesel;
 
     private String name;
 
@@ -30,6 +30,54 @@ public class EmployeeData implements ArrayObtained {
 
     @Override
     public Object[] getArray() {
-        return new Object[]{idPesel, name, family, password, county, city, street, block, flat, phone, nip, idOccupation};
+        return new Object[]{pesel, name, family, password, county, city, street, block, flat, phone, nip, idOccupation};
+    }
+
+    public long getPesel() {
+        return pesel;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getFamily() {
+        return family;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getCounty() {
+        return county;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public String getBlock() {
+        return block;
+    }
+
+    public long getFlat() {
+        return flat;
+    }
+
+    public long getPhone() {
+        return phone;
+    }
+
+    public long getNip() {
+        return nip;
+    }
+
+    public long getIdOccupation() {
+        return idOccupation;
     }
 }

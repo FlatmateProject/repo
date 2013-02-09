@@ -217,8 +217,13 @@ public class ApplicationConfiguration {
     }
 
     @Bean
+    public EmployeeManagerDao employeeManagerDao() {
+        return new EmployeeManagerDaoImpl(session());
+    }
+
+    @Bean
     public EmployeeManager employeeManager() {
-        EmployeeManager employeeManager = new EmployeeManager();
+        EmployeeManager employeeManager = new EmployeeManager(employeeManagerDao());
         employeeManager.setSingleton(singleton());
         employeeManager.setCalendar(calendar());
         return employeeManager;

@@ -1,9 +1,9 @@
 package gui;
 
 import dao.impl.Singleton;
+import dictionary.MONTH;
 import org.apache.log4j.Logger;
 import service.EmployeeManager;
-import service.dictionary.MONTH;
 import validation.ValidationUtils;
 
 import javax.swing.*;
@@ -62,7 +62,9 @@ public class EmployeeManagerPanel extends JPanel {
 
     private int mgpDay;
 
-    private int mgpMonth;
+    private int monthCountedFormZero;
+
+    private MONTH month;
 
     private int mgpYear;
 
@@ -77,7 +79,8 @@ public class EmployeeManagerPanel extends JPanel {
         this.db = db;
         this.calendar = calendar;
         mgpDay = calendar.get(Calendar.DAY_OF_MONTH);
-        mgpMonth = calendar.get(Calendar.MONTH);
+        monthCountedFormZero = calendar.get(Calendar.MONTH);
+        month = MONTH.getMonth(monthCountedFormZero);
         mgpYear = calendar.get(Calendar.YEAR);
         try {
             create();
@@ -313,8 +316,8 @@ public class EmployeeManagerPanel extends JPanel {
                 if ((i = mgpChooseType.getSelectedIndex()) == 0) {
                     if (++mgpClickCount == 2) {
                         mgpClickCount = 0;
-                        ret = employeeManager.createSchedule(mgpMonth + 1);
-                        log.info((mgpMonth + 1));
+                        ret = employeeManager.createSchedule(MONTH.getMonth(monthCountedFormZero));
+                        log.info((monthCountedFormZero + 1));
                         if (ret)
                             JOptionPane.showMessageDialog(getParent(),
                                     "Stworzono grafik");
@@ -326,7 +329,7 @@ public class EmployeeManagerPanel extends JPanel {
                 } else if (i == 1) {
                     if (++mgpClickCount == 2) {
                         mgpClickCount = 0;
-                        ret = employeeManager.delSchedule(mgpMonth + 1);
+                        ret = employeeManager.delSchedule(monthCountedFormZero + 1);
                         if (ret)
                             JOptionPane.showMessageDialog(getParent(),
                                     "Usunieto grafik");
@@ -353,24 +356,24 @@ public class EmployeeManagerPanel extends JPanel {
                     log.info("dzien: " + tmp.getText());
                     mgpDay = Integer.valueOf(tmp.getText());
                     mgpSchedText.setListData(employeeManager.getDaySchedule(mgpYear + "/"
-                            + (mgpMonth + 1) + "/" + mgpDay));
+                            + (monthCountedFormZero + 1) + "/" + mgpDay));
                     mgpChooseEmployee.setVisible(false);
                 }
             });
         mgpNext.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                if (++mgpMonth > 11) {
+                if (++monthCountedFormZero > 11) {
                     mgpYear++;
-                    mgpMonth = 0;
+                    monthCountedFormZero = 0;
                 }
                 resizePersonelMenager(getWidth(), getHeight());
             }
         });
         mgpPrev.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                if (--mgpMonth < 0) {
+                if (--monthCountedFormZero < 0) {
                     mgpYear--;
-                    mgpMonth = 11;
+                    monthCountedFormZero = 11;
                 }
                 resizePersonelMenager(getWidth(), getHeight());
             }
@@ -439,7 +442,7 @@ public class EmployeeManagerPanel extends JPanel {
                         mgpSchedText.setListData(employeeManager.updateSchedule(
                                 mgpSchedText.getSelectedIndex(),
                                 z.substring(0, ind), mgpYear + "/"
-                                + (mgpMonth + 1) + "/" + mgpDay,
+                                + (monthCountedFormZero + 1) + "/" + mgpDay,
                                 z.substring(ind + 1, z.length()),
                                 s.substring(1, s.indexOf(" "))));
 
@@ -539,15 +542,15 @@ public class EmployeeManagerPanel extends JPanel {
             y = calendar.get(Calendar.YEAR);
             m = calendar.get(Calendar.MONTH);
             calendar.set(Calendar.YEAR, mgpYear);
-            calendar.set(Calendar.MONTH, mgpMonth);
+            calendar.set(Calendar.MONTH, monthCountedFormZero);
             calendar.set(Calendar.DAY_OF_MONTH, mgpDay);
             dX = ww / 2 - 182;
             dayTmp = calendar.get(Calendar.DAY_OF_MONTH);
             calendar.set(Calendar.DAY_OF_MONTH, 0);
             tmp = calendar.get(Calendar.DAY_OF_WEEK) - 1;
             dX += tmp * 51;
-            dayNum = dayInMonth[mgpMonth];
-            if (mgpMonth == 1 && mgpYear % 4 == 0)
+            dayNum = dayInMonth[monthCountedFormZero];
+            if (monthCountedFormZero == 1 && mgpYear % 4 == 0)
                 dayNum++;
             for (i = 0, k = 51; i < 31; i++, dX += k, tmp++) {
                 if (i != 0 && tmp % 7 == 0) {
@@ -565,7 +568,7 @@ public class EmployeeManagerPanel extends JPanel {
             k = mgpDays[0].getY() - 18;
             for (i = 0; i < mgpDayLabel.length; i++, dX += 51)
                 mgpDayLabel[i].setBounds(dX + 10, k, 50, 18);
-            mgpCalMonthLabel.setText(MONTH.getMonthName(mgpMonth) + " " + mgpYear);// <----
+            mgpCalMonthLabel.setText(MONTH.getMonthName(monthCountedFormZero) + " " + mgpYear);// <----
             mgpCalMonthLabel.setHorizontalAlignment(SwingConstants.CENTER);
             mgpCalMonthLabel.setBounds((ww - 100) / 2,
                     mgpDayLabel[0].getY() - 30, 100, 20);

@@ -63,7 +63,7 @@ public class StatisticMockitoTest {
         REPORT_KIND reportKind = REPORT_KIND.HOTEL_ROOM_TYPES;
         List<RoomTypeStatisticData> inputData = Collections.emptyList();
 
-        when(statisticDao.findRoomTypesStatistics(month.id(), year)).thenReturn(inputData);
+        when(statisticDao.findRoomTypesStatistics(month.numberCountedFormOne(), year)).thenReturn(inputData);
 
         // when
         StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
@@ -99,7 +99,7 @@ public class StatisticMockitoTest {
 
         List<RoomTypeStatisticData> inputData = Arrays.asList(row);
 
-        when(statisticDao.findRoomTypesStatistics(month.id(), year)).thenReturn(inputData);
+        when(statisticDao.findRoomTypesStatistics(month.numberCountedFormOne(), year)).thenReturn(inputData);
 
         // when
         StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
@@ -136,7 +136,7 @@ public class StatisticMockitoTest {
         String roomType = "jednoosobowy";
         List<RoomStatisticData> inputData = Collections.emptyList();
 
-        when(statisticDao.findRoomsStatisticsByType(month.id(), year, roomType)).thenReturn(inputData);
+        when(statisticDao.findRoomsStatisticsByType(month.numberCountedFormOne(), year, roomType)).thenReturn(inputData);
 
         // when
         StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
@@ -175,7 +175,7 @@ public class StatisticMockitoTest {
 
         List<RoomStatisticData> inputData = Arrays.asList(row);
 
-        when(statisticDao.findRoomsStatisticsByType(month.id(), year, roomType)).thenReturn(inputData);
+        when(statisticDao.findRoomsStatisticsByType(month.numberCountedFormOne(), year, roomType)).thenReturn(inputData);
 
         // when
         StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
@@ -211,7 +211,7 @@ public class StatisticMockitoTest {
         REPORT_KIND reportKind = REPORT_KIND.HOTEL_SERVICE_TYPES;
         List<ServiceTypeData> inputData = Collections.emptyList();
 
-        when(statisticDao.findServiceTypesStatistics(month.id(), year)).thenReturn(inputData);
+        when(statisticDao.findServiceTypesStatistics(month.numberCountedFormOne(), year)).thenReturn(inputData);
 
         // when
         StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
@@ -248,7 +248,7 @@ public class StatisticMockitoTest {
 
         List<ServiceTypeData> inputData = Arrays.asList(row);
 
-        when(statisticDao.findServiceTypesStatistics(month.id(), year)).thenReturn(inputData);
+        when(statisticDao.findServiceTypesStatistics(month.numberCountedFormOne(), year)).thenReturn(inputData);
         when(statisticDao.countUseNumberForServiceType(serviceTypeName)).thenReturn(useNumber);
 
         // when
@@ -287,7 +287,7 @@ public class StatisticMockitoTest {
         String serviceTypeName = "wynajem";
         List<ServiceStatisticData> inputData = Collections.emptyList();
 
-        when(statisticDao.findServiceStatisticsByType(month.id(), year, serviceTypeName)).thenReturn(inputData);
+        when(statisticDao.findServiceStatisticsByType(month.numberCountedFormOne(), year, serviceTypeName)).thenReturn(inputData);
 
         // when
         StatisticReport report = statistic.hotel(reportKind, month, year, roomType, serviceTypeName);
@@ -327,7 +327,7 @@ public class StatisticMockitoTest {
 
         List<ServiceStatisticData> inputData = Arrays.asList(row);
 
-        when(statisticDao.findServiceStatisticsByType(month.id(), year, serviceTypeName)).thenReturn(inputData);
+        when(statisticDao.findServiceStatisticsByType(month.numberCountedFormOne(), year, serviceTypeName)).thenReturn(inputData);
         when(statisticDao.countUseNumberForServiceName(serviceName)).thenReturn(useNumber);
 
         // when
@@ -367,7 +367,7 @@ public class StatisticMockitoTest {
 
         List<MonthSummaryGainData> inputData = Collections.emptyList();
 
-        when(statisticDao.findMonthSummaryGains(monthFrom.id(), monthTo.id(), year)).thenReturn(inputData);
+        when(statisticDao.findMonthSummaryGains(monthFrom.numberCountedFormOne(), monthTo.numberCountedFormOne(), year)).thenReturn(inputData);
 
         // when
         StatisticReport report = statistic.finance(reportKind, monthFrom, monthTo, year, yearTo);
@@ -409,14 +409,14 @@ public class StatisticMockitoTest {
         double summaryGain = reservationSummaryGain + serviceSummaryGain + cantorSummaryGain;
 
         MonthSummaryGainData row = mock(MonthSummaryGainData.class);
-        when(row.getMonth()).thenReturn(monthTo.id());
+        when(row.getMonth()).thenReturn(monthTo.numberCountedFormOne());
         when(row.getReservationSummaryGain()).thenReturn(reservationSummaryGain);
         when(row.getServiceSummaryGain()).thenReturn(serviceSummaryGain);
         when(row.getCantorSummaryGain()).thenReturn(cantorSummaryGain);
 
         List<MonthSummaryGainData> inputData = Arrays.asList(row);
 
-        when(statisticDao.findMonthSummaryGains(monthTo.id(), monthFrom.id(), year)).thenReturn(inputData);
+        when(statisticDao.findMonthSummaryGains(monthTo.numberCountedFormOne(), monthFrom.numberCountedFormOne(), year)).thenReturn(inputData);
 
         // when
         StatisticReport report = statistic.finance(reportKind, monthFrom, monthTo, year, yearTo);

@@ -28,7 +28,7 @@ public class HotelServiceTypesReportCreator extends ReportCreator {
         int i = 0;
         List<DiagramElement> diagramElements = new LinkedList<DiagramElement>();
 
-        List<ServiceTypeData> serviceTypes = statisticDao.findServiceTypesStatistics(month.id(), year);
+        List<ServiceTypeData> serviceTypes = statisticDao.findServiceTypesStatistics(month.numberCountedFormOne(), year);
         templateBuilder.createHeader(month, year);
         for (ServiceTypeData serviceType : serviceTypes) {
             String typeName = serviceType.getTypeName();
