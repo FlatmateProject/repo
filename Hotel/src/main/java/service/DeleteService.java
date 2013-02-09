@@ -3,6 +3,7 @@ package service;
 
 import dao.ServiceDao;
 import exception.DAOException;
+import exception.IncorrectDataException;
 import service.dictionary.TABLE;
 
 public class DeleteService {
@@ -13,12 +14,12 @@ public class DeleteService {
         this.serviceDao = serviceDao;
     }
 
-    public Boolean deleteData(TABLE table, String labels, String data) {
+    public void deleteData(TABLE table, String primaryKey, long id) throws IncorrectDataException {
         try {
-            return serviceDao.deleteData(table, labels, data);
+            serviceDao.deleteData(table, primaryKey, id);
         } catch (DAOException e) {
             e.printStackTrace();
-            return true;
+            throw new IncorrectDataException();
         }
     }
 }

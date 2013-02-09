@@ -14,19 +14,8 @@ public class ServiceDaoImpl implements ServiceDao {
     }
 
     @Override
-    public void updateData(TABLE table, String[] labels, String[] data) throws DAOException {
-        int count = 0;
-        String query = "update hotel." + table + " set ";
-        for (int i = 1; i < data.length; i++) {
-            if (!data[i].isEmpty()) {
-                if (count > 0) {
-                    query += ", ";
-                }
-                query += labels[i] + " = \"" + data[i] + "\"";
-                count++;
-            }
-        }
-        query += " where " + labels[0] + " = \"" + data[0] + "\"";
+    public void updateData(TABLE table, String conditions) throws DAOException {
+        String query = "update hotel." + table + " set " + conditions;
         session.update(query);
     }
 
@@ -59,9 +48,8 @@ public class ServiceDaoImpl implements ServiceDao {
     }
 
     @Override
-    public boolean deleteData(TABLE table, String label, String data) throws DAOException {
-        String query = "delete from hotel." + table + " where " + label + " = " + data;
+    public void deleteData(TABLE table, String primaryKey, long id) throws DAOException {
+        String query = "delete from hotel." + table + " where " + primaryKey + " = " + id;
         session.update(query);
-        return true;
     }
 }

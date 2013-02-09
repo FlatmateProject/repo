@@ -18,12 +18,6 @@ import java.util.List;
 
 public class ClientPanel extends JPanel {
 
-    private final GuestBook guestBook;
-
-    private final UpdateService updateService;
-
-    private final Specification specification;
-
     private JLabel[] clientLabel;
 
     private JTextField[] clientData;
@@ -31,8 +25,6 @@ public class ClientPanel extends JPanel {
     private JScrollPane dataTableScrollPane;
 
     private JScrollPane serviceTableScrollPane;
-
-    private JTable serviceTable;
 
     private JTable dataTable;
 
@@ -42,12 +34,17 @@ public class ClientPanel extends JPanel {
 
     private JButton updateButton;
 
-
     private final Color bgColor = new Color(224, 230, 233);
 
     private MouseListener dataTableMouseListener;
 
     private MouseListener reservationTableMouseListener;
+
+    private final GuestBook guestBook;
+
+    private final UpdateService updateService;
+
+    private final Specification specification;
 
     public ClientPanel(GuestBook guestBook, UpdateService updateService, Specification specification) {
         this.guestBook = guestBook;
@@ -55,7 +52,7 @@ public class ClientPanel extends JPanel {
         this.specification = specification;
         create();
         addEvents();
-        fillDataTable();
+        createClientTable();
     }
 
     private void create() {
@@ -88,18 +85,6 @@ public class ClientPanel extends JPanel {
         setVisible(true);
     }
 
-
-    private void fillDataTable(String conditions) {
-        TableResult tableResult = guestBook.createTable(specification.getTable(), conditions);
-        dataTable = createTable(tableResult);
-        dataTable.addMouseListener(dataTableMouseListener);
-        dataTableScrollPane.setViewportView(dataTable);
-    }
-
-    private void fillDataTable() {
-        fillDataTable("");
-    }
-
     private void addEvents() {
         dataTableMouseListener = new MouseListenerAdapter() {
             @Override
@@ -108,20 +93,18 @@ public class ClientPanel extends JPanel {
                 Long clientId = (Long) dataTable.getValueAt(selectedRow, 0);
                 Object[] selectedRowData = getSelectedRowData();
                 TableResult tableResult = guestBook.createReservationTable(specification.getPrimaryId(), clientId);
-                dataTable = createTable(tableResult);
-                dataTable.addMouseListener(reservationTableMouseListener);
-                dataTableScrollPane.setViewportView(dataTable);
+                dataTable = createTable(tableResult, dataTableScrollPane, reservationTableMouseListener);
                 fillDataFields(selectedRowData);
             }
 
             private Object[] getSelectedRowData() {
                 int columnCount = dataTable.getColumnCount();
-                Object[] getSelectedRowData = new Object[columnCount];
+                Object[] selectedRowData = new Object[columnCount];
                 int selectedRow = dataTable.getSelectedRow();
                 for (int i = 0; i < columnCount; i++) {
-                    getSelectedRowData[i] = dataTable.getValueAt(selectedRow, i);
+                    selectedRowData[i] = dataTable.getValueAt(selectedRow, i);
                 }
-                return getSelectedRowData;
+                return selectedRowData;
             }
 
             private void fillDataFields(Object[] rowData) {
@@ -138,8 +121,7 @@ public class ClientPanel extends JPanel {
                 int selectedRow = dataTable.getSelectedRow();
                 Long idRez = (Long) dataTable.getValueAt(selectedRow, 0);
                 TableResult tableResult = guestBook.createRecreationTable(idRez);
-                serviceTable = createTable(tableResult);
-                serviceTableScrollPane.setViewportView(serviceTable);
+                createTable(tableResult, serviceTableScrollPane, null);
                 serviceTableScrollPane.setVisible(true);
             }
         };
@@ -147,8 +129,9 @@ public class ClientPanel extends JPanel {
         cleanButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                fillDataTable();
                 cleanFields();
+                TableResult tableResult = guestBook.createTable(specification.getTable());
+                dataTable = createTable(tableResult, dataTableScrollPane, dataTableMouseListener);
                 serviceTableScrollPane.setVisible(false);
             }
 
@@ -162,33 +145,11 @@ public class ClientPanel extends JPanel {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                String conditions = createConditions();
-                if (!conditions.isEmpty()) {
-                    conditions = " where " + conditions;
-                    fillDataTable(conditions);
-                    serviceTableScrollPane.setVisible(false);
-                }
-            }
+                String[] labels = getLabels();
+                String[] data = getData();
+                TableResult tableResult = guestBook.createTable(specification.getTable(), labels, data);
+                dataTable = createTable(tableResult, dataTableScrollPane, dataTableMouseListener);
 
-            private String createConditions() {
-                String conditions = "";
-                for (int i = 0; i < clientData.length; i++) {
-                    if (!isNotClientDataEmpty(i)) {
-                        if (!conditions.isEmpty()) {
-                            conditions = conditions + " and ";
-                        }
-                        conditions = conditions + addCondition(i);
-                    }
-                }
-                return conditions;
-            }
-
-            private String addCondition(int i) {
-                return String.format("%s=\"%s\"", clientLabel[i].getText(), clientData[i].getText());
-            }
-
-            private boolean isNotClientDataEmpty(int i) {
-                return clientData[i].getText().isEmpty();
             }
         });
         updateButton.addActionListener(new ActionListener() {
@@ -198,31 +159,37 @@ public class ClientPanel extends JPanel {
                     String[] labels = getLabels();
                     String[] data = getData();
                     updateService.updateClientData(specification.getTable(), labels, data);
-                    fillDataTable();
+                    TableResult tableResult = guestBook.createTable(specification.getTable());
+                    dataTable = createTable(tableResult, dataTableScrollPane, dataTableMouseListener);
                 } catch (IncorrectDataException e) {
                     JOptionPane.showMessageDialog(null, "Blad aktualizacji! Sprawdz dane!", "UWAGA!", JOptionPane.ERROR_MESSAGE);
                     e.printStackTrace();
                 }
             }
-
-            private String[] getLabels() {
-                int length = clientLabel.length;
-                String[] labels = new String[length];
-                for (int i = 0; i < length; i++) {
-                    labels[i] = clientLabel[i].getText();
-                }
-                return labels;
-            }
-
-            private String[] getData() {
-                int length = clientData.length;
-                String data[] = new String[length];
-                for (int i = 0; i < length; i++) {
-                    data[i] = clientData[i].getText();
-                }
-                return data;
-            }
         });
+    }
+
+    private void createClientTable() {
+        TableResult tableResult = this.guestBook.createTable(this.specification.getTable());
+        dataTable = createTable(tableResult, dataTableScrollPane, dataTableMouseListener);
+    }
+
+    private String[] getLabels() {
+        int length = clientLabel.length;
+        String[] labels = new String[length];
+        for (int i = 0; i < length; i++) {
+            labels[i] = clientLabel[i].getText();
+        }
+        return labels;
+    }
+
+    private String[] getData() {
+        int length = clientData.length;
+        String data[] = new String[length];
+        for (int i = 0; i < length; i++) {
+            data[i] = clientData[i].getText();
+        }
+        return data;
     }
 
     @Override
@@ -232,9 +199,11 @@ public class ClientPanel extends JPanel {
         super.setSize(width, height);
     }
 
-    private JTable createTable(TableResult result) {
+    private JTable createTable(TableResult result, JScrollPane scrollPane, MouseListener mouseListener) {
         JTable table = new JTable(result.getRowsData(), result.getColumnNames());
         table.setFillsViewportHeight(true);
+        table.addMouseListener(mouseListener);
+        scrollPane.setViewportView(table);
         return table;
     }
 }

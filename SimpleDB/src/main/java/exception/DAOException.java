@@ -6,6 +6,7 @@ public class DAOException extends Exception {
     private static final long serialVersionUID = 1L;
 
     public DAOException() {
+        printStackTrace();
     }
 
     public DAOException(Exception exception) {
@@ -20,5 +21,6 @@ public class DAOException extends Exception {
 
     public DAOException(String errorMessage) {
         super(errorMessage);
+        printStackTrace();
     }
 }

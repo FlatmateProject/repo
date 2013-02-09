@@ -3,6 +3,7 @@ package service;
 
 import dao.ServiceDao;
 import exception.DAOException;
+import exception.IncorrectDataException;
 import service.dictionary.TABLE;
 
 public class AddService {
@@ -13,12 +14,11 @@ public class AddService {
         this.serviceDao = serviceDao;
     }
 
-    public Boolean insertData(TABLE table, String labels[], String data[]) {
+    public void insertData(TABLE table, String labels[], String data[]) throws IncorrectDataException {
         try {
-            return serviceDao.insertData(table, labels, data);
+            serviceDao.insertData(table, labels, data);
         } catch (DAOException e) {
-            e.printStackTrace();
-            return false;
+            throw new IncorrectDataException(e);
         }
     }
 }

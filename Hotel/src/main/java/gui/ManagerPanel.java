@@ -2,9 +2,9 @@ package gui;
 
 import common.adapter.MouseListenerAdapter;
 import common.tableBuilder.TableResult;
+import dto.ColumnData;
 import exception.DAOException;
 import exception.IncorrectDataException;
-import org.apache.log4j.Logger;
 import service.AddService;
 import service.DeleteService;
 import service.UpdateService;
@@ -19,27 +19,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 public class ManagerPanel extends JPanel {
-
-    private static final Logger log = Logger.getLogger(ManagerPanel.class);
 
     private final Calendar calendar;
 
     private JPanel dataPanel;
 
-    private JButton actionButtons[];
-
     private JButton tableButtons[];
 
-    private JList news;
-
-    private JScrollPane scrollPanel = new JScrollPane();
+    private JScrollPane scrollPanel;
 
     private JTable table;
 
-    private TABLE tableName = TABLE.Customer;
+    private TABLE currentTable = TABLE.Customer;
 
     private JLabel labels[];
 
@@ -76,44 +72,48 @@ public class ManagerPanel extends JPanel {
         this.calendar = calendar;
         this.manager = manager;
         create();
-//        addEvents();
+        addEvents();
     }
 
     private void create() {
         setBackground(bgColor);
         setLayout(null);
+        int progressiveY = 20;
+        tableButtons = new JButton[10];
+        tableButtons[0] = createButton("Klienci", new Point(0, progressiveY));
+        tableButtons[1] = createButton("Firmy", new Point(100, progressiveY));
+        tableButtons[2] = createButton("Usługi", new Point(200, progressiveY));
+        tableButtons[3] = createButton("Pokoje", new Point(300, progressiveY));
+        tableButtons[4] = createButton("Stanowiska", new Point(400, progressiveY));
+        tableButtons[5] = createButton("Waluty", new Point(500, progressiveY));
+        tableButtons[6] = createButton("Pracownicy", new Point(600, progressiveY));
+        tableButtons[7] = createButton("Klasy", new Point(700, progressiveY));
+        tableButtons[8] = createButton("Archiwum", new Point(800, progressiveY));
+        tableButtons[9] = createButton("Rachunki", new Point(900, progressiveY));
+        progressiveY = progressiveY + 20;
+        dataPanel = createDataPanel(TABLE.Customer);
+        add(dataPanel);
+        progressiveY = progressiveY + dataPanel.getHeight() + 20;
+        addButton = createButton("Dodaj", new Point(0, progressiveY));
+        deleteButton = createButton("Usuń", new Point(100, progressiveY));
+        updateButton = createButton("Edytuj", new Point(200, progressiveY));
+        searchButton = createButton("Szukaj", new Point(300, progressiveY));
+        cleanButton = createButton("Wyczyść", new Point(400, progressiveY));
+        progressiveY = progressiveY + 40;
+        scrollPanel = new JScrollPane();
+        scrollPanel.setBounds(0, progressiveY, 1200, 220);
+        add(scrollPanel);
+        progressiveY = progressiveY + 240;
+        TableResult tableResult = manager.createTable(TABLE.Customer);
+        table = createTable(tableResult);
+        createNewsList(progressiveY);
+    }
 
-
-        tableButtons = new JButton[5];
-        addButton = createButton("Dodaj", new Point(0, 10));
-        deleteButton = createButton("Usuń", new Point(100, 10));
-        updateButton = createButton("Edytuj", new Point(200, 10));
-        searchButton = createButton("Szukaj", new Point(300, 10));
-        cleanButton = createButton("Wyczyść", new Point(400, 10));
-
-        actionButtons = new JButton[10];
-        actionButtons[0] = createButton("Klienci", new Point(0, 40));
-        actionButtons[1] = createButton("Firmy", new Point(100, 40));
-        actionButtons[2] = createButton("Usługi", new Point(200, 40));
-        actionButtons[3] = createButton("Pokoje", new Point(300, 40));
-        actionButtons[4] = createButton("Stanowiska", new Point(400, 40));
-        actionButtons[5] = createButton("Waluty", new Point(500, 40));
-        actionButtons[6] = createButton("Pracownicy", new Point(600, 40));
-        actionButtons[7] = createButton("Klasy", new Point(700, 40));
-        actionButtons[8] = createButton("Archiwum", new Point(800, 40));
-        actionButtons[9] = createButton("Rachunki", new Point(900, 40));
-
-//        news = new JList(createNews());
-//        news.setBackground(bgColor);
-//
-//        table = createReservationTable("klienci");
-//        table.addMouseListener(tableMouseListener);
-//        scrollPanel = new JScrollPane(table);
-//        add(scrollPanel);
-//
-//        dataPanel = createDataPanel("klienci");
-//        add(dataPanel);
-//        add(news);
+    private void createNewsList(int progressiveY) {
+        JList<String> news = new JList<String>(createNews());
+        news.setBounds(0, progressiveY, 1200, 100);
+        news.setBackground(bgColor);
+        add(news);
     }
 
     private JButton createButton(String buttonLabel, Point point) {
@@ -126,17 +126,28 @@ public class ManagerPanel extends JPanel {
 
     private String[] createNews() {
         try {
-            return new String[]{
-                    "Ogólna ilość rezerwacji: " + manager.getCount("rezerwacje"),
-                    "Ilość zarejestrowanych gości: " + manager.getCount("klienci"),
-                    manager.getCount("pokoje") + " pokoi, z czego wolnych i  zajętych.",
-                    "Ilość dostąpnych usług: " + manager.getCount("uslugi"),
-                    "W tym miesiącu oczekujemy na " + manager.getCount("rezerwacje where month(data_z) = " + (calendar.get(Calendar.MONTH) + 1)) + ", a żegnamy " + manager.getCount("rezerwacje where month(data_w) = " + (calendar.get(Calendar.MONTH) + 1)) + " gości"};
+            return buildNews();
         } catch (DAOException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Something went wrong", "ATTENTION!", JOptionPane.ERROR_MESSAGE);
+            showErrorMessage("Something went wrong");
             return new String[]{"ERROR"};
         }
+    }
+
+    private String[] buildNews() throws DAOException {
+        int reservations = manager.getCount("rezerwacje");
+        int clients = manager.getCount("klienci");
+        int roomNumber = manager.getCount("pokoje");
+        int serviceTypeNumber = manager.getCount("uslugi");
+        int numberClientsToCheckIn = manager.getCount("rezerwacje where month(data_z) = " + (calendar.get(Calendar.MONTH) + 1));
+        int numberClientsToCheckOut = manager.getCount("rezerwacje where month(data_w) = " + (calendar.get(Calendar.MONTH) + 1));
+        return new String[]{
+                "Ogólna ilość rezerwacji: " + reservations,
+                "Ilość zarejestrowanych gości: " + clients,
+                roomNumber + " pokoi, z czego wolnych i  zajętych.",
+                "Ilość dostąpnych usług: " + serviceTypeNumber,
+                "W tym miesiącu oczekujemy na " + numberClientsToCheckIn + ", a żegnamy " + numberClientsToCheckOut + " gości"
+        };
     }
 
 
@@ -144,78 +155,89 @@ public class ManagerPanel extends JPanel {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                String l[] = new String[dataFields.length];
-                String d[] = new String[dataFields.length];
+                if (areValidFields()) {
+                    addRow();
+                }
+            }
+
+            private void addRow() {
+                try {
+                    String labels[] = getLabels();
+                    String data[] = getData();
+                    addService.insertData(currentTable, labels, data);
+                    TableResult tableResult = manager.createTable(currentTable);
+                    table = createTable(tableResult);
+                } catch (IncorrectDataException e) {
+                    showErrorMessage("Wrong ID or given ID already exists!");
+                }
+            }
+
+            private boolean areValidFields() {
                 for (int i = 0; i < dataFields.length; i++) {
-                    l[i] = labels[i].getText();
-                    d[i] = dataFields[i].getText();
-                    if (!d[i].isEmpty()) {
-                        if ((l[i].equals("IDK_PESEL") || l[i]
-                                .equals("IDP_PESEL"))
-                                && !ValidationUtils.isPesel(d[i])) {
-                            JOptionPane.showMessageDialog(null,
-                                    "B��dny PESEL!", "UWAGA!",
-                                    JOptionPane.ERROR_MESSAGE);
-                            break;
-                        } else if (l[i].equals("IDF_KRS")
-                                && !ValidationUtils.isKRS(d[i])) {
-                            JOptionPane.showMessageDialog(null, "B��dny KRS!",
-                                    "UWAGA!", JOptionPane.ERROR_MESSAGE);
-                            break;
-                        } else if ((l[i].equals("DATA_Z")
-                                || l[i].equals("DATA_W") || l[i].equals("DATA"))
-                                && ValidationUtils.isNotDate(d[i])) {
-                            JOptionPane.showMessageDialog(null, "B��dna data!",
-                                    "UWAGA!", JOptionPane.ERROR_MESSAGE);
-                            break;
-                        } else if ((l[i].equals("CENA_SP")
-                                || l[i].equals("CENA_KU")
-                                || l[i].equals("ILOSC")
-                                || l[i].equals("WARTOSC")
-                                || l[i].equals("PODATEK")
-                                || l[i].equals("IL_OSOB")
-                                || l[i].equals("ID_STANOWISKA")
-                                || l[i].equals("TELEFON")
-                                || l[i].equals("NIP")
-                                || l[i].equals("NR_LOKALU")
-                                || l[i].equals("REGON")
-                                || l[i].equals("CENA")
-                                || l[i].equals("PODSTAWA")
-                                || l[i].equals("PREMIA")
-                                || l[i].equals("ID_POKOJU")
-                                || l[i].equals("ID_KLASY")
-                                || l[i].equals("ID_REZ")
-                                || l[i].equals("ID_USLUGI"))
-                                && ValidationUtils.isNotNumber(d[i])) {
-                            JOptionPane.showMessageDialog(null, "B��dna liczba!", "UWAGA!", JOptionPane.ERROR_MESSAGE);
-                            break;
-                        }
-                    }
-                    if (i == dataFields.length - 1) {
-                        if (!addService.insertData(tableName, l, d)) {
-                            JOptionPane.showMessageDialog(null, "B��dne ID lub taki klient ju� istnieje!", "UWAGA!", JOptionPane.ERROR_MESSAGE);
-                            break;
-                        }
-                        table = createTable(tableName);
-                        table.addMouseListener(tableMouseListener);
-                        scrollPanel.setViewportView(table);
+                    String fieldText = dataFields[i].getText();
+                    if (fieldText.isEmpty() && isNotValidField(labels[i].getText(), fieldText)) {
+                        return false;
                     }
                 }
+                return true;
+            }
+
+            private boolean isNotValidField(String label, String field) {
+                List<String> fieldsShouldBeNumbers = Arrays.asList(
+                        "CENA_SP", "CENA_KU", "ILOSC", "WARTOSC", "PODATEK", "IL_OSOB",
+                        "ID_STANOWISKA", "TELEFON", "NIP", "NR_LOKALU", "REGON", "CENA",
+                        "PODSTAWA", "PREMIA", "ID_POKOJU", "ID_KLASY", "ID_REZ", "ID_USLUGI"
+                );
+                List<String> fieldsShouldBePesel = Arrays.asList("IDK_PESEL", "IDP_PESEL");
+                List<String> fieldsShouldBeData = Arrays.asList("DATA_Z", "DATA_W", "DATA");
+                if (fieldsShouldBePesel.contains(label) && !ValidationUtils.isPesel(field)) {
+                    showErrorMessage("Wrong PESEL!");
+                    return true;
+                }
+                if (label.equals("IDF_KRS") && !ValidationUtils.isKRS(field)) {
+                    showErrorMessage("Wrong KRS!");
+                    return true;
+                }
+                if (fieldsShouldBeData.contains(label) && ValidationUtils.isNotDate(field)) {
+                    showErrorMessage("Wrong date!");
+                    return true;
+                }
+                if (fieldsShouldBeNumbers.contains(label) && ValidationUtils.isNotNumber(field)) {
+                    showErrorMessage("Wrong number!");
+                    return true;
+                }
+                return false;
             }
         });
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                if (!dataFields[0].getText().isEmpty()) {
-                    String l = labels[0].getText();
-                    String d = dataFields[0].getText();
-                    if (!deleteService.deleteData(tableName, l, d)) {
-                        JOptionPane.showMessageDialog(null, "Nie mo�na usun�� tego wiersza!", "UWAGA!", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        table = createTable(tableName);
-                        table.addMouseListener(tableMouseListener);
-                        scrollPanel.setViewportView(table);
-                    }
+                try {
+                    deleteRow();
+                } catch (IncorrectDataException e) {
+                    showErrorMessage("Error during deleting the row!");
+                }
+            }
+
+            private void deleteRow() throws IncorrectDataException {
+                long id = getId();
+                if (id > 0) {
+                    String primaryKey = getPrimaryKey();
+                    deleteService.deleteData(currentTable, primaryKey, id);
+                    TableResult tableResult = manager.createTable(currentTable);
+                    table = createTable(tableResult);
+                }
+            }
+
+            private String getPrimaryKey() {
+                return labels[0].getText();
+            }
+
+            private long getId() {
+                try {
+                    return Long.parseLong(dataFields[0].getText());
+                } catch (NumberFormatException e) {
+                    return 0;
                 }
             }
         });
@@ -225,195 +247,105 @@ public class ManagerPanel extends JPanel {
                 try {
                     String[] labels = getLabels();
                     String[] data = getData();
-                    updateService.updateClientData(tableName, labels, data);
-                    table = createTable(tableName);
-                    table.addMouseListener(tableMouseListener);
-                    scrollPanel.setViewportView(table);
+                    updateService.updateClientData(currentTable, labels, data);
+                    TableResult tableResult = manager.createTable(currentTable);
+                    table = createTable(tableResult);
                 } catch (IncorrectDataException e) {
-                    JOptionPane.showMessageDialog(null, "Blad aktualizacji! Sprawdz dane!", "UWAGA!", JOptionPane.ERROR_MESSAGE);
-                    e.printStackTrace();
+                    showErrorMessage("Update error! Check correctness of data!");
                 }
-            }
-
-            private String[] getLabels() {
-                int length = labels.length;
-                String[] array = new String[length];
-                for (int i = 0; i < length; i++) {
-                    array[i] = labels[i].getText();
-                }
-                return array;
-            }
-
-            private String[] getData() {
-                int length = dataFields.length;
-                String array[] = new String[length];
-                for (int i = 0; i < length; i++) {
-                    array[i] = dataFields[i].getText();
-                }
-                return array;
             }
 
         });
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                String s2 = "";
-                for (int i = 0; i < dataFields.length; i++) {
-                    if (!dataFields[i].getText().isEmpty()) {
-                        if (!s2.isEmpty()) {
-                            s2 = s2 + " and ";
-                        }
-                        s2 = s2 + labels[i].getText() + "=" + "\"" + dataFields[i].getText() + "\"";
-                    }
-                }
-                if (!s2.isEmpty()) {
-                    table = createTable(guestBook.createTable(tableName, " where " + s2));
-                    table.addMouseListener(tableMouseListener);
-                    scrollPanel.setViewportView(table);
-                }
+                String[] labels = getLabels();
+                String[] data = getData();
+                TableResult tableResult = guestBook.createTable(currentTable, labels, data);
+                table = createTable(tableResult);
+
             }
         });
         cleanButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                cleanFields();
+                TableResult tableResult = guestBook.createTable(currentTable);
+                table = createTable(tableResult);
+            }
+
+            private void cleanFields() {
                 for (JTextField field : dataFields) {
                     field.setText("");
-                    TableResult tableResult = guestBook.createTable(tableName, "");
-                    table = createTable(tableResult);
-                    table.addMouseListener(tableMouseListener);
-                    scrollPanel.setViewportView(table);
                 }
             }
         });
 
-        actionButtons[0].addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                tableName = TABLE.Customer;
-                manAction(tableName);
-            }
-        });
-        actionButtons[1].addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                tableName = TABLE.Company;
-                manAction(tableName);
-            }
-        });
-        actionButtons[2].addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                tableName = TABLE.Service;
-                manAction(tableName);
-            }
-        });
-        actionButtons[3].addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                tableName = TABLE.Room;
-                manAction(tableName);
-            }
-        });
-        actionButtons[4].addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                tableName = TABLE.Occupation;
-                manAction(tableName);
-            }
-        });
-        actionButtons[5].addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                tableName = TABLE.Currency;
-                manAction(tableName);
-            }
-        });
-        actionButtons[6].addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                tableName = TABLE.Employee;
-                manAction(tableName);
-            }
-        });
-        actionButtons[7].addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                tableName = TABLE.RoomType;
-                manAction(tableName);
-            }
-        });
-        actionButtons[8].addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                tableName = TABLE.Archive;
-                manAction(tableName);
-            }
-        });
-        actionButtons[9].addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                tableName = TABLE.Bill;
-                manAction(tableName);
-            }
-        });
+        tableButtons[0].addActionListener(new MyActionListener(TABLE.Customer));
+        tableButtons[1].addActionListener(new MyActionListener(TABLE.Company));
+        tableButtons[2].addActionListener(new MyActionListener(TABLE.Service));
+        tableButtons[3].addActionListener(new MyActionListener(TABLE.Room));
+        tableButtons[4].addActionListener(new MyActionListener(TABLE.Occupation));
+        tableButtons[5].addActionListener(new MyActionListener(TABLE.Currency));
+        tableButtons[6].addActionListener(new MyActionListener(TABLE.Employee));
+        tableButtons[7].addActionListener(new MyActionListener(TABLE.RoomType));
+        tableButtons[8].addActionListener(new MyActionListener(TABLE.Archive));
+        tableButtons[9].addActionListener(new MyActionListener(TABLE.Bill));
     }
 
-    private JTable createTable(TABLE tableName) {
-        TableResult result = manager.createTable(tableName);
-        JTable table = new JTable(result.getRowsData(), result.getColumnNames());
+    private JTable createTable(TableResult tableResult) {
+        JTable table = new JTable(tableResult.getRowsData(), tableResult.getColumnNames());
         table.setFillsViewportHeight(true);
+        table.addMouseListener(tableMouseListener);
+        scrollPanel.setViewportView(table);
         return table;
     }
 
     private JPanel createDataPanel(TABLE name) {
-        String cols[] = getColumns(name);
-        int colCount = (cols != null ? cols.length : 0);
-        labels = new JLabel[colCount];
-        dataFields = new JTextField[colCount];
+        try {
+            List<ColumnData> columns = manager.getColumns(name);
+            int length = columns.size();
+            labels = new JLabel[length];
+            dataFields = new JTextField[length];
+            JPanel manDataPan = emptyPanel((length + 1) * 20);
+            int manX = 30;
+            int i = 0;
+            for (ColumnData columnData : columns) {
+                int manY = 20 + 20 * i;
+                labels[i] = new JLabel(columnData.getName());
+                labels[i].setBounds(manX, manY, 150, 20);
+                dataFields[i] = new JTextField();
+                dataFields[i].setBounds(labels[i].getX() + 150, labels[i].getY(), 150, 19);
+                manDataPan.add(labels[i]);
+                manDataPan.add(dataFields[i]);
+                i++;
+            }
+            return manDataPan;
+        } catch (DAOException e) {
+            showErrorMessage("Something went wrong");
+            return emptyPanel(40);
+        }
+    }
 
+    private JPanel emptyPanel(int height) {
         JPanel manDataPan = new JPanel();
         manDataPan.setLayout(null);
-        manDataPan.setBounds(0, 0, 340, (colCount + 1) * 20);
+        manDataPan.setBounds(0, 40, 340, height);
         manDataPan.setBackground(bgColor);
-
-        int manX = 30, manY = 20;
-        if (cols == null) {
-            return manDataPan;
-        }
-        for (int i = 0; i < cols.length; i++) {
-            labels[i] = new JLabel(cols[i]);
-            if (i == 0)
-                manY = 20;
-            else
-                manY = 20 * (i + 1);
-            labels[i].setBounds(manX, manY, 150, 20);
-
-            dataFields[i] = new JTextField();
-            dataFields[i].setBounds(labels[i].getX() + 150, labels[i].getY(),
-                    150, 19);
-            // dataFields[i].setBorder(border);
-
-            manDataPan.add(labels[i]);
-            manDataPan.add(dataFields[i]);
-        }
         return manDataPan;
     }
 
-    private String[] getColumns(TABLE name) {
-        try {
-            return manager.getColumns(name);
-        } catch (DAOException e) {
-            JOptionPane.showMessageDialog(null, "Co� zepsu�e�!", "UWAGA!", JOptionPane.ERROR_MESSAGE);
-        }
-        return null;
+    private void showErrorMessage(String message) {
+        JOptionPane.showMessageDialog(null, message, "ATTENTION!", JOptionPane.ERROR_MESSAGE);
     }
 
-    private void manAction(TABLE manName) {
-        table = createTable(manName);
-        table.addMouseListener(tableMouseListener);
-        scrollPanel.setViewportView(table);
+    private void manAction(TABLE table1) {
+        this.currentTable = table1;
+        TableResult tableResult = manager.createTable(table1);
+        table = createTable(tableResult);
         remove(dataPanel);
-        add(createDataPanel(manName));
+        dataPanel = createDataPanel(table1);
+        add(dataPanel);
         repaint();
         revalidate();
     }
@@ -422,23 +354,59 @@ public class ManagerPanel extends JPanel {
         return new MouseListenerAdapter() {
             @Override
             public void mouseClicked(MouseEvent arg0) {
+                int numberOfColumn = table.getColumnCount();
+                int numberOfInputFields = dataFields.length;
+                if (numberOfColumn == numberOfInputFields) {
+                    fillInputs();
+                }
+            }
+
+            private void fillInputs() {
+                int selectedRow = table.getSelectedRow();
                 for (int i = 0; i < dataFields.length; i++) {
-                    dataFields[i].setText((String) table.getValueAt(table.getSelectedRow(), i));
+                    Object cell = table.getValueAt(selectedRow, i);
+                    dataFields[i].setText(cell.toString());
                 }
             }
         };
     }
 
+    private String[] getLabels() {
+        int length = labels.length;
+        String[] array = new String[length];
+        for (int i = 0; i < length; i++) {
+            array[i] = labels[i].getText();
+        }
+        return array;
+    }
+
+    private String[] getData() {
+        int length = dataFields.length;
+        String data[] = new String[length];
+        for (int i = 0; i < length; i++) {
+            data[i] = dataFields[i].getText();
+        }
+        return data;
+    }
+
+
+    class MyActionListener implements ActionListener {
+
+        private TABLE usedTable;
+
+        MyActionListener(TABLE usedTable) {
+            this.usedTable = usedTable;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+            manAction(usedTable);
+        }
+    }
 
     @Override
     public void setSize(int width, int height) {
         super.setSize(width, height);
-    }
-
-    private JTable createTable(TableResult result) {
-        JTable table = new JTable(result.getRowsData(), result.getColumnNames());
-        table.setFillsViewportHeight(true);
-        return table;
     }
 
     public void setGuestBook(GuestBook guestBook) {

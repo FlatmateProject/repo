@@ -16,6 +16,10 @@ public class GuestBook {
 
     private final GuestBookDao guestBookDao;
 
+    private String[] labels;
+
+    private String[] data;
+
     public GuestBook(GuestBookDao guestBookDao) {
         this.guestBookDao = guestBookDao;
     }
@@ -45,17 +49,6 @@ public class GuestBook {
         }
     }
 
-    public TableResult createTable(TABLE tableName, String conditions) {
-        try {
-            List<ColumnData> columns = guestBookDao.showColumnsForTable(tableName.getTableName());
-            List<? extends ArrayObtained> data = guestBookDao.getDataFromTable(tableName, conditions);
-            return TableBuilder.table().columns(columns).data(data).build();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return TableResult.EMPTY;
-        }
-    }
-
     public TableResult createRecreationTable(long idReservation) {
         try {
             List<ColumnData> columns = guestBookDao.showColumnsForTable("uslugi");
@@ -70,5 +63,53 @@ public class GuestBook {
             e.printStackTrace();
             return TableResult.EMPTY;
         }
+    }
+
+    public TableResult createTable(TABLE tableName) {
+        String emptyConditions = "";
+        return createTableWithConditions(tableName, emptyConditions);
+    }
+
+    public TableResult createTable(TABLE table, String[] labels, String[] data) {
+        this.labels = labels;
+        this.data = data;
+        String conditions = createConditions();
+        if (!conditions.isEmpty()) {
+            conditions = " where " + conditions;
+            return createTableWithConditions(table, conditions);
+        }
+        return TableResult.EMPTY;
+    }
+
+    private TableResult createTableWithConditions(TABLE tableName, String conditions) {
+        try {
+            List<ColumnData> columns = guestBookDao.showColumnsForTable(tableName.getTableName());
+            List<? extends ArrayObtained> data = guestBookDao.getDataFromTable(tableName, conditions);
+            return TableBuilder.table().columns(columns).data(data).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return TableResult.EMPTY;
+        }
+    }
+
+    private String createConditions() {
+        String conditions = "";
+        for (int i = 0; i < data.length; i++) {
+            if (!isNotClientDataEmpty(i)) {
+                if (!conditions.isEmpty()) {
+                    conditions = conditions + " and ";
+                }
+                conditions = conditions + addCondition(i);
+            }
+        }
+        return conditions;
+    }
+
+    private String addCondition(int i) {
+        return String.format("%s=\"%s\"", labels[i], data[i]);
+    }
+
+    private boolean isNotClientDataEmpty(int i) {
+        return data[i].isEmpty();
     }
 }

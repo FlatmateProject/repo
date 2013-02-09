@@ -16,10 +16,27 @@ public class UpdateService {
 
     public void updateClientData(TABLE table, String labels[], String data[]) throws IncorrectDataException {
         try {
-            serviceDao.updateData(table, labels, data);
+            String conditions = createConditions(labels, data);
+            serviceDao.updateData(table, conditions);
         } catch (DAOException e) {
             e.printStackTrace();
             throw new IncorrectDataException();
         }
+    }
+
+    private String createConditions(String[] labels, String[] data) {
+        int count = 0;
+        String conditions = "";
+        for (int i = 1; i < data.length; i++) {
+            if (!data[i].isEmpty()) {
+                if (count > 0) {
+                    conditions += ", ";
+                }
+                conditions += labels[i] + " = \"" + data[i] + "\"";
+                count++;
+            }
+        }
+        conditions += " where " + labels[0] + " = \"" + data[0] + "\"";
+        return conditions;
     }
 }

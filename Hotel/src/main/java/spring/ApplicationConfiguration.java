@@ -176,9 +176,7 @@ public class ApplicationConfiguration {
 
     @Bean
     public Manager manager() {
-        Manager manager = new Manager(managerDao());
-        manager.setSingleton(singleton());
-        return manager;
+        return new Manager(managerDao());
     }
 
     private ManagerPanel managerPanel() {

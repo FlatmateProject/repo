@@ -59,14 +59,14 @@ public class Gui extends JFrame {
 
     private void createGUI() {
         JTabbedPane tabbedPane = new JTabbedPane();
-//        tabbedPane.addTab("Cantor", cantorPanel);
-//        tabbedPane.addTab("Grafik", schedulerPanel);
-//        tabbedPane.addTab("Recepcja", receptionPanel);
-//        tabbedPane.addTab("Rezerwacje", reservationPanel);
         tabbedPane.addTab("Manager", managerPanel);
-//        tabbedPane.addTab("Księga gości", guessBookPanel);
-//        tabbedPane.addTab("Statystyka", statisticPanel);
-//        tabbedPane.addTab("Menadżer personelu", employeeManagerPanel);
+        tabbedPane.addTab("Cantor", cantorPanel);
+        tabbedPane.addTab("Grafik", schedulerPanel);
+        tabbedPane.addTab("Recepcja", receptionPanel);
+        tabbedPane.addTab("Rezerwacje", reservationPanel);
+        tabbedPane.addTab("Księga gości", guessBookPanel);
+        tabbedPane.addTab("Statystyka", statisticPanel);
+        tabbedPane.addTab("Menadżer personelu", employeeManagerPanel);
         tabbedPane.setBounds(0, 0, getWidth(), getHeight());
         add(tabbedPane);
     }

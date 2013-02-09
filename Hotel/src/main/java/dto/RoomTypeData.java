@@ -10,7 +10,7 @@ public class RoomTypeData implements ArrayObtained {
 
     private float price;
 
-    private float description;
+    private String description;
 
     @Override
     public Object[] getArray() {

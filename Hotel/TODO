@@ -15,4 +15,7 @@
 20. Create ApplicationConfigurationForTest with mocked dependencies.
 21. Use spring @Value annotation in ApplicationConfiguration
 22. Use TABLE in SPECIFICATION.getTable() and SPECIFICATION.getClientDtoClass()
+23. remove all printStackTrace() and move them to the exceptions constructor
+24. Extend JButton and give it the default skin
+25. Prevent sql injection in ManagerPanel: add, edit, delete, search
 
