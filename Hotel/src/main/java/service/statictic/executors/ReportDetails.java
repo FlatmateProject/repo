@@ -1,6 +1,6 @@
 package service.statictic.executors;
 
-import service.dictionary.MONTH;
+import dictionary.MONTH;
 
 public class ReportDetails {
 

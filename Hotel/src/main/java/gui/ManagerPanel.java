@@ -2,13 +2,13 @@ package gui;
 
 import common.adapter.MouseListenerAdapter;
 import common.tableBuilder.TableResult;
+import dictionary.TABLE;
 import dto.ColumnData;
 import exception.DAOException;
 import exception.IncorrectDataException;
 import service.AddService;
 import service.DeleteService;
 import service.UpdateService;
-import service.dictionary.TABLE;
 import service.guessBook.GuestBook;
 import service.manager.Manager;
 import validation.ValidationUtils;

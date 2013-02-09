@@ -1,10 +1,9 @@
-package gui;
+package gui.statistic;
 
 import dao.StatisticDao;
+import dictionary.MONTH;
 import dto.SimpleNameData;
 import exception.DAOException;
-import service.GraphDraw;
-import service.dictionary.MONTH;
 import service.statictic.REPORT_KIND;
 import service.statictic.Statistic;
 import service.statictic.StatisticReport;

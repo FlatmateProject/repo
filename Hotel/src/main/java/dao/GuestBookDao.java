@@ -1,11 +1,11 @@
 package dao;
 
 import common.tableBuilder.ArrayObtained;
+import dictionary.TABLE;
 import dto.ColumnData;
 import dto.guestBook.RecreationServiceData;
 import dto.guestBook.ReservationData;
 import exception.DAOException;
-import service.dictionary.TABLE;
 
 import java.util.List;
 

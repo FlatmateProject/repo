@@ -4,9 +4,9 @@ import common.tableBuilder.ArrayObtained;
 import common.tableBuilder.TableBuilder;
 import common.tableBuilder.TableResult;
 import dao.ManagerDao;
+import dictionary.TABLE;
 import dto.ColumnData;
 import exception.DAOException;
-import service.dictionary.TABLE;
 
 import java.util.List;
 

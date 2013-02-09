@@ -5,6 +5,7 @@ import dao.impl.*;
 import gui.*;
 import gui.guestBook.ClientPanel;
 import gui.guestBook.GuestBookPanel;
+import gui.statistic.StatisticPanel;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import service.*;

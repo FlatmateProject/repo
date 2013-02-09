@@ -2,6 +2,7 @@ package service.statistic;
 
 import assertions.DiagramBarsAssert;
 import dao.StatisticDao;
+import dictionary.MONTH;
 import dto.statictic.*;
 import exception.DAOException;
 import org.apache.log4j.Logger;
@@ -10,7 +11,6 @@ import org.mockito.Mock;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import service.dictionary.MONTH;
 import service.statictic.REPORT_KIND;
 import service.statictic.Statistic;
 import service.statictic.StatisticReport;

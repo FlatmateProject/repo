@@ -1,6 +1,6 @@
 package gui.guestBook;
 
-import service.dictionary.TABLE;
+import dictionary.TABLE;
 
 import java.awt.*;
 

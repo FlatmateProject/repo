@@ -1,8 +1,8 @@
 package dao.impl;
 
 import dao.ServiceDao;
+import dictionary.TABLE;
 import exception.DAOException;
-import service.dictionary.TABLE;
 import session.SimpleSession;
 
 public class ServiceDaoImpl implements ServiceDao {

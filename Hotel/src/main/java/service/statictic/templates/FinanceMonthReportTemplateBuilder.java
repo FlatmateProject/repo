@@ -1,7 +1,7 @@
 package service.statictic.templates;
 
 
-import service.dictionary.MONTH;
+import dictionary.MONTH;
 
 public class FinanceMonthReportTemplateBuilder implements ReportTemplateBuilder {
 

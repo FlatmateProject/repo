@@ -1,7 +1,7 @@
 package conditions.raport;
 
+import dictionary.MONTH;
 import org.fest.assertions.Condition;
-import service.dictionary.MONTH;
 
 public class PeriodOfMonthsCondition extends Condition<String> {
 

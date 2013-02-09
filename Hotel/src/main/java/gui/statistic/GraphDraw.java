@@ -1,4 +1,4 @@
-package service;
+package gui.statistic;
 
 
 import javax.swing.*;

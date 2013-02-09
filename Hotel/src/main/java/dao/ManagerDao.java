@@ -1,9 +1,9 @@
 package dao;
 
 import common.tableBuilder.ArrayObtained;
+import dictionary.TABLE;
 import dto.ColumnData;
 import exception.DAOException;
-import service.dictionary.TABLE;
 
 import java.util.List;
 

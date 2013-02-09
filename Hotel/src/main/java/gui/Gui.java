@@ -1,6 +1,7 @@
 package gui;
 
 import gui.guestBook.GuestBookPanel;
+import gui.statistic.StatisticPanel;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import spring.ApplicationConfiguration;

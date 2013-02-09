@@ -1,7 +1,7 @@
 package dao;
 
+import dictionary.TABLE;
 import exception.DAOException;
-import service.dictionary.TABLE;
 
 public interface ServiceDao {
 

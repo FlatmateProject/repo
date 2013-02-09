@@ -2,11 +2,11 @@ package dao.impl;
 
 import common.tableBuilder.ArrayObtained;
 import dao.GuestBookDao;
+import dictionary.TABLE;
 import dto.ColumnData;
 import dto.guestBook.RecreationServiceData;
 import dto.guestBook.ReservationData;
 import exception.DAOException;
-import service.dictionary.TABLE;
 import session.SimpleSession;
 
 import java.util.List;

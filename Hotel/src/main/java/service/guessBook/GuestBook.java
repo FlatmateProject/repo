@@ -5,10 +5,10 @@ import common.tableBuilder.ArrayObtained;
 import common.tableBuilder.TableBuilder;
 import common.tableBuilder.TableResult;
 import dao.GuestBookDao;
+import dictionary.TABLE;
 import dto.ColumnData;
 import dto.guestBook.RecreationServiceData;
 import dto.guestBook.ReservationData;
-import service.dictionary.TABLE;
 
 import java.util.List;
 

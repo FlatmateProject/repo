@@ -1,8 +1,8 @@
 package service.statictic.executors;
 
+import dictionary.MONTH;
 import dto.statictic.RoomTypeStatisticData;
 import exception.DAOException;
-import service.dictionary.MONTH;
 import service.statictic.DiagramElement;
 import service.statictic.REPORT_KIND;
 import service.statictic.StatisticReport;

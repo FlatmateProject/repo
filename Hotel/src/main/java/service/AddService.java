@@ -2,9 +2,9 @@ package service;
 
 
 import dao.ServiceDao;
+import dictionary.TABLE;
 import exception.DAOException;
 import exception.IncorrectDataException;
-import service.dictionary.TABLE;
 
 public class AddService {
 

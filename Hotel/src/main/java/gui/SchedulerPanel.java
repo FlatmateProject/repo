@@ -1,7 +1,7 @@
 package gui;
 
+import dictionary.MONTH;
 import service.Schedule;
-import service.dictionary.MONTH;
 
 import javax.swing.*;
 import javax.swing.border.Border;
