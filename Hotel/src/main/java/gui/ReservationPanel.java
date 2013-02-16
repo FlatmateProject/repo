@@ -1,5 +1,7 @@
 package gui;
 
+import common.adapter.MouseListenerAdapter;
+import dictionary.MONTH;
 import service.Reservation;
 
 import javax.swing.*;
@@ -20,17 +22,12 @@ public class ReservationPanel extends JPanel {
     private final JLabel[] rezRoomLabel = new JLabel[5];
     private JCheckBox rezIfExistC = new JCheckBox();
     private JCheckBox rezIfExistF = new JCheckBox();
-    private final String[] rezDays = {"01", "02", "03", "04", "05", "06", "07",
-            "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18",
-            "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
-            "30", "31"};
-    private final String[] months = {"01", "02", "03", "04", "05", "06", "07", "08",
-            "09", "10", "11", "12"};
+    private final String[] rezDays = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
     private final String[] rezYears = {"2010", "2011", "2012", "2013", "2015",
             "2016"};
     private JLabel rezDayLabel = new JLabel();
     private final JComboBox[] rezDateBox = new JComboBox[3];
-    private JComboBox rezDayBox = new JComboBox();
+    private JComboBox<String> rezDayBox = new JComboBox<String>();
     private JLabel rezPrice = new JLabel();
     private final JButton[] rezButton = new JButton[5];
     private JTable rezTable = new JTable();
@@ -45,12 +42,12 @@ public class ReservationPanel extends JPanel {
     private JTable rezServTable;
     private JScrollPane rezServPane;
     private String rezRoomListLabel[];
-    private JList rezRoomList;
+    private JList<String> rezRoomList;
     private final JComboBox rezCatBox = new JComboBox();
     private JScrollPane rezServPane1;
     private String rezServListLabel[];
-    private JList rezServList;
-    private DefaultListModel listMod;
+    private JList<String> rezServList;
+    private DefaultListModel<String> listMod;
     private MouseListener rezMous;
     private final Color buttonColor = new Color(174, 205, 214);
 
@@ -68,6 +65,10 @@ public class ReservationPanel extends JPanel {
     }
 
     private static final long serialVersionUID = 1L;
+
+    private void showMessageDialog(String message) {
+        JOptionPane.showMessageDialog(getParent(), message, "B��d", JOptionPane.ERROR_MESSAGE);
+    }
 
     private void create() {
         setBounds(0, 0, getWidth(), getHeight());
@@ -113,8 +114,7 @@ public class ReservationPanel extends JPanel {
         rezClasTable = new JTable();
         rezClasTable = reservation.createClasTable();
         if (rezClasTable == null) {
-            JOptionPane.showMessageDialog(getParent(), "Brak klas pokoi",
-                    "B��d", 1);
+            showMessageDialog("Brak klas pokoi");
         } else {
             rezClasPane = new JScrollPane(rezClasTable);
             rezClasPane.setBorder(border);
@@ -123,7 +123,7 @@ public class ReservationPanel extends JPanel {
 
         rezServTable = reservation.createServTable("");
         if (rezServTable == null) {
-            JOptionPane.showMessageDialog(getParent(), "Brak us�ug", "B��d", 1);
+            showMessageDialog("Brak us�ug");
             rezServPane = new JScrollPane(null);
             rezServPane.setBorder(border);
             add(rezServPane);
@@ -140,8 +140,8 @@ public class ReservationPanel extends JPanel {
             add(rezJta[i]);
         }
 
-        for (int i = 0; i < rezCompLabel.length; i++) {
-            add(rezCompLabel[i]);
+        for (JLabel aRezCompLabel1 : rezCompLabel) {
+            add(aRezCompLabel1);
         }
 
         for (JLabel aRezCompLabel : rezCompLabel) {
@@ -153,8 +153,8 @@ public class ReservationPanel extends JPanel {
         rezRoomLabel[3] = new JLabel("Rezerwacja od:");
         rezRoomLabel[4] = new JLabel("Wybrane us�ugi");
         rezPrice = new JLabel("��czny koszt rezerwacji");
-        for (int i = 0; i < rezRoomLabel.length; i++) {
-            add(rezRoomLabel[i]);
+        for (JLabel aRezRoomLabel : rezRoomLabel) {
+            add(aRezRoomLabel);
         }
         rezCenaJta = new JTextField("");
         rezCenaJta.setBorder(border);
@@ -180,23 +180,24 @@ public class ReservationPanel extends JPanel {
         add(rezDateLabel);
         add(rezDayLabel);
 
-        rezDateBox[0] = new JComboBox(rezDays);
-        rezDateBox[1] = new JComboBox(months);
-        rezDateBox[2] = new JComboBox(rezYears);
-        rezDayBox = new JComboBox(rezDays);
+        rezDateBox[0] = new JComboBox<String>(rezDays);
+        rezDateBox[1] = new JComboBox<MONTH>(MONTH.values());
+        rezDateBox[2] = new JComboBox<String>(rezYears);
+        rezDayBox = new JComboBox<String>(rezDays);
         add(rezDayBox);
         for (int j = 0; j < 3; j++) {
             add(rezDateBox[j]);
         }
         rezRoomListLabel = reservation.createRoomList(0, "2010-01-01", "2011-01-01");
-        rezRoomList = new JList(rezRoomListLabel);
+        rezRoomList = new JList<String>(rezRoomListLabel);
         if (rezServListLabel == null) {
             rezServListLabel = new String[30];
             rezServListLabel[0] = "Brak wybranych us�ug";
         }
-        listMod = new DefaultListModel();
+        listMod = new DefaultListModel<String>();
         listMod.addElement("Wybierz us�ugi");
-        rezServList = new JList(listMod);
+
+        rezServList = new JList<String>(listMod);
         listMod.removeElement("Wybierz us�ugi");
         rezRoomPane = new JScrollPane(rezRoomList);
         rezRoomPane.setBorder(border);
@@ -210,176 +211,65 @@ public class ReservationPanel extends JPanel {
         add(rezIfExistF);
         add(rezServPane1);
         setVisible(true);
-        rezMous = new MouseListener() {
+        rezMous = new MouseListenerAdapter() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                listMod.addElement(rezServTable.getValueAt(
-                        rezServTable.getSelectedRow(), 1).toString());
+                listMod.addElement(rezServTable.getValueAt(rezServTable.getSelectedRow(), 1).toString());
                 rezServPane1.setViewportView(rezServList);
                 rezServPane1.repaint();
             }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
         };
     }
 
     private void addEventa() {
 
-        rezButton[0].addMouseListener(new MouseListener() {
+        rezButton[0].addMouseListener(new MouseListenerAdapter() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
                 if (rezJta[0].getText().isEmpty())
-                    JOptionPane.showMessageDialog(getParent(),
-                            "Podaj parametry", "B��d", 0);
+                    showMessageDialog("Podaj parametry");
                 else {
                     if (rezClient.isSelected()) {
                         if (reservation.isNotPesel(rezJta[0].getText()))
-                            JOptionPane.showMessageDialog(getParent(),
-                                    "�le wprowadzono PESEL", "B��d", 0);
+                            showMessageDialog("�le wprowadzono PESEL");
                         else {
                             rezTable = reservation.createTable(true,
                                     Long.parseLong(rezJta[0].getText()));
                             if (rezTable == null) {
-                                JOptionPane.showMessageDialog(getParent(),
-                                        "Nie ma takiego klienta", "Informacja",
-                                        1);
-                                rezJta[0].setText("");
-                                rezJta[1].setText("");
-                                rezJta[2].setText("");
-                                rezJta[3].setText("");
-                                rezJta[4].setText("");
-                                rezJta[5].setText("");
-                                rezJta[6].setText("");
-                                rezJta[7].setText("");
-                                rezJta[8].setText("");
-                                rezJta[9].setText("");
-                                rezJta[10].setText("");
+                                showMessageDialog("Nie ma takiego klienta");
+                                for (JTextField aRezJta : rezJta) {
+                                    aRezJta.setText("");
+                                }
 
                             } else {
-                                rezJta[1].setText((String) rezTable.getValueAt(
-                                        0, 1));
-                                rezJta[2].setText((String) rezTable.getValueAt(
-                                        0, 2));
-                                rezJta[3].setText((String) rezTable.getValueAt(
-                                        0, 3));
-                                rezJta[4].setText((String) rezTable.getValueAt(
-                                        0, 4));
-                                rezJta[5].setText((String) rezTable.getValueAt(
-                                        0, 5));
-                                rezJta[6].setText((String) rezTable.getValueAt(
-                                        0, 6));
-                                rezJta[7].setText((String) rezTable.getValueAt(
-                                        0, 7));
-                                rezJta[8].setText((String) rezTable.getValueAt(
-                                        0, 8));
-                                rezJta[9].setText((String) rezTable.getValueAt(
-                                        0, 9));
-                                rezJta[10].setText((String) rezTable
-                                        .getValueAt(0, 10));
+                                for (int i = 1; i < rezJta.length; i++) {
+                                    rezJta[1].setText((String) rezTable.getValueAt(0, i));
+                                }
                             }
                         }
                     } else if (reservation.isNotKRS(rezJta[0].getText()))
-                        JOptionPane.showMessageDialog(getParent(),
-                                "�le wprowadzono KRS", "B��d", 0);
+                        showMessageDialog("�le wprowadzono KRS");
                     else {
-                        rezTable = reservation.createTable(false,
-                                Long.parseLong(rezJta[0].getText()));
+                        rezTable = reservation.createTable(false, Long.parseLong(rezJta[0].getText()));
                         if (rezTable == null)
-                            JOptionPane.showMessageDialog(getParent(),
-                                    "Nie ma takiej firmy", "Informacja", 1);
+                            showMessageDialog("Nie ma takiej firmy");
                         else {
-                            rezJta[1].setText((String) rezTable
-                                    .getValueAt(0, 1));
-                            rezJta[2].setText((String) rezTable
-                                    .getValueAt(0, 2));
-                            rezJta[3].setText((String) rezTable
-                                    .getValueAt(0, 3));
-                            rezJta[4].setText((String) rezTable
-                                    .getValueAt(0, 4));
-                            rezJta[5].setText((String) rezTable
-                                    .getValueAt(0, 5));
-                            rezJta[6].setText((String) rezTable
-                                    .getValueAt(0, 6));
-                            rezJta[7].setText((String) rezTable
-                                    .getValueAt(0, 7));
-                            rezJta[8].setText((String) rezTable
-                                    .getValueAt(0, 8));
-                            rezJta[9].setText((String) rezTable
-                                    .getValueAt(0, 9));
-                            rezJta[10].setText((String) rezTable.getValueAt(0,
-                                    10));
+                            for (int i = 1; i < rezJta.length; i++) {
+                                rezJta[1].setText((String) rezTable.getValueAt(0, i));
+                            }
                         }
                     }
                 }
 
             }
 
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
         });
-        rezClient.addMouseListener(new MouseListener() {
+        rezClient.addMouseListener(new MouseListenerAdapter() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
                 for (int i = 0; i < rezCompLabel.length; i++) {
                     rezCompLabel[i].setVisible(false);
                     rezGuestLabel[i].setVisible(true);
@@ -401,39 +291,16 @@ public class ReservationPanel extends JPanel {
 
             }
 
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
         });
 
-        rezCat1.addMouseListener(new MouseListener() {
+        rezCat1.addMouseListener(new MouseListenerAdapter() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
                 rezServTable = reservation.createServTable("rekreacja");
                 rezServTable.addMouseListener(rezMous);
                 if (rezServTable == null) {
-                    JOptionPane.showMessageDialog(getParent(), "Brak us�ug",
-                            "B��d", 1);
+                    showMessageDialog("Brak us�ug");
                 } else {
                     rezServPane.setViewportView(rezServTable);
                     rezServPane.repaint();
@@ -441,79 +308,32 @@ public class ReservationPanel extends JPanel {
 
             }
 
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
         });
 
-        rezCat2.addMouseListener(new MouseListener() {
+        rezCat2.addMouseListener(new MouseListenerAdapter() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
                 rezServTable = reservation.createServTable("gastronomia");
                 rezServTable.addMouseListener(rezMous);
                 if (rezServTable == null) {
-                    JOptionPane.showMessageDialog(getParent(), "Brak us�ug",
-                            "B��d", 1);
+                    showMessageDialog("Brak us�ug");
                 } else {
                     rezServPane.setViewportView(rezServTable);
                     rezServPane.repaint();
                 }
 
             }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
         });
 
-        rezCat3.addMouseListener(new MouseListener() {
+        rezCat3.addMouseListener(new MouseListenerAdapter() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
                 rezServTable = reservation.createServTable("biznes");
                 rezServTable.addMouseListener(rezMous);
                 if (rezServTable == null) {
-                    JOptionPane.showMessageDialog(getParent(), "Brak us�ug",
-                            "B��d", 1);
+                    showMessageDialog("Brak us�ug");
                 } else {
                     rezServPane.setViewportView(rezServTable);
                     rezServPane.repaint();
@@ -521,34 +341,11 @@ public class ReservationPanel extends JPanel {
 
             }
 
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
         });
 
-        rezCompany.addMouseListener(new MouseListener() {
-
+        rezCompany.addMouseListener(new MouseListenerAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
                 for (int i = 0; i < rezCompLabel.length; i++) {
                     rezGuestLabel[i].setVisible(false);
                     rezCompLabel[i].setVisible(true);
@@ -569,134 +366,57 @@ public class ReservationPanel extends JPanel {
                 }
 
             }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
         });
 
-        rezClasTable.addMouseListener(new MouseListener() {
-
+        rezClasTable.addMouseListener(new MouseListenerAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
                 try {
                     if ((rezRoomListLabel = reservation.createRoomList(
-                            Integer.parseInt(rezClasTable.getValueAt(
-                                    rezClasTable.getSelectedRow(), 0)
-                                    .toString()),
+                            Integer.parseInt(rezClasTable.getValueAt(rezClasTable.getSelectedRow(), 0).toString()),
                             rezYears[rezDateBox[2].getSelectedIndex()]
-                                    .toString()
                                     + "-"
-                                    + months[rezDateBox[1].getSelectedIndex()]
-                                    .toString()
+                                    + rezDateBox[1].getSelectedItem()
                                     + "-"
-                                    + rezDays[rezDateBox[0].getSelectedIndex()]
-                                    .toString(), reservation.addDate(
+                                    + rezDays[rezDateBox[0].getSelectedIndex()], reservation.addDate(
                             rezYears[rezDateBox[2].getSelectedIndex()]
-                                    .toString()
                                     + "-"
-                                    + months[rezDateBox[1]
-                                    .getSelectedIndex()]
-                                    .toString()
+                                    + rezDateBox[1].getSelectedIndex()
                                     + "-"
-                                    + rezDays[rezDateBox[0]
-                                    .getSelectedIndex()]
-                                    .toString(), rezDayBox
+                                    + rezDays[rezDateBox[0].getSelectedIndex()], rezDayBox
                             .getSelectedIndex() + 1))) == null) {
                         rezRoomListLabel = new String[1];
                         rezRoomListLabel[0] = "Brak wolnych pokoi";
                     } else {
-                        rezRoomList = new JList(rezRoomListLabel);
+                        rezRoomList = new JList<String>(rezRoomListLabel);
                         rezRoomPane.setViewportView(rezRoomList);
                         rezRoomPane.repaint();
                     }
                 } catch (NumberFormatException e1) {
+                    e1.printStackTrace();
                 } catch (ParseException e1) {
+                    e1.printStackTrace();
                 }
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                // TODO Auto-generated method stub
 
             }
 
         });
 
-        rezServTable.addMouseListener(new MouseListener() {
+        rezServTable.addMouseListener(new MouseListenerAdapter() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
                 listMod.addElement(rezServTable.getValueAt(
                         rezServTable.getSelectedRow(), 1).toString());
                 rezServPane1.setViewportView(rezServList);
                 rezServPane1.repaint();
             }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
         });
 
-        rezServList.addMouseListener(new MouseListener() {
+        rezServList.addMouseListener(new MouseListenerAdapter() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
                 if (listMod.isEmpty()) {
 
                 } else {
@@ -706,40 +426,17 @@ public class ReservationPanel extends JPanel {
                 }
             }
 
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
         });
 
-        rezButton[3].addMouseListener(new MouseListener() {
+        rezButton[3].addMouseListener(new MouseListenerAdapter() {
             int monthInt;
             String monthStr;
             String[] servTab;
 
             @Override
             public void mouseClicked(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
                 if (rezRoomList.getSelectedIndex() < 0)
-                    JOptionPane.showMessageDialog(getParent(),
-                            "Nie wybrano pokoju", "B��d", 1);
+                    showMessageDialog("Nie wybrano pokoju");
                 else {
                     monthInt = rezDateBox[1].getSelectedIndex() + 1;
                     if (monthInt < 10)
@@ -762,24 +459,21 @@ public class ReservationPanel extends JPanel {
                             for (int i = 0; i < rezServList.getModel()
                                     .getSize(); i++) {
                                 rezServList.setSelectedIndex(i);
-                                servTab[i] = rezServList.getSelectedValue()
-                                        .toString();
+                                servTab[i] = rezServList.getSelectedValue();
 
                             }
-                            if (rezRoomList.getSelectedValue().toString() == "Brak danych")
-                                JOptionPane.showMessageDialog(getParent(),
-                                        "Niepoprawna data", "B��d", 0);
-                            else
+                            if (rezRoomList.getSelectedValue().equals("Brak danych")) {
+                                showMessageDialog("Niepoprawna data");
+                            } else
                                 rezCenaJta.setText(String.valueOf(reservation.calculate(
                                         Integer.parseInt(rezRoomList
-                                                .getSelectedValue().toString()),
+                                                .getSelectedValue()),
                                         rezDayBox.getSelectedIndex() + 1,
                                         rezServList.getModel().getSize(),
                                         servTab)));
                             rezCenaJta.setEditable(false);
                         } else
-                            JOptionPane.showMessageDialog(getParent(),
-                                    "Niepoprawna data", "B��d", 0);
+                            showMessageDialog("Niepoprawna data");
 
                     } catch (Exception e1) {
                         e1.printStackTrace();
@@ -787,34 +481,12 @@ public class ReservationPanel extends JPanel {
                 }
             }
 
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
         });
 
-        rezButton[2].addMouseListener(new MouseListener() {
+        rezButton[2].addMouseListener(new MouseListenerAdapter() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
                 boolean err = true;
                 String ch1;
                 String ch2;
@@ -827,31 +499,30 @@ public class ReservationPanel extends JPanel {
                         }
                     }
                     if (!err)
-                        JOptionPane.showMessageDialog(getParent(),
-                                "Wprowad� kompletne dane", "B��d", 1);
+                        showMessageDialog("Wprowad� kompletne dane");
                     else {
                         if (reservation.isNotPesel(rezJta[0].getText())) {
-                            JOptionPane.showMessageDialog(getParent(),
-                                    "Niepoprawny PESEL", "B��d", 1);
+                            showMessageDialog(
+                                    "Niepoprawny PESEL");
                             err = false;
                         } else {
                             if (isNotNumber(rezJta[6].getText())) {
-                                JOptionPane.showMessageDialog(getParent(),
-                                        "Niepoprawny numer lokalu", "B��d", 1);
+                                showMessageDialog(
+                                        "Niepoprawny numer lokalu");
                                 err = false;
                             } else {
                                 if (isNotNumber(rezJta[8].getText())) {
-                                    JOptionPane.showMessageDialog(getParent(),
-                                            "Niepoprawny numer telefonu", "B��d", 1);
+                                    showMessageDialog(
+                                            "Niepoprawny numer telefonu");
                                     err = false;
                                 } else if (reservation.isValidNip(rezJta[9].getText())) {
-                                    JOptionPane.showMessageDialog(getParent(),
-                                            "Niepoprawny NIP", "B��d", 1);
+                                    showMessageDialog(
+                                            "Niepoprawny NIP");
                                     err = false;
                                 } else {
                                     if (rezCenaJta.getText().isEmpty()) {
-                                        JOptionPane.showMessageDialog(getParent(),
-                                                "Nie przeliczono pobytu", "B��d", 1);
+                                        showMessageDialog(
+                                                "Nie przeliczono pobytu");
                                         err = false;
                                     }
                                 }
@@ -878,54 +549,41 @@ public class ReservationPanel extends JPanel {
                                     rezJta[7].getText(),
                                     Long.parseLong(rezJta[8].getText()),
                                     Long.parseLong(rezJta[9].getText()), ch2)) {
-                                JOptionPane.showMessageDialog(getParent(),
-                                        "Dodano Klienta", "Informacja", 1);
+                                showMessageDialog("Dodano Klienta");
                                 try {
                                     reservation.doRezerv(
                                             true,
                                             Long.parseLong(rezJta[0].getText()),
                                             Integer.parseInt(rezRoomList
-                                                    .getSelectedValue()
-                                                    .toString()),
+                                                    .getSelectedValue()),
 
                                             rezYears[rezDateBox[2]
                                                     .getSelectedIndex()]
-                                                    .toString()
                                                     + "-"
-                                                    + months[rezDateBox[1]
-                                                    .getSelectedIndex()]
-                                                    .toString()
+                                                    + rezDateBox[1].getSelectedIndex()
                                                     + "-"
                                                     + rezDays[rezDateBox[0]
-                                                    .getSelectedIndex()]
-                                                    .toString(),
+                                                    .getSelectedIndex()],
                                             reservation.addDate(
                                                     rezYears[rezDateBox[2]
                                                             .getSelectedIndex()]
-                                                            .toString()
                                                             + "-"
-                                                            + months[rezDateBox[1]
-                                                            .getSelectedIndex()]
-                                                            .toString()
+                                                            + rezDateBox[1].getSelectedIndex()
                                                             + "-"
                                                             + rezDays[rezDateBox[0]
-                                                            .getSelectedIndex()]
-                                                            .toString(),
+                                                            .getSelectedIndex()],
                                                     rezDayBox
                                                             .getSelectedIndex() + 1));
                                     rezRoomListLabel = reservation.createRoomList(0,
                                             "2010-01-01", "2011-01-01");
-                                    rezRoomList = new JList(rezRoomListLabel);
+                                    rezRoomList = new JList<String>(rezRoomListLabel);
                                     rezRoomPane.setViewportView(rezRoomList);
                                     rezRoomPane.repaint();
                                 } catch (ParseException e1) {
-                                    // TODO Auto-generated catch block
                                     e1.printStackTrace();
                                 }
                             } else {
-                                JOptionPane.showMessageDialog(getParent(),
-                                        "Nie zaznaczono,�e klient istnieje",
-                                        "Klient istnieje", 1);
+                                showMessageDialog("Nie zaznaczono,�e klient istnieje");
                             }
                         } else {
                             try {
@@ -933,48 +591,35 @@ public class ReservationPanel extends JPanel {
                                         true,
                                         Long.parseLong(rezJta[0].getText()),
                                         Integer.parseInt(rezRoomList
-                                                .getSelectedValue().toString()),
+                                                .getSelectedValue()),
                                         rezYears[rezDateBox[2]
-                                                .getSelectedIndex()].toString()
-                                                + "-"
-                                                + months[rezDateBox[1]
                                                 .getSelectedIndex()]
-                                                .toString()
+                                                + "-"
+                                                + rezDateBox[1].getSelectedIndex()
                                                 + "-"
                                                 + rezDays[rezDateBox[0]
-                                                .getSelectedIndex()]
-                                                .toString(),
+                                                .getSelectedIndex()],
                                         reservation.addDate(
                                                 rezYears[rezDateBox[2]
                                                         .getSelectedIndex()]
-                                                        .toString()
                                                         + "-"
-                                                        + months[rezDateBox[1]
-                                                        .getSelectedIndex()]
-                                                        .toString()
+                                                        + rezDateBox[1].getSelectedIndex()
                                                         + "-"
                                                         + rezDays[rezDateBox[0]
-                                                        .getSelectedIndex()]
-                                                        .toString(),
+                                                        .getSelectedIndex()],
                                                 rezDayBox.getSelectedIndex() + 1)))
-                                    JOptionPane.showMessageDialog(getParent(),
-                                            "Nie dokonano rezerwacji",
-                                            "Brak klienta", 1);
+                                    showMessageDialog("Nie dokonano rezerwacji");
                                 else
-                                    JOptionPane.showMessageDialog(getParent(),
-                                            "Dokonano rezerwacji",
-                                            "Informacja", 1);
+                                    showMessageDialog("Dokonano rezerwacji");
                                 rezRoomListLabel = reservation.createRoomList(0,
                                         "2010-01-01", "2011-01-01");
-                                rezRoomList = new JList(rezRoomListLabel);
+                                rezRoomList = new JList<String>(rezRoomListLabel);
                                 rezRoomPane.setViewportView(rezRoomList);
                                 rezRoomPane.repaint();
 
                             } catch (NumberFormatException e1) {
-                                // TODO Auto-generated catch block
                                 e1.printStackTrace();
                             } catch (ParseException e1) {
-                                // TODO Auto-generated catch block
                                 e1.printStackTrace();
                             }
                         }
@@ -988,41 +633,41 @@ public class ReservationPanel extends JPanel {
                         }
                     }
                     if (!err)
-                        JOptionPane.showMessageDialog(getParent(),
-                                "Wprowad� kompletne dane", "B��d", 0);
+                        showMessageDialog(
+                                "Wprowad� kompletne dane");
                     else {
                         if (reservation.isNotKRS(rezJta[0].getText())) {
-                            JOptionPane.showMessageDialog(getParent(),
-                                    "Niepoprawny KRS", "B��d", 0);
+                            showMessageDialog(
+                                    "Niepoprawny KRS");
                             err = false;
                         } else {
                             if (isNotNumber(rezJta[5].getText())) {
-                                JOptionPane.showMessageDialog(getParent(),
-                                        "Niepoprawny numer lokalu", "B��d", 0);
+                                showMessageDialog(
+                                        "Niepoprawny numer lokalu");
                                 err = false;
                             } else {
                                 if (isNotNumber(rezJta[8].getText())) {
-                                    JOptionPane.showMessageDialog(getParent(),
-                                            "Niepoprawny numer telefonu", "B��d", 0);
+                                    showMessageDialog(
+                                            "Niepoprawny numer telefonu");
                                     err = false;
                                 } else {
                                     if (isNotNumber(rezJta[7].getText())) {
-                                        JOptionPane.showMessageDialog(getParent(),
-                                                "Niepoprawny REGON", "B��d", 0);
+                                        showMessageDialog(
+                                                "Niepoprawny REGON");
                                         err = false;
                                     } else {
                                         if (isNotNumber(rezJta[8].getText())) {
-                                            JOptionPane.showMessageDialog(getParent(),
-                                                    "Niepoprawny NIP", "B��d", 0);
+                                            showMessageDialog(
+                                                    "Niepoprawny NIP");
                                             err = false;
                                         } else if (reservation.isValidNip(rezJta[9].getText())) {
-                                            JOptionPane.showMessageDialog(getParent(),
-                                                    "Niepoprawny numer telefonu", "B��d", 0);
+                                            showMessageDialog(
+                                                    "Niepoprawny numer telefonu");
                                             err = false;
                                         } else {
                                             if (rezCenaJta.getText().isEmpty()) {
-                                                JOptionPane.showMessageDialog(getParent(),
-                                                        "Nie przeliczono pobytu", "B��d", 0);
+                                                showMessageDialog(
+                                                        "Nie przeliczono pobytu");
                                                 err = false;
                                             }
                                         }
@@ -1052,48 +697,35 @@ public class ReservationPanel extends JPanel {
                                     Long.parseLong(rezJta[7].getText()),
                                     Long.parseLong(rezJta[8].getText()),
                                     Long.parseLong(rezJta[8].getText()), ch2)) {
-                                JOptionPane.showMessageDialog(getParent(),
-                                        "Dodano Firme", "Informacja", 1);
+                                showMessageDialog("Dodano Firme");
                                 try {
                                     reservation.doRezerv(
                                             false,
                                             Long.parseLong(rezJta[0].getText()),
                                             Integer.parseInt(rezRoomList
-                                                    .getSelectedValue()
-                                                    .toString()),
+                                                    .getSelectedValue()),
                                             rezYears[rezDateBox[2]
                                                     .getSelectedIndex()]
-                                                    .toString()
                                                     + "-"
-                                                    + months[rezDateBox[1]
-                                                    .getSelectedIndex()]
-                                                    .toString()
+                                                    + rezDateBox[1].getSelectedIndex()
                                                     + "-"
                                                     + rezDays[rezDateBox[0]
-                                                    .getSelectedIndex()]
-                                                    .toString(),
+                                                    .getSelectedIndex()],
                                             reservation.addDate(
                                                     rezYears[rezDateBox[2]
                                                             .getSelectedIndex()]
-                                                            .toString()
                                                             + "-"
-                                                            + months[rezDateBox[1]
-                                                            .getSelectedIndex()]
-                                                            .toString()
+                                                            + rezDateBox[1].getSelectedIndex()
                                                             + "-"
                                                             + rezDays[rezDateBox[0]
-                                                            .getSelectedIndex()]
-                                                            .toString(),
+                                                            .getSelectedIndex()],
                                                     rezDayBox
                                                             .getSelectedIndex() + 1));
                                 } catch (ParseException e1) {
-                                    // TODO Auto-generated catch block
                                     e1.printStackTrace();
                                 }
                             } else {
-                                JOptionPane.showMessageDialog(getParent(),
-                                        "Nie zaznaczono,�e firma istnieje",
-                                        "Firma istnieje", 1);
+                                showMessageDialog("Nie zaznaczono,�e firma istnieje");
                             }
                         } else {
                             try {
@@ -1101,65 +733,41 @@ public class ReservationPanel extends JPanel {
                                         false,
                                         Long.parseLong(rezJta[0].getText()),
                                         Integer.parseInt(rezRoomList
-                                                .getSelectedValue().toString()),
-                                        rezYears[rezDateBox[2]
-                                                .getSelectedIndex()].toString()
+                                                .getSelectedValue()),
+                                        rezYears[rezDateBox[2].getSelectedIndex()]
                                                 + "-"
-                                                + months[rezDateBox[1]
-                                                .getSelectedIndex()]
-                                                .toString()
+                                                + rezDateBox[1].getSelectedIndex()
                                                 + "-"
-                                                + rezDays[rezDateBox[0]
-                                                .getSelectedIndex()]
-                                                .toString(),
+                                                + rezDays[rezDateBox[0].getSelectedIndex()],
                                         reservation.addDate(
-                                                rezYears[rezDateBox[2]
-                                                        .getSelectedIndex()]
-                                                        .toString()
+                                                rezYears[rezDateBox[2].getSelectedIndex()]
                                                         + "-"
-                                                        + months[rezDateBox[1]
-                                                        .getSelectedIndex()]
-                                                        .toString()
+                                                        + rezDateBox[1].getSelectedIndex()
                                                         + "-"
-                                                        + rezDays[rezDateBox[0]
-                                                        .getSelectedIndex()]
-                                                        .toString(),
+                                                        + rezDays[rezDateBox[0].getSelectedIndex()],
                                                 rezDayBox.getSelectedIndex() + 1)))
-                                    JOptionPane.showMessageDialog(getParent(),
-                                            "Nie dokonano rezerwacji",
-                                            "Brak klienta", 1);
+                                    showMessageDialog("Nie dokonano rezerwacji");
                                 else
-                                    JOptionPane.showMessageDialog(getParent(),
-                                            "Dokonano rezerwacji",
-                                            "Informacja", 1);
+                                    showMessageDialog("Dokonano rezerwacji");
                                 rezRoomListLabel = reservation.createRoomList(0,
                                         "2010-01-01", "2011-01-01");
-                                rezRoomList = new JList(rezRoomListLabel);
+                                rezRoomList = new JList<String>(rezRoomListLabel);
                                 rezRoomPane.setViewportView(rezRoomList);
                                 rezRoomPane.repaint();
 
                             } catch (NumberFormatException e1) {
-                                // TODO Auto-generated catch block
                                 e1.printStackTrace();
                             } catch (ParseException e1) {
-                                // TODO Auto-generated catch block
                                 e1.printStackTrace();
                             }
                         }
                     }
                 }
             }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
         });
     }
 
-    private void resizeRezervation(int width, int height) {
+    private void resizeRezervation(int width) {
         int rezEWidth = (width - 200) / 3;
         int rezJtaHeight = 18;
         int k = 50;
@@ -1243,7 +851,7 @@ public class ReservationPanel extends JPanel {
 
     @Override
     public void setSize(int width, int height) {
-        resizeRezervation(width, height);
+        resizeRezervation(width);
         super.setSize(width, height);
     }
 }
