@@ -32,12 +32,12 @@ public enum MONTH {
         return numberOfDayInMonth;
     }
 
-    public int numberCountedFormOne() {
+    public int numberCountedFromOne() {
         return ordinal() + 1;
     }
 
     public boolean after(MONTH month) {
-        return numberCountedFormOne() > month.numberCountedFormOne();
+        return numberCountedFromOne() > month.numberCountedFromOne();
     }
 
     public static MONTH getMonth(int indexCountedFromZero) {

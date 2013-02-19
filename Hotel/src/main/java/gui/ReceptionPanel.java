@@ -1,6 +1,7 @@
 package gui;
 
 import service.Reception;
+import validation.ValidationUtils;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -137,23 +138,18 @@ public class ReceptionPanel extends JPanel {
                     JOptionPane.showMessageDialog(getParent(), "Podaj parametry",
                             "B��d", 0);
                 else {
-                    if (!reception.isNumber(recJta[0].getText())) {
+                    if (ValidationUtils.isNotNumber(recJta[0].getText())) {
                         id = false;
-                        JOptionPane.showMessageDialog(getParent(),
-                                "Nieprawidlowy numer rezerwacji",
-                                "Nieuznany parametr", 0);
-                    } else if (reception.isNumber(recJta[0].getText())
+                        JOptionPane.showMessageDialog(getParent(), "Nieprawidlowy numer rezerwacji", "Nieuznany parametr", 0);
+                    } else if (ValidationUtils.isNotNumber(recJta[0].getText())
                             && !recJta[0].getText().isEmpty()) {
                         id = true;
                         sel = sel + " where ID_REZ=" + recJta[0].getText();
                     }
                     if (!recJta[1].getText().isEmpty()) {
-                        pes = reception.isPesel(recJta[1].getText());
-                        krs = reception.isKRS(recJta[1].getText());
-                        if (!pes && !krs)
-                            JOptionPane.showMessageDialog(getParent(),
-                                    "Nieprawidlowy PESEL/KRS",
-                                    "Nieuznany parametr", 0);
+                        if (!ValidationUtils.isPesel(recJta[1].getText())
+                                && !ValidationUtils.isKRS(recJta[1].getText()))
+                            JOptionPane.showMessageDialog(getParent(), "Nieprawidlowy PESEL/KRS", "Nieuznany parametr", 0);
                         else if (!pes && krs) {
                             if (id) {
                                 sel = sel + " AND";
@@ -172,8 +168,7 @@ public class ReceptionPanel extends JPanel {
                         }
                     }
                     if (!recJta[2].getText().isEmpty()) {
-                        date = reception.isDate(recJta[2].getText());
-                        if (!date) {
+                        if (ValidationUtils.isNotDate(recJta[2].getText())) {
                             JOptionPane.showMessageDialog(getParent(),
                                     "Nieprawid�owa data", "Nieuznany parametr",
                                     0);

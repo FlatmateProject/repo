@@ -1,6 +1,8 @@
 package dto;
 
 import common.tableBuilder.ArrayObtained;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
 public class EmployeeData implements ArrayObtained {
 
@@ -79,5 +81,24 @@ public class EmployeeData implements ArrayObtained {
 
     public long getIdOccupation() {
         return idOccupation;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        EmployeeData that = (EmployeeData) object;
+        return new EqualsBuilder()
+                .append(pesel, that.pesel)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder()
+                .append(pesel)
+                .toHashCode();
     }
 }

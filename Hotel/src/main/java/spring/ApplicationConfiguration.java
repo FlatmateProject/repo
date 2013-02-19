@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import service.*;
 import service.cantor.CantorMoneyExchanger;
 import service.cantor.CantorTableCreator;
+import service.employeeManager.EmployeeManager;
+import service.employeeManager.MonthSchedule;
 import service.guessBook.GuestBook;
 import service.manager.Manager;
 import service.statictic.Statistic;
@@ -222,10 +224,21 @@ public class ApplicationConfiguration {
     }
 
     @Bean
+    public MonthSchedule monthSchedule() {
+        return monthSchedule(employeeManagerDao());
+    }
+
+    private MonthSchedule monthSchedule(EmployeeManagerDao employeeManagerDao) {
+        return new MonthSchedule(calendar(), employeeManagerDao);
+    }
+
+    @Bean
     public EmployeeManager employeeManager() {
-        EmployeeManager employeeManager = new EmployeeManager(employeeManagerDao());
+        EmployeeManagerDao employeeManagerDao = employeeManagerDao();
+        EmployeeManager employeeManager = new EmployeeManager(employeeManagerDao);
         employeeManager.setSingleton(singleton());
         employeeManager.setCalendar(calendar());
+        employeeManager.setMonthSchedule(monthSchedule(employeeManagerDao));
         return employeeManager;
     }
 

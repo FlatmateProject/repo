@@ -23,8 +23,7 @@ public class ReservationPanel extends JPanel {
     private JCheckBox rezIfExistC = new JCheckBox();
     private JCheckBox rezIfExistF = new JCheckBox();
     private final String[] rezDays = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
-    private final String[] rezYears = {"2010", "2011", "2012", "2013", "2015",
-            "2016"};
+    private final String[] rezYears = {"2010", "2011", "2012", "2013", "2015", "2016"};
     private JLabel rezDayLabel = new JLabel();
     private final JComboBox[] rezDateBox = new JComboBox[3];
     private JComboBox<String> rezDayBox = new JComboBox<String>();

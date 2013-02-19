@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 import javax.swing.*;
 import java.sql.ResultSet;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -58,44 +57,7 @@ public class Reception {
         }
     }
 
-    public String trimInput(String input) {
-        return input.replaceAll("\\D*", "");
-    }
-
-    public boolean isPesel(String pesel) {
-        pesel = trimInput(pesel);
-        int psize = pesel.length();
-        if (psize != 11) {
-            return false;
-        }
-        int[] weights = {1, 3, 7, 9, 1, 3, 7, 9, 1, 3};
-        int j = 0, sum = 0, control = 0;
-        int csum = new Integer(pesel.substring(psize - 1)).intValue();
-        for (int i = 0; i < psize - 1; i++) {
-            char c = pesel.charAt(i);
-            j = new Integer(String.valueOf(c)).intValue();
-            sum += j * weights[i];
-        }
-        control = 10 - (sum % 10);
-        if (control == 10) {
-            control = 0;
-        }
-        return (control == csum);
-    }
-
-    public boolean isKRS(String krs) {
-        if (krs.length() != 10)
-            return false;
-        for (int i = 0; i < krs.length(); ++i) {
-            if (krs.charAt(i) <= '0' || krs.charAt(i) > '9') {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean pay(int id, String date, String form, float tax, float much,
-                       String name) {
+    public boolean pay(int id, String date, String form, float tax, float much, String name) {
         boolean flag = true;
         rset1 = singleton.query("select ID_REZ from hotel.rachunki where ID_REZ=" + id);
         try {
@@ -106,25 +68,8 @@ public class Reception {
             flag = true;
         }
         if (flag) {
-            singleton
-                    .update("insert into hotel.rachunki (ID_REZ, DATA, FORMA, PODATEK, WARTOSC, NAZWA) VALUES("
-                            + id
-                            + ", "
-                            + "'"
-                            + date
-                            + "'"
-                            + ", "
-                            + "'"
-                            + form
-                            + "'"
-                            + ", "
-                            + tax
-                            + ", "
-                            + much
-                            + ", "
-                            + "'"
-                            + name
-                            + "'" + ")");
+            singleton.update("insert into hotel.rachunki (ID_REZ, DATA, FORMA, PODATEK, WARTOSC, NAZWA) VALUES("
+                    + id + ", '" + date + "', '" + form + "', " + tax + ", " + much + ", '" + name + "'" + ")");
             return true;
         } else {
             return false;
@@ -153,35 +98,26 @@ public class Reception {
         Calendar c1 = Calendar.getInstance();
         Calendar c2 = Calendar.getInstance();
         try {
-            ResultSet rset3 = singleton
-                    .query("select DATA_Z,TYP from hotel.rezerwacje where ID_REZ="
-                            + idRez);
+            ResultSet rset3 = singleton.query("select DATA_Z,TYP from hotel.rezerwacje where ID_REZ=" + idRez);
             rset3.first();
             date = (Date) df.parse(rset3.getString(1));
             String sYear1 = dfY.format(date);
             String sMonth1 = dfM.format(date);
             String sDay1 = dfD.format(date);
-            c1.set(Integer.parseInt(sYear), Integer.parseInt(sMonth), Integer
-                    .parseInt(sDay));
-            c2.set(Integer.parseInt(sYear1), Integer.parseInt(sMonth1), Integer
-                    .parseInt(sDay1));
+            c1.set(Integer.parseInt(sYear), Integer.parseInt(sMonth), Integer.parseInt(sDay));
+            c2.set(Integer.parseInt(sYear1), Integer.parseInt(sMonth1), Integer.parseInt(sDay1));
             diff = diffInDays3(c1.getTime(), c2.getTime());
-            ResultSet rset4 = singleton.query("select CENA from hotel.klasy where ID_KLASY="
-                    + Integer.parseInt(rset3.getString(2)));
+            ResultSet rset4 = singleton.query("select CENA from hotel.klasy where ID_KLASY=" + Integer.parseInt(rset3.getString(2)));
             rset4.first();
             price = (Float.parseFloat(rset4.getString(1)));
             if (diff < 1)
                 return -1;
             else {
                 roomCost = price * diff;
-                ResultSet rset5 = singleton
-                        .query("select ID_USLUGI, CZAS from hotel.rekreacja where ID_REZ="
-                                + idRez);
+                ResultSet rset5 = singleton.query("select ID_USLUGI, CZAS from hotel.rekreacja where ID_REZ=" + idRez);
                 rset5.first();
                 do {
-                    ResultSet rset6 = singleton
-                            .query("select CENA from hotel.uslugi where ID_USLUGI="
-                                    + rset5.getString(1));
+                    ResultSet rset6 = singleton.query("select CENA from hotel.uslugi where ID_USLUGI=" + rset5.getString(1));
                     rset6.first();
                     serv = Float.parseFloat(rset6.getString(1));
                     amount = Float.parseFloat(rset5.getString(2));
@@ -197,9 +133,7 @@ public class Reception {
     public boolean checkPay(int idRez) {
         int idR = 0;
         try {
-            ResultSet rset7 = singleton
-                    .query("select id_rachunku from hotel.rachunki where id_rez="
-                            + idRez);
+            ResultSet rset7 = singleton.query("select id_rachunku from hotel.rachunki where id_rez=" + idRez);
             rset7.first();
             idR = Integer.parseInt(rset7.getString(1));
             if (idR > 0)
@@ -216,69 +150,15 @@ public class Reception {
         singleton.update("delete from hotel.rezerwacje where id_rez=" + idRez2);
     }
 
-    public void archivRez(int idRez3, boolean idKind, long idK,
-                          int idRom, int type, String dZ, String dW) {
-        if (idKind)
-            singleton
-                    .update("insert into hotel.archiwum(ID_REZ, IDK_PESEL, ID_POKOJU, TYP, DATA_Z, DATA_W) VALUES("
-                            + idRez3
-                            + ", "
-                            + idK
-                            + ", "
-                            + idRom
-                            + ", "
-                            + type
-                            + ", "
-                            + "'"
-                            + dZ
-                            + "'"
-                            + ", "
-                            + "'"
-                            + dW
-                            + "'"
-                            + ")");
-        else
-            singleton
-                    .update("insert into hotel.archiwum(ID_REZ, IDF_KRS, ID_POKOJU, TYP, DATA_Z, DATA_W) VALUES("
-                            + idRez3
-                            + ", "
-                            + idK
-                            + ", "
-                            + idRom
-                            + ", "
-                            + type
-                            + ", "
-                            + "'"
-                            + dZ
-                            + "'"
-                            + ", "
-                            + "'"
-                            + dW
-                            + "'"
-                            + ")");
+    public void archivRez(int idRez3, boolean idKind, long idK, int idRom, int type, String dZ, String dW) {
+        if (idKind) {
+            singleton.update("insert into hotel.archiwum(ID_REZ, IDK_PESEL, ID_POKOJU, TYP, DATA_Z, DATA_W) VALUES("
+                    + idRez3 + ", " + idK + ", " + idRom + ", " + type + ", '" + dZ + "', '" + dW + "')");
+        } else {
+            singleton.update("insert into hotel.archiwum(ID_REZ, IDF_KRS, ID_POKOJU, TYP, DATA_Z, DATA_W) VALUES("
+                    + idRez3 + ", " + idK + ", " + idRom + ", " + type + ", '" + dZ + "', '" + dW + "')");
+        }
         singleton.update("update hotel.pokoje set ID_REZ=NULL WHERE ID_POKOJU=" + idRom);
-    }
-
-    public boolean isDate(String date) {
-        try {
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            df.setLenient(false);
-            df.parse(date);
-        } catch (ParseException e) {
-            return false;
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-        return true;
-    }
-
-    public boolean isNumber(String num) {
-        for (int i = 0; i < num.length(); ++i) {
-            if (num.charAt(i) <= '0' || num.charAt(i) > '9') {
-                return false;
-            }
-        }
-        return true;
     }
 
     public void setSingleton(Singleton singleton) {

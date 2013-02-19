@@ -3,7 +3,7 @@ package gui;
 import dao.impl.Singleton;
 import dictionary.MONTH;
 import org.apache.log4j.Logger;
-import service.EmployeeManager;
+import service.employeeManager.EmployeeManager;
 import validation.ValidationUtils;
 
 import javax.swing.*;
@@ -513,7 +513,7 @@ public class EmployeeManagerPanel extends JPanel {
                 mgpRaportText.setText("Raport z zarobk�w za miesi�c "
                         + mgpChooseMonth.getSelectedItem()
                         + "\n"
-                        + employeeManager.getPaysRaport(mgpChooseMonth.getSelectedIndex() + 1));
+                        + employeeManager.getPaysReport(mgpChooseMonth.getSelectedIndex() + 1));
                 mgpRaportText.setVisible(true);
 
             }
