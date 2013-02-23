@@ -1,8 +1,9 @@
-package service.employeeManager;
+package assertions;
 
 import dto.EmployeeData;
 import org.fest.assertions.Assertions;
 import org.fest.assertions.GenericAssert;
+import service.employeeManager.EmployeesPool;
 
 public class EmployeesPoolAssertions extends GenericAssert<EmployeesPoolAssertions, EmployeesPool> {
 

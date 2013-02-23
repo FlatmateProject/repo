@@ -7,8 +7,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static assertions.EmployeesPoolAssertions.assertThat;
 import static org.mockito.Mockito.mock;
-import static service.employeeManager.EmployeesPoolAssertions.assertThat;
 
 public class EmployeesPoolTest {
 

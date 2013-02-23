@@ -1,7 +1,8 @@
-package service.employeeManager;
+package assertions;
 
 import org.fest.assertions.Assertions;
 import org.fest.assertions.GenericAssert;
+import service.employeeManager.RoomRange;
 
 public class RoomRangeAssertions extends GenericAssert<RoomRangeAssertions, RoomRange> {
 

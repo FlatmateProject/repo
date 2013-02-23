@@ -7,9 +7,9 @@ import org.testng.annotations.Test;
 import java.util.Collections;
 import java.util.List;
 
+import static assertions.RoomRangeAssertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static service.employeeManager.RoomRangeAssertions.assertThat;
 
 public class RoomRangeCalculatorTest {
 
@@ -43,4 +43,6 @@ public class RoomRangeCalculatorTest {
                 .isNotNull()
                 .isRange(roomFromId, roomFromId);
     }
+
+
 }
