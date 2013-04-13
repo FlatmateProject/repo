@@ -9,7 +9,8 @@ class Singleton {
 
     private static final Logger log = Logger.getLogger(Singleton.class);
 
-    private static Singleton instance = null;
+    private static Singleton instance;
+
     private static Connection connection;
 
     public static Singleton getInstance(DataSource dataSource) {

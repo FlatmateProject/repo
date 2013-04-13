@@ -1,0 +1,8 @@
+/target
+/.settings
+/test-output
+.classpath
+.project
+addressbook.iml
+addressbook.ipr
+addressbook.iws
