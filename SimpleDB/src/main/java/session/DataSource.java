@@ -1,5 +1,8 @@
 package session;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 public class DataSource {
 
     private String driver;
@@ -54,5 +57,10 @@ public class DataSource {
 
     public Singleton establishConnection() {
         return Singleton.getInstance(this);
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.reflectionToString(this, ToStringStyle.SIMPLE_STYLE);
     }
 }

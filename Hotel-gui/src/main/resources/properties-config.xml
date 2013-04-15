@@ -7,6 +7,7 @@
     	http://www.springframework.org/schema/context
      	http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
-    <context:property-placeholder location="classpath:/database.properties"/>
-
+    <context:spring-configured/>
+    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+    <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
 </beans>

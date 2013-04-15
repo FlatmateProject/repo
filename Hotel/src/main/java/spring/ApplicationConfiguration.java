@@ -6,8 +6,10 @@ import gui.*;
 import gui.guestBook.ClientPanel;
 import gui.guestBook.GuestBookPanel;
 import gui.statistic.StatisticPanel;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import service.*;
 import service.cantor.CantorMoneyExchanger;
 import service.cantor.CantorTableCreator;
@@ -26,22 +28,23 @@ import static gui.guestBook.CompanySpecification.companySpecification;
 import static gui.guestBook.CustomerSpecification.customerSpecification;
 
 @Configuration
+@ImportResource("classpath:/properties-config.xml")
 public class ApplicationConfiguration {
 
-    //    @Value("#{driver}")
-    private String driver = "com.mysql.jdbc.Driver";
+    @Value("${driver}")
+    private String driver;
 
-    //    @Value("#{host}")
-    private String host = "jdbc:mysql://localhost:3306/";
+    @Value("${host}")
+    private String host;
 
-    //    @Value("#{database}")
-    private String database = "hotel";
+    @Value("${database}")
+    private String database;
 
-    //    @Value("#{username}")
-    private String user = "hotel";
+    @Value("${username}")
+    private String user;
 
-    //    @Value("#{password}")
-    private String password = "hotel_dupe";
+    @Value("${password}")
+    private String password;
 
     private Calendar calendar = GregorianCalendar.getInstance();
 
