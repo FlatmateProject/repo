@@ -1,32 +1,43 @@
 package view;
 
 import com.vaadin.annotations.Title;
-import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.UI;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Title("Hotel")
-public class HotelUI extends UI implements ComponentLifeCycle {
+@Component
+public class HotelUI extends CustomComponent implements ComponentLifeCycle {
 
-    private CustomComponent managerPanel = new ManagerPanel();
+    @Autowired
+    private CustomComponent managerPanel;
 
-    private CustomComponent cantorPanel = new CantorPanel();
+    @Autowired
+    private CustomComponent cantorPanel;
 
-    private CustomComponent schedulerPanel = new SchedulerPanel();
+    @Autowired
+    private CustomComponent schedulerPanel;
 
-    private CustomComponent receptionPanel = new ReceptionPanel();
+    @Autowired
+    private CustomComponent receptionPanel;
 
-    private CustomComponent reservationPanel = new ReservationPanel();
+    @Autowired
+    private CustomComponent reservationPanel;
 
-    private CustomComponent guessBookPanel = new GuessBookPanel();
+    @Autowired
+    private CustomComponent guessBookPanel;
 
-    private CustomComponent statisticPanel = new StatisticPanel();
+    @Autowired
+    private CustomComponent statisticPanel;
 
-    private CustomComponent employeeManagerPanel = new EmployeeManagerPanel();
+    @Autowired
+    private CustomComponent employeeManagerPanel;
 
+    public HotelUI() {
+    }
 
-    protected void init(VaadinRequest request) {
+    public void construct() {
         create();
         addEvents();
     }
@@ -41,9 +52,41 @@ public class HotelUI extends UI implements ComponentLifeCycle {
         tabsheet.addTab(guessBookPanel, "Księga gości");
         tabsheet.addTab(statisticPanel, "Statystyka");
         tabsheet.addTab(employeeManagerPanel, "Menadżer personelu");
-        setContent(tabsheet);
+        setCompositionRoot(tabsheet);
     }
 
     public void addEvents() {
+    }
+
+    public void setManagerPanel(CustomComponent managerPanel) {
+        this.managerPanel = managerPanel;
+    }
+
+    public void setCantorPanel(CustomComponent cantorPanel) {
+        this.cantorPanel = cantorPanel;
+    }
+
+    public void setSchedulerPanel(CustomComponent schedulerPanel) {
+        this.schedulerPanel = schedulerPanel;
+    }
+
+    public void setReceptionPanel(CustomComponent receptionPanel) {
+        this.receptionPanel = receptionPanel;
+    }
+
+    public void setReservationPanel(CustomComponent reservationPanel) {
+        this.reservationPanel = reservationPanel;
+    }
+
+    public void setGuessBookPanel(CustomComponent guessBookPanel) {
+        this.guessBookPanel = guessBookPanel;
+    }
+
+    public void setStatisticPanel(CustomComponent statisticPanel) {
+        this.statisticPanel = statisticPanel;
+    }
+
+    public void setEmployeeManagerPanel(CustomComponent employeeManagerPanel) {
+        this.employeeManagerPanel = employeeManagerPanel;
     }
 }

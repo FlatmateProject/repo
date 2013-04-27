@@ -183,8 +183,7 @@ public class EmployeeManagerPanel extends JPanel {
 
         rset = db
                 .query("SELECT imie, nazwisko, idp_pesel FROM pracownicy WHERE id_stanowiska=1");
-        System.out
-                .println("SELECT imie, nazwisko, idp_pesel FROM pracownicy WHERE id_stanowiska=1");
+        log.debug("SELECT imie, nazwisko, idp_pesel FROM pracownicy WHERE id_stanowiska=1");
         mgpChooseEmployee = new JComboBox();
         if (rset != null) {
             log.info("in costam lipa");

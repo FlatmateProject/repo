@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 @Configuration
-@ImportResource("classpath:properties-config.xml")
+@ImportResource("classpath:/properties-core-config.xml")
 public class ApplicationConfiguration {
 
     @Value("${driver}")
@@ -55,11 +55,6 @@ public class ApplicationConfiguration {
     @Bean
     public SimpleSession session() {
         return new SimpleSession(dataSource());
-    }
-
-    @Bean
-    public Singleton singleton() {
-        return Singleton.getInstance();
     }
 
     @Bean

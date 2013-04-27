@@ -2,6 +2,7 @@ package gui;
 
 import gui.guestBook.GuestBookPanel;
 import gui.statistic.StatisticPanel;
+import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import spring.ApplicationConfiguration;
@@ -13,6 +14,8 @@ import java.awt.*;
 public class Gui extends JFrame {
 
     private static final long serialVersionUID = 1L;
+
+    private static final Logger log = Logger.getLogger(Gui.class);
 
     private StatisticPanel statisticPanel;
 
@@ -45,7 +48,7 @@ public class Gui extends JFrame {
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         } catch (Exception e) {
-            System.err.println("Błąd :: LOOK AND FEEL");
+            log.debug("Błąd :: LOOK AND FEEL");
         }
     }
 

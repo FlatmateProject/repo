@@ -21,7 +21,6 @@ public class CantorPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
-    private ExchangeCalculation exchangeCalculation;
 
     private JTextField amountInput;
     private JLabel buyLabel;
@@ -53,6 +52,8 @@ public class CantorPanel extends JPanel {
     private CantorMoneyExchanger cantor;
 
     private final CantorTableCreator creator;
+
+    private ExchangeCalculation exchangeCalculation;
 
     public CantorPanel(CantorDao cantorDao, CantorTableCreator creator) {
         this.cantorDao = cantorDao;

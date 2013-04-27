@@ -28,7 +28,12 @@ class Singleton {
             Class.forName(dataSource.getDriver()).newInstance();
             connection = DriverManager.getConnection(dataSource.getHost() + dataSource.getDatabase(), dataSource.getUser(), dataSource.getPassword());
         } catch (Exception e) {
-            System.out.println(e.getLocalizedMessage() + "\nBrak połączenia z bazą danych!");
+            log.debug(e.getClass() + e.getLocalizedMessage());
+            for (StackTraceElement stackTraceElement : e.getStackTrace()) {
+                log.debug(stackTraceElement);
+            }
+            log.debug("Brak połączenia z bazą danych!");
+            log.debug("datasource details" + dataSource);
         }
     }
 
