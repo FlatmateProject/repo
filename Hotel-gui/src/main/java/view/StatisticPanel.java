@@ -1,15 +1,18 @@
 package view;
 
-import com.vaadin.ui.CustomComponent;
+import dao.StatisticDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import service.statictic.Statistic;
 
 @Component
-public class StatisticPanel extends CustomComponent implements ComponentLifeCycle {
+public class StatisticPanel extends TabComponent {
 
-    public StatisticPanel() {
-        create();
-        addEvents();
-    }
+    @Autowired
+    private StatisticDao statisticDao;
+
+    @Autowired
+    private Statistic statistic;
 
     @Override
     public void create() {
@@ -19,5 +22,13 @@ public class StatisticPanel extends CustomComponent implements ComponentLifeCycl
     @Override
     public void addEvents() {
 
+    }
+
+    public void setStatistic(Statistic statistic) {
+        this.statistic = statistic;
+    }
+
+    public void setStatisticDao(StatisticDao statisticDao) {
+        this.statisticDao = statisticDao;
     }
 }

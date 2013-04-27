@@ -1,15 +1,19 @@
 package view;
 
-import com.vaadin.ui.CustomComponent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import service.employeeManager.EmployeeManager;
+
+import java.util.Calendar;
 
 @Component
-public class EmployeeManagerPanel extends CustomComponent implements ComponentLifeCycle {
+public class EmployeeManagerPanel extends TabComponent {
 
-    public EmployeeManagerPanel() {
-        create();
-        addEvents();
-    }
+    @Autowired
+    private EmployeeManager employeeManager;
+
+    @Autowired
+    private Calendar calendar;
 
     @Override
     public void create() {

@@ -15,7 +15,6 @@ public class SchedulerPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
     private int d, m, y;
-    private final Calendar calendar;
     private final JButton[] schDayButton = new JButton[31];
     private JButton schNext, schPrev;
     private final JLabel[] schDayLabel = new JLabel[7];
@@ -30,6 +29,8 @@ public class SchedulerPanel extends JPanel {
     private final String[] schDow = {"Pn", "Wt", "�r", "Cz", "Pt", "So", "Nd"};
 
     private final Schedule schedule;
+
+    private final Calendar calendar;
 
     public SchedulerPanel(Calendar calendar, Schedule schedule) {
         this.calendar = calendar;

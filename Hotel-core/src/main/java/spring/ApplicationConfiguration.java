@@ -11,8 +11,12 @@ import service.DeleteService;
 import service.UpdateService;
 import service.cantor.CantorMoneyExchanger;
 import service.cantor.CantorTableCreator;
+import service.employeeManager.EmployeeManager;
 import service.guessBook.GuestBook;
 import service.manager.Manager;
+import service.reception.Reception;
+import service.reservation.Reservation;
+import service.schedule.Schedule;
 import service.statictic.Statistic;
 import session.DataSource;
 import session.SimpleSession;
@@ -140,5 +144,28 @@ public class ApplicationConfiguration {
     @Bean
     public Calendar calendar() {
         return calendar;
+    }
+
+    @Bean
+    public Schedule schedule() {
+        Schedule schedule = new Schedule();
+        return schedule;
+    }
+
+    @Bean
+    public Reception reception() {
+        Reception reception = new Reception();
+        return reception;
+    }
+
+    @Bean
+    public Reservation reservation() {
+        Reservation reservation = new Reservation();
+        return reservation;
+    }
+
+    @Bean
+    public EmployeeManager employeeManager() {
+        return new EmployeeManager();
     }
 }

@@ -47,7 +47,6 @@ public class EmployeeManagerPanel extends JPanel {
     private JTextPane mgpRaportText;
     private JPanel mgpServe[];
 
-    private final EmployeeManager employeeManager;
 
     private String mgpColsName[];
     private String mgpMatrix[][];
@@ -58,7 +57,6 @@ public class EmployeeManagerPanel extends JPanel {
     private final int[] dayInMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31,
             30, 31};
 
-    private final Calendar calendar;
 
     private int mgpDay;
 
@@ -71,6 +69,10 @@ public class EmployeeManagerPanel extends JPanel {
     private int mgpClickCount = 0;
 
     private final Color bgColor = new Color(224, 230, 233);
+
+    private final EmployeeManager employeeManager;
+
+    private final Calendar calendar;
 
     private final Singleton db;
 

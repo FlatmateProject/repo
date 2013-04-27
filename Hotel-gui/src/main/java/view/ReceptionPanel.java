@@ -1,10 +1,9 @@
 package view;
 
-import com.vaadin.ui.CustomComponent;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ReceptionPanel extends CustomComponent implements ComponentLifeCycle {
+public class ReceptionPanel extends TabComponent {
 
     public ReceptionPanel() {
         create();

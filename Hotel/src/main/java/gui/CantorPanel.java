@@ -176,7 +176,7 @@ public class CantorPanel extends JPanel {
                 } else if (areSelectedTheSameCurrency()) {
                     showMessageDialog("Nie można wymieniać na tą samą walutę");
                 } else {
-                    calculateExchange();
+                    exchangeCalculation = calculateExchange();
                     updateCostInputText();
                 }
             }
@@ -189,9 +189,9 @@ public class CantorPanel extends JPanel {
                 return oldCurrencyBox.getSelectedItem() == newCurrencyBox.getSelectedItem();
             }
 
-            private void calculateExchange() {
+            private ExchangeCalculation calculateExchange() {
                 float amount = getAmount();
-                exchangeCalculation = cantor.calculateExchange(
+                return cantor.calculateExchange(
                         (CURRENCY) oldCurrencyBox.getSelectedItem(),
                         (CURRENCY) newCurrencyBox.getSelectedItem(),
                         amount);

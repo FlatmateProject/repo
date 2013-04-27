@@ -1,15 +1,14 @@
 package view;
 
-import com.vaadin.ui.CustomComponent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import service.reservation.Reservation;
 
 @Component
-public class ReservationPanel extends CustomComponent implements ComponentLifeCycle {
+public class ReservationPanel extends TabComponent {
 
-    public ReservationPanel() {
-        create();
-        addEvents();
-    }
+    @Autowired
+    private Reservation reservation;
 
     @Override
     public void create() {
@@ -19,5 +18,9 @@ public class ReservationPanel extends CustomComponent implements ComponentLifeCy
     @Override
     public void addEvents() {
 
+    }
+
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
     }
 }

@@ -1,92 +1,85 @@
 package view;
 
 import com.vaadin.annotations.Title;
-import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.TabSheet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Title("Hotel")
 @Component
-public class HotelUI extends CustomComponent implements ComponentLifeCycle {
+public class HotelUI extends TabComponent {
 
     @Autowired
-    private CustomComponent managerPanel;
+    private TabComponent managerPanel;
 
     @Autowired
-    private CustomComponent cantorPanel;
+    private TabComponent cantorPanel;
 
     @Autowired
-    private CustomComponent schedulerPanel;
+    private TabComponent schedulerPanel;
 
     @Autowired
-    private CustomComponent receptionPanel;
+    private TabComponent receptionPanel;
 
     @Autowired
-    private CustomComponent reservationPanel;
+    private TabComponent reservationPanel;
 
     @Autowired
-    private CustomComponent guessBookPanel;
+    private TabComponent guessBookPanel;
 
     @Autowired
-    private CustomComponent statisticPanel;
+    private TabComponent statisticPanel;
 
     @Autowired
-    private CustomComponent employeeManagerPanel;
+    private TabComponent employeeManagerPanel;
 
-    public HotelUI() {
-    }
-
-    public void construct() {
-        create();
-        addEvents();
-    }
-
+    @Override
     public void create() {
         TabSheet tabsheet = new TabSheet();
-        tabsheet.addTab(managerPanel, "Manager");
-        tabsheet.addTab(cantorPanel, "Cantor");
-        tabsheet.addTab(schedulerPanel, "Grafik");
-        tabsheet.addTab(receptionPanel, "Recepcja");
-        tabsheet.addTab(reservationPanel, "Rezerwacje");
-        tabsheet.addTab(guessBookPanel, "Księga gości");
-        tabsheet.addTab(statisticPanel, "Statystyka");
-        tabsheet.addTab(employeeManagerPanel, "Menadżer personelu");
+        tabsheet.addTab(managerPanel.construct(), "Manager");
+        tabsheet.addTab(cantorPanel.construct(), "Cantor");
+        tabsheet.addTab(schedulerPanel.construct(), "Grafik");
+        tabsheet.addTab(receptionPanel.construct(), "Recepcja");
+        tabsheet.addTab(reservationPanel.construct(), "Rezerwacje");
+        tabsheet.addTab(guessBookPanel.construct(), "Księga gości");
+        tabsheet.addTab(statisticPanel.construct(), "Statystyka");
+        tabsheet.addTab(employeeManagerPanel.construct(), "Menadżer personelu");
         setCompositionRoot(tabsheet);
     }
 
+    @Override
     public void addEvents() {
     }
 
-    public void setManagerPanel(CustomComponent managerPanel) {
+    public void setManagerPanel(TabComponent managerPanel) {
         this.managerPanel = managerPanel;
     }
 
-    public void setCantorPanel(CustomComponent cantorPanel) {
+    public void setCantorPanel(TabComponent cantorPanel) {
         this.cantorPanel = cantorPanel;
     }
 
-    public void setSchedulerPanel(CustomComponent schedulerPanel) {
+    public void setSchedulerPanel(TabComponent schedulerPanel) {
         this.schedulerPanel = schedulerPanel;
     }
 
-    public void setReceptionPanel(CustomComponent receptionPanel) {
+    public void setReceptionPanel(TabComponent receptionPanel) {
         this.receptionPanel = receptionPanel;
     }
 
-    public void setReservationPanel(CustomComponent reservationPanel) {
+    public void setReservationPanel(TabComponent reservationPanel) {
         this.reservationPanel = reservationPanel;
     }
 
-    public void setGuessBookPanel(CustomComponent guessBookPanel) {
+    public void setGuessBookPanel(TabComponent guessBookPanel) {
         this.guessBookPanel = guessBookPanel;
     }
 
-    public void setStatisticPanel(CustomComponent statisticPanel) {
+    public void setStatisticPanel(TabComponent statisticPanel) {
         this.statisticPanel = statisticPanel;
     }
 
-    public void setEmployeeManagerPanel(CustomComponent employeeManagerPanel) {
+    public void setEmployeeManagerPanel(TabComponent employeeManagerPanel) {
         this.employeeManagerPanel = employeeManagerPanel;
     }
 }
