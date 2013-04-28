@@ -15,12 +15,9 @@
         <module>TestClient</module>
         <module>Dictionary-ear</module>
         <module>Hotel</module>
-        <module>Hotel-core</module>
-        <module>Hotel-gui</module>
         <module>Dictionary-web</module>
         <module>SimpleDB</module>
         <module>addressbook</module>
-        <module>bristleback-tutorial</module>
     </modules>
     <dependencies>
         <dependency>
