@@ -13,7 +13,7 @@ import java.util.List;
 import static assertions.SimpleNameListAssert.assertThat;
 
 @ContextConfiguration(classes = ApplicationConfiguration.class)
-public class StatisticDaoTest extends AbstractTestNGSpringContextTests   {
+public class StatisticDaoTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     StatisticDao statisticDao;

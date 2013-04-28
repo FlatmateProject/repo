@@ -24,7 +24,7 @@ public class Singleton {
     private static void initializeJDBCConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotel", "hotel", "hotel_dupe");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotel", "hotel2", "hotel0");
         } catch (Exception e) {
             log.debug(e.getLocalizedMessage() + "\nBrak połączenia z bazą danych!");
         }
