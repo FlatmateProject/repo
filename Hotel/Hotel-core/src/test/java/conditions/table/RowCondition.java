@@ -1,6 +1,6 @@
 package conditions.table;
 
-import common.tableBuilder.TableResult;
+import common.tableBuilder.TableContent;
 import org.fest.assertions.Condition;
 
 /**
@@ -8,7 +8,7 @@ import org.fest.assertions.Condition;
  * Date: 11/11/12
  * Time: 12:08 PM
  */
-public class RowCondition extends Condition<TableResult> {
+public class RowCondition extends Condition<TableContent> {
 
     private final Object[] expectedCells;
 
@@ -22,8 +22,8 @@ public class RowCondition extends Condition<TableResult> {
     }
 
     @Override
-    public boolean matches(TableResult tableResult) {
-        Object[][] data = tableResult.getRowsData();
+    public boolean matches(TableContent tableContent) {
+        Object[][] data = tableContent.getRowsData();
         for (int i = 0; i < data.length; i++) {
             Object[] actualCells = data[i];
             if (isActualRowEqualToExpectedRow(actualCells)) {

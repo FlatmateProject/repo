@@ -137,7 +137,7 @@ public class ApplicationConfiguration {
 
     private CantorPanel cantorPanel() {
         CantorDao cantorDao = cantorDao();
-        CantorPanel cantorPanel = new CantorPanel(cantorDao, cantorTableCreator(cantorDao));
+        CantorPanel cantorPanel = new CantorPanel(cantorTableCreator(cantorDao));
         cantorPanel.setCantor(cantorMoneyExchanger(cantorDao));
         return cantorPanel;
     }

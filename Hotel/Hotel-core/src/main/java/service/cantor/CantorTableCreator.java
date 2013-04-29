@@ -1,7 +1,7 @@
 package service.cantor;
 
-import common.tableBuilder.TableBuilder;
-import common.tableBuilder.TableResult;
+import common.tableBuilder.TableContent;
+import common.tableBuilder.TableContentBuilder;
 import dao.CantorDao;
 import dto.ColumnData;
 import dto.CompanyData;
@@ -19,33 +19,33 @@ public class CantorTableCreator {
         this.cantorDao = cantorDao;
     }
 
-    public TableResult createCurrencyTable() {
+    public TableContent createCurrencyTable() {
         try {
             List<ColumnData> currencyColumns = cantorDao.showColumnsForCurrency();
             List<CurrencyData> currencies = cantorDao.findAllCurrency();
-            return TableBuilder.table().columns(currencyColumns).data(currencies).build();
+            return TableContentBuilder.table().columns(currencyColumns).data(currencies).build();
         } catch (DAOException e) {
-            return TableResult.EMPTY;
+            return TableContent.EMPTY;
         }
     }
 
-    public TableResult createCustomerTable(long customerId) {
+    public TableContent createCustomerTable(long customerId) {
         try {
             List<ColumnData> customerColumns = cantorDao.showColumnsForCustomer();
             List<CustomerData> customers = cantorDao.findAllCustomers(customerId);
-            return TableBuilder.table().columns(customerColumns).data(customers).build();
+            return TableContentBuilder.table().columns(customerColumns).data(customers).build();
         } catch (Exception e) {
-            return TableResult.EMPTY;
+            return TableContent.EMPTY;
         }
     }
 
-    public TableResult createCompanyTable(long companyId) {
+    public TableContent createCompanyTable(long companyId) {
         try {
             List<ColumnData> customerColumns = cantorDao.showColumnsForCompany();
             List<CompanyData> company = cantorDao.findAllCompanies(companyId);
-            return TableBuilder.table().columns(customerColumns).data(company).build();
+            return TableContentBuilder.table().columns(customerColumns).data(company).build();
         } catch (Exception e) {
-            return TableResult.EMPTY;
+            return TableContent.EMPTY;
         }
     }
 }

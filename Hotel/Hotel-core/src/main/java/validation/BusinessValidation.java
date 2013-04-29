@@ -4,8 +4,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+public class BusinessValidation {
 
-public class ValidationUtils {
     public static boolean isNotDate(String date) {
         try {
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -17,15 +17,6 @@ public class ValidationUtils {
             return true;
         }
         return false;
-    }
-
-    public static boolean isNotNumber(String num) {
-        try {
-            Integer.valueOf(num);
-            return false;
-        } catch (NumberFormatException e) {
-            return true;
-        }
     }
 
     private static String trimInput(String input) {
@@ -63,5 +54,4 @@ public class ValidationUtils {
         }
         return true;
     }
-
 }

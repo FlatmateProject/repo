@@ -2,8 +2,8 @@ package service.cantor;
 
 import dto.CurrencyData;
 
-import static validation.ValidationUtils.isKRS;
-import static validation.ValidationUtils.isPesel;
+import static validation.BusinessValidation.isKRS;
+import static validation.BusinessValidation.isPesel;
 
 public class ExchangeCalculation {
 

@@ -18,8 +18,8 @@ public class SimpleSessionTest {
         dataSource.setDriver("com.mysql.jdbc.Driver");
         dataSource.setHost("jdbc:mysql://localhost:3306/");
         dataSource.setDatabase("hotel");
-        dataSource.setUser("hotel");
-        dataSource.setPassword("hotel_dupe");
+        dataSource.setUser("hotel2");
+        dataSource.setPassword("hotel0");
 
         // when
         simpleSession = new SimpleSession(dataSource);

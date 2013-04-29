@@ -1,9 +1,9 @@
 package conditions.table;
 
-import common.tableBuilder.TableResult;
+import common.tableBuilder.TableContent;
 import org.fest.assertions.Condition;
 
-public class ColumnCondition extends Condition<TableResult> {
+public class ColumnCondition extends Condition<TableContent> {
 
     private final String[] expectedColumnNames;
 
@@ -17,8 +17,8 @@ public class ColumnCondition extends Condition<TableResult> {
     }
 
     @Override
-    public boolean matches(TableResult tableResult) {
-        String[] actualColumnNames = tableResult.getColumnNames();
+    public boolean matches(TableContent tableContent) {
+        String[] actualColumnNames = tableContent.getColumnNames();
         for (int i = 0; i < actualColumnNames.length; i++) {
             if (isNotEqual(actualColumnNames[i], expectedColumnNames[i])) {
                 return false;

@@ -16,7 +16,6 @@
         <module>Dictionary-ear</module>
         <module>Hotel</module>
         <module>Dictionary-web</module>
-        <module>SimpleDB</module>
         <module>addressbook</module>
     </modules>
     <dependencies>

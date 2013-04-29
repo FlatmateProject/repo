@@ -2,8 +2,8 @@ package service.guessBook;
 
 
 import common.tableBuilder.ArrayObtained;
-import common.tableBuilder.TableBuilder;
-import common.tableBuilder.TableResult;
+import common.tableBuilder.TableContent;
+import common.tableBuilder.TableContentBuilder;
 import dao.GuestBookDao;
 import dictionary.TABLE;
 import dto.ColumnData;
@@ -38,22 +38,22 @@ public class GuestBook {
         }
     }
 
-    public TableResult createReservationTable(String primaryId, long clientId) {
+    public TableContent createReservationTable(String primaryId, long clientId) {
         try {
             List<ColumnData> columns = guestBookDao.showColumnsForTable("rezerwacje");
             List<ReservationData> data = guestBookDao.getReservationsByClientId(primaryId, clientId);
-            return TableBuilder.table().columns(columns).data(data).build();
+            return TableContentBuilder.table().columns(columns).data(data).build();
         } catch (Exception e) {
             e.printStackTrace();
-            return TableResult.EMPTY;
+            return TableContent.EMPTY;
         }
     }
 
-    public TableResult createRecreationTable(long idReservation) {
+    public TableContent createRecreationTable(long idReservation) {
         try {
             List<ColumnData> columns = guestBookDao.showColumnsForTable("uslugi");
             List<RecreationServiceData> data = guestBookDao.getServiceByReservationId(idReservation);
-            return TableBuilder
+            return TableContentBuilder
                     .table()
                     .columns(columns)
                     .appendColumn("CZAS")
@@ -61,16 +61,16 @@ public class GuestBook {
                     .build();
         } catch (Exception e) {
             e.printStackTrace();
-            return TableResult.EMPTY;
+            return TableContent.EMPTY;
         }
     }
 
-    public TableResult createTable(TABLE tableName) {
+    public TableContent createTable(TABLE tableName) {
         String emptyConditions = "";
         return createTableWithConditions(tableName, emptyConditions);
     }
 
-    public TableResult createTable(TABLE table, String[] labels, String[] data) {
+    public TableContent createTable(TABLE table, String[] labels, String[] data) {
         this.labels = labels;
         this.data = data;
         String conditions = createConditions();
@@ -78,17 +78,17 @@ public class GuestBook {
             conditions = " where " + conditions;
             return createTableWithConditions(table, conditions);
         }
-        return TableResult.EMPTY;
+        return TableContent.EMPTY;
     }
 
-    private TableResult createTableWithConditions(TABLE tableName, String conditions) {
+    private TableContent createTableWithConditions(TABLE tableName, String conditions) {
         try {
             List<ColumnData> columns = guestBookDao.showColumnsForTable(tableName.getTableName());
             List<? extends ArrayObtained> data = guestBookDao.getDataFromTable(tableName, conditions);
-            return TableBuilder.table().columns(columns).data(data).build();
+            return TableContentBuilder.table().columns(columns).data(data).build();
         } catch (Exception e) {
             e.printStackTrace();
-            return TableResult.EMPTY;
+            return TableContent.EMPTY;
         }
     }
 

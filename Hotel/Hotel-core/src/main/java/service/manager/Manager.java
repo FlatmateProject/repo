@@ -1,8 +1,8 @@
 package service.manager;
 
 import common.tableBuilder.ArrayObtained;
-import common.tableBuilder.TableBuilder;
-import common.tableBuilder.TableResult;
+import common.tableBuilder.TableContent;
+import common.tableBuilder.TableContentBuilder;
 import dao.ManagerDao;
 import dictionary.TABLE;
 import dto.ColumnData;
@@ -26,14 +26,14 @@ public class Manager {
         return managerDao.showColumnsForTable(table);
     }
 
-    public TableResult createTable(TABLE table) {
+    public TableContent createTable(TABLE table) {
         try {
             List<ColumnData> columns = managerDao.showColumnsForTable(table);
             List<? extends ArrayObtained> data = managerDao.getDataFromTable(table);
-            return TableBuilder.table().columns(columns).data(data).build();
+            return TableContentBuilder.table().columns(columns).data(data).build();
         } catch (Exception e) {
             e.printStackTrace();
-            return TableResult.EMPTY;
+            return TableContent.EMPTY;
         }
     }
 }

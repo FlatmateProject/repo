@@ -4,41 +4,41 @@ import dto.ColumnData;
 
 import java.util.List;
 
-public class TableBuilder {
+public class TableContentBuilder {
 
     private List rowsData;
 
     private List<ColumnData> columnNames;
 
-    private TableBuilder() {
+    private TableContentBuilder() {
 
     }
 
-    public static TableBuilder table() {
-        return new TableBuilder();
+    public static TableContentBuilder table() {
+        return new TableContentBuilder();
     }
 
-    public TableBuilder columns(List<ColumnData> columnNames) {
+    public TableContentBuilder columns(List<ColumnData> columnNames) {
         this.columnNames = columnNames;
         return this;
     }
 
 
-    public <T extends ArrayObtained> TableBuilder data(List<T> rowsData) {
+    public <T extends ArrayObtained> TableContentBuilder data(List<T> rowsData) {
         this.rowsData = rowsData;
         return this;
     }
 
-    public TableBuilder appendColumn(String columnName) {
+    public TableContentBuilder appendColumn(String columnName) {
         columnNames.add(new ColumnData(columnName));
         return this;
     }
 
-    public TableResult build() {
+    public TableContent build() {
         if (isNotEmptyList(columnNames) && isNotEmptyList(rowsData)) {
             return createTable(rowsData);
         } else {
-            return TableResult.EMPTY;
+            return TableContent.EMPTY;
         }
     }
 
@@ -46,10 +46,10 @@ public class TableBuilder {
         return columnNames != null && columnNames.size() > 0;
     }
 
-    private <T extends ArrayObtained> TableResult createTable(List<T> rowsData) {
+    private <T extends ArrayObtained> TableContent createTable(List<T> rowsData) {
         String columns[] = createTableColumns(columnNames);
         Object[][] rows = createTableRows(rowsData);
-        return TableResult.store(rows, columns);
+        return TableContent.store(rows, columns);
     }
 
     private String[] createTableColumns(List<ColumnData> currencyColumns) {

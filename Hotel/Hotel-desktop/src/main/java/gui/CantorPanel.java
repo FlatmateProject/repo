@@ -1,7 +1,6 @@
 package gui;
 
 import common.tableBuilder.TableResult;
-import dao.CantorDao;
 import exception.CantorTransactionCanceledException;
 import service.cantor.CURRENCY;
 import service.cantor.CantorMoneyExchanger;
@@ -47,16 +46,13 @@ public class CantorPanel extends JPanel {
     private final Border border = BorderFactory.createLineBorder(new Color(60, 124, 142));
     private final Color buttonColor = new Color(174, 205, 214);
 
-    private final CantorDao cantorDao;
-
     private CantorMoneyExchanger cantor;
 
     private final CantorTableCreator creator;
 
     private ExchangeCalculation exchangeCalculation;
 
-    public CantorPanel(CantorDao cantorDao, CantorTableCreator creator) {
-        this.cantorDao = cantorDao;
+    public CantorPanel(CantorTableCreator creator) {
         this.creator = creator;
         create();
         addEvents();
@@ -130,7 +126,6 @@ public class CantorPanel extends JPanel {
     }
 
     private void addEvents() {
-
         searchClientButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

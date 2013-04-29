@@ -1,16 +1,16 @@
 package assertions;
 
-import common.tableBuilder.TableResult;
+import common.tableBuilder.TableContent;
 import org.fest.assertions.Assertions;
 import org.fest.assertions.GenericAssert;
 
-public class TableAssert extends GenericAssert<TableAssert, TableResult> {
+public class TableAssert extends GenericAssert<TableAssert, TableContent> {
 
-    private TableAssert(TableResult actual) {
+    private TableAssert(TableContent actual) {
         super(TableAssert.class, actual);
     }
 
-    public static TableAssert assertThat(TableResult actual) {
+    public static TableAssert assertThat(TableContent actual) {
         return new TableAssert(actual);
     }
 
