@@ -18,12 +18,12 @@ public class CantorMockitoTest {
     @Mock
     CantorDao cantorDao;
 
-    private CantorMoneyExchanger cantor;
+    private CantorMoneyExchanger exchanger;
 
     @BeforeMethod
     public void beforeEachTest() {
         initMocks(this);
-        cantor = new CantorMoneyExchanger(cantorDao);
+        exchanger = new CantorMoneyExchanger(cantorDao);
     }
 
     @Test(dataProvider = "prepareCasesForCalculateMoneyExchange")
@@ -43,7 +43,7 @@ public class CantorMockitoTest {
         when(cantorDao.findCurrencyByName(saleCurrency)).thenReturn(saleCurrencyData);
 
         // when
-        ExchangeCalculation exchangeCalculation = cantor.calculateExchange(saleCurrency, buyCurrency, amount);
+        ExchangeCalculation exchangeCalculation = exchanger.calculateExchange(saleCurrency, buyCurrency, amount);
 
         // then
         assertThat(exchangeCalculation)
@@ -93,7 +93,7 @@ public class CantorMockitoTest {
         when(calculation.isCustomer()).thenReturn(true);
 
         // when
-        cantor.exchangeMoney(calculation);
+        exchanger.exchangeMoney(calculation);
 
         // then
         verify(cantorDao).insertTransactionForCustomer(calculation);
@@ -128,7 +128,7 @@ public class CantorMockitoTest {
         when(calculation.isCompany()).thenReturn(true);
 
         // when
-        cantor.exchangeMoney(calculation);
+        exchanger.exchangeMoney(calculation);
 
         // then
         verify(cantorDao).insertTransactionForCompany(calculation);
@@ -136,7 +136,7 @@ public class CantorMockitoTest {
         verify(cantorDao).updateCurrency(buyingCurrency);
     }
 
-    @Test
+    @Test(expectedExceptions = CantorTransactionCanceledException.class)
     public void shouldNotCommitMoneyExchangeTransactionWithoutClient() throws CantorTransactionCanceledException {
         // given
         ExchangeCalculation calculation = mock(ExchangeCalculation.class);
@@ -144,9 +144,10 @@ public class CantorMockitoTest {
         when(calculation.isCompany()).thenReturn(false);
 
         // when
-        cantor.exchangeMoney(calculation);
+        exchanger.exchangeMoney(calculation);
 
         // then
+        verifyZeroInteractions(cantorDao);
     }
 
     @Test(expectedExceptions = CantorTransactionCanceledException.class)
@@ -158,9 +159,9 @@ public class CantorMockitoTest {
         doThrow(new DAOException()).when(cantorDao).insertTransactionForCustomer(calculation);
 
         // when
-        cantor.exchangeMoney(calculation);
+        exchanger.exchangeMoney(calculation);
 
         // then
-        verifyNoMoreInteractions(cantorDao);
+        verifyZeroInteractions(cantorDao);
     }
 }

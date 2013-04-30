@@ -28,10 +28,7 @@ class Singleton {
             Class.forName(dataSource.getDriver()).newInstance();
             connection = DriverManager.getConnection(dataSource.getHost() + dataSource.getDatabase(), dataSource.getUser(), dataSource.getPassword());
         } catch (Exception e) {
-            log.debug(e.getClass() + e.getLocalizedMessage());
-            for (StackTraceElement stackTraceElement : e.getStackTrace()) {
-                log.debug(stackTraceElement);
-            }
+            logExceptionDetails(e);
             log.debug("Brak połączenia z bazą danych!");
             log.debug("datasource details" + dataSource);
         }
@@ -43,7 +40,7 @@ class Singleton {
             Statement statement = connection.createStatement();
             return statement.executeQuery(sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logExceptionDetails(e);
             throw new DAOException(e);
         }
     }
@@ -55,8 +52,15 @@ class Singleton {
             statement.executeUpdate(sql);
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logExceptionDetails(e);
             throw new DAOException(e);
+        }
+    }
+
+    private static void logExceptionDetails(Exception e) {
+        log.error(e.getClass() + e.getLocalizedMessage());
+        for (StackTraceElement stackTraceElement : e.getStackTrace()) {
+            log.error(stackTraceElement);
         }
     }
 

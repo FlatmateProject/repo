@@ -43,11 +43,11 @@ public class CantorMoneyExchanger {
             exchangeMoneyInSingleTransaction(calculation);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new CantorTransactionCanceledException();
+            throw new CantorTransactionCanceledException(e);
         }
     }
 
-    private void exchangeMoneyInSingleTransaction(ExchangeCalculation calculation) throws DAOException {
+    private void exchangeMoneyInSingleTransaction(ExchangeCalculation calculation) throws DAOException, CantorTransactionCanceledException {
         CurrencyData oldCurrency = calculation.getSellingCurrency();
         CurrencyData newCurrency = calculation.getBuyingCurrency();
         if (calculation.isCustomer()) {
@@ -55,7 +55,7 @@ public class CantorMoneyExchanger {
         } else if (calculation.isCompany()) {
             cantorDao.insertTransactionForCompany(calculation);
         } else {
-            return;
+            throw new CantorTransactionCanceledException("wrong client");
         }
         oldCurrency.increaseQuantity(calculation.getAmount());
         cantorDao.updateCurrency(oldCurrency);

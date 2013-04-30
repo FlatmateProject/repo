@@ -1,6 +1,7 @@
 package view;
 
 
+import com.vaadin.data.Property;
 import com.vaadin.ui.*;
 import common.tableBuilder.TableContent;
 import exception.CantorTransactionCanceledException;
@@ -210,27 +211,27 @@ public class CantorPanel extends TabComponent {
 
             private void commitMoneyExchangeTransaction() {
                 if (cantor.isTransactionPossible(exchangeCalculation)) {
-                    exchangeMoney();
-                    refreshView();
+                    executeTransactionWithUIUpdate();
                 } else {
                     showMessageDialog("Nieprawidłowe dane");
                 }
             }
 
-            private void exchangeMoney() {
+            private void executeTransactionWithUIUpdate() {
                 try {
-                    String client = getClient();
-                    exchangeCalculation.forClient(client);
-                    cantor.exchangeMoney(exchangeCalculation);
+                    exchangeMoney();
+                    refreshView();
                 } catch (CantorTransactionCanceledException e) {
-                    showMessageDialog("Transakcja wymiany nie powiodla sie");
                     e.printStackTrace();
+                    showMessageDialog("Transakcja wymiany nie powiodla sie");
                 }
             }
 
-            private String getClient() {
-                log.info(clientTable.getValue());
-                return "1";
+            private void exchangeMoney() throws CantorTransactionCanceledException {
+                String client = getClient();
+                log.info("client " + client);
+                exchangeCalculation.forClient(client);
+                cantor.exchangeMoney(exchangeCalculation);
             }
 
             private void refreshView() {
@@ -246,6 +247,12 @@ public class CantorPanel extends TabComponent {
                         .withSelection()
                         .build();
                 currencyTableLayout.addComponent(currencyTable);
+            }
+
+            private String getClient() {
+                Object selectedRowIndex = clientTable.getValue();
+                Property property = clientTable.getItem(selectedRowIndex).getItemProperty("IDK_PESEL");
+                return String.valueOf(property.getValue());
             }
         });
     }

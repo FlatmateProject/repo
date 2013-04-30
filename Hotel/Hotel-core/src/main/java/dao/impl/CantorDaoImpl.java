@@ -81,9 +81,9 @@ public class CantorDaoImpl implements CantorDao {
     }
 
     private void insertTransaction(ExchangeCalculation calculation, String idColumn) throws DAOException {
-        session.update("insert into hotel.kantor (" + idColumn + ", DATA, W_KU, W_SP, ILOSC, WARTOSC, ZYSK) VALUES("
+        String query = "insert into hotel.kantor (" + idColumn + ", DATA, W_KU, W_SP, ILOSC, WARTOSC, ZYSK) VALUES("
                 + calculation.getClientId() + ", '" + formatCurrentDate() + "', '" + calculation.getSellingCurrency().getCurrencyId() + "', '" + calculation.getBuyingCurrency().getCurrencyId()
-                + "', " + calculation.getAmount() + ", " + calculation.getCost() + ", " + calculation.getGain() + ");");
+                + "', " + calculation.getAmount() + ", " + calculation.getCost() + ", " + calculation.getGain() + ");";
     }
 
     private String formatCurrentDate() {
