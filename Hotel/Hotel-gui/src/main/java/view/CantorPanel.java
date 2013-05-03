@@ -27,6 +27,7 @@ public class CantorPanel extends TabComponent {
 
     private static final Logger log = Logger.getLogger(CantorPanel.class);
 
+    private final CURRENCY DEFAULT_SELECTED_CURRENCY = CURRENCY.EUR;
     private TextField amountInput;
     private ComboBox oldCurrencyBox;
     private ComboBox newCurrencyBox;
@@ -55,8 +56,11 @@ public class CantorPanel extends TabComponent {
     public void create() {
         oldCurrencyBox = new ComboBox("Waluta wymieniana", CURRENCY.asList());
         oldCurrencyBox.setNullSelectionAllowed(false);
+        oldCurrencyBox.setValue(DEFAULT_SELECTED_CURRENCY);
+
         newCurrencyBox = new ComboBox("Nowa waluta", CURRENCY.asList());
         newCurrencyBox.setNullSelectionAllowed(false);
+        newCurrencyBox.setValue(DEFAULT_SELECTED_CURRENCY);
 
         amountInput = new TextField("Kwota");
         calculateExchangeButton = new Button("Przelicz");
@@ -229,15 +233,14 @@ public class CantorPanel extends TabComponent {
 
             private void exchangeMoney() throws CantorTransactionCanceledException {
                 String client = getClient();
-                log.info("client " + client);
                 exchangeCalculation.forClient(client);
                 cantor.exchangeMoney(exchangeCalculation);
             }
 
             private void refreshView() {
                 customerIdInput.setValue("");
-                oldCurrencyBox.setNullSelectionItemId(0);
-                newCurrencyBox.setNullSelectionItemId(0);
+                oldCurrencyBox.setValue(DEFAULT_SELECTED_CURRENCY);
+                newCurrencyBox.setValue(DEFAULT_SELECTED_CURRENCY);
                 costInput.setValue("");
                 currencyTableLayout.removeComponent(currencyTable);
                 TableContent currencyTableContent = creator.createCurrencyTable();
@@ -251,7 +254,7 @@ public class CantorPanel extends TabComponent {
 
             private String getClient() {
                 Object selectedRowIndex = clientTable.getValue();
-                Property property = clientTable.getItem(selectedRowIndex).getItemProperty("IDK_PESEL");
+                Property property = clientTable.getItem(selectedRowIndex).getItemProperty(1);
                 return String.valueOf(property.getValue());
             }
         });

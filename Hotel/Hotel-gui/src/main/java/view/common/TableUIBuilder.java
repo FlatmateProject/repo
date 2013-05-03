@@ -2,11 +2,8 @@ package view.common;
 
 import com.vaadin.ui.Table;
 import common.tableBuilder.TableContent;
-import org.apache.log4j.Logger;
 
 public class TableUIBuilder {
-
-    private static final Logger log = Logger.getLogger(TableUIBuilder.class);
 
     private String title = "";
 
@@ -40,7 +37,8 @@ public class TableUIBuilder {
         Object[] firstRow = rowsData[0];
         int i = 0;
         for (String column : content.getColumnNames()) {
-            table.addContainerProperty(column, firstRow[i].getClass(), null);
+            int propertyId = i + 1;
+            table.addContainerProperty(propertyId, firstRow[i].getClass(), null, column, null, Table.Align.CENTER);
             i++;
         }
         i = 1;
