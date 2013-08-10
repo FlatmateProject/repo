@@ -2,6 +2,7 @@ package view.common;
 
 import com.vaadin.ui.Table;
 import common.tableBuilder.TableContent;
+import dictionary.TABLE;
 
 public class TableUIBuilder {
 
@@ -34,18 +35,31 @@ public class TableUIBuilder {
         Table table = new Table(title);
         table.setSelectable(selectable);
         Object[][] rowsData = content.getRowsData();
-        Object[] firstRow = rowsData[0];
+        createColumns(table, rowsData[0]);
+        addRows(table, rowsData);
+        return table;
+    }
+
+    private void createColumns(Table table, Object[] firstRow) {
         int i = 0;
         for (String column : content.getColumnNames()) {
             int propertyId = i + 1;
             table.addContainerProperty(propertyId, firstRow[i].getClass(), null, column, null, Table.Align.CENTER);
             i++;
         }
+    }
+
+    private void addRows(Table table, Object[][] rowsData) {
+        int i;
         i = 1;
         for (Object[] row : rowsData) {
             table.addItem(row, i);
             i++;
         }
-        return table;
+    }
+
+    public TableUIBuilder withTitle(TABLE table) {
+        this.title = table.getTableName();
+        return this;
     }
 }

@@ -353,3 +353,11 @@ CREATE TABLE IF NOT EXISTS `waluty` (
 -- Zrzut danych tabeli `waluty`
 --
 
+--
+-- Struktura tabeli dla  `firmy`
+--
+
+DROP TABLE IF EXISTS `archiwum`;
+CREATE TABLE IF NOT EXISTS `archiwum` (
+  `ID_ARCHIVE` bigint(10) NOT NULL PRIMARY KEY AUTO_INCREMENT
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

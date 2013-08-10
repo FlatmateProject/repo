@@ -5,7 +5,6 @@ import com.vaadin.data.Property;
 import com.vaadin.ui.*;
 import common.tableBuilder.TableContent;
 import exception.CantorTransactionCanceledException;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import service.cantor.CURRENCY;
@@ -24,8 +23,6 @@ import static validation.UIValidation.isNotNumber;
 
 @Component
 public class CantorPanel extends TabComponent {
-
-    private static final Logger log = Logger.getLogger(CantorPanel.class);
 
     private final CURRENCY DEFAULT_SELECTED_CURRENCY = CURRENCY.EUR;
     private TextField amountInput;
@@ -115,7 +112,7 @@ public class CantorPanel extends TabComponent {
             public void buttonClick(ClickEvent event) {
                 String customerId = customerIdInput.getValue();
                 if (isCustomerIdEmpty()) {
-                    showMessageDialog("Nie podano numeru PESEL/KRS");
+                    Notification.show("Nie podano numeru PESEL/KRS");
                 } else if (isPesel(customerId)) {
                     clientTableLayout.removeComponent(clientTable);
                     clientTable = createCustomerTable();
@@ -125,7 +122,7 @@ public class CantorPanel extends TabComponent {
                     clientTable = createCompanyTable();
                     clientTableLayout.addComponent(clientTable);
                 } else {
-                    showMessageDialog("Nieprawidłowy PESEL/KRS");
+                    Notification.show("Nieprawidłowy PESEL/KRS");
                 }
             }
 
@@ -158,11 +155,11 @@ public class CantorPanel extends TabComponent {
             @Override
             public void buttonClick(ClickEvent event) {
                 if (isAmountInputEmpty()) {
-                    showMessageDialog("Nie podano kwoty");
+                    Notification.show("Nie podano kwoty");
                 } else if (isNotNumber(amountInput.getValue())) {
-                    showMessageDialog("Podaj prawidlowa ilosc waluty");
+                    Notification.show("Podaj prawidlowa ilosc waluty");
                 } else if (areSelectedTheSameCurrency()) {
-                    showMessageDialog("Nie można wymieniać na tą samą walutę");
+                    Notification.show("Nie można wymieniać na tą samą walutę");
                 } else {
                     exchangeCalculation = calculateExchange();
                     updateCostInputText();
@@ -197,9 +194,9 @@ public class CantorPanel extends TabComponent {
             @Override
             public void buttonClick(ClickEvent event) {
                 if (isCostInputEmpty()) {
-                    showMessageDialog("Brak należnej kwoty");
+                    Notification.show("Brak należnej kwoty");
                 } else if (isNotSelectedCustomer()) {
-                    showMessageDialog("Nie zaznaczono klienta");
+                    Notification.show("Nie zaznaczono klienta");
                 } else {
                     commitMoneyExchangeTransaction();
                 }
@@ -217,7 +214,7 @@ public class CantorPanel extends TabComponent {
                 if (cantor.isTransactionPossible(exchangeCalculation)) {
                     executeTransactionWithUIUpdate();
                 } else {
-                    showMessageDialog("Nieprawidłowe dane");
+                    Notification.show("Nieprawidłowe dane");
                 }
             }
 
@@ -227,7 +224,7 @@ public class CantorPanel extends TabComponent {
                     refreshView();
                 } catch (CantorTransactionCanceledException e) {
                     e.printStackTrace();
-                    showMessageDialog("Transakcja wymiany nie powiodla sie");
+                    Notification.show("Transakcja wymiany nie powiodla sie");
                 }
             }
 
@@ -258,11 +255,6 @@ public class CantorPanel extends TabComponent {
                 return String.valueOf(property.getValue());
             }
         });
-    }
-
-    private void showMessageDialog(String message) {
-        log.info(message);
-        Notification.show(message);
     }
 
     private double round(double digit) {
