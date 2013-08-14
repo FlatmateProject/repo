@@ -1,18 +1,22 @@
 package view;
 
-import com.vaadin.annotations.Title;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import spring.WebApplicationConfiguration;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
-@Title("Hotel")
+import javax.servlet.ServletContext;
+
 public class ApplicationUI extends UI {
 
+    private WebApplicationContext webApplicationContext;
+
+    @Override
     protected void init(VaadinRequest request) {
-        ApplicationContext context = new AnnotationConfigApplicationContext(WebApplicationConfiguration.class);
-        HotelUI gui = context.getBean(HotelUI.class);
+        ServletContext servletContext = VaadinServlet.getCurrent().getServletContext();
+        webApplicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
+        HotelUI gui = webApplicationContext.getBean(HotelUI.class);
         gui.construct();
         setContent(gui);
     }
