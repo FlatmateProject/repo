@@ -119,11 +119,7 @@ public class DataPanel extends CustomComponent {
 
     }
 
-    public void updateFields(String[] values) {
-        int length = dataFields.length;
-        String data[] = new String[length];
-        for (int i = 0; i < length; i++) {
-            dataFields[i].setValue(values[i]);
-        }
+    public void updateField(int i, String value) {
+        dataFields[i].setValue(value);
     }
 }

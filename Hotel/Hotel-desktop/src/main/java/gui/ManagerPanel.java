@@ -6,6 +6,7 @@ import dictionary.TABLE;
 import dto.ColumnData;
 import exception.DAOException;
 import exception.IncorrectDataException;
+import org.apache.log4j.Logger;
 import service.AddService;
 import service.DeleteService;
 import service.UpdateService;
@@ -24,6 +25,8 @@ import java.util.Calendar;
 import java.util.List;
 
 public class ManagerPanel extends JPanel {
+
+    private static final Logger log = Logger.getLogger(ManagerPanel.class);
 
     private final Calendar calendar;
 
@@ -281,16 +284,16 @@ public class ManagerPanel extends JPanel {
             }
         });
 
-        tableButtons[0].addActionListener(new MyActionListener(TABLE.Customer));
-        tableButtons[1].addActionListener(new MyActionListener(TABLE.Company));
-        tableButtons[2].addActionListener(new MyActionListener(TABLE.Service));
-        tableButtons[3].addActionListener(new MyActionListener(TABLE.Room));
-        tableButtons[4].addActionListener(new MyActionListener(TABLE.Occupation));
-        tableButtons[5].addActionListener(new MyActionListener(TABLE.Currency));
-        tableButtons[6].addActionListener(new MyActionListener(TABLE.Employee));
-        tableButtons[7].addActionListener(new MyActionListener(TABLE.RoomType));
-        tableButtons[8].addActionListener(new MyActionListener(TABLE.Archive));
-        tableButtons[9].addActionListener(new MyActionListener(TABLE.Bill));
+        tableButtons[0].addActionListener(new TableButtonClickListener(TABLE.Customer));
+        tableButtons[1].addActionListener(new TableButtonClickListener(TABLE.Company));
+        tableButtons[2].addActionListener(new TableButtonClickListener(TABLE.Service));
+        tableButtons[3].addActionListener(new TableButtonClickListener(TABLE.Room));
+        tableButtons[4].addActionListener(new TableButtonClickListener(TABLE.Occupation));
+        tableButtons[5].addActionListener(new TableButtonClickListener(TABLE.Currency));
+        tableButtons[6].addActionListener(new TableButtonClickListener(TABLE.Employee));
+        tableButtons[7].addActionListener(new TableButtonClickListener(TABLE.RoomType));
+        tableButtons[8].addActionListener(new TableButtonClickListener(TABLE.Archive));
+        tableButtons[9].addActionListener(new TableButtonClickListener(TABLE.Bill));
     }
 
     private JTable createTable(TableResult tableResult) {
@@ -339,16 +342,6 @@ public class ManagerPanel extends JPanel {
         JOptionPane.showMessageDialog(null, message, "ATTENTION!", JOptionPane.ERROR_MESSAGE);
     }
 
-    private void manAction(TABLE table1) {
-        this.currentTable = table1;
-        TableResult tableResult = manager.createTable(table1);
-        table = createTable(tableResult);
-        remove(dataPanel);
-        dataPanel = createDataPanel(table1);
-        add(dataPanel);
-        repaint();
-        revalidate();
-    }
 
     private MouseListenerAdapter createTableMouseListener() {
         return new MouseListenerAdapter() {
@@ -390,17 +383,24 @@ public class ManagerPanel extends JPanel {
     }
 
 
-    class MyActionListener implements ActionListener {
+    class TableButtonClickListener implements ActionListener {
 
         private TABLE usedTable;
 
-        MyActionListener(TABLE usedTable) {
+        TableButtonClickListener(TABLE usedTable) {
             this.usedTable = usedTable;
         }
 
         @Override
         public void actionPerformed(ActionEvent arg0) {
-            manAction(usedTable);
+            currentTable = usedTable;
+            TableResult tableResult = manager.createTable(usedTable);
+            table = createTable(tableResult);
+            remove(dataPanel);
+            dataPanel = createDataPanel(usedTable);
+            add(dataPanel);
+            repaint();
+            revalidate();
         }
     }
 

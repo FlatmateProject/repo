@@ -1,5 +1,6 @@
 package view.common;
 
+import com.vaadin.event.ItemClickEvent;
 import com.vaadin.ui.Table;
 import common.tableBuilder.TableContent;
 import dictionary.TABLE;
@@ -9,6 +10,8 @@ public class TableUIBuilder {
     private String title = "";
 
     boolean selectable = false;
+
+    private ItemClickEvent.ItemClickListener tableMouseListener;
 
     private TableContent content = TableContent.EMPTY;
 
@@ -37,6 +40,9 @@ public class TableUIBuilder {
         Object[][] rowsData = content.getRowsData();
         createColumns(table, rowsData[0]);
         addRows(table, rowsData);
+        if (tableMouseListener != null) {
+            table.addItemClickListener(tableMouseListener);
+        }
         return table;
     }
 
@@ -60,6 +66,11 @@ public class TableUIBuilder {
 
     public TableUIBuilder withTitle(TABLE table) {
         this.title = table.getTableName();
+        return this;
+    }
+
+    public TableUIBuilder withClickListener(ItemClickEvent.ItemClickListener tableMouseListener) {
+        this.tableMouseListener = tableMouseListener;
         return this;
     }
 }

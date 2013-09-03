@@ -6,6 +6,7 @@ import converter.impl.LocalDateConverter;
 import converter.impl.LongConverter;
 import converter.impl.StringConverter;
 import exception.DAOException;
+import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 
 import java.lang.reflect.Field;
@@ -17,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 class Transformer {
+
+    private static final Logger log = Logger.getLogger(Transformer.class);
 
     private ResultSet resultSet;
 
@@ -32,6 +35,7 @@ class Transformer {
     }
 
     public static Transformer on(ResultSet resultSet) {
+        log.info(resultSet);
         return new Transformer(resultSet);
     }
 
@@ -81,6 +85,7 @@ class Transformer {
             checkColumnNumberIsNotEqualToFieldNumber(fields);
             for (Field field : fields) {
                 errorMessage = field.getName() + ": " + field.toString();
+//                log.info(errorMessage);
                 field.setAccessible(true);
                 field.set(object, getObjectByIndex(index, field.getType()));
                 index++;

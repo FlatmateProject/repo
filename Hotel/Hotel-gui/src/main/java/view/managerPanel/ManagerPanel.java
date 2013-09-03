@@ -3,13 +3,14 @@ package view.managerPanel;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
-import com.vaadin.shared.ui.colorpicker.Color;
+import com.vaadin.event.ItemClickEvent;
 import com.vaadin.ui.*;
 import common.tableBuilder.TableContent;
 import dictionary.TABLE;
 import dto.ColumnData;
 import exception.DAOException;
 import exception.IncorrectDataException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import service.AddService;
@@ -20,7 +21,6 @@ import service.manager.Manager;
 import view.TabComponent;
 import view.common.TableUIBuilder;
 
-import javax.swing.*;
 import java.util.Calendar;
 import java.util.List;
 
@@ -29,22 +29,17 @@ import static com.vaadin.ui.Button.ClickListener;
 
 @Component
 public class ManagerPanel extends TabComponent {
+    private static final Logger log = Logger.getLogger(ManagerPanel.class);
 
     private DataPanel dataPanel;
 
     private Button[] tableButtons;
 
-    private JScrollPane scrollPanel;
-
     private Table table;
 
-    private TABLE currentTable = TABLE.Customer;
+    private TABLE currentlySelectedTable = TABLE.Customer;
 
-    private final Color bgColor = new Color(224, 230, 233);
-
-    private final ClickListener tableMouseListener = createTableMouseListener();
-
-    private final Color buttonColor = new Color(174, 205, 214);
+    private final ItemClickEvent.ItemClickListener tableMouseListener = createTableMouseListener();
 
     private Button addButton;
 
@@ -144,11 +139,11 @@ public class ManagerPanel extends TabComponent {
                 try {
                     String labels[] = dataPanel.getLabels();
                     String data[] = dataPanel.getData();
-                    addService.insertData(currentTable, labels, data);
+                    addService.insertData(currentlySelectedTable, labels, data);
                     tableLayout.removeComponent(table);
-                    TableContent tableContent = manager.createTable(currentTable);
+                    TableContent tableContent = manager.createTable(currentlySelectedTable);
                     table = TableUIBuilder.table()
-                            .withTitle(currentTable)
+                            .withTitle(currentlySelectedTable)
                             .withContent(tableContent)
                             .withSelection()
                             .build();
@@ -174,11 +169,11 @@ public class ManagerPanel extends TabComponent {
                 long id = dataPanel.getIdValue();
                 if (id > 0) {
                     String primaryKey = dataPanel.getPrimaryKey();
-                    deleteService.deleteData(currentTable, primaryKey, id);
+                    deleteService.deleteData(currentlySelectedTable, primaryKey, id);
                     tableLayout.removeComponent(table);
-                    TableContent tableContent = manager.createTable(currentTable);
+                    TableContent tableContent = manager.createTable(currentlySelectedTable);
                     table = TableUIBuilder.table()
-                            .withTitle(currentTable)
+                            .withTitle(currentlySelectedTable)
                             .withContent(tableContent)
                             .withSelection()
                             .build();
@@ -192,11 +187,11 @@ public class ManagerPanel extends TabComponent {
                 try {
                     String[] labels = dataPanel.getLabels();
                     String[] data = dataPanel.getData();
-                    updateService.updateClientData(currentTable, labels, data);
+                    updateService.updateClientData(currentlySelectedTable, labels, data);
                     tableLayout.removeComponent(table);
-                    TableContent tableContent = manager.createTable(currentTable);
+                    TableContent tableContent = manager.createTable(currentlySelectedTable);
                     table = TableUIBuilder.table()
-                            .withTitle(currentTable)
+                            .withTitle(currentlySelectedTable)
                             .withContent(tableContent)
                             .withSelection()
                             .build();
@@ -213,9 +208,9 @@ public class ManagerPanel extends TabComponent {
                 String[] labels = dataPanel.getLabels();
                 String[] data = dataPanel.getData();
                 tableLayout.removeComponent(table);
-                TableContent tableContent = guestBook.createTable(currentTable, labels, data);
+                TableContent tableContent = guestBook.createTable(currentlySelectedTable, labels, data);
                 table = TableUIBuilder.table()
-                        .withTitle(currentTable)
+                        .withTitle(currentlySelectedTable)
                         .withContent(tableContent)
                         .withSelection()
                         .build();
@@ -227,16 +222,15 @@ public class ManagerPanel extends TabComponent {
             public void buttonClick(ClickEvent event) {
                 dataPanel.cleanFields();
                 tableLayout.removeComponent(table);
-                TableContent tableContent = guestBook.createTable(currentTable);
+                TableContent tableContent = guestBook.createTable(currentlySelectedTable);
                 table = TableUIBuilder.table()
-                        .withTitle(currentTable)
+                        .withTitle(currentlySelectedTable)
                         .withContent(tableContent)
                         .withSelection()
                         .build();
                 tableLayout.addComponent(table);
             }
         });
-//
         tableButtons[0].addClickListener(new ControlButtonClickListener(TABLE.Customer));
         tableButtons[1].addClickListener(new ControlButtonClickListener(TABLE.Company));
         tableButtons[2].addClickListener(new ControlButtonClickListener(TABLE.Service));
@@ -250,7 +244,7 @@ public class ManagerPanel extends TabComponent {
     }
 
 //    private void createNewsList(int progressiveY) {
-//        List<String> news = new JList<>(createNews());
+//        List<String> news = new List<>(/*createNews()*/);
 //        add(news);
 //    }
 
@@ -290,10 +284,10 @@ public class ManagerPanel extends TabComponent {
         }
     }
 
-    private ClickListener createTableMouseListener() {
-        return new ClickListener() {
+    private ItemClickEvent.ItemClickListener createTableMouseListener() {
+        return new ItemClickEvent.ItemClickListener() {
             @Override
-            public void buttonClick(ClickEvent event) {
+            public void itemClick(ItemClickEvent event) {
                 int numberOfColumn = table.getVisibleColumns().length;
                 int numberOfInputFields = dataPanel.getNumberOfFields();
                 if (numberOfColumn == numberOfInputFields) {
@@ -302,23 +296,46 @@ public class ManagerPanel extends TabComponent {
             }
 
             private void fillInputs() {
-                String[] values = new String[dataPanel.getNumberOfFields()];
                 Object selectedRowIndex = table.getValue();
+                log.info("selectedRowIndex " + selectedRowIndex);
                 Item selectedRow = table.getItem(selectedRowIndex);
+                log.info("selectedRow " + selectedRow);
                 for (int i = 1; i <= dataPanel.getNumberOfFields(); i++) {
                     Property property = selectedRow.getItemProperty(i);
-                    values[i] = String.valueOf(property.getValue());
-
+                    String value = String.valueOf(property.getValue());
+                    dataPanel.updateField(i, value);
                 }
-                dataPanel.updateFields(values);
             }
         };
     }
 
+    private class ControlButtonClickListener implements ClickListener {
+
+        private TABLE usedTable;
+
+        ControlButtonClickListener(TABLE usedTable) {
+            this.usedTable = usedTable;
+        }
+
+        @Override
+        public void buttonClick(ClickEvent event) {
+            currentlySelectedTable = usedTable;
+            tableLayout.removeComponent(table);
+            TableContent tableContent = manager.createTable(currentlySelectedTable);
+            table = TableUIBuilder.table()
+                    .withTitle(currentlySelectedTable)
+                    .withContent(tableContent)
+                    .withSelection()
+                    .withClickListener(tableMouseListener)
+                    .build();
+            tableLayout.addComponent(table);
+        }
+    }
+
+
     public void setCalendar(Calendar calendar) {
         this.calendar = calendar;
     }
-
 
     public void setManager(Manager manager) {
         this.manager = manager;
@@ -338,28 +355,6 @@ public class ManagerPanel extends TabComponent {
 
     public void setDeleteService(DeleteService deleteService) {
         this.deleteService = deleteService;
-    }
-
-    private class ControlButtonClickListener implements ClickListener {
-
-        private TABLE usedTable;
-
-        ControlButtonClickListener(TABLE usedTable) {
-            this.usedTable = usedTable;
-        }
-
-        @Override
-        public void buttonClick(ClickEvent event) {
-            currentTable = usedTable;
-            tableLayout.removeComponent(table);
-            TableContent tableContent = manager.createTable(currentTable);
-            table = TableUIBuilder.table()
-                    .withTitle(currentTable)
-                    .withContent(tableContent)
-                    .withSelection()
-                    .build();
-            tableLayout.addComponent(table);
-        }
     }
 }
 
