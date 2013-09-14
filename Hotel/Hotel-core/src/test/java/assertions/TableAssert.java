@@ -15,12 +15,12 @@ public class TableAssert extends GenericAssert<TableAssert, TableContent> {
     }
 
     public TableAssert hasRowNumber(int rowNumber) {
-        Assertions.assertThat(actual.getRowsData().length).isEqualTo(rowNumber);
+        Assertions.assertThat(actual.getRowsData().size()).isEqualTo(rowNumber);
         return this;
     }
 
     public TableAssert hasColumnNumber(int columnNumber) {
-        Assertions.assertThat(actual.getColumnNames().length).isEqualTo(columnNumber);
+        Assertions.assertThat(actual.getColumnNames().size()).isEqualTo(columnNumber);
         return this;
     }
 

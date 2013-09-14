@@ -3,7 +3,6 @@ package service.guessBook;
 
 import common.tableBuilder.ArrayObtained;
 import common.tableBuilder.TableContent;
-import common.tableBuilder.TableContentBuilder;
 import dao.GuestBookDao;
 import dictionary.TABLE;
 import dto.ColumnData;
@@ -42,7 +41,7 @@ public class GuestBook {
         try {
             List<ColumnData> columns = guestBookDao.showColumnsForTable("rezerwacje");
             List<ReservationData> data = guestBookDao.getReservationsByClientId(primaryId, clientId);
-            return TableContentBuilder.table().columns(columns).data(data).build();
+            return TableContent.store(columns, data);
         } catch (Exception e) {
             e.printStackTrace();
             return TableContent.EMPTY;
@@ -53,12 +52,8 @@ public class GuestBook {
         try {
             List<ColumnData> columns = guestBookDao.showColumnsForTable("uslugi");
             List<RecreationServiceData> data = guestBookDao.getServiceByReservationId(idReservation);
-            return TableContentBuilder
-                    .table()
-                    .columns(columns)
-                    .appendColumn("CZAS")
-                    .data(data)
-                    .build();
+            columns.add(new ColumnData("CZAS"));
+            return TableContent.store(columns, data);
         } catch (Exception e) {
             e.printStackTrace();
             return TableContent.EMPTY;
@@ -85,7 +80,7 @@ public class GuestBook {
         try {
             List<ColumnData> columns = guestBookDao.showColumnsForTable(tableName.getTableName());
             List<? extends ArrayObtained> data = guestBookDao.getDataFromTable(tableName, conditions);
-            return TableContentBuilder.table().columns(columns).data(data).build();
+            return TableContent.store(columns, data);
         } catch (Exception e) {
             e.printStackTrace();
             return TableContent.EMPTY;

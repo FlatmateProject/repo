@@ -21,7 +21,7 @@ import service.manager.Manager;
 import view.TabComponent;
 import view.common.TableUIBuilder;
 
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.vaadin.ui.Button.ClickEvent;
@@ -29,9 +29,10 @@ import static com.vaadin.ui.Button.ClickListener;
 
 @Component
 public class ManagerPanel extends TabComponent {
+
     private static final Logger log = Logger.getLogger(ManagerPanel.class);
 
-    private DataPanel dataPanel;
+    private DataPanel dataPanel = DataPanel.empty();
 
     private Button[] tableButtons;
 
@@ -52,9 +53,6 @@ public class ManagerPanel extends TabComponent {
     private Button cleanButton;
 
     private VerticalLayout tableLayout;
-
-    @Autowired
-    private Calendar calendar;
 
     @Autowired
     private Manager manager;
@@ -89,7 +87,7 @@ public class ManagerPanel extends TabComponent {
             tableButtonsLayout.addComponent(tableButton);
         }
 
-        dataPanel = createDataPanel(TABLE.Customer);
+        createDataPanel(TABLE.Customer);
 
         HorizontalLayout controlButtonsLayout = new HorizontalLayout();
         controlButtonsLayout.setMargin(true);
@@ -110,19 +108,33 @@ public class ManagerPanel extends TabComponent {
                 .withTitle(TABLE.Customer)
                 .withContent(tableContent)
                 .withSelection()
+                .withClickListener(tableMouseListener)
                 .build();
         tableLayout.addComponent(table);
-//        createNewsList(progressiveY);
+
+        List<Label> labels = createNews();
 
         VerticalLayout vertical = new VerticalLayout();
         vertical.addComponent(tableButtonsLayout);
         vertical.addComponent(dataPanel);
         vertical.addComponent(controlButtonsLayout);
         vertical.addComponent(tableLayout);
-//        vertical.addComponent(news);
+        for (Label label : labels) {
+            vertical.addComponent(label);
+
+        }
         vertical.setMargin(true);
         setCompositionRoot(vertical);
 
+    }
+
+    private void createDataPanel(TABLE table) {
+        try {
+            List<ColumnData> columns = manager.getColumns(table);
+            dataPanel.createDataPanel(columns);
+        } catch (DAOException e) {
+            Notification.show("Something went wrong");
+        }
     }
 
     @Override
@@ -243,67 +255,52 @@ public class ManagerPanel extends TabComponent {
         tableButtons[9].addClickListener(new ControlButtonClickListener(TABLE.Bill));
     }
 
-//    private void createNewsList(int progressiveY) {
-//        List<String> news = new List<>(/*createNews()*/);
-//        add(news);
-//    }
 
-//    private String[] createNews() {
-//        try {
-//            return buildNews();
-//        } catch (DAOException e) {
-//            e.printStackTrace();
-//            showErrorMessage("Something went wrong");
-//            return new String[]{"ERROR"};
-//        }
-//    }
-//
-//    private String[] buildNews() throws DAOException {
-//        int reservations = manager.getCount("rezerwacje");
-//        int clients = manager.getCount("klienci");
-//        int roomNumber = manager.getCount("pokoje");
-//        int serviceTypeNumber = manager.getCount("uslugi");
-//        int numberClientsToCheckIn = manager.getCount("rezerwacje where month(data_z) = " + (calendar.get(Calendar.MONTH) + 1));
-//        int numberClientsToCheckOut = manager.getCount("rezerwacje where month(data_w) = " + (calendar.get(Calendar.MONTH) + 1));
-//        return new String[]{
-//                "Ogólna ilość rezerwacji: " + reservations,
-//                "Ilość zarejestrowanych gości: " + clients,
-//                roomNumber + " pokoi, z czego wolnych i  zajętych.",
-//                "Ilość dostąpnych usług: " + serviceTypeNumber,
-//                "W tym miesiącu oczekujemy na " + numberClientsToCheckIn + ", a żegnamy " + numberClientsToCheckOut + " gości"
-//        };
-//    }
-
-    private DataPanel createDataPanel(TABLE name) {
+    private List<Label> createNews() {
         try {
-            List<ColumnData> columns = manager.getColumns(name);
-            return DataPanel.create(columns);
+            return buildNews();
         } catch (DAOException e) {
+            e.printStackTrace();
             Notification.show("Something went wrong");
-            return DataPanel.empty();
+            return new ArrayList<>();
         }
+
     }
+
+    private List<Label> buildNews() throws DAOException {
+        List<Label> labels = new ArrayList<>();
+        int reservations = manager.getNumberOfReservations();
+        int clients = manager.getNumberOfClients();
+        int roomNumber = manager.getNumberOfRooms();
+        int serviceTypeNumber = manager.getNumberOfServiceTypes();
+        int numberClientsToCheckIn = manager.getNumberOfClientsToCheckIn();
+        int numberClientsToCheckOut = manager.getNumberOfClientsToCheckOut();
+        labels.add(new Label("Ogólna ilość rezerwacji: " + reservations));
+        labels.add(new Label("Ilość zarejestrowanych gości: " + clients));
+        labels.add(new Label(roomNumber + " pokoi, z czego wolnych i  zajętych."));
+        labels.add(new Label("Ilość dostąpnych usług: " + serviceTypeNumber));
+        labels.add(new Label("W tym miesiącu oczekujemy na " + numberClientsToCheckIn + ", a żegnamy " + numberClientsToCheckOut + " gości"));
+        return labels;
+    }
+
 
     private ItemClickEvent.ItemClickListener createTableMouseListener() {
         return new ItemClickEvent.ItemClickListener() {
             @Override
             public void itemClick(ItemClickEvent event) {
-                int numberOfColumn = table.getVisibleColumns().length;
+                int numberOfColumn = event.getItem().getItemPropertyIds().size();
                 int numberOfInputFields = dataPanel.getNumberOfFields();
                 if (numberOfColumn == numberOfInputFields) {
-                    fillInputs();
+                    fillInputs(event.getItem());
                 }
             }
 
-            private void fillInputs() {
-                Object selectedRowIndex = table.getValue();
-                log.info("selectedRowIndex " + selectedRowIndex);
-                Item selectedRow = table.getItem(selectedRowIndex);
+            private void fillInputs(Item selectedRow) {
                 log.info("selectedRow " + selectedRow);
                 for (int i = 1; i <= dataPanel.getNumberOfFields(); i++) {
                     Property property = selectedRow.getItemProperty(i);
                     String value = String.valueOf(property.getValue());
-                    dataPanel.updateField(i, value);
+                    dataPanel.updateField(i - 1, value);
                 }
             }
         };
@@ -329,12 +326,8 @@ public class ManagerPanel extends TabComponent {
                     .withClickListener(tableMouseListener)
                     .build();
             tableLayout.addComponent(table);
+            createDataPanel(currentlySelectedTable);
         }
-    }
-
-
-    public void setCalendar(Calendar calendar) {
-        this.calendar = calendar;
     }
 
     public void setManager(Manager manager) {

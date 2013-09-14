@@ -44,7 +44,7 @@ public class CantorTableCreatorMockitoTest {
         //then
         assertThat(result)
                 .isNotNull()
-                .hasRowNumber(1)
+                .hasRowNumber(0)
                 .hasColumnNumber(1)
                 .is(containColumns(TableResult.EMPTY_COLUMN))
                 .is(containsRow(TableResult.EMPTY_ROW));
@@ -87,7 +87,7 @@ public class CantorTableCreatorMockitoTest {
         //then
         assertThat(result)
                 .isNotNull()
-                .hasRowNumber(1)
+                .hasRowNumber(0)
                 .hasColumnNumber(1)
                 .is(containColumns(TableResult.EMPTY_COLUMN))
                 .is(containsRow(TableResult.EMPTY_ROW));
@@ -127,13 +127,18 @@ public class CantorTableCreatorMockitoTest {
         //given
         long krs = 311911L;
 
+        String[] columnNames = new String[]{"Pesel", "Name", "Family", "County", "City", "Street", "Block", "Flat", "Status", "Notes", "Phone", "Nip"};
+
+        ColumnData columnData = mock(ColumnData.class);
+        when(columnData.getName()).thenReturn(columnNames[0], Arrays.copyOfRange(columnNames, 1, columnNames.length));
+
         //when
         TableResult result = creator.createCompanyTable(krs);
 
         //then
         assertThat(result)
                 .isNotNull()
-                .hasRowNumber(1)
+                .hasRowNumber(0)
                 .hasColumnNumber(1)
                 .is(containColumns(TableResult.EMPTY_COLUMN))
                 .is(containsRow(TableResult.EMPTY_ROW));

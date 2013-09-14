@@ -1,7 +1,10 @@
 package conditions.table;
 
+import common.tableBuilder.ArrayObtained;
 import common.tableBuilder.TableContent;
 import org.fest.assertions.Condition;
+
+import java.util.List;
 
 /**
  * User: piotro
@@ -23,9 +26,9 @@ public class RowCondition extends Condition<TableContent> {
 
     @Override
     public boolean matches(TableContent tableContent) {
-        Object[][] data = tableContent.getRowsData();
-        for (int i = 0; i < data.length; i++) {
-            Object[] actualCells = data[i];
+        List<? extends ArrayObtained> data = tableContent.getRowsData();
+        for (ArrayObtained aData : data) {
+            Object[] actualCells = aData.getArray();
             if (isActualRowEqualToExpectedRow(actualCells)) {
                 return true;
             }

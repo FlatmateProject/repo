@@ -16,11 +16,11 @@ public class DataPanel extends CustomComponent {
 
     private TextField dataFields[] = new TextField[0];
 
-    private DataPanel() {
+    public static DataPanel empty() {
+        return new DataPanel();
     }
 
-    private DataPanel(List<ColumnData> columns) {
-        super();
+    public void createDataPanel(List<ColumnData> columns) {
         dataFields = new TextField[columns.size()];
         VerticalLayout vertical = new VerticalLayout();
         vertical.setMargin(true);
@@ -33,18 +33,10 @@ public class DataPanel extends CustomComponent {
         setCompositionRoot(vertical);
     }
 
-    public static DataPanel empty() {
-        return new DataPanel();
-    }
-
-    public static DataPanel create(List<ColumnData> columns) {
-        return new DataPanel(columns);
-    }
-
     public boolean areValidFields() {
-        for (int i = 0; i < dataFields.length; i++) {
-            String fieldText = dataFields[i].getValue();
-            if (fieldText.isEmpty() && isNotValidField(dataFields[i].getCaption(), fieldText)) {
+        for (TextField dataField : dataFields) {
+            String fieldText = dataField.getValue();
+            if (fieldText.isEmpty() && isNotValidField(dataField.getCaption(), fieldText)) {
                 return false;
             }
         }

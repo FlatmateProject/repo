@@ -1,7 +1,6 @@
 package service.cantor;
 
 import common.tableBuilder.TableContent;
-import common.tableBuilder.TableContentBuilder;
 import dao.CantorDao;
 import dto.ColumnData;
 import dto.CompanyData;
@@ -23,7 +22,7 @@ public class CantorTableCreator {
         try {
             List<ColumnData> currencyColumns = cantorDao.showColumnsForCurrency();
             List<CurrencyData> currencies = cantorDao.findAllCurrency();
-            return TableContentBuilder.table().columns(currencyColumns).data(currencies).build();
+            return TableContent.store(currencyColumns, currencies);
         } catch (DAOException e) {
             return TableContent.EMPTY;
         }
@@ -33,7 +32,7 @@ public class CantorTableCreator {
         try {
             List<ColumnData> customerColumns = cantorDao.showColumnsForCustomer();
             List<CustomerData> customers = cantorDao.findAllCustomers(customerId);
-            return TableContentBuilder.table().columns(customerColumns).data(customers).build();
+            return TableContent.store(customerColumns, customers);
         } catch (Exception e) {
             return TableContent.EMPTY;
         }
@@ -43,7 +42,7 @@ public class CantorTableCreator {
         try {
             List<ColumnData> customerColumns = cantorDao.showColumnsForCompany();
             List<CompanyData> company = cantorDao.findAllCompanies(companyId);
-            return TableContentBuilder.table().columns(customerColumns).data(company).build();
+            return TableContent.store(customerColumns, company);
         } catch (Exception e) {
             return TableContent.EMPTY;
         }

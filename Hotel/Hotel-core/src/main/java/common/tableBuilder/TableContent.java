@@ -1,5 +1,10 @@
 package common.tableBuilder;
 
+import dto.ColumnData;
+
+import java.util.Arrays;
+import java.util.List;
+
 public class TableContent {
 
     public static final String EMPTY_LABEL = "Brak danych";
@@ -8,27 +13,32 @@ public class TableContent {
 
     public static final String[] EMPTY_COLUMN = new String[]{EMPTY_LABEL};
 
-    public static final Object[][] EMPTY_DATA = new Object[][]{EMPTY_ROW};
+    public static final TableContent EMPTY = new TableContent(Arrays.asList(new ColumnData(EMPTY_LABEL)), Arrays.asList(new ArrayObtained() {
+        @Override
+        public Object[] getArray() {
+            return EMPTY_ROW;
+        }
+    }));
 
-    public static final TableContent EMPTY = new TableContent(EMPTY_DATA, EMPTY_COLUMN);
+    final private List<ColumnData> columnNames;
 
-    final private Object rowsData[][];
+    final private List<? extends ArrayObtained> rowsData;
 
-    final private String columnNames[];
 
-    public static TableContent store(Object[][] rowsData, String[] columnNames) {
-        return new TableContent(rowsData, columnNames);
+    public static <T extends ArrayObtained> TableContent store(List<ColumnData> columnNames, List<T> rowsData) {
+        return new TableContent(columnNames, rowsData);
     }
 
-    public Object[][] getRowsData() {
-        return rowsData;
-    }
 
-    public String[] getColumnNames() {
+    public List<ColumnData> getColumnNames() {
         return columnNames;
     }
 
-    private TableContent(Object[][] rowsData, String[] columnNames) {
+    public List<? extends ArrayObtained> getRowsData() {
+        return rowsData;
+    }
+
+    public TableContent(List<ColumnData> columnNames, List<? extends ArrayObtained> rowsData) {
         this.columnNames = columnNames;
         this.rowsData = rowsData;
     }

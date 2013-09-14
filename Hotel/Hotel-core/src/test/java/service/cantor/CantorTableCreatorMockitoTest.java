@@ -17,6 +17,7 @@ import java.util.Date;
 import static assertions.TableAssert.assertThat;
 import static conditions.table.ColumnCondition.containColumns;
 import static conditions.table.RowCondition.containsRow;
+import static conditions.table.ZeroRowsCondition.zeroRows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -37,6 +38,12 @@ public class CantorTableCreatorMockitoTest {
     @Test
     public void shouldCreateEmptyCurrencyTable() throws Exception {
         //given
+        String[] columnNames = new String[]{"Id", "Name", "Sale Price", "Buy Price", "Quantity"};
+
+        ColumnData columnData = mock(ColumnData.class);
+        when(columnData.getName()).thenReturn(columnNames[0], Arrays.copyOfRange(columnNames, 1, columnNames.length));
+
+        when(cantorDao.showColumnsForCurrency()).thenReturn(Arrays.asList(columnData, columnData, columnData, columnData, columnData));
 
         //when
         TableContent result = creator.createCurrencyTable();
@@ -44,10 +51,10 @@ public class CantorTableCreatorMockitoTest {
         //then
         assertThat(result)
                 .isNotNull()
-                .hasRowNumber(1)
-                .hasColumnNumber(1)
-                .is(containColumns(TableContent.EMPTY_COLUMN))
-                .is(containsRow(TableContent.EMPTY_ROW));
+                .hasRowNumber(0)
+                .hasColumnNumber(5)
+                .is(containColumns(columnNames))
+                .is(zeroRows());
     }
 
     @Test
@@ -80,6 +87,14 @@ public class CantorTableCreatorMockitoTest {
     public void shouldCreateEmptyCustomerTable() throws Exception {
         //given
         long pesel = 87122206592L;
+        String[] columnNames = new String[]{"Pesel", "Name", "Family", "County", "City", "Street", "Block", "Flat", "Status", "Notes", "Phone", "Nip"};
+
+        ColumnData columnData = mock(ColumnData.class);
+        when(columnData.getName()).thenReturn(columnNames[0], Arrays.copyOfRange(columnNames, 1, columnNames.length));
+
+
+        when(cantorDao.showColumnsForCustomer()).thenReturn(Arrays.asList(columnData, columnData, columnData, columnData, columnData, columnData,
+                columnData, columnData, columnData, columnData, columnData, columnData));
 
         //when
         TableContent result = creator.createCustomerTable(pesel);
@@ -87,10 +102,10 @@ public class CantorTableCreatorMockitoTest {
         //then
         assertThat(result)
                 .isNotNull()
-                .hasRowNumber(1)
-                .hasColumnNumber(1)
-                .is(containColumns(TableContent.EMPTY_COLUMN))
-                .is(containsRow(TableContent.EMPTY_ROW));
+                .hasRowNumber(0)
+                .hasColumnNumber(12)
+                .is(containColumns(columnNames))
+                .is(zeroRows());
     }
 
     @Test
@@ -127,16 +142,24 @@ public class CantorTableCreatorMockitoTest {
         //given
         long krs = 311911L;
 
+        String[] columnNames = new String[]{"Krs", "Name", "County", "City", "Street", "Block", "Flat", "Status", "Notes", "Regon", "Nip", "Phone", "Data_zalozenia"};
+
+        ColumnData columnData = mock(ColumnData.class);
+        when(columnData.getName()).thenReturn(columnNames[0], Arrays.copyOfRange(columnNames, 1, columnNames.length));
+
+        when(cantorDao.showColumnsForCompany()).thenReturn(Arrays.asList(columnData, columnData, columnData, columnData, columnData, columnData,
+                columnData, columnData, columnData, columnData, columnData, columnData, columnData));
+
         //when
         TableContent result = creator.createCompanyTable(krs);
 
         //then
         assertThat(result)
                 .isNotNull()
-                .hasRowNumber(1)
-                .hasColumnNumber(1)
-                .is(containColumns(TableContent.EMPTY_COLUMN))
-                .is(containsRow(TableContent.EMPTY_ROW));
+                .hasRowNumber(0)
+                .hasColumnNumber(13)
+                .is(containColumns(columnNames))
+                .is(zeroRows());
     }
 
     @Test

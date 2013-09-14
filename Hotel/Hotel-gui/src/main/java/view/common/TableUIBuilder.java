@@ -2,8 +2,12 @@ package view.common;
 
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.ui.Table;
+import common.tableBuilder.ArrayObtained;
 import common.tableBuilder.TableContent;
 import dictionary.TABLE;
+import dto.ColumnData;
+
+import java.util.List;
 
 public class TableUIBuilder {
 
@@ -37,29 +41,41 @@ public class TableUIBuilder {
     public Table build() {
         Table table = new Table(title);
         table.setSelectable(selectable);
-        Object[][] rowsData = content.getRowsData();
-        createColumns(table, rowsData[0]);
-        addRows(table, rowsData);
+        List<? extends ArrayObtained> rowsData = content.getRowsData();
+        if (rowsData == null || rowsData.isEmpty()) {
+            createColumnsForTableWithoutData(table);
+        } else {
+            createColumns(table, rowsData.get(0).getArray());
+            addRows(table, rowsData);
+        }
         if (tableMouseListener != null) {
             table.addItemClickListener(tableMouseListener);
         }
         return table;
     }
 
-    private void createColumns(Table table, Object[] firstRow) {
+    private void createColumnsForTableWithoutData(Table table) {
         int i = 0;
-        for (String column : content.getColumnNames()) {
+        for (ColumnData column : content.getColumnNames()) {
             int propertyId = i + 1;
-            table.addContainerProperty(propertyId, firstRow[i].getClass(), null, column, null, Table.Align.CENTER);
+            table.addContainerProperty(propertyId, Object.class, null, column.getName(), null, Table.Align.CENTER);
             i++;
         }
     }
 
-    private void addRows(Table table, Object[][] rowsData) {
-        int i;
-        i = 1;
-        for (Object[] row : rowsData) {
-            table.addItem(row, i);
+    private void createColumns(Table table, Object[] firstRow) {
+        int i = 0;
+        for (ColumnData column : content.getColumnNames()) {
+            int propertyId = i + 1;
+            table.addContainerProperty(propertyId, firstRow[i].getClass(), null, column.getName(), null, Table.Align.CENTER);
+            i++;
+        }
+    }
+
+    private void addRows(Table table, List<? extends ArrayObtained> rowsData) {
+        int i = 1;
+        for (ArrayObtained row : rowsData) {
+            table.addItem(row.getArray(), i);
             i++;
         }
     }

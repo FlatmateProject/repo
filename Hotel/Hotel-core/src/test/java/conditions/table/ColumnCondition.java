@@ -1,7 +1,10 @@
 package conditions.table;
 
 import common.tableBuilder.TableContent;
+import dto.ColumnData;
 import org.fest.assertions.Condition;
+
+import java.util.List;
 
 public class ColumnCondition extends Condition<TableContent> {
 
@@ -18,9 +21,9 @@ public class ColumnCondition extends Condition<TableContent> {
 
     @Override
     public boolean matches(TableContent tableContent) {
-        String[] actualColumnNames = tableContent.getColumnNames();
-        for (int i = 0; i < actualColumnNames.length; i++) {
-            if (isNotEqual(actualColumnNames[i], expectedColumnNames[i])) {
+        List<ColumnData> actualColumnNames = tableContent.getColumnNames();
+        for (int i = 0; i < actualColumnNames.size(); i++) {
+            if (isNotEqual(actualColumnNames.get(i).getName(), expectedColumnNames[i])) {
                 return false;
             }
         }

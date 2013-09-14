@@ -127,7 +127,9 @@ public class ApplicationConfiguration {
 
     @Bean
     public Manager manager() {
-        return new Manager(managerDao());
+        Manager manager = new Manager(managerDao());
+        manager.setCalendar(calendar());
+        return manager;
     }
 
     @Bean
@@ -148,20 +150,17 @@ public class ApplicationConfiguration {
 
     @Bean
     public Schedule schedule() {
-        Schedule schedule = new Schedule();
-        return schedule;
+        return new Schedule();
     }
 
     @Bean
     public Reception reception() {
-        Reception reception = new Reception();
-        return reception;
+        return new Reception();
     }
 
     @Bean
     public Reservation reservation() {
-        Reservation reservation = new Reservation();
-        return reservation;
+        return new Reservation();
     }
 
     @Bean
