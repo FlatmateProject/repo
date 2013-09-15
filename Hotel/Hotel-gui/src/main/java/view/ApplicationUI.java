@@ -10,12 +10,10 @@ import javax.servlet.ServletContext;
 
 public class ApplicationUI extends UI {
 
-    private WebApplicationContext webApplicationContext;
-
     @Override
     protected void init(VaadinRequest request) {
         ServletContext servletContext = VaadinServlet.getCurrent().getServletContext();
-        webApplicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
+        WebApplicationContext webApplicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
         HotelUI gui = webApplicationContext.getBean(HotelUI.class);
         gui.construct();
         setContent(gui);
