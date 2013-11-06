@@ -11,8 +11,6 @@ public class TableContent {
 
     public static final Object[] EMPTY_ROW = new Object[]{EMPTY_LABEL};
 
-    public static final String[] EMPTY_COLUMN = new String[]{EMPTY_LABEL};
-
     public static final TableContent EMPTY = new TableContent(Arrays.asList(new ColumnData(EMPTY_LABEL)), Arrays.asList(new ArrayObtained() {
         @Override
         public Object[] getArray() {

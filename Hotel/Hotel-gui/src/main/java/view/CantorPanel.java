@@ -1,25 +1,19 @@
 package view;
 
 
+import behavior.ClickCalculateExchangeButtonBehavior;
+import behavior.ClickCommitTransactionButtonBehavior;
+import behavior.ClickSearchClientButtonBehavior;
 import com.vaadin.data.Property;
 import com.vaadin.ui.*;
 import common.tableBuilder.TableContent;
-import exception.CantorTransactionCanceledException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import service.cantor.CURRENCY;
-import service.cantor.CantorMoneyExchanger;
 import service.cantor.CantorTableCreator;
-import service.cantor.ExchangeCalculation;
 import view.common.TableUIBuilder;
 
 import java.text.NumberFormat;
-
-import static com.vaadin.ui.Button.ClickEvent;
-import static com.vaadin.ui.Button.ClickListener;
-import static validation.BusinessValidation.isKRS;
-import static validation.BusinessValidation.isPesel;
-import static validation.UIValidation.isNotNumber;
 
 @Component
 public class CantorPanel extends TabComponent {
@@ -32,7 +26,7 @@ public class CantorPanel extends TabComponent {
     private Button searchClientButton;
     private Button commitTransactionButton;
     private TextField costInput;
-    private TextField customerIdInput;
+    private TextField clientIdInput;
     private Table currencyTable;
     private Table clientTable;
 
@@ -44,9 +38,13 @@ public class CantorPanel extends TabComponent {
     private CantorTableCreator creator;
 
     @Autowired
-    private CantorMoneyExchanger cantor;
+    private ClickSearchClientButtonBehavior clickSearchClientButtonBehavior;
 
-    private ExchangeCalculation exchangeCalculation;
+    @Autowired
+    private ClickCalculateExchangeButtonBehavior clickCalculateExchangeButtonBehavior;
+
+    @Autowired
+    private ClickCommitTransactionButtonBehavior clickCommitTransactionButtonBehavior;
 
 
     @Override
@@ -63,7 +61,7 @@ public class CantorPanel extends TabComponent {
         calculateExchangeButton = new Button("Przelicz");
         costInput = new TextField("Do zapłaty");
 
-        customerIdInput = new TextField("PESEL/KRS Klienta");
+        clientIdInput = new TextField("PESEL/KRS Klienta");
         searchClientButton = new Button("Szukaj");
 
         commitTransactionButton = new Button("Dokonaj transakcji");
@@ -84,7 +82,7 @@ public class CantorPanel extends TabComponent {
         verticalLeft.addComponent(amountInput);
         verticalLeft.addComponent(calculateExchangeButton);
         verticalLeft.addComponent(costInput);
-        verticalLeft.addComponent(customerIdInput);
+        verticalLeft.addComponent(clientIdInput);
         verticalLeft.addComponent(searchClientButton);
         verticalLeft.addComponent(commitTransactionButton);
 
@@ -107,154 +105,70 @@ public class CantorPanel extends TabComponent {
 
     @Override
     public void addEvents() {
-        searchClientButton.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                String customerId = customerIdInput.getValue();
-                if (isCustomerIdEmpty()) {
-                    Notification.show("Nie podano numeru PESEL/KRS");
-                } else if (isPesel(customerId)) {
-                    clientTableLayout.removeComponent(clientTable);
-                    clientTable = createCustomerTable();
-                    clientTableLayout.addComponent(clientTable);
-                } else if (isKRS(customerId)) {
-                    clientTableLayout.removeComponent(clientTable);
-                    clientTable = createCompanyTable();
-                    clientTableLayout.addComponent(clientTable);
-                } else {
-                    Notification.show("Nieprawidłowy PESEL/KRS");
-                }
-            }
+        clickSearchClientButtonBehavior.setCantorPanel(this);
+        searchClientButton.addClickListener(clickSearchClientButtonBehavior);
 
-            private boolean isCustomerIdEmpty() {
-                return customerIdInput.getValue().isEmpty();
-            }
+        clickCalculateExchangeButtonBehavior.setCantorPanel(this);
+        calculateExchangeButton.addClickListener(clickCalculateExchangeButtonBehavior);
 
-            private Table createCustomerTable() {
-                long pesel = Long.parseLong(customerIdInput.getValue());
-                TableContent customerTableContent = creator.createCustomerTable(pesel);
-                return TableUIBuilder.table()
-                        .withTitle("Klienci indywidualni")
-                        .withContent(customerTableContent)
-                        .withSelection()
-                        .build();
-            }
+        clickCommitTransactionButtonBehavior.setCantorPanel(this);
+        commitTransactionButton.addClickListener(clickCommitTransactionButtonBehavior);
+    }
 
-            private Table createCompanyTable() {
-                long krs = Long.parseLong(customerIdInput.getValue());
-                TableContent companyTableContent = creator.createCompanyTable(krs);
-                return TableUIBuilder.table()
-                        .withTitle("Firmy")
-                        .withContent(companyTableContent)
-                        .withSelection()
-                        .build();
-            }
-        });
+    public void refreshCustomerTable(Table customerTable) {
+        clientTableLayout.removeComponent(clientTable);
+        clientTable = customerTable;
+        clientTableLayout.addComponent(clientTable);
+    }
 
-        calculateExchangeButton.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                if (isAmountInputEmpty()) {
-                    Notification.show("Nie podano kwoty");
-                } else if (isNotNumber(amountInput.getValue())) {
-                    Notification.show("Podaj prawidlowa ilosc waluty");
-                } else if (areSelectedTheSameCurrency()) {
-                    Notification.show("Nie można wymieniać na tą samą walutę");
-                } else {
-                    exchangeCalculation = calculateExchange();
-                    updateCostInputText();
-                }
-            }
+    public void refreshCompanyTable(Table companyTable) {
+        clientTableLayout.removeComponent(clientTable);
+        clientTable = companyTable;
+        clientTableLayout.addComponent(clientTable);
+    }
 
-            private boolean isAmountInputEmpty() {
-                return amountInput.getValue().isEmpty();
-            }
+    public void refreshView(Table currencyTable) {
+        clientIdInput.setValue("");
+        oldCurrencyBox.setValue(DEFAULT_SELECTED_CURRENCY);
+        newCurrencyBox.setValue(DEFAULT_SELECTED_CURRENCY);
+        costInput.setValue("");
+        currencyTableLayout.removeComponent(this.currencyTable);
+        this.currencyTable = currencyTable;
+        currencyTableLayout.addComponent(currencyTable);
+    }
 
-            private boolean areSelectedTheSameCurrency() {
-                return oldCurrencyBox.getValue() == newCurrencyBox.getValue();
-            }
+    public String getClientId() {
+        return clientIdInput.getValue();
+    }
 
-            private ExchangeCalculation calculateExchange() {
-                float amount = getAmount();
-                CURRENCY oldCurrency = (CURRENCY) oldCurrencyBox.getValue();
-                CURRENCY newCurrency = (CURRENCY) newCurrencyBox.getValue();
-                return cantor.calculateExchange(oldCurrency, newCurrency, amount);
-            }
+    public String getAmount() {
+        return amountInput.getValue();
+    }
 
-            private Float getAmount() {
-                return Float.valueOf(amountInput.getValue());
-            }
+    public void updateCostInputText(float cost) {
+        costInput.setValue(Double.toString(round(cost)));
+    }
 
-            private void updateCostInputText() {
-                costInput.setValue(Double.toString(round(exchangeCalculation.getCost())));
-            }
-        });
+    public CURRENCY getOldCurrency() {
+        return (CURRENCY) oldCurrencyBox.getValue();
+    }
 
-        commitTransactionButton.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                if (isCostInputEmpty()) {
-                    Notification.show("Brak należnej kwoty");
-                } else if (isNotSelectedCustomer()) {
-                    Notification.show("Nie zaznaczono klienta");
-                } else {
-                    commitMoneyExchangeTransaction();
-                }
-            }
+    public CURRENCY getNewCurrency() {
+        return (CURRENCY) newCurrencyBox.getValue();
+    }
 
-            private boolean isCostInputEmpty() {
-                return costInput.getValue().isEmpty();
-            }
+    public String getCostInput() {
+        return costInput.getValue();
+    }
 
-            private boolean isNotSelectedCustomer() {
-                return clientTable.getValue() == null;
-            }
+    public Object getClientTableSelectedRow() {
+        return clientTable.getValue();
+    }
 
-            private void commitMoneyExchangeTransaction() {
-                if (cantor.isTransactionPossible(exchangeCalculation)) {
-                    executeTransactionWithUIUpdate();
-                } else {
-                    Notification.show("Nieprawidłowe dane");
-                }
-            }
-
-            private void executeTransactionWithUIUpdate() {
-                try {
-                    exchangeMoney();
-                    refreshView();
-                } catch (CantorTransactionCanceledException e) {
-                    e.printStackTrace();
-                    Notification.show("Transakcja wymiany nie powiodla sie");
-                }
-            }
-
-            private void exchangeMoney() throws CantorTransactionCanceledException {
-                String client = getClient();
-                exchangeCalculation.forClient(client);
-                cantor.exchangeMoney(exchangeCalculation);
-            }
-
-            private void refreshView() {
-                customerIdInput.setValue("");
-                oldCurrencyBox.setValue(DEFAULT_SELECTED_CURRENCY);
-                newCurrencyBox.setValue(DEFAULT_SELECTED_CURRENCY);
-                costInput.setValue("");
-                currencyTableLayout.removeComponent(currencyTable);
-                TableContent currencyTableContent = creator.createCurrencyTable();
-                currencyTable = TableUIBuilder.table()
-                        .withTitle("Waluty")
-                        .withContent(currencyTableContent)
-                        .withSelection()
-                        .build();
-                currencyTableLayout.addComponent(currencyTable);
-            }
-
-            private String getClient() {
-                Object selectedRowIndex = clientTable.getValue();
-                Property property = clientTable.getItem(selectedRowIndex).getItemProperty(1);
-                return String.valueOf(property.getValue());
-            }
-        });
+    public String getClient() {
+        Object selectedRowIndex = getClientTableSelectedRow();
+        Property property = clientTable.getItem(selectedRowIndex).getItemProperty(1);
+        return String.valueOf(property.getValue());
     }
 
     private double round(double digit) {
@@ -268,7 +182,15 @@ public class CantorPanel extends TabComponent {
         this.creator = creator;
     }
 
-    public void setCantor(CantorMoneyExchanger cantor) {
-        this.cantor = cantor;
+    public void setClickSearchClientButtonBehavior(ClickSearchClientButtonBehavior clickSearchClientButtonBehavior) {
+        this.clickSearchClientButtonBehavior = clickSearchClientButtonBehavior;
+    }
+
+    public void setClickCalculateExchangeButtonBehavior(ClickCalculateExchangeButtonBehavior clickCalculateExchangeButtonBehavior) {
+        this.clickCalculateExchangeButtonBehavior = clickCalculateExchangeButtonBehavior;
+    }
+
+    public void setClickCommitTransactionButtonBehavior(ClickCommitTransactionButtonBehavior clickCommitTransactionButtonBehavior) {
+        this.clickCommitTransactionButtonBehavior = clickCommitTransactionButtonBehavior;
     }
 }

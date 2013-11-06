@@ -1,46 +1,31 @@
 package view.managerPanel;
 
 
-import com.vaadin.data.Item;
-import com.vaadin.data.Property;
-import com.vaadin.event.ItemClickEvent;
+import behavior.*;
 import com.vaadin.ui.*;
 import common.tableBuilder.TableContent;
 import dictionary.TABLE;
 import dto.ColumnData;
 import exception.DAOException;
-import exception.IncorrectDataException;
-import org.apache.log4j.Logger;
+import model.ManagerModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import service.AddService;
-import service.DeleteService;
-import service.UpdateService;
-import service.guessBook.GuestBook;
 import service.manager.Manager;
+import view.PopUpComponent;
 import view.TabComponent;
 import view.common.TableUIBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.vaadin.ui.Button.ClickEvent;
-import static com.vaadin.ui.Button.ClickListener;
-
 @Component
 public class ManagerPanel extends TabComponent {
-
-    private static final Logger log = Logger.getLogger(ManagerPanel.class);
 
     private DataPanel dataPanel = DataPanel.empty();
 
     private Button[] tableButtons;
 
     private Table table;
-
-    private TABLE currentlySelectedTable = TABLE.Customer;
-
-    private final ItemClickEvent.ItemClickListener tableMouseListener = createTableMouseListener();
 
     private Button addButton;
 
@@ -58,16 +43,25 @@ public class ManagerPanel extends TabComponent {
     private Manager manager;
 
     @Autowired
-    private GuestBook guestBook;
+    private ManagerModel managerModel;
 
     @Autowired
-    private AddService addService;
+    private ClickAddButtonBehavior clickAddButtonBehavior;
 
     @Autowired
-    private UpdateService updateService;
+    private ClickDeleteButtonBehavior clickDeleteButtonBehavior;
 
     @Autowired
-    private DeleteService deleteService;
+    private ClickUpdateButtonBehavior clickUpdateButtonBehavior;
+
+    @Autowired
+    private ClickSearchButtonBehavior clickSearchButtonBehavior;
+
+    @Autowired
+    private ClickCleanButtonBehavior clickCleanButtonBehavior;
+
+    @Autowired
+    private PopUpComponent popUp;
 
     @Override
     public void create() {
@@ -87,7 +81,7 @@ public class ManagerPanel extends TabComponent {
             tableButtonsLayout.addComponent(tableButton);
         }
 
-        createDataPanel(TABLE.Customer);
+        createDataPanel();
 
         HorizontalLayout controlButtonsLayout = new HorizontalLayout();
         controlButtonsLayout.setMargin(true);
@@ -108,7 +102,7 @@ public class ManagerPanel extends TabComponent {
                 .withTitle(TABLE.Customer)
                 .withContent(tableContent)
                 .withSelection()
-                .withClickListener(tableMouseListener)
+                .withClickListener(new ClickManagerTableRowBehavior())
                 .build();
         tableLayout.addComponent(table);
 
@@ -128,131 +122,47 @@ public class ManagerPanel extends TabComponent {
 
     }
 
-    private void createDataPanel(TABLE table) {
+    public void createDataPanel() {
         try {
+            TABLE table = managerModel.getCurrentlySelectedTable();
             List<ColumnData> columns = manager.getColumns(table);
             dataPanel.createDataPanel(columns);
         } catch (DAOException e) {
-            Notification.show("Something went wrong");
+            popUp.showError("Something went wrong");
         }
+    }
+
+    public DataPanel getDataPanel() {
+        return dataPanel;
     }
 
     @Override
     public void addEvents() {
-        addButton.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                if (dataPanel.areValidFields()) {
-                    addRow();
-                }
-            }
+        clickAddButtonBehavior.setManagerPanel(this);
+        addButton.addClickListener(clickAddButtonBehavior);
 
-            private void addRow() {
-                try {
-                    String labels[] = dataPanel.getLabels();
-                    String data[] = dataPanel.getData();
-                    addService.insertData(currentlySelectedTable, labels, data);
-                    tableLayout.removeComponent(table);
-                    TableContent tableContent = manager.createTable(currentlySelectedTable);
-                    table = TableUIBuilder.table()
-                            .withTitle(currentlySelectedTable)
-                            .withContent(tableContent)
-                            .withSelection()
-                            .build();
-                    tableLayout.addComponent(table);
-                } catch (IncorrectDataException e) {
-                    Notification.show("Wrong ID or given ID already exists!");
-                }
-            }
+        clickDeleteButtonBehavior.setManagerPanel(this);
+        deleteButton.addClickListener(clickDeleteButtonBehavior);
 
+        clickUpdateButtonBehavior.setManagerPanel(this);
+        updateButton.addClickListener(clickUpdateButtonBehavior);
 
-        });
-        deleteButton.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                try {
-                    deleteRow();
-                } catch (IncorrectDataException e) {
-                    Notification.show("Error during deleting the row!");
-                }
-            }
+        clickSearchButtonBehavior.setManagerPanel(this);
+        searchButton.addClickListener(clickSearchButtonBehavior);
 
-            private void deleteRow() throws IncorrectDataException {
-                long id = dataPanel.getIdValue();
-                if (id > 0) {
-                    String primaryKey = dataPanel.getPrimaryKey();
-                    deleteService.deleteData(currentlySelectedTable, primaryKey, id);
-                    tableLayout.removeComponent(table);
-                    TableContent tableContent = manager.createTable(currentlySelectedTable);
-                    table = TableUIBuilder.table()
-                            .withTitle(currentlySelectedTable)
-                            .withContent(tableContent)
-                            .withSelection()
-                            .build();
-                    tableLayout.addComponent(table);
-                }
-            }
-        });
-        updateButton.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                try {
-                    String[] labels = dataPanel.getLabels();
-                    String[] data = dataPanel.getData();
-                    updateService.updateClientData(currentlySelectedTable, labels, data);
-                    tableLayout.removeComponent(table);
-                    TableContent tableContent = manager.createTable(currentlySelectedTable);
-                    table = TableUIBuilder.table()
-                            .withTitle(currentlySelectedTable)
-                            .withContent(tableContent)
-                            .withSelection()
-                            .build();
-                    tableLayout.addComponent(table);
-                } catch (IncorrectDataException e) {
-                    Notification.show("Update error! Check correctness of data!");
-                }
-            }
+        clickCleanButtonBehavior.setManagerPanel(this);
+        cleanButton.addClickListener(clickCleanButtonBehavior);
 
-        });
-        searchButton.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                String[] labels = dataPanel.getLabels();
-                String[] data = dataPanel.getData();
-                tableLayout.removeComponent(table);
-                TableContent tableContent = guestBook.createTable(currentlySelectedTable, labels, data);
-                table = TableUIBuilder.table()
-                        .withTitle(currentlySelectedTable)
-                        .withContent(tableContent)
-                        .withSelection()
-                        .build();
-                tableLayout.addComponent(table);
-            }
-        });
-        cleanButton.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                dataPanel.cleanFields();
-                tableLayout.removeComponent(table);
-                TableContent tableContent = guestBook.createTable(currentlySelectedTable);
-                table = TableUIBuilder.table()
-                        .withTitle(currentlySelectedTable)
-                        .withContent(tableContent)
-                        .withSelection()
-                        .build();
-                tableLayout.addComponent(table);
-            }
-        });
-        tableButtons[0].addClickListener(new ControlButtonClickListener(TABLE.Customer));
-        tableButtons[1].addClickListener(new ControlButtonClickListener(TABLE.Company));
-        tableButtons[2].addClickListener(new ControlButtonClickListener(TABLE.Service));
-        tableButtons[3].addClickListener(new ControlButtonClickListener(TABLE.Room));
-        tableButtons[4].addClickListener(new ControlButtonClickListener(TABLE.Occupation));
-        tableButtons[5].addClickListener(new ControlButtonClickListener(TABLE.Currency));
-        tableButtons[6].addClickListener(new ControlButtonClickListener(TABLE.Employee));
-        tableButtons[7].addClickListener(new ControlButtonClickListener(TABLE.RoomType));
-        tableButtons[8].addClickListener(new ControlButtonClickListener(TABLE.Archive));
-        tableButtons[9].addClickListener(new ControlButtonClickListener(TABLE.Bill));
+        tableButtons[0].addClickListener(new ControlButtonBehavior(this, TABLE.Customer));
+        tableButtons[1].addClickListener(new ControlButtonBehavior(this, TABLE.Company));
+        tableButtons[2].addClickListener(new ControlButtonBehavior(this, TABLE.Service));
+        tableButtons[3].addClickListener(new ControlButtonBehavior(this, TABLE.Room));
+        tableButtons[4].addClickListener(new ControlButtonBehavior(this, TABLE.Occupation));
+        tableButtons[5].addClickListener(new ControlButtonBehavior(this, TABLE.Currency));
+        tableButtons[6].addClickListener(new ControlButtonBehavior(this, TABLE.Employee));
+        tableButtons[7].addClickListener(new ControlButtonBehavior(this, TABLE.RoomType));
+        tableButtons[8].addClickListener(new ControlButtonBehavior(this, TABLE.Archive));
+        tableButtons[9].addClickListener(new ControlButtonBehavior(this, TABLE.Bill));
     }
 
 
@@ -261,7 +171,7 @@ public class ManagerPanel extends TabComponent {
             return buildNews();
         } catch (DAOException e) {
             e.printStackTrace();
-            Notification.show("Something went wrong");
+            popUp.showError("Something went wrong");
             return new ArrayList<>();
         }
 
@@ -283,71 +193,14 @@ public class ManagerPanel extends TabComponent {
         return labels;
     }
 
-
-    private ItemClickEvent.ItemClickListener createTableMouseListener() {
-        return new ItemClickEvent.ItemClickListener() {
-            @Override
-            public void itemClick(ItemClickEvent event) {
-                int numberOfColumn = event.getItem().getItemPropertyIds().size();
-                int numberOfInputFields = dataPanel.getNumberOfFields();
-                if (numberOfColumn == numberOfInputFields) {
-                    fillInputs(event.getItem());
-                }
-            }
-
-            private void fillInputs(Item selectedRow) {
-                log.info("selectedRow " + selectedRow);
-                for (int i = 1; i <= dataPanel.getNumberOfFields(); i++) {
-                    Property property = selectedRow.getItemProperty(i);
-                    String value = String.valueOf(property.getValue());
-                    dataPanel.updateField(i - 1, value);
-                }
-            }
-        };
-    }
-
-    private class ControlButtonClickListener implements ClickListener {
-
-        private TABLE usedTable;
-
-        ControlButtonClickListener(TABLE usedTable) {
-            this.usedTable = usedTable;
-        }
-
-        @Override
-        public void buttonClick(ClickEvent event) {
-            currentlySelectedTable = usedTable;
-            tableLayout.removeComponent(table);
-            TableContent tableContent = manager.createTable(currentlySelectedTable);
-            table = TableUIBuilder.table()
-                    .withTitle(currentlySelectedTable)
-                    .withContent(tableContent)
-                    .withSelection()
-                    .withClickListener(tableMouseListener)
-                    .build();
-            tableLayout.addComponent(table);
-            createDataPanel(currentlySelectedTable);
-        }
+    public void refreshTable(Table table) {
+        tableLayout.removeComponent(this.table);
+        tableLayout.addComponent(table);
+        this.table = table;
     }
 
     public void setManager(Manager manager) {
         this.manager = manager;
-    }
-
-    public void setGuestBook(GuestBook guestBook) {
-        this.guestBook = guestBook;
-    }
-
-    public void setAddService(AddService addService) {
-        this.addService = addService;
-    }
-
-    public void setUpdateService(UpdateService updateService) {
-        this.updateService = updateService;
-    }
-
-    public void setDeleteService(DeleteService deleteService) {
-        this.deleteService = deleteService;
     }
 }
 

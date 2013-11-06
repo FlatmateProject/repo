@@ -84,6 +84,7 @@ public class CantorDaoImpl implements CantorDao {
         String query = "insert into hotel.kantor (" + idColumn + ", DATA, W_KU, W_SP, ILOSC, WARTOSC, ZYSK) VALUES("
                 + calculation.getClientId() + ", '" + formatCurrentDate() + "', '" + calculation.getSellingCurrency().getCurrencyId() + "', '" + calculation.getBuyingCurrency().getCurrencyId()
                 + "', " + calculation.getAmount() + ", " + calculation.getCost() + ", " + calculation.getGain() + ");";
+        session.update(query);
     }
 
     private String formatCurrentDate() {
