@@ -18,8 +18,7 @@ public class UpdateService {
             String conditions = createConditions(labels, data);
             serviceDao.updateData(table, conditions);
         } catch (DAOException e) {
-            e.printStackTrace();
-            throw new IncorrectDataException();
+            throw new IncorrectDataException(e);
         }
     }
 

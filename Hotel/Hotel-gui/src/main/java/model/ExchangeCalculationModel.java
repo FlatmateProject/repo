@@ -1,20 +1,20 @@
 package model;
 
+import entity.ExchangeCalculationData;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import service.cantor.ExchangeCalculation;
 
 @Component
 @Scope("singleton")
 public class ExchangeCalculationModel {
 
-    private ExchangeCalculation exchangeCalculation;
+    private ExchangeCalculationData exchangeCalculationData;
 
-    public ExchangeCalculation getExchangeCalculation() {
-        return exchangeCalculation;
+    public ExchangeCalculationData getExchangeCalculationData() {
+        return exchangeCalculationData;
     }
 
-    public void setExchangeCalculation(ExchangeCalculation exchangeCalculation) {
-        this.exchangeCalculation = exchangeCalculation;
+    public void setExchangeCalculationData(ExchangeCalculationData exchangeCalculationData) {
+        this.exchangeCalculationData = exchangeCalculationData;
     }
 }

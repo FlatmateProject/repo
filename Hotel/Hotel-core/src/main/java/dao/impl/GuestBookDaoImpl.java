@@ -3,7 +3,6 @@ package dao.impl;
 import common.tableBuilder.ArrayObtained;
 import dao.GuestBookDao;
 import dictionary.TABLE;
-import dto.ColumnData;
 import dto.guestBook.RecreationServiceData;
 import exception.DAOException;
 import session.SimpleSession;
@@ -16,12 +15,6 @@ public class GuestBookDaoImpl implements GuestBookDao {
 
     public GuestBookDaoImpl(SimpleSession session) {
         this.session = session;
-    }
-
-    @Override
-    public List<ColumnData> showColumnsForTable(String table) throws DAOException {
-        String query = "show columns from hotel." + table;
-        return session.executeQuery(query, ColumnData.class);
     }
 
     @Override

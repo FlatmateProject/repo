@@ -1,17 +1,17 @@
 package assertions;
 
+import entity.ExchangeCalculationData;
 import org.fest.assertions.Assertions;
 import org.fest.assertions.GenericAssert;
 import service.cantor.CURRENCY;
-import service.cantor.ExchangeCalculation;
 
-public class ExchangeCalculationAssertion extends GenericAssert<ExchangeCalculationAssertion, ExchangeCalculation> {
+public class ExchangeCalculationAssertion extends GenericAssert<ExchangeCalculationAssertion, ExchangeCalculationData> {
 
-    private ExchangeCalculationAssertion(ExchangeCalculation actual) {
+    private ExchangeCalculationAssertion(ExchangeCalculationData actual) {
         super(ExchangeCalculationAssertion.class, actual);
     }
 
-    public static ExchangeCalculationAssertion assertThat(ExchangeCalculation actual) {
+    public static ExchangeCalculationAssertion assertThat(ExchangeCalculationData actual) {
         return new ExchangeCalculationAssertion(actual);
     }
 

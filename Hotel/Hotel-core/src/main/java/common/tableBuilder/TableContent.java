@@ -1,8 +1,11 @@
 package common.tableBuilder;
 
+import dictionary.TABLE;
 import dto.ColumnData;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class TableContent {
@@ -22,11 +25,26 @@ public class TableContent {
 
     final private List<? extends ArrayObtained> rowsData;
 
+    public static TableContent emptyContent(List<ColumnData> columnNames) {
+        return new TableContent(columnNames, Collections.<ArrayObtained>emptyList());
+    }
 
     public static <T extends ArrayObtained> TableContent store(List<ColumnData> columnNames, List<T> rowsData) {
         return new TableContent(columnNames, rowsData);
     }
 
+    public static <T extends ArrayObtained> TableContent store(List<ColumnData> columnNames, Iterable<T> rowsData) {
+        List<T> list = convertToList(rowsData);
+        return new TableContent(columnNames, list);
+    }
+
+    private static <T extends ArrayObtained> List<T> convertToList(Iterable<T> rowsData) {
+        List<T> list = new ArrayList<T>();
+        for (T row : rowsData) {
+            list.add(row);
+        }
+        return list;
+    }
 
     public List<ColumnData> getColumnNames() {
         return columnNames;
@@ -39,5 +57,13 @@ public class TableContent {
     public TableContent(List<ColumnData> columnNames, List<? extends ArrayObtained> rowsData) {
         this.columnNames = columnNames;
         this.rowsData = rowsData;
+    }
+
+    public static List<ColumnData> asList(TABLE table) {
+        List<ColumnData> columns = new ArrayList<ColumnData>();
+        for (String columnName : table.getColumns()) {
+            columns.add(new ColumnData(columnName));
+        }
+        return columns;
     }
 }

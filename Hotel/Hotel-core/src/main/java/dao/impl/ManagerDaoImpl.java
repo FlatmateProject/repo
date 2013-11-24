@@ -3,7 +3,6 @@ package dao.impl;
 import common.tableBuilder.ArrayObtained;
 import dao.ManagerDao;
 import dictionary.TABLE;
-import dto.ColumnData;
 import exception.DAOException;
 import session.SimpleSession;
 
@@ -15,12 +14,6 @@ public class ManagerDaoImpl implements ManagerDao {
 
     public ManagerDaoImpl(SimpleSession session) {
         this.session = session;
-    }
-
-    @Override
-    public List<ColumnData> showColumnsForTable(TABLE table) throws DAOException {
-        String query = "show columns from hotel." + table;
-        return session.executeQuery(query, ColumnData.class);
     }
 
     @Override

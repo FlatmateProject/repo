@@ -1,54 +1,65 @@
 package service.cantor;
 
 import common.tableBuilder.TableContent;
-import dao.CantorDao;
+import dictionary.TABLE;
 import dto.ColumnData;
-import dto.CompanyData;
-import dto.CurrencyData;
-import dto.CustomerData;
-import exception.DAOException;
+import entity.CompanyData;
+import entity.CurrencyData;
+import entity.CustomerData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import repository.CompanyRepository;
+import repository.CurrencyRepository;
+import repository.CustomerRepository;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Component
 public class CantorTableCreator {
 
     @Autowired
-    private CantorDao cantorDao;
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private CompanyRepository companyRepository;
+
+    @Autowired
+    private CurrencyRepository currencyRepository;
 
     public TableContent createCurrencyTable() {
-        try {
-            List<ColumnData> currencyColumns = cantorDao.showColumnsForCurrency();
-            List<CurrencyData> currencies = cantorDao.findAllCurrency();
-            return TableContent.store(currencyColumns, currencies);
-        } catch (DAOException e) {
-            return TableContent.EMPTY;
-        }
+        List<ColumnData> currencyColumns = TableContent.asList(TABLE.Currency);
+        Iterable<CurrencyData> currencies = currencyRepository.findAll();
+        return TableContent.store(currencyColumns, currencies);
     }
 
     public TableContent createCustomerTable(long customerId) {
-        try {
-            List<ColumnData> customerColumns = cantorDao.showColumnsForCustomer();
-            List<CustomerData> customers = cantorDao.findAllCustomers(customerId);
-            return TableContent.store(customerColumns, customers);
-        } catch (Exception e) {
-            return TableContent.EMPTY;
+        List<ColumnData> customerColumns = TableContent.asList(TABLE.Customer);
+        CustomerData customer = customerRepository.findOne(customerId);
+        if (customer == null) {
+            return TableContent.emptyContent(customerColumns);
         }
+        return TableContent.store(customerColumns, Arrays.asList(customer));
     }
 
     public TableContent createCompanyTable(long companyId) {
-        try {
-            List<ColumnData> customerColumns = cantorDao.showColumnsForCompany();
-            List<CompanyData> company = cantorDao.findAllCompanies(companyId);
-            return TableContent.store(customerColumns, company);
-        } catch (Exception e) {
-            return TableContent.EMPTY;
+        List<ColumnData> companyColumns = TableContent.asList(TABLE.Company);
+        CompanyData company = companyRepository.findOne(companyId);
+        if (company == null) {
+            return TableContent.emptyContent(companyColumns);
         }
+        return TableContent.store(companyColumns, Arrays.asList(company));
     }
 
-    public void setCantorDao(CantorDao cantorDao) {
-        this.cantorDao = cantorDao;
+    public void setCustomerRepository(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
+
+    public void setCurrencyRepository(CurrencyRepository currencyRepository) {
+        this.currencyRepository = currencyRepository;
+    }
+
+    public void setCompanyRepository(CompanyRepository companyRepository) {
+        this.companyRepository = companyRepository;
     }
 }

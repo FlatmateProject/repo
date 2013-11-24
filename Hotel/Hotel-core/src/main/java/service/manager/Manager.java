@@ -22,12 +22,12 @@ public class Manager {
     private Calendar calendar;
 
     public List<ColumnData> getColumns(TABLE table) throws DAOException {
-        return managerDao.showColumnsForTable(table);
+        return TableContent.asList(table);
     }
 
     public TableContent createTable(TABLE table) {
         try {
-            List<ColumnData> columns = managerDao.showColumnsForTable(table);
+            List<ColumnData> columns = TableContent.asList(table);
             List<? extends ArrayObtained> data = managerDao.getDataFromTable(table);
             return TableContent.store(columns, data);
         } catch (Exception e) {

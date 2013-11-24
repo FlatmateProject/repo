@@ -17,8 +17,7 @@ public class DeleteService {
         try {
             serviceDao.deleteData(table, primaryKey, id);
         } catch (DAOException e) {
-            e.printStackTrace();
-            throw new IncorrectDataException();
+            throw new IncorrectDataException(e);
         }
     }
 }

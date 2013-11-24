@@ -1,12 +1,12 @@
 package behavior;
 
 import com.vaadin.ui.Button;
+import entity.ExchangeCalculationData;
 import model.ExchangeCalculationModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import service.cantor.CURRENCY;
 import service.cantor.CantorMoneyExchanger;
-import service.cantor.ExchangeCalculation;
 import view.CantorPanel;
 import view.PopUpComponent;
 
@@ -35,9 +35,9 @@ public class ClickCalculateExchangeButtonBehavior implements Button.ClickListene
         } else if (areSelectedTheSameCurrency()) {
             popUp.showError("Nie można wymieniać na tą samą walutę");
         } else {
-            ExchangeCalculation exchangeCalculation = calculateExchange();
-            cantorPanel.updateCostInputText(exchangeCalculation.getCost());
-            exchangeCalculationModel.setExchangeCalculation(exchangeCalculation);
+            ExchangeCalculationData exchangeCalculationData = calculateExchange();
+            cantorPanel.updateCostInputText(exchangeCalculationData.getCost());
+            exchangeCalculationModel.setExchangeCalculationData(exchangeCalculationData);
         }
     }
 
@@ -49,7 +49,7 @@ public class ClickCalculateExchangeButtonBehavior implements Button.ClickListene
         return cantorPanel.getOldCurrency() == cantorPanel.getNewCurrency();
     }
 
-    private ExchangeCalculation calculateExchange() {
+    private ExchangeCalculationData calculateExchange() {
         float amount = getAmount();
         CURRENCY oldCurrency = cantorPanel.getOldCurrency();
         CURRENCY newCurrency = cantorPanel.getNewCurrency();

@@ -1,6 +1,6 @@
-package repository.reservation;
+package repository;
 
-import entity.reservation.ReservationData;
+import entity.ReservationData;
 import exception.DAOException;
 import org.springframework.data.repository.CrudRepository;
 

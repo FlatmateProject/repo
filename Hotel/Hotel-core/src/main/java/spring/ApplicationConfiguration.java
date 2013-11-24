@@ -1,7 +1,13 @@
 package spring;
 
-import dao.*;
-import dao.impl.*;
+import dao.GuestBookDao;
+import dao.ManagerDao;
+import dao.ServiceDao;
+import dao.StatisticDao;
+import dao.impl.GuestBookDaoImpl;
+import dao.impl.ManagerDaoImpl;
+import dao.impl.ServiceDaoImpl;
+import dao.impl.StatisticDaoImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -104,11 +110,6 @@ public class ApplicationConfiguration {
     @Bean
     public StatisticDao statisticDao() {
         return new StatisticDaoImpl(session());
-    }
-
-    @Bean
-    public CantorDao cantorDao() {
-        return new CantorDaoImpl(session());
     }
 
     @Bean

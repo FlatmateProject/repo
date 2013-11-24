@@ -4,7 +4,7 @@ import common.tableBuilder.ArrayObtained;
 
 public class RecreationServiceData implements ArrayObtained {
 
-    private long idService;
+    private long serviceId;
 
     private String name;
 
@@ -16,6 +16,6 @@ public class RecreationServiceData implements ArrayObtained {
 
     @Override
     public Object[] getArray() {
-        return new Object[]{idService, name, price, type, time};
+        return new Object[]{serviceId, name, price, type, time};
     }
 }

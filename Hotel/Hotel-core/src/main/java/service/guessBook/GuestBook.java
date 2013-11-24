@@ -6,10 +6,10 @@ import dao.GuestBookDao;
 import dictionary.TABLE;
 import dto.ColumnData;
 import dto.guestBook.RecreationServiceData;
-import entity.reservation.ReservationData;
+import entity.ReservationData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import repository.reservation.ReservationRepository;
+import repository.ReservationRepository;
 
 import java.util.List;
 
@@ -26,10 +26,10 @@ public class GuestBook {
 
     private String[] data;
 
-    public List<ColumnData> getLabels(TABLE tableName) {
+    public List<ColumnData> getLabels(TABLE table) {
         List<ColumnData> emptyColumns = ColumnData.arrayOfMe("", 13);
         try {
-            List<ColumnData> columns = guestBookDao.showColumnsForTable(tableName.getTableName());
+            List<ColumnData> columns = TableContent.asList(table);
             if (columns.isEmpty()) {
                 return emptyColumns;
             }
@@ -42,7 +42,7 @@ public class GuestBook {
 
     public TableContent createReservationTableForCustomer(long clientId) {
         try {
-            List<ColumnData> columns = guestBookDao.showColumnsForTable("rezerwacje");
+            List<ColumnData> columns = TableContent.asList(TABLE.Reservation);
             List<ReservationData> data = reservationRepository.findByPeselId(clientId);
             return TableContent.store(columns, data);
         } catch (Exception e) {
@@ -53,7 +53,7 @@ public class GuestBook {
 
     public TableContent createReservationTableForCompany(long clientId) {
         try {
-            List<ColumnData> columns = guestBookDao.showColumnsForTable("rezerwacje");
+            List<ColumnData> columns = TableContent.asList(TABLE.Reservation);
             List<ReservationData> data = reservationRepository.findByKrsId(clientId);
             return TableContent.store(columns, data);
         } catch (Exception e) {
@@ -64,7 +64,7 @@ public class GuestBook {
 
     public TableContent createRecreationTable(long idReservation) {
         try {
-            List<ColumnData> columns = guestBookDao.showColumnsForTable("uslugi");
+            List<ColumnData> columns = TableContent.asList(TABLE.Service);
             List<RecreationServiceData> data = guestBookDao.getServiceByReservationId(idReservation);
             columns.add(new ColumnData("CZAS"));
             return TableContent.store(columns, data);
@@ -90,10 +90,10 @@ public class GuestBook {
         return TableContent.EMPTY;
     }
 
-    private TableContent createTableWithConditions(TABLE tableName, String conditions) {
+    private TableContent createTableWithConditions(TABLE table, String conditions) {
         try {
-            List<ColumnData> columns = guestBookDao.showColumnsForTable(tableName.getTableName());
-            List<? extends ArrayObtained> data = guestBookDao.getDataFromTable(tableName, conditions);
+            List<ColumnData> columns = TableContent.asList(table);
+            List<? extends ArrayObtained> data = guestBookDao.getDataFromTable(table, conditions);
             return TableContent.store(columns, data);
         } catch (Exception e) {
             e.printStackTrace();
