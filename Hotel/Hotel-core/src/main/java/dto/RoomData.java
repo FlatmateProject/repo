@@ -1,6 +1,6 @@
 package dto;
 
-import common.tableBuilder.ArrayObtained;
+import common.ArrayObtained;
 
 public class RoomData implements ArrayObtained {
 

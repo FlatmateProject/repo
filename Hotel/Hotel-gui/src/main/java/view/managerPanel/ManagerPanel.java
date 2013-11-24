@@ -1,9 +1,8 @@
 package view.managerPanel;
 
-
 import behavior.*;
 import com.vaadin.ui.*;
-import common.tableBuilder.TableContent;
+import common.TableContent;
 import dictionary.TABLE;
 import dto.ColumnData;
 import exception.DAOException;
@@ -115,11 +114,9 @@ public class ManagerPanel extends TabComponent {
         vertical.addComponent(tableLayout);
         for (Label label : labels) {
             vertical.addComponent(label);
-
         }
         vertical.setMargin(true);
         setCompositionRoot(vertical);
-
     }
 
     public void createDataPanel() {
@@ -165,7 +162,6 @@ public class ManagerPanel extends TabComponent {
         tableButtons[9].addClickListener(new ControlButtonBehavior(this, TABLE.Bill));
     }
 
-
     private List<Label> createNews() {
         try {
             return buildNews();
@@ -174,7 +170,6 @@ public class ManagerPanel extends TabComponent {
             popUp.showError("Something went wrong");
             return new ArrayList<>();
         }
-
     }
 
     private List<Label> buildNews() throws DAOException {

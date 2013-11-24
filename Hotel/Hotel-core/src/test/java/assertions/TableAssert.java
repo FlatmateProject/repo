@@ -1,6 +1,6 @@
 package assertions;
 
-import common.tableBuilder.TableContent;
+import common.TableContent;
 import org.fest.assertions.Assertions;
 import org.fest.assertions.GenericAssert;
 
@@ -23,6 +23,4 @@ public class TableAssert extends GenericAssert<TableAssert, TableContent> {
         Assertions.assertThat(actual.getColumnNames().size()).isEqualTo(columnNumber);
         return this;
     }
-
-
 }

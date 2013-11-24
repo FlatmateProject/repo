@@ -1,6 +1,6 @@
 package dto.guestBook;
 
-import common.tableBuilder.ArrayObtained;
+import common.ArrayObtained;
 
 public class RecreationServiceData implements ArrayObtained {
 

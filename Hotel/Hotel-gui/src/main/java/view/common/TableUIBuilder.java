@@ -2,8 +2,8 @@ package view.common;
 
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.ui.Table;
-import common.tableBuilder.ArrayObtained;
-import common.tableBuilder.TableContent;
+import common.ArrayObtained;
+import common.TableContent;
 import dictionary.TABLE;
 import dto.ColumnData;
 

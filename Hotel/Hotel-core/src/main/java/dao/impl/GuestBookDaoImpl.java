@@ -1,6 +1,6 @@
 package dao.impl;
 
-import common.tableBuilder.ArrayObtained;
+import common.ArrayObtained;
 import dao.GuestBookDao;
 import dictionary.TABLE;
 import dto.guestBook.RecreationServiceData;

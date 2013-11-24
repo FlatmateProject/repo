@@ -1,6 +1,6 @@
 package service.cantor;
 
-import common.tableBuilder.TableContent;
+import common.TableContent;
 import entity.CompanyData;
 import entity.CurrencyData;
 import entity.CustomerData;

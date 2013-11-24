@@ -1,7 +1,7 @@
 package service.manager;
 
-import common.tableBuilder.ArrayObtained;
-import common.tableBuilder.TableContent;
+import common.ArrayObtained;
+import common.TableContent;
 import dao.ManagerDao;
 import dictionary.TABLE;
 import dto.ColumnData;

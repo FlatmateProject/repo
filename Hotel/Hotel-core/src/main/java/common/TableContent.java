@@ -1,4 +1,4 @@
-package common.tableBuilder;
+package common;
 
 import dictionary.TABLE;
 import dto.ColumnData;

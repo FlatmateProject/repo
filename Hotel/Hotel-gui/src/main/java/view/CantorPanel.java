@@ -1,12 +1,11 @@
 package view;
 
-
 import behavior.ClickCalculateExchangeButtonBehavior;
 import behavior.ClickCommitTransactionButtonBehavior;
 import behavior.ClickSearchClientButtonBehavior;
 import com.vaadin.data.Property;
 import com.vaadin.ui.*;
-import common.tableBuilder.TableContent;
+import common.TableContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import service.cantor.CURRENCY;
@@ -45,7 +44,6 @@ public class CantorPanel extends TabComponent {
 
     @Autowired
     private ClickCommitTransactionButtonBehavior clickCommitTransactionButtonBehavior;
-
 
     @Override
     public void create() {

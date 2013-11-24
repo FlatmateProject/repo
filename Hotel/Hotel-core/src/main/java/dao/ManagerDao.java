@@ -1,6 +1,6 @@
 package dao;
 
-import common.tableBuilder.ArrayObtained;
+import common.ArrayObtained;
 import dictionary.TABLE;
 import exception.DAOException;
 

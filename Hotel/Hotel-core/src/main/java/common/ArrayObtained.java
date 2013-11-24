@@ -1,4 +1,4 @@
-package common.tableBuilder;
+package common;
 
 public interface ArrayObtained {
     Object[] getArray();

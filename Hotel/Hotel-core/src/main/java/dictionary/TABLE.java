@@ -1,6 +1,6 @@
 package dictionary;
 
-import common.tableBuilder.ArrayObtained;
+import common.ArrayObtained;
 import dto.*;
 import entity.CompanyData;
 import entity.CurrencyData;

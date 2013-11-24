@@ -1,6 +1,6 @@
 package entity;
 
-import common.tableBuilder.ArrayObtained;
+import common.ArrayObtained;
 
 import javax.persistence.*;
 import java.util.Date;

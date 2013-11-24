@@ -1,6 +1,6 @@
 package conditions.table;
 
-import common.tableBuilder.TableContent;
+import common.TableContent;
 import dto.ColumnData;
 import org.fest.assertions.Condition;
 

@@ -1,7 +1,7 @@
 package behavior;
 
 import com.vaadin.ui.Table;
-import common.tableBuilder.TableContent;
+import common.TableContent;
 import org.mockito.Mock;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -109,5 +109,4 @@ public class ClickSearchClientButtonBehaviorTest {
         verify(cantorPanelMock).refreshCompanyTable(any(Table.class));
         verifyNoMoreInteractions(cantorPanelMock);
     }
-
 }

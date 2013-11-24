@@ -1,7 +1,7 @@
 package service.guessBook;
 
-import common.tableBuilder.ArrayObtained;
-import common.tableBuilder.TableContent;
+import common.ArrayObtained;
+import common.TableContent;
 import dao.GuestBookDao;
 import dictionary.TABLE;
 import dto.ColumnData;

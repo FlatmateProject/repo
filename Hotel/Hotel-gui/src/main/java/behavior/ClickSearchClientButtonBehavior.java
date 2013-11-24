@@ -2,7 +2,7 @@ package behavior;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
-import common.tableBuilder.TableContent;
+import common.TableContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import service.cantor.CantorTableCreator;

@@ -1,7 +1,7 @@
 package conditions.table;
 
-import common.tableBuilder.ArrayObtained;
-import common.tableBuilder.TableContent;
+import common.ArrayObtained;
+import common.TableContent;
 import org.fest.assertions.Condition;
 
 import java.util.List;
@@ -12,7 +12,6 @@ import java.util.List;
  * Time: 12:08 PM
  */
 public class ZeroRowsCondition extends Condition<TableContent> {
-
 
     private ZeroRowsCondition(String description) {
         as(description);
@@ -27,5 +26,4 @@ public class ZeroRowsCondition extends Condition<TableContent> {
         List<? extends ArrayObtained> data = tableContent.getRowsData();
         return data == null || data.isEmpty();
     }
-
 }

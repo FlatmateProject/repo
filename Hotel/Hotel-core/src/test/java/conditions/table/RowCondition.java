@@ -1,7 +1,7 @@
 package conditions.table;
 
-import common.tableBuilder.ArrayObtained;
-import common.tableBuilder.TableContent;
+import common.ArrayObtained;
+import common.TableContent;
 import org.fest.assertions.Condition;
 
 import java.util.List;
