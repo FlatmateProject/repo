@@ -5,7 +5,6 @@ import dao.GuestBookDao;
 import dictionary.TABLE;
 import dto.ColumnData;
 import dto.guestBook.RecreationServiceData;
-import dto.guestBook.ReservationData;
 import exception.DAOException;
 import session.SimpleSession;
 
@@ -29,12 +28,6 @@ public class GuestBookDaoImpl implements GuestBookDao {
     public List<? extends ArrayObtained> getDataFromTable(TABLE table, String conditions) throws DAOException {
         String query = "select * from hotel." + table + " " + conditions;
         return session.executeQuery(query, table.getTableDtoClass());
-    }
-
-    @Override
-    public List<ReservationData> getReservationsByClientId(String primaryId, long clientId) throws DAOException {
-        String query = "select * from hotel.rezerwacje where " + primaryId + "=" + clientId;
-        return session.executeQuery(query, ReservationData.class);
     }
 
     @Override

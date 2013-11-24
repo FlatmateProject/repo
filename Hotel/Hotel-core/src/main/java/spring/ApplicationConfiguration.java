@@ -2,30 +2,42 @@ package spring;
 
 import dao.*;
 import dao.impl.*;
+import exception.DAOException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.*;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.Database;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
+import repository.reservation.ReservationRepository;
 import service.AddService;
 import service.DeleteService;
 import service.UpdateService;
 import service.cantor.CantorMoneyExchanger;
 import service.cantor.CantorTableCreator;
 import service.employeeManager.EmployeeManager;
-import service.guessBook.GuestBook;
 import service.manager.Manager;
 import service.reception.Reception;
 import service.reservation.Reservation;
 import service.schedule.Schedule;
 import service.statictic.Statistic;
-import session.DataSource;
+import session.SimpleDataSource;
 import session.SimpleSession;
 
+import javax.sql.DataSource;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 @Configuration
 @ImportResource("classpath:/properties-core-config.xml")
+@EnableJpaRepositories({"repository", "entity"})
+@ComponentScan(basePackages = {"service.guessBook"})
 public class ApplicationConfiguration {
 
     @Value("${driver}")
@@ -47,18 +59,53 @@ public class ApplicationConfiguration {
 
     @Bean
     public DataSource dataSource() {
-        DataSource dataSource = new DataSource();
-        dataSource.setDriver(driver);
-        dataSource.setHost(host);
-        dataSource.setDatabase(database);
-        dataSource.setUser(user);
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setUrl(host + database);
+        dataSource.setUsername(user);
         dataSource.setPassword(password);
+        dataSource.setDriverClassName(driver);
         return dataSource;
     }
 
     @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
+        LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+        localContainerEntityManagerFactoryBean.setDataSource(dataSource);
+        localContainerEntityManagerFactoryBean.setJpaVendorAdapter(jpaVendorAdapter);
+        localContainerEntityManagerFactoryBean.setPackagesToScan("repository", "entity");
+        return localContainerEntityManagerFactoryBean;
+    }
+
+    @Bean
+    public JpaVendorAdapter jpaVendorAdapter() {
+        HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
+        hibernateJpaVendorAdapter.setShowSql(false);
+        hibernateJpaVendorAdapter.setGenerateDdl(true);
+        hibernateJpaVendorAdapter.setDatabase(Database.MYSQL);
+        return hibernateJpaVendorAdapter;
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager() {
+        JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
+        LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = entityManagerFactory(dataSource(), jpaVendorAdapter());
+        return jpaTransactionManager;
+    }
+
+    @Bean
+    public SimpleDataSource simpleDataSource() {
+        SimpleDataSource simpleDataSource = new SimpleDataSource();
+        simpleDataSource.setDriver(driver);
+        simpleDataSource.setHost(host);
+        simpleDataSource.setDatabase(database);
+        simpleDataSource.setUser(user);
+        simpleDataSource.setPassword(password);
+        return simpleDataSource;
+    }
+
+    @Bean
     public SimpleSession session() {
-        return new SimpleSession(dataSource());
+        return new SimpleSession(simpleDataSource());
     }
 
     @Bean
@@ -138,12 +185,6 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public GuestBook guestBook() {
-        return new GuestBook(guestBookDao());
-    }
-
-
-    @Bean
     public Calendar calendar() {
         return calendar;
     }
@@ -166,5 +207,15 @@ public class ApplicationConfiguration {
     @Bean
     public EmployeeManager employeeManager() {
         return new EmployeeManager();
+    }
+
+    public static void main(String[] args) throws DAOException {
+        AbstractApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
+        PlatformTransactionManager platformTransactionManager = context.getBean(PlatformTransactionManager.class);
+        ReservationRepository reservationRepository = context.getBean(ReservationRepository.class);
+        Logger.getRootLogger().info("siema: " + platformTransactionManager);
+        Logger.getRootLogger().info("siema: " + reservationRepository);
+        Logger.getRootLogger().info("siema: " + reservationRepository.findByPeselId(123456L));
+        context.close();
     }
 }

@@ -13,24 +13,24 @@ class Singleton {
 
     private static Connection connection;
 
-    public static Singleton getInstance(DataSource dataSource) {
+    public static Singleton getInstance(SimpleDataSource simpleDataSource) {
         synchronized (Singleton.class) {
             if (instance == null) {
                 instance = new Singleton();
-                initializeJDBCConnection(dataSource);
+                initializeJDBCConnection(simpleDataSource);
             }
         }
         return instance;
     }
 
-    private static void initializeJDBCConnection(DataSource dataSource) {
+    private static void initializeJDBCConnection(SimpleDataSource simpleDataSource) {
         try {
-            Class.forName(dataSource.getDriver()).newInstance();
-            connection = DriverManager.getConnection(dataSource.getHost() + dataSource.getDatabase(), dataSource.getUser(), dataSource.getPassword());
+            Class.forName(simpleDataSource.getDriver()).newInstance();
+            connection = DriverManager.getConnection(simpleDataSource.getHost() + simpleDataSource.getDatabase(), simpleDataSource.getUser(), simpleDataSource.getPassword());
         } catch (Exception e) {
             logExceptionDetails(e);
             log.debug("Brak połączenia z bazą danych!");
-            log.debug("datasource details" + dataSource);
+            log.debug("datasource details" + simpleDataSource);
         }
     }
 
@@ -63,5 +63,4 @@ class Singleton {
             log.error(stackTraceElement);
         }
     }
-
 }

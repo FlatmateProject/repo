@@ -9,8 +9,8 @@ public class SimpleSession {
 
     private Singleton singleton;
 
-    public SimpleSession(DataSource dataSource) {
-        singleton = dataSource.establishConnection();
+    public SimpleSession(SimpleDataSource simpleDataSource) {
+        singleton = simpleDataSource.establishConnection();
     }
 
     public Object simpleResult(String query) throws DAOException {

@@ -14,29 +14,29 @@ public class SimpleSessionTest {
 
     @BeforeMethod
     public void setUp() {
-        DataSource dataSource = new DataSource();
-        dataSource.setDriver("com.mysql.jdbc.Driver");
-        dataSource.setHost("jdbc:mysql://localhost:3306/");
-        dataSource.setDatabase("hotel");
-        dataSource.setUser("hotel2");
-        dataSource.setPassword("hotel0");
+        SimpleDataSource simpleDataSource = new SimpleDataSource();
+        simpleDataSource.setDriver("com.mysql.jdbc.Driver");
+        simpleDataSource.setHost("jdbc:mysql://localhost:3306/");
+        simpleDataSource.setDatabase("hotel");
+        simpleDataSource.setUser("hotel2");
+        simpleDataSource.setPassword("hotel0");
 
         // when
-        simpleSession = new SimpleSession(dataSource);
+        simpleSession = new SimpleSession(simpleDataSource);
     }
 
     @Test
     public void shouldRun() {
         // given
-        DataSource dataSource = new DataSource();
-        dataSource.setDriver("com.mysql.jdbc.Driver");
-        dataSource.setHost("jdbc:mysql://localhost:3306/");
-        dataSource.setDatabase("hotel");
-        dataSource.setUser("hotel");
-        dataSource.setPassword("hotel_dupe");
+        SimpleDataSource simpleDataSource = new SimpleDataSource();
+        simpleDataSource.setDriver("com.mysql.jdbc.Driver");
+        simpleDataSource.setHost("jdbc:mysql://localhost:3306/");
+        simpleDataSource.setDatabase("hotel");
+        simpleDataSource.setUser("hotel");
+        simpleDataSource.setPassword("hotel_dupe");
 
         // when
-        SimpleSession simpleSession = new SimpleSession(dataSource);
+        SimpleSession simpleSession = new SimpleSession(simpleDataSource);
 
         // then
         assertThat(simpleSession).isNotNull();

@@ -1,27 +1,30 @@
 package service.guessBook;
 
-
 import common.tableBuilder.ArrayObtained;
 import common.tableBuilder.TableContent;
 import dao.GuestBookDao;
 import dictionary.TABLE;
 import dto.ColumnData;
 import dto.guestBook.RecreationServiceData;
-import dto.guestBook.ReservationData;
+import entity.reservation.ReservationData;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import repository.reservation.ReservationRepository;
 
 import java.util.List;
 
+@Component
 public class GuestBook {
 
-    private final GuestBookDao guestBookDao;
+    @Autowired
+    private GuestBookDao guestBookDao;
+
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     private String[] labels;
 
     private String[] data;
-
-    public GuestBook(GuestBookDao guestBookDao) {
-        this.guestBookDao = guestBookDao;
-    }
 
     public List<ColumnData> getLabels(TABLE tableName) {
         List<ColumnData> emptyColumns = ColumnData.arrayOfMe("", 13);
@@ -37,10 +40,21 @@ public class GuestBook {
         }
     }
 
-    public TableContent createReservationTable(String primaryId, long clientId) {
+    public TableContent createReservationTableForCustomer(long clientId) {
         try {
             List<ColumnData> columns = guestBookDao.showColumnsForTable("rezerwacje");
-            List<ReservationData> data = guestBookDao.getReservationsByClientId(primaryId, clientId);
+            List<ReservationData> data = reservationRepository.findByPeselId(clientId);
+            return TableContent.store(columns, data);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return TableContent.EMPTY;
+        }
+    }
+
+    public TableContent createReservationTableForCompany(long clientId) {
+        try {
+            List<ColumnData> columns = guestBookDao.showColumnsForTable("rezerwacje");
+            List<ReservationData> data = reservationRepository.findByKrsId(clientId);
             return TableContent.store(columns, data);
         } catch (Exception e) {
             e.printStackTrace();
