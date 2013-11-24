@@ -2,11 +2,11 @@ package spring;
 
 import dao.*;
 import dao.impl.*;
-import exception.DAOException;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.*;
-import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -15,18 +15,6 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
-import repository.reservation.ReservationRepository;
-import service.AddService;
-import service.DeleteService;
-import service.UpdateService;
-import service.cantor.CantorMoneyExchanger;
-import service.cantor.CantorTableCreator;
-import service.employeeManager.EmployeeManager;
-import service.manager.Manager;
-import service.reception.Reception;
-import service.reservation.Reservation;
-import service.schedule.Schedule;
-import service.statictic.Statistic;
 import session.SimpleDataSource;
 import session.SimpleSession;
 
@@ -37,7 +25,7 @@ import java.util.GregorianCalendar;
 @Configuration
 @ImportResource("classpath:/properties-core-config.xml")
 @EnableJpaRepositories({"repository", "entity"})
-@ComponentScan(basePackages = {"service.guessBook"})
+@ComponentScan(basePackages = {"service"})
 public class ApplicationConfiguration {
 
     @Value("${driver}")
@@ -88,7 +76,7 @@ public class ApplicationConfiguration {
     @Bean
     public PlatformTransactionManager transactionManager() {
         JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
-        LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = entityManagerFactory(dataSource(), jpaVendorAdapter());
+        jpaTransactionManager.setEntityManagerFactory(entityManagerFactory(dataSource(), jpaVendorAdapter()).getObject());
         return jpaTransactionManager;
     }
 
@@ -114,34 +102,8 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public AddService addService() {
-        return new AddService(serviceDao());
-    }
-
-    @Bean
-    public UpdateService updateService() {
-        return new UpdateService(serviceDao());
-    }
-
-    @Bean
-    public DeleteService deleteService() {
-        return new DeleteService(serviceDao());
-    }
-
-    @Bean
     public StatisticDao statisticDao() {
         return new StatisticDaoImpl(session());
-    }
-
-    @Bean
-    public Statistic statistic() {
-        return statistic(statisticDao());
-    }
-
-    public Statistic statistic(StatisticDao statisticDao) {
-        Statistic statistic = new Statistic();
-        statistic.setStatisticDao(statisticDao);
-        return statistic;
     }
 
     @Bean
@@ -150,33 +112,8 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public CantorMoneyExchanger cantorMoneyExchanger() {
-        return cantorMoneyExchanger(cantorDao());
-    }
-
-    public CantorMoneyExchanger cantorMoneyExchanger(CantorDao cantorDao) {
-        return new CantorMoneyExchanger(cantorDao);
-    }
-
-    @Bean
-    public CantorTableCreator cantorTableCreator() {
-        return cantorTableCreator(cantorDao());
-    }
-
-    public CantorTableCreator cantorTableCreator(CantorDao cantorDao) {
-        return new CantorTableCreator(cantorDao);
-    }
-
-    @Bean
     public ManagerDao managerDao() {
         return new ManagerDaoImpl(session());
-    }
-
-    @Bean
-    public Manager manager() {
-        Manager manager = new Manager(managerDao());
-        manager.setCalendar(calendar());
-        return manager;
     }
 
     @Bean
@@ -187,35 +124,5 @@ public class ApplicationConfiguration {
     @Bean
     public Calendar calendar() {
         return calendar;
-    }
-
-    @Bean
-    public Schedule schedule() {
-        return new Schedule();
-    }
-
-    @Bean
-    public Reception reception() {
-        return new Reception();
-    }
-
-    @Bean
-    public Reservation reservation() {
-        return new Reservation();
-    }
-
-    @Bean
-    public EmployeeManager employeeManager() {
-        return new EmployeeManager();
-    }
-
-    public static void main(String[] args) throws DAOException {
-        AbstractApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
-        PlatformTransactionManager platformTransactionManager = context.getBean(PlatformTransactionManager.class);
-        ReservationRepository reservationRepository = context.getBean(ReservationRepository.class);
-        Logger.getRootLogger().info("siema: " + platformTransactionManager);
-        Logger.getRootLogger().info("siema: " + reservationRepository);
-        Logger.getRootLogger().info("siema: " + reservationRepository.findByPeselId(123456L));
-        context.close();
     }
 }

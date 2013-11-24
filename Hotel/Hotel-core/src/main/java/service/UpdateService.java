@@ -1,18 +1,17 @@
 package service;
 
-
 import dao.ServiceDao;
 import dictionary.TABLE;
 import exception.DAOException;
 import exception.IncorrectDataException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UpdateService {
 
-    private final ServiceDao serviceDao;
-
-    public UpdateService(ServiceDao serviceDao) {
-        this.serviceDao = serviceDao;
-    }
+    @Autowired
+    private ServiceDao serviceDao;
 
     public void updateClientData(TABLE table, String labels[], String data[]) throws IncorrectDataException {
         try {

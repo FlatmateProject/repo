@@ -7,16 +7,16 @@ import dto.CompanyData;
 import dto.CurrencyData;
 import dto.CustomerData;
 import exception.DAOException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class CantorTableCreator {
 
-    private final CantorDao cantorDao;
-
-    public CantorTableCreator(CantorDao cantorDao) {
-        this.cantorDao = cantorDao;
-    }
+    @Autowired
+    private CantorDao cantorDao;
 
     public TableContent createCurrencyTable() {
         try {
@@ -46,5 +46,9 @@ public class CantorTableCreator {
         } catch (Exception e) {
             return TableContent.EMPTY;
         }
+    }
+
+    public void setCantorDao(CantorDao cantorDao) {
+        this.cantorDao = cantorDao;
     }
 }

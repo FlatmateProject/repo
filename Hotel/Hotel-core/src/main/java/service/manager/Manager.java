@@ -6,19 +6,20 @@ import dao.ManagerDao;
 import dictionary.TABLE;
 import dto.ColumnData;
 import exception.DAOException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
 import java.util.List;
 
+@Component
 public class Manager {
 
-    private final ManagerDao managerDao;
+    @Autowired
+    private ManagerDao managerDao;
 
+    @Autowired
     private Calendar calendar;
-
-    public Manager(ManagerDao managerDao) {
-        this.managerDao = managerDao;
-    }
 
     public List<ColumnData> getColumns(TABLE table) throws DAOException {
         return managerDao.showColumnsForTable(table);
@@ -61,9 +62,5 @@ public class Manager {
 
     public int getNumberOfClientsToCheckOut() throws DAOException {
         return getCount("rezerwacje where month(data_w) = " + (calendar.get(Calendar.MONTH) + 1));
-    }
-
-    public void setCalendar(Calendar calendar) {
-        this.calendar = calendar;
     }
 }

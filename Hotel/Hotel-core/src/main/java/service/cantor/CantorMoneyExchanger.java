@@ -4,14 +4,14 @@ import dao.CantorDao;
 import dto.CurrencyData;
 import exception.CantorTransactionCanceledException;
 import exception.DAOException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CantorMoneyExchanger {
 
-    private final CantorDao cantorDao;
-
-    public CantorMoneyExchanger(CantorDao cantorDao) {
-        this.cantorDao = cantorDao;
-    }
+    @Autowired
+    private CantorDao cantorDao;
 
     public ExchangeCalculation calculateExchange(CURRENCY oldCurrency, CURRENCY newCurrency, float amount) {
         try {
@@ -26,7 +26,6 @@ public class CantorMoneyExchanger {
         }
         return ExchangeCalculation.ZERO;
     }
-
 
     public boolean isTransactionPossible(ExchangeCalculation calculation) {
         try {
@@ -61,5 +60,9 @@ public class CantorMoneyExchanger {
         cantorDao.updateCurrency(oldCurrency);
         newCurrency.decreaseQuantity(calculation.getCost());
         cantorDao.updateCurrency(newCurrency);
+    }
+
+    public void setCantorDao(CantorDao cantorDao) {
+        this.cantorDao = cantorDao;
     }
 }

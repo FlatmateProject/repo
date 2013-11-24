@@ -25,14 +25,15 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class CantorTableCreatorMockitoTest {
 
     @Mock
-    CantorDao cantorDao;
+    CantorDao cantorDaoMock;
 
     private CantorTableCreator creator;
 
     @BeforeMethod
     public void beforeEachTest() {
         initMocks(this);
-        creator = new CantorTableCreator(cantorDao);
+        creator = new CantorTableCreator();
+        creator.setCantorDao(cantorDaoMock);
     }
 
     @Test
@@ -43,7 +44,7 @@ public class CantorTableCreatorMockitoTest {
         ColumnData columnData = mock(ColumnData.class);
         when(columnData.getName()).thenReturn(columnNames[0], Arrays.copyOfRange(columnNames, 1, columnNames.length));
 
-        when(cantorDao.showColumnsForCurrency()).thenReturn(Arrays.asList(columnData, columnData, columnData, columnData, columnData));
+        when(cantorDaoMock.showColumnsForCurrency()).thenReturn(Arrays.asList(columnData, columnData, columnData, columnData, columnData));
 
         //when
         TableContent result = creator.createCurrencyTable();
@@ -68,8 +69,8 @@ public class CantorTableCreatorMockitoTest {
         ColumnData columnData = mock(ColumnData.class);
         when(columnData.getName()).thenReturn(columnNames[0], Arrays.copyOfRange(columnNames, 1, columnNames.length));
 
-        when(cantorDao.showColumnsForCurrency()).thenReturn(Arrays.asList(columnData, columnData, columnData, columnData, columnData));
-        when(cantorDao.findAllCurrency()).thenReturn(Arrays.asList(currencyData));
+        when(cantorDaoMock.showColumnsForCurrency()).thenReturn(Arrays.asList(columnData, columnData, columnData, columnData, columnData));
+        when(cantorDaoMock.findAllCurrency()).thenReturn(Arrays.asList(currencyData));
 
         // when
         TableContent result = creator.createCurrencyTable();
@@ -92,8 +93,7 @@ public class CantorTableCreatorMockitoTest {
         ColumnData columnData = mock(ColumnData.class);
         when(columnData.getName()).thenReturn(columnNames[0], Arrays.copyOfRange(columnNames, 1, columnNames.length));
 
-
-        when(cantorDao.showColumnsForCustomer()).thenReturn(Arrays.asList(columnData, columnData, columnData, columnData, columnData, columnData,
+        when(cantorDaoMock.showColumnsForCustomer()).thenReturn(Arrays.asList(columnData, columnData, columnData, columnData, columnData, columnData,
                 columnData, columnData, columnData, columnData, columnData, columnData));
 
         //when
@@ -121,9 +121,9 @@ public class CantorTableCreatorMockitoTest {
         CustomerData customerData = mock(CustomerData.class);
         when(customerData.getArray()).thenReturn(row);
 
-        when(cantorDao.showColumnsForCustomer()).thenReturn(Arrays.asList(columnData, columnData, columnData, columnData, columnData, columnData,
+        when(cantorDaoMock.showColumnsForCustomer()).thenReturn(Arrays.asList(columnData, columnData, columnData, columnData, columnData, columnData,
                 columnData, columnData, columnData, columnData, columnData, columnData));
-        when(cantorDao.findAllCustomers(pesel)).thenReturn(Arrays.asList(customerData));
+        when(cantorDaoMock.findAllCustomers(pesel)).thenReturn(Arrays.asList(customerData));
 
         // when
         TableContent result = creator.createCustomerTable(pesel);
@@ -147,7 +147,7 @@ public class CantorTableCreatorMockitoTest {
         ColumnData columnData = mock(ColumnData.class);
         when(columnData.getName()).thenReturn(columnNames[0], Arrays.copyOfRange(columnNames, 1, columnNames.length));
 
-        when(cantorDao.showColumnsForCompany()).thenReturn(Arrays.asList(columnData, columnData, columnData, columnData, columnData, columnData,
+        when(cantorDaoMock.showColumnsForCompany()).thenReturn(Arrays.asList(columnData, columnData, columnData, columnData, columnData, columnData,
                 columnData, columnData, columnData, columnData, columnData, columnData, columnData));
 
         //when
@@ -175,9 +175,9 @@ public class CantorTableCreatorMockitoTest {
         CompanyData companyData = mock(CompanyData.class);
         when(companyData.getArray()).thenReturn(row);
 
-        when(cantorDao.showColumnsForCompany()).thenReturn(Arrays.asList(columnData, columnData, columnData, columnData, columnData, columnData,
+        when(cantorDaoMock.showColumnsForCompany()).thenReturn(Arrays.asList(columnData, columnData, columnData, columnData, columnData, columnData,
                 columnData, columnData, columnData, columnData, columnData, columnData, columnData));
-        when(cantorDao.findAllCompanies(krs)).thenReturn(Arrays.asList(companyData));
+        when(cantorDaoMock.findAllCompanies(krs)).thenReturn(Arrays.asList(companyData));
 
         // when
         TableContent result = creator.createCompanyTable(krs);

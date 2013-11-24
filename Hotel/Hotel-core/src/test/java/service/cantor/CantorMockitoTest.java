@@ -16,14 +16,15 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class CantorMockitoTest {
 
     @Mock
-    CantorDao cantorDao;
+    CantorDao cantorDaoMock;
 
     private CantorMoneyExchanger exchanger;
 
     @BeforeMethod
     public void beforeEachTest() {
         initMocks(this);
-        exchanger = new CantorMoneyExchanger(cantorDao);
+        exchanger = new CantorMoneyExchanger();
+        exchanger.setCantorDao(cantorDaoMock);
     }
 
     @Test(dataProvider = "prepareCasesForCalculateMoneyExchange")
@@ -39,8 +40,8 @@ public class CantorMockitoTest {
         when(buyCurrencyData.getSalePrice()).thenReturn(salePriceForBuyCurrency);
         when(buyCurrencyData.asEnum()).thenReturn(buyCurrency);
 
-        when(cantorDao.findCurrencyByName(buyCurrency)).thenReturn(buyCurrencyData);
-        when(cantorDao.findCurrencyByName(saleCurrency)).thenReturn(saleCurrencyData);
+        when(cantorDaoMock.findCurrencyByName(buyCurrency)).thenReturn(buyCurrencyData);
+        when(cantorDaoMock.findCurrencyByName(saleCurrency)).thenReturn(saleCurrencyData);
 
         // when
         ExchangeCalculation exchangeCalculation = exchanger.calculateExchange(saleCurrency, buyCurrency, amount);
@@ -96,9 +97,9 @@ public class CantorMockitoTest {
         exchanger.exchangeMoney(calculation);
 
         // then
-        verify(cantorDao).insertTransactionForCustomer(calculation);
-        verify(cantorDao).updateCurrency(sellingCurrency);
-        verify(cantorDao).updateCurrency(buyingCurrency);
+        verify(cantorDaoMock).insertTransactionForCustomer(calculation);
+        verify(cantorDaoMock).updateCurrency(sellingCurrency);
+        verify(cantorDaoMock).updateCurrency(buyingCurrency);
     }
 
     @Test
@@ -131,9 +132,9 @@ public class CantorMockitoTest {
         exchanger.exchangeMoney(calculation);
 
         // then
-        verify(cantorDao).insertTransactionForCompany(calculation);
-        verify(cantorDao).updateCurrency(sellingCurrency);
-        verify(cantorDao).updateCurrency(buyingCurrency);
+        verify(cantorDaoMock).insertTransactionForCompany(calculation);
+        verify(cantorDaoMock).updateCurrency(sellingCurrency);
+        verify(cantorDaoMock).updateCurrency(buyingCurrency);
     }
 
     @Test(expectedExceptions = CantorTransactionCanceledException.class)
@@ -147,7 +148,7 @@ public class CantorMockitoTest {
         exchanger.exchangeMoney(calculation);
 
         // then
-        verifyZeroInteractions(cantorDao);
+        verifyZeroInteractions(cantorDaoMock);
     }
 
     @Test(expectedExceptions = CantorTransactionCanceledException.class)
@@ -156,12 +157,12 @@ public class CantorMockitoTest {
         ExchangeCalculation calculation = mock(ExchangeCalculation.class);
         when(calculation.isCustomer()).thenReturn(true);
 
-        doThrow(new DAOException()).when(cantorDao).insertTransactionForCustomer(calculation);
+        doThrow(new DAOException()).when(cantorDaoMock).insertTransactionForCustomer(calculation);
 
         // when
         exchanger.exchangeMoney(calculation);
 
         // then
-        verifyZeroInteractions(cantorDao);
+        verifyZeroInteractions(cantorDaoMock);
     }
 }
