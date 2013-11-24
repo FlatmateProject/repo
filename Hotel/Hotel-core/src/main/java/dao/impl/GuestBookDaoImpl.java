@@ -27,6 +27,7 @@ public class GuestBookDaoImpl implements GuestBookDao {
     public List<RecreationServiceData> getServiceByReservationId(long reservationId) throws DAOException {
         String query = "select uslugi.ID_USLUGI, NAZWA, CENA, TYP, CZAS from hotel.uslugi, rekreacja where rekreacja.id_rez ="
                 + reservationId + " and rekreacja.id_uslugi = uslugi.id_uslugi";
+
         return session.executeQuery(query, RecreationServiceData.class);
     }
 }
