@@ -11,12 +11,7 @@
     <version>1.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>Dictionary-maven</module>
-        <module>TestClient</module>
-        <module>Dictionary-ear</module>
         <module>Hotel</module>
-        <module>Dictionary-web</module>
-        <module>addressbook</module>
     </modules>
     <dependencies>
         <dependency>
