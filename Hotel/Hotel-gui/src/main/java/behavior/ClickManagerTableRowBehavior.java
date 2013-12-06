@@ -5,6 +5,7 @@ import com.vaadin.data.Property;
 import com.vaadin.event.ItemClickEvent;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import view.managerPanel.ManagerPanel;
 
 /**
@@ -12,6 +13,7 @@ import view.managerPanel.ManagerPanel;
  * Date: 11/6/13
  * Time: 7:44 PM
  */
+@Component
 public class ClickManagerTableRowBehavior implements ItemClickEvent.ItemClickListener {
 
     private static final Logger log = Logger.getLogger(ClickManagerTableRowBehavior.class);

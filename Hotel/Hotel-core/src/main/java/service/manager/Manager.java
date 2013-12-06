@@ -21,7 +21,7 @@ public class Manager {
     @Autowired
     private Calendar calendar;
 
-    public List<ColumnData> getColumns(TABLE table) throws DAOException {
+    public List<ColumnData> getColumns(TABLE table) {
         return TableContent.asList(table);
     }
 

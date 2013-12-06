@@ -47,7 +47,7 @@ public class ApplicationConfiguration {
     @Value("${password}")
     private String password;
 
-    private Calendar calendar = GregorianCalendar.getInstance();
+    private final Calendar calendar = GregorianCalendar.getInstance();
 
     @Bean
     public DataSource dataSource() {

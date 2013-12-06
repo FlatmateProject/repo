@@ -5,9 +5,9 @@ import java.util.List;
 
 public class ConditionsConstructor {
 
-    private String[] labels;
+    private final String[] labels;
 
-    private String[] data;
+    private final String[] data;
 
     public ConditionsConstructor(String[] labels, String[] data) {
         this.labels = labels;
@@ -17,7 +17,7 @@ public class ConditionsConstructor {
     public List<Condition> createConditions() {
         List<Condition> conditions = new ArrayList<>();
         for (int i = 0; i < data.length; i++) {
-            if (!isNotClientDataEmpty(i)) {
+            if (isNotClientDataEmpty(i)) {
                 conditions.add(addCondition(i));
             }
         }

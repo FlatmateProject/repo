@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class LocalDateConverter implements TypeConverter<LocalDate> {
 
-    private ResultSet resultSet;
+    private final ResultSet resultSet;
 
     public LocalDateConverter(ResultSet resultSet) {
         this.resultSet = resultSet;

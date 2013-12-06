@@ -28,10 +28,6 @@ public enum MONTH {
         return desc;
     }
 
-    public int getNumberOfDayInMonth() {
-        return numberOfDayInMonth;
-    }
-
     public int numberCountedFromOne() {
         return ordinal() + 1;
     }
@@ -40,7 +36,7 @@ public enum MONTH {
         return numberCountedFromOne() > month.numberCountedFromOne();
     }
 
-    public static MONTH getMonth(int indexCountedFromZero) {
+    private static MONTH getMonth(int indexCountedFromZero) {
         MONTH[] months = values();
         return months[indexCountedFromZero];
     }
@@ -48,11 +44,6 @@ public enum MONTH {
     public static String getMonthName(int i) {
         return getMonth(i).desc;
     }
-
-    public static int getDayOfMonth(int i) {
-        return getMonth(i).numberOfDayInMonth;
-    }
-
 
     @Override
     public String toString() {

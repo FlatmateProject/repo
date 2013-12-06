@@ -30,7 +30,7 @@ public class BusinessValidation {
             return false;
         }
         int[] weights = {1, 3, 7, 9, 1, 3, 7, 9, 1, 3};
-        int j = 0, sum = 0, control = 0;
+        int j, sum = 0, control;
         int csum = Integer.parseInt(pesel.substring(psize - 1));
         for (int i = 0; i < psize - 1; i++) {
             char c = pesel.charAt(i);

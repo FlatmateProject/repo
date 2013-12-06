@@ -50,36 +50,4 @@ public class HotelUI extends TabComponent {
     @Override
     public void addEvents() {
     }
-
-    public void setManagerPanel(TabComponent managerPanel) {
-        this.managerPanel = managerPanel;
-    }
-
-    public void setCantorPanel(TabComponent cantorPanel) {
-        this.cantorPanel = cantorPanel;
-    }
-
-    public void setSchedulerPanel(TabComponent schedulerPanel) {
-        this.schedulerPanel = schedulerPanel;
-    }
-
-    public void setReceptionPanel(TabComponent receptionPanel) {
-        this.receptionPanel = receptionPanel;
-    }
-
-    public void setReservationPanel(TabComponent reservationPanel) {
-        this.reservationPanel = reservationPanel;
-    }
-
-    public void setGuessBookPanel(TabComponent guessBookPanel) {
-        this.guessBookPanel = guessBookPanel;
-    }
-
-    public void setStatisticPanel(TabComponent statisticPanel) {
-        this.statisticPanel = statisticPanel;
-    }
-
-    public void setEmployeeManagerPanel(TabComponent employeeManagerPanel) {
-        this.employeeManagerPanel = employeeManagerPanel;
-    }
 }

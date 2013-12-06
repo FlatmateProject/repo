@@ -20,7 +20,7 @@ import java.util.List;
 @Component
 public class ManagerPanel extends TabComponent {
 
-    private DataPanel dataPanel = DataPanel.empty();
+    private final DataPanel dataPanel = DataPanel.empty();
 
     private Button[] tableButtons;
 
@@ -120,13 +120,9 @@ public class ManagerPanel extends TabComponent {
     }
 
     public void createDataPanel() {
-        try {
-            TABLE table = managerModel.getCurrentlySelectedTable();
-            List<ColumnData> columns = manager.getColumns(table);
-            dataPanel.createDataPanel(columns);
-        } catch (DAOException e) {
-            popUp.showError("Something went wrong");
-        }
+        TABLE table = managerModel.getCurrentlySelectedTable();
+        List<ColumnData> columns = manager.getColumns(table);
+        dataPanel.createDataPanel(columns);
     }
 
     public DataPanel getDataPanel() {

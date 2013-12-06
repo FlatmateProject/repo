@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class StringConverter implements TypeConverter<String> {
 
-    private ResultSet resultSet;
+    private final ResultSet resultSet;
 
     public StringConverter(ResultSet resultSet) {
         this.resultSet = resultSet;

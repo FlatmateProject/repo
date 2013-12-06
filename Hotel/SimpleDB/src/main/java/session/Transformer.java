@@ -21,7 +21,7 @@ class Transformer {
 
     private static final Logger log = Logger.getLogger(Transformer.class);
 
-    private ResultSet resultSet;
+    private final ResultSet resultSet;
 
     private final Map<Class, TypeConverter> conversionMap;
 

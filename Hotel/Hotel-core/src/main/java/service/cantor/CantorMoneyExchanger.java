@@ -55,7 +55,7 @@ public class CantorMoneyExchanger {
             savedData = currencyExchangeRepository.save(calculation);
         }
         if (savedData == null) {
-            throw new CantorTransactionCanceledException("wrong client");
+            throw new CantorTransactionCanceledException();
         }
         oldCurrency.increaseQuantity(calculation.getAmount());
         currencyRepository.save(oldCurrency);

@@ -11,7 +11,7 @@ public interface ServiceDao {
 
     void updateData(TABLE table, String conditions) throws DAOException;
 
-    boolean insertData(TABLE table, String[] labels, String[] data) throws DAOException;
+    void insertData(TABLE table, String[] labels, String[] data) throws DAOException;
 
     void deleteData(TABLE table, String primaryKey, long id) throws DAOException;
 
@@ -19,5 +19,5 @@ public interface ServiceDao {
 
     int getCountForTable(String tableName) throws DAOException;
 
-    List<? extends ArrayObtained> getDataFromTable(TABLE table, List<Condition> conditions) throws DAOException;
+    List<? extends ArrayObtained> getDataFromTable(TABLE table, List<Condition> conditions);
 }

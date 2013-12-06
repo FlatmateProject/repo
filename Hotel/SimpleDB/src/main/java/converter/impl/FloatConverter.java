@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class FloatConverter implements TypeConverter<Float> {
 
-    private ResultSet resultSet;
+    private final ResultSet resultSet;
 
     public FloatConverter(ResultSet resultSet) {
         this.resultSet = resultSet;

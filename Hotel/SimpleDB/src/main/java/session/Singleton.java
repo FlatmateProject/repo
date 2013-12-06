@@ -45,12 +45,11 @@ class Singleton {
         }
     }
 
-    public Boolean update(String sql) throws DAOException {
+    public void update(String sql) throws DAOException {
         try {
             log.info(sql);
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
-            return true;
         } catch (SQLException e) {
             logExceptionDetails(e);
             throw new DAOException(e);

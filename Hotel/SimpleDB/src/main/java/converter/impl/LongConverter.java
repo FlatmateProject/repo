@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class LongConverter implements TypeConverter<Long> {
 
-    private ResultSet resultSet;
+    private final ResultSet resultSet;
 
     public LongConverter(ResultSet resultSet) {
         this.resultSet = resultSet;

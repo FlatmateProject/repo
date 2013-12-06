@@ -6,10 +6,12 @@ import common.TableContent;
 import dictionary.TABLE;
 import model.ManagerModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import service.manager.Manager;
 import view.common.TableUIBuilder;
 import view.managerPanel.ManagerPanel;
 
+@Component
 public class ControlButtonBehavior implements Button.ClickListener {
 
     @Autowired
@@ -18,7 +20,7 @@ public class ControlButtonBehavior implements Button.ClickListener {
     @Autowired
     private ManagerModel managerModel;
 
-    private ManagerPanel managerPanel;
+    private final ManagerPanel managerPanel;
 
     private final TABLE usedTable;
 

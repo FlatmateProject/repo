@@ -18,11 +18,11 @@ public enum TABLE {
     Archive("archiwum", ArchiveData.class, new String[]{"ID_ARCHIVE"}),
     Reservation("rezerwacje", ReservationData.class, new String[]{"ID_REZ", "IDK_PESEL", "IDF_KRS", "ID_USLUGI", "ID_POKOJU", "TYP", "DATA_Z", "DATA_W"});
 
-    private String tableName;
+    private final String tableName;
 
-    private Class<? extends ArrayObtained> tableDtoClass;
+    private final Class<? extends ArrayObtained> tableDtoClass;
 
-    private String[] columns;
+    private final String[] columns;
 
     private TABLE(String tableName, Class<? extends ArrayObtained> tableDtoClass, String[] columns) {
         this.tableName = tableName;

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class SimpleSession {
 
-    private Singleton singleton;
+    private final Singleton singleton;
 
     public SimpleSession(SimpleDataSource simpleDataSource) {
         singleton = simpleDataSource.establishConnection();

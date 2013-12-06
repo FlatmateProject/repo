@@ -32,12 +32,11 @@ public class ServiceDaoImpl implements ServiceDao {
     }
 
     @Override
-    public boolean insertData(TABLE table, String[] labels, String[] data) throws DAOException {
+    public void insertData(TABLE table, String[] labels, String[] data) throws DAOException {
         String query = "insert into hotel." + table + "(";
         int length = data.length;
         for (int i = 0; i < length; i++) {
             if (i == 0 && data[i].isEmpty()) {
-                return false;
             } else if (!data[i].isEmpty()) {
                 if (i != 0)
                     query += ", ";
@@ -47,7 +46,6 @@ public class ServiceDaoImpl implements ServiceDao {
         query += ") values(";
         for (int i = 0; i < length; i++) {
             if (i == 0 && data[i].isEmpty()) {
-                return false;
             } else if (!data[i].isEmpty()) {
                 if (i != 0)
                     query += ", ";
@@ -56,7 +54,6 @@ public class ServiceDaoImpl implements ServiceDao {
         }
         query += ");";
         session.update(query);
-        return true;
     }
 
     @Override
@@ -71,7 +68,7 @@ public class ServiceDaoImpl implements ServiceDao {
     }
 
     @Override
-    public List<? extends ArrayObtained> getDataFromTable(TABLE table, List<Condition> conditions) throws DAOException {
+    public List<? extends ArrayObtained> getDataFromTable(TABLE table, List<Condition> conditions) {
         CriteriaBuilder queryBuilder = entityManager.getCriteriaBuilder();
         for (Condition condition : conditions) {
 //            queryBuilder.equal(condition.getProperty(), condition.getValue());

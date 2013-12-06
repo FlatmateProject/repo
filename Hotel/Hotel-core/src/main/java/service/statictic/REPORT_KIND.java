@@ -18,10 +18,6 @@ public enum REPORT_KIND {
 
     private ReportCreator reportCreator;
 
-    private REPORT_KIND(String desc) {
-        this.desc = desc;
-    }
-
     private REPORT_KIND(String desc, ReportTemplateBuilder template, ReportCreator creator) {
         this.desc = desc;
         this.templateBuilder = template;

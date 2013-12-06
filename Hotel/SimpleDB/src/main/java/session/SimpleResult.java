@@ -9,7 +9,7 @@ public class SimpleResult {
 
     private final ResultSet resultSet;
 
-    public SimpleResult(ResultSet resultSet) {
+    private SimpleResult(ResultSet resultSet) {
         this.resultSet = resultSet;
     }
 

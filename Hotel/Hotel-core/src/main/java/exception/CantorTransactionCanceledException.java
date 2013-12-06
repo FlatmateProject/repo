@@ -6,7 +6,7 @@ public class CantorTransactionCanceledException extends Exception {
         super(e);
     }
 
-    public CantorTransactionCanceledException(String message) {
-        super(message);
+    public CantorTransactionCanceledException() {
+        super("wrong client");
     }
 }
