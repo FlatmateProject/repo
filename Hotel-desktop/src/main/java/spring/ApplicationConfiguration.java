@@ -28,22 +28,16 @@ import static gui.guestBook.CompanySpecification.companySpecification;
 import static gui.guestBook.CustomerSpecification.customerSpecification;
 
 @Configuration
-@ImportResource("classpath:/properties-config.xml")
 public class ApplicationConfiguration {
 
-    @Value("${driver}")
     private String driver;
 
-    @Value("${host}")
     private String host;
 
-    @Value("${database}")
     private String database;
 
-    @Value("${username}")
     private String user;
 
-    @Value("${password}")
     private String password;
 
     private Calendar calendar = GregorianCalendar.getInstance();

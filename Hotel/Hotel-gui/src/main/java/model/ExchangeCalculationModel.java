@@ -1,6 +1,6 @@
 package model;
 
-import entity.ExchangeCalculationData;
+import entity.CurrencyExchangeData;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 @Scope("singleton")
 public class ExchangeCalculationModel {
 
-    private ExchangeCalculationData exchangeCalculationData;
+    private CurrencyExchangeData currencyExchangeData;
 
-    public ExchangeCalculationData getExchangeCalculationData() {
-        return exchangeCalculationData;
+    public CurrencyExchangeData getCurrencyExchangeData() {
+        return currencyExchangeData;
     }
 
-    public void setExchangeCalculationData(ExchangeCalculationData exchangeCalculationData) {
-        this.exchangeCalculationData = exchangeCalculationData;
+    public void setCurrencyExchangeData(CurrencyExchangeData currencyExchangeData) {
+        this.currencyExchangeData = currencyExchangeData;
     }
 }

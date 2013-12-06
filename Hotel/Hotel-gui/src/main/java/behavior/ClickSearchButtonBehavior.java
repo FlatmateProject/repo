@@ -2,6 +2,8 @@ package behavior;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
+import common.Condition;
+import common.ConditionsConstructor;
 import common.TableContent;
 import model.ManagerModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Component;
 import service.guessBook.GuestBook;
 import view.common.TableUIBuilder;
 import view.managerPanel.ManagerPanel;
+
+import java.util.List;
 
 @Component
 public class ClickSearchButtonBehavior implements Button.ClickListener {
@@ -25,7 +29,8 @@ public class ClickSearchButtonBehavior implements Button.ClickListener {
     public void buttonClick(Button.ClickEvent event) {
         String[] labels = managerPanel.getDataPanel().getLabels();
         String[] data = managerPanel.getDataPanel().getData();
-        TableContent tableContent = guestBook.createTable(managerModel.getCurrentlySelectedTable(), labels, data);
+        List<Condition> conditions = new ConditionsConstructor(labels, data).createConditions();
+        TableContent tableContent = guestBook.createTable(managerModel.getCurrentlySelectedTable(), conditions);
         Table table = TableUIBuilder.table()
                 .withTitle(managerModel.getCurrentlySelectedTable())
                 .withContent(tableContent)

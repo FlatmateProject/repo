@@ -8,7 +8,7 @@ import static validation.BusinessValidation.isPesel;
 
 @Entity
 @Table(name = "kantor")
-public class ExchangeCalculationData {
+public class CurrencyExchangeData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,10 +24,12 @@ public class ExchangeCalculationData {
     @Column(name = "data")
     private Date date;
 
-    @Column(name = "w_ku")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "w_ku")
     private CurrencyData buyingCurrency;
 
-    @Column(name = "w_sp")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "w_sp")
     private CurrencyData sellingCurrency;
 
     @Column(name = "ilosc")
@@ -39,19 +41,20 @@ public class ExchangeCalculationData {
     @Column(name = "zysk")
     private final float gain;
 
-    public static final ExchangeCalculationData ZERO = new ExchangeCalculationData(0.0f, 0.0f, 0.0f);
+    public static final CurrencyExchangeData ZERO = new CurrencyExchangeData(0.0f, 0.0f, 0.0f);
 
-    private ExchangeCalculationData(float amount, float cost, float gain) {
+    private CurrencyExchangeData(float amount, float cost, float gain) {
         this.amount = amount;
         this.cost = cost;
         this.gain = gain;
     }
 
-    public static ExchangeCalculationData save(CurrencyData sellingCurrency, CurrencyData buyingCurrency, float amount, float cost, float gain) {
-        ExchangeCalculationData exchangeCalculationData = new ExchangeCalculationData(amount, cost, gain);
-        exchangeCalculationData.sellingCurrency = sellingCurrency;
-        exchangeCalculationData.buyingCurrency = buyingCurrency;
-        return exchangeCalculationData;
+    public static CurrencyExchangeData save(CurrencyData sellingCurrency, CurrencyData buyingCurrency, float amount, float cost, float gain) {
+        CurrencyExchangeData currencyExchangeData = new CurrencyExchangeData(amount, cost, gain);
+        currencyExchangeData.sellingCurrency = sellingCurrency;
+        currencyExchangeData.buyingCurrency = buyingCurrency;
+        currencyExchangeData.date = new Date();
+        return currencyExchangeData;
     }
 
     public CurrencyData getSellingCurrency() {
@@ -60,6 +63,14 @@ public class ExchangeCalculationData {
 
     public CurrencyData getBuyingCurrency() {
         return buyingCurrency;
+    }
+
+    public long getTransactionId() {
+        return transactionId;
+    }
+
+    public Date getDate() {
+        return date;
     }
 
     public float getAmount() {

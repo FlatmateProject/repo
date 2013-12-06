@@ -1,44 +1,32 @@
 package service.guessBook;
 
 import common.ArrayObtained;
+import common.Condition;
 import common.TableContent;
-import dao.GuestBookDao;
+import dao.ServiceDao;
 import dictionary.TABLE;
 import dto.ColumnData;
-import dto.guestBook.RecreationServiceData;
+import entity.RecreationServiceData;
 import entity.ReservationData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import repository.RecreationServiceRepository;
 import repository.ReservationRepository;
 
+import java.util.Collections;
 import java.util.List;
 
 @Component
 public class GuestBook {
 
     @Autowired
-    private GuestBookDao guestBookDao;
+    private RecreationServiceRepository recreationServiceRepository;
+
+    @Autowired
+    private ServiceDao serviceDao;
 
     @Autowired
     private ReservationRepository reservationRepository;
-
-    private String[] labels;
-
-    private String[] data;
-
-    public List<ColumnData> getLabels(TABLE table) {
-        List<ColumnData> emptyColumns = ColumnData.arrayOfMe("", 13);
-        try {
-            List<ColumnData> columns = TableContent.asList(table);
-            if (columns.isEmpty()) {
-                return emptyColumns;
-            }
-            return columns;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return emptyColumns;
-        }
-    }
 
     public TableContent createReservationTableForCustomer(long clientId) {
         try {
@@ -62,10 +50,10 @@ public class GuestBook {
         }
     }
 
-    public TableContent createRecreationTable(long idReservation) {
+    public TableContent createRecreationTable(ReservationData reservation) {
         try {
             List<ColumnData> columns = TableContent.asList(TABLE.Service);
-            List<RecreationServiceData> data = guestBookDao.getServiceByReservationId(idReservation);
+            List<RecreationServiceData> data = recreationServiceRepository.findByReservation(reservation);
             columns.add(new ColumnData("CZAS"));
             return TableContent.store(columns, data);
         } catch (Exception e) {
@@ -75,50 +63,21 @@ public class GuestBook {
     }
 
     public TableContent createTable(TABLE tableName) {
-        String emptyConditions = "";
-        return createTableWithConditions(tableName, emptyConditions);
+        return createTableWithConditions(tableName, Collections.<Condition>emptyList());
     }
 
-    public TableContent createTable(TABLE table, String[] labels, String[] data) {
-        this.labels = labels;
-        this.data = data;
-        String conditions = createConditions();
-        if (!conditions.isEmpty()) {
-            conditions = " where " + conditions;
-            return createTableWithConditions(table, conditions);
-        }
-        return TableContent.EMPTY;
+    public TableContent createTable(TABLE table, List<Condition> conditions) {
+        return createTableWithConditions(table, conditions);
     }
 
-    private TableContent createTableWithConditions(TABLE table, String conditions) {
+    private TableContent createTableWithConditions(TABLE table, List<Condition> conditions) {
         try {
             List<ColumnData> columns = TableContent.asList(table);
-            List<? extends ArrayObtained> data = guestBookDao.getDataFromTable(table, conditions);
+            List<? extends ArrayObtained> data = serviceDao.getDataFromTable(table, conditions);
             return TableContent.store(columns, data);
         } catch (Exception e) {
             e.printStackTrace();
             return TableContent.EMPTY;
         }
-    }
-
-    private String createConditions() {
-        String conditions = "";
-        for (int i = 0; i < data.length; i++) {
-            if (!isNotClientDataEmpty(i)) {
-                if (!conditions.isEmpty()) {
-                    conditions = conditions + " and ";
-                }
-                conditions = conditions + addCondition(i);
-            }
-        }
-        return conditions;
-    }
-
-    private String addCondition(int i) {
-        return String.format("%s=\"%s\"", labels[i], data[i]);
-    }
-
-    private boolean isNotClientDataEmpty(int i) {
-        return data[i].isEmpty();
     }
 }

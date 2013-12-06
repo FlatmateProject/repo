@@ -21,10 +21,10 @@ public class ReservationData implements ArrayObtained {
     private long krsId;
 
     @Column(name = "ID_USLUGI")
-    private long idService;
+    private long serviceId;
 
     @Column(name = "ID_POKOJU")
-    private long idRoom;
+    private long roomId;
 
     @Column(name = "TYP")
     private long type;
@@ -40,6 +40,38 @@ public class ReservationData implements ArrayObtained {
 
     @Override
     public Object[] getArray() {
-        return new Object[]{reservationId, peselId, krsId, idService, idRoom, type, checkInData, checkOutData};
+        return new Object[]{reservationId, peselId, krsId, serviceId, roomId, type, checkInData, checkOutData};
+    }
+
+    public long getReservationId() {
+        return reservationId;
+    }
+
+    public long getPeselId() {
+        return peselId;
+    }
+
+    public long getKrsId() {
+        return krsId;
+    }
+
+    public long getServiceId() {
+        return serviceId;
+    }
+
+    public long getRoomId() {
+        return roomId;
+    }
+
+    public long getType() {
+        return type;
+    }
+
+    public Date getCheckInData() {
+        return checkInData;
+    }
+
+    public Date getCheckOutData() {
+        return checkOutData;
     }
 }

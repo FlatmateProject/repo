@@ -1,8 +1,8 @@
 package repository;
 
 import entity.CustomerData;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CustomerRepository extends CrudRepository<CustomerData, Long> {
+public interface CustomerRepository extends JpaRepository<CustomerData, Long> {
 
 }

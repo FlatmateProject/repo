@@ -1,6 +1,5 @@
 package dao;
 
-import dto.SimpleNameData;
 import dto.statictic.*;
 import exception.DAOException;
 
@@ -23,8 +22,4 @@ public interface StatisticDao {
     int countUseNumberForServiceType(String serviceTypeName) throws DAOException;
 
     int countUseNumberForServiceName(String serviceName) throws DAOException;
-
-    List<SimpleNameData> findAllRoomTypes() throws DAOException;
-
-    List<SimpleNameData> findAllServiceTypes() throws DAOException;
 }

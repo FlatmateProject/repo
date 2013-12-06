@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <waluty ID_WALUTY="1" NAZWA="PLN" CENA_SP="1" CENA_KU="1" ILOSC="240"/>
+    <waluty ID_WALUTY="2" NAZWA="USD" CENA_SP="3.2" CENA_KU="3" ILOSC="240"/>
+    <waluty ID_WALUTY="3" NAZWA="EUR" CENA_SP="4" CENA_KU="3.8" ILOSC="240"/>
+</dataset>

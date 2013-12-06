@@ -2,24 +2,21 @@ package dictionary;
 
 import common.ArrayObtained;
 import dto.*;
-import entity.CompanyData;
-import entity.CurrencyData;
-import entity.CustomerData;
-import entity.ReservationData;
+import entity.*;
 
 public enum TABLE {
 
     Customer("klienci", CustomerData.class, new String[]{"IDK_PESEL", "IMIE", "NAZWISKO", "WOJEWODZTWO", "MIASTO", "ULICA", "BLOK", "NR_LOKALU", "STATUS", "UWAGI", "TELEFON", "NIP"}),
     Company("firmy", CompanyData.class, new String[]{"IDF_KRS", "NAZWA", "WOJEWODZTWO", "MIASTO", "ULICA", "BLOK", "NR_LOKALU", "STATUS", "UWAGI", "REGON", "NIP", "TELEFON", "DATA_ZALOZENIA"}),
-    Service("uslugi", ServiceData.class, new String[]{}),
-    Room("pokoje", RoomData.class, new String[]{}),
-    Occupation("stanowiska", OccupationData.class, new String[]{}),
+    Service("uslugi", ServiceData.class, new String[]{"ID_USLUGI", "NAZWA", " CENA", "TYP"}),
+    Room("pokoje", RoomData.class, new String[]{"ID_POKOJU", "ID_KLASY", "IDK_PESEL", "IDF_KRS"}),
+    Occupation("stanowiska", OccupationData.class, new String[]{"ID_STANOWISKA", "NAZWA", "PODSTAWA", "PREMIA "}),
     Currency("waluty", CurrencyData.class, new String[]{"ID_WALUTY", "NAZWA", "CENA_SP", "CENA_KU", "ILOSC"}),
-    Employee("pracownicy", EmployeeData.class, new String[]{}),
-    RoomType("klasy", RoomTypeData.class, new String[]{}),
-    Bill("rachunki", BillData.class, new String[]{}),
-    Archive("archiwum", ArchiveData.class, new String[]{}),
-    Reservation("rezerwacje", ReservationData.class, new String[]{});
+    Employee("pracownicy", EmployeeData.class, new String[]{"IDP_PESEL", "IMIE", "NAZWISKO", "HASLO", "WOJEWODZTWO", "MIASTO", "ULICA", "BLOK", "NR_LOKALU", "TELEFON", "NIP", "ID_STANOWISKA"}),
+    RoomType("klasy", RoomTypeData.class, new String[]{"ID_KLASY", "IL_OSOB", "CENA", "OPIS"}),
+    Bill("rachunki", BillData.class, new String[]{"ID_RACHUNKU", "ID_REZ", "DATA", "IDR", "PODATEK", "WARTOSC", "NAZWA"}),
+    Archive("archiwum", ArchiveData.class, new String[]{"ID_ARCHIVE"}),
+    Reservation("rezerwacje", ReservationData.class, new String[]{"ID_REZ", "IDK_PESEL", "IDF_KRS", "ID_USLUGI", "ID_POKOJU", "TYP", "DATA_Z", "DATA_W"});
 
     private String tableName;
 

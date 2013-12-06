@@ -1,12 +1,12 @@
 package service.cantor;
 
 import entity.CurrencyData;
-import entity.ExchangeCalculationData;
+import entity.CurrencyExchangeData;
 import exception.CantorTransactionCanceledException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import repository.CurrencyExchangeRepository;
 import repository.CurrencyRepository;
-import repository.ExchangeCalculationRepository;
 
 @Component
 public class CantorMoneyExchanger {
@@ -15,28 +15,28 @@ public class CantorMoneyExchanger {
     private CurrencyRepository currencyRepository;
 
     @Autowired
-    private ExchangeCalculationRepository exchangeCalculationRepository;
+    private CurrencyExchangeRepository currencyExchangeRepository;
 
-    public ExchangeCalculationData calculateExchange(CURRENCY oldCurrency, CURRENCY newCurrency, float amount) {
+    public CurrencyExchangeData calculateExchange(CURRENCY oldCurrency, CURRENCY newCurrency, float amount) {
         try {
-            CurrencyData oldCurrencyData = currencyRepository.findByName(oldCurrency);
-            CurrencyData newCurrencyData = currencyRepository.findByName(newCurrency);
+            CurrencyData oldCurrencyData = currencyRepository.findByName(oldCurrency.name());
+            CurrencyData newCurrencyData = currencyRepository.findByName(newCurrency.name());
             float valueInPLN = amount * oldCurrencyData.getBuyPrice();
             float cost = valueInPLN / newCurrencyData.getSalePrice();
             float gain = amount * oldCurrencyData.getSalePrice() - valueInPLN;
-            return ExchangeCalculationData.save(oldCurrencyData, newCurrencyData, amount, cost, gain);
+            return CurrencyExchangeData.save(oldCurrencyData, newCurrencyData, amount, cost, gain);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return ExchangeCalculationData.ZERO;
+        return CurrencyExchangeData.ZERO;
     }
 
-    public boolean isTransactionPossible(ExchangeCalculationData calculation) {
-        CurrencyData newCurrency = currencyRepository.findByName(calculation.getBuyingCurrency().asEnum());
+    public boolean isTransactionPossible(CurrencyExchangeData calculation) {
+        CurrencyData newCurrency = currencyRepository.findByName(calculation.getBuyingCurrency().getName());
         return newCurrency != null && calculation.getCost() <= newCurrency.getQuantity();
     }
 
-    public void exchangeMoney(ExchangeCalculationData calculation) throws CantorTransactionCanceledException {
+    public void exchangeMoney(CurrencyExchangeData calculation) throws CantorTransactionCanceledException {
         try {
             exchangeMoneyInSingleTransaction(calculation);
         } catch (Exception e) {
@@ -45,14 +45,14 @@ public class CantorMoneyExchanger {
         }
     }
 
-    private void exchangeMoneyInSingleTransaction(ExchangeCalculationData calculation) throws CantorTransactionCanceledException {
+    private void exchangeMoneyInSingleTransaction(CurrencyExchangeData calculation) throws CantorTransactionCanceledException {
         CurrencyData oldCurrency = calculation.getSellingCurrency();
         CurrencyData newCurrency = calculation.getBuyingCurrency();
-        ExchangeCalculationData savedData = null;
+        CurrencyExchangeData savedData = null;
         if (calculation.isCustomer()) {
-            savedData = exchangeCalculationRepository.save(calculation);
+            savedData = currencyExchangeRepository.save(calculation);
         } else if (calculation.isCompany()) {
-            savedData = exchangeCalculationRepository.save(calculation);
+            savedData = currencyExchangeRepository.save(calculation);
         }
         if (savedData == null) {
             throw new CantorTransactionCanceledException("wrong client");
@@ -67,7 +67,7 @@ public class CantorMoneyExchanger {
         this.currencyRepository = currencyRepository;
     }
 
-    public void setExchangeCalculationRepository(ExchangeCalculationRepository exchangeCalculationRepository) {
-        this.exchangeCalculationRepository = exchangeCalculationRepository;
+    public void setCurrencyExchangeRepository(CurrencyExchangeRepository currencyExchangeRepository) {
+        this.currencyExchangeRepository = currencyExchangeRepository;
     }
 }

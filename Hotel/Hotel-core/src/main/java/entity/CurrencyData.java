@@ -1,7 +1,6 @@
 package entity;
 
 import common.ArrayObtained;
-import service.cantor.CURRENCY;
 
 import javax.persistence.*;
 
@@ -59,9 +58,5 @@ public class CurrencyData implements ArrayObtained {
 
     public void decreaseQuantity(float amount) {
         quantity = quantity - amount;
-    }
-
-    public CURRENCY asEnum() {
-        return CURRENCY.valueOf(name);
     }
 }

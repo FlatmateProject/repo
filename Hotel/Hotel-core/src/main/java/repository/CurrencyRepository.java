@@ -1,10 +1,9 @@
 package repository;
 
 import entity.CurrencyData;
-import org.springframework.data.repository.CrudRepository;
-import service.cantor.CURRENCY;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CurrencyRepository extends CrudRepository<CurrencyData, Long> {
+public interface CurrencyRepository extends JpaRepository<CurrencyData, Long> {
 
-    CurrencyData findByName(CURRENCY currency);
+    CurrencyData findByName(String currency);
 }

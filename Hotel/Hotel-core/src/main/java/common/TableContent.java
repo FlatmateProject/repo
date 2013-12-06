@@ -33,19 +33,6 @@ public class TableContent {
         return new TableContent(columnNames, rowsData);
     }
 
-    public static <T extends ArrayObtained> TableContent store(List<ColumnData> columnNames, Iterable<T> rowsData) {
-        List<T> list = convertToList(rowsData);
-        return new TableContent(columnNames, list);
-    }
-
-    private static <T extends ArrayObtained> List<T> convertToList(Iterable<T> rowsData) {
-        List<T> list = new ArrayList<T>();
-        for (T row : rowsData) {
-            list.add(row);
-        }
-        return list;
-    }
-
     public List<ColumnData> getColumnNames() {
         return columnNames;
     }

@@ -3,7 +3,7 @@ package behavior;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 import common.TableContent;
-import entity.ExchangeCalculationData;
+import entity.CurrencyExchangeData;
 import exception.CantorTransactionCanceledException;
 import model.ExchangeCalculationModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +50,7 @@ public class ClickCommitTransactionButtonBehavior implements Button.ClickListene
     }
 
     private void commitMoneyExchangeTransaction() {
-        if (cantor.isTransactionPossible(exchangeCalculationModel.getExchangeCalculationData())) {
+        if (cantor.isTransactionPossible(exchangeCalculationModel.getCurrencyExchangeData())) {
             executeTransactionWithUIUpdate();
         } else {
             popUp.showError("Nieprawidłowe dane");
@@ -69,9 +69,9 @@ public class ClickCommitTransactionButtonBehavior implements Button.ClickListene
 
     private void exchangeMoney() throws CantorTransactionCanceledException {
         String client = cantorPanel.getClient();
-        ExchangeCalculationData exchangeCalculationData = exchangeCalculationModel.getExchangeCalculationData();
-        exchangeCalculationData.forClient(client);
-        cantor.exchangeMoney(exchangeCalculationData);
+        CurrencyExchangeData currencyExchangeData = exchangeCalculationModel.getCurrencyExchangeData();
+        currencyExchangeData.forClient(client);
+        cantor.exchangeMoney(currencyExchangeData);
     }
 
     private void refreshView() {

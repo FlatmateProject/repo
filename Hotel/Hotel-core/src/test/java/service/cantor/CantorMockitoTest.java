@@ -1,17 +1,17 @@
 package service.cantor;
 
 import entity.CurrencyData;
-import entity.ExchangeCalculationData;
+import entity.CurrencyExchangeData;
 import exception.CantorTransactionCanceledException;
 import exception.DAOException;
 import org.mockito.Mock;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import repository.CurrencyExchangeRepository;
 import repository.CurrencyRepository;
-import repository.ExchangeCalculationRepository;
 
-import static assertions.ExchangeCalculationAssertion.assertThat;
+import static assertions.CurrencyExchangeDataAssertion.assertThat;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -21,7 +21,7 @@ public class CantorMockitoTest {
     CurrencyRepository currencyRepositoryMock;
 
     @Mock
-    ExchangeCalculationRepository exchangeCalculationRepositoryMock;
+    CurrencyExchangeRepository currencyExchangeRepositoryMock;
 
     CantorMoneyExchanger exchanger;
 
@@ -29,7 +29,7 @@ public class CantorMockitoTest {
     public void beforeEachTest() {
         initMocks(this);
         exchanger = new CantorMoneyExchanger();
-        exchanger.setExchangeCalculationRepository(exchangeCalculationRepositoryMock);
+        exchanger.setCurrencyExchangeRepository(currencyExchangeRepositoryMock);
         exchanger.setCurrencyRepository(currencyRepositoryMock);
     }
 
@@ -38,22 +38,24 @@ public class CantorMockitoTest {
                                                              float buyPriceForSaleCurrency, float salePriceForSaleCurrency, float salePriceForBuyCurrency) throws DAOException {
         // given
         CurrencyData saleCurrencyData = mock(CurrencyData.class);
+        when(saleCurrencyData.getName()).thenReturn(saleCurrency.name());
         when(saleCurrencyData.getBuyPrice()).thenReturn(buyPriceForSaleCurrency);
         when(saleCurrencyData.getSalePrice()).thenReturn(salePriceForSaleCurrency);
-        when(saleCurrencyData.asEnum()).thenReturn(saleCurrency);
 
         CurrencyData buyCurrencyData = mock(CurrencyData.class);
+        when(buyCurrencyData.getName()).thenReturn(buyCurrency.name());
         when(buyCurrencyData.getSalePrice()).thenReturn(salePriceForBuyCurrency);
-        when(buyCurrencyData.asEnum()).thenReturn(buyCurrency);
 
-        when(currencyRepositoryMock.findByName(buyCurrency)).thenReturn(buyCurrencyData);
-        when(currencyRepositoryMock.findByName(saleCurrency)).thenReturn(saleCurrencyData);
+        when(currencyRepositoryMock.findByName(buyCurrency.name())).thenReturn(buyCurrencyData);
+        when(currencyRepositoryMock.findByName(saleCurrency.name())).thenReturn(saleCurrencyData);
+        when(currencyRepositoryMock.save(buyCurrencyData)).thenReturn(buyCurrencyData);
+        when(currencyRepositoryMock.save(saleCurrencyData)).thenReturn(saleCurrencyData);
 
         // when
-        ExchangeCalculationData exchangeCalculationData = exchanger.calculateExchange(saleCurrency, buyCurrency, amount);
+        CurrencyExchangeData currencyExchangeData = exchanger.calculateExchange(saleCurrency, buyCurrency, amount);
 
         // then
-        assertThat(exchangeCalculationData)
+        assertThat(currencyExchangeData)
                 .isNotNull()
                 .isSaleCurrency(saleCurrency)
                 .isBuyingCurrency(buyCurrency)
@@ -76,7 +78,7 @@ public class CantorMockitoTest {
     public void shouldCommitMoneyExchangeTransactionForCustomer() throws CantorTransactionCanceledException, DAOException {
         // given
 
-        long clientId = 87122206592L;
+        long clientId = 87122235514L;
         float amount = 100;
         float cost = 300;
         float gain = 100;
@@ -87,10 +89,9 @@ public class CantorMockitoTest {
         when(sellingCurrency.getCurrencyId()).thenReturn(sellingCurrencyId);
 
         CurrencyData buyingCurrency = mock(CurrencyData.class);
-        when(buyingCurrency.asEnum()).thenReturn(CURRENCY.EUR);
         when(buyingCurrency.getCurrencyId()).thenReturn(buyingCurrencyId);
 
-        ExchangeCalculationData calculation = mock(ExchangeCalculationData.class);
+        CurrencyExchangeData calculation = mock(CurrencyExchangeData.class);
         when(calculation.getAmount()).thenReturn(amount);
         when(calculation.getCost()).thenReturn(cost);
         when(calculation.getGain()).thenReturn(gain);
@@ -99,13 +100,13 @@ public class CantorMockitoTest {
         when(calculation.getClientId()).thenReturn(clientId);
         when(calculation.isCustomer()).thenReturn(true);
 
-        when(exchangeCalculationRepositoryMock.save(calculation)).thenReturn(calculation);
+        when(currencyExchangeRepositoryMock.save(calculation)).thenReturn(calculation);
 
         // when
         exchanger.exchangeMoney(calculation);
 
         // then
-        verify(exchangeCalculationRepositoryMock).save(calculation);
+        verify(currencyExchangeRepositoryMock).save(calculation);
         verify(currencyRepositoryMock).save(sellingCurrency);
         verify(currencyRepositoryMock).save(buyingCurrency);
     }
@@ -113,7 +114,7 @@ public class CantorMockitoTest {
     @Test
     public void shouldCommitMoneyExchangeTransactionForCompany() throws CantorTransactionCanceledException, DAOException {
         // given
-        long clientId = 87122206592L;
+        long clientId = 87122235514L;
         float amount = 100;
         float cost = 300;
         float gain = 100;
@@ -124,10 +125,9 @@ public class CantorMockitoTest {
         when(sellingCurrency.getCurrencyId()).thenReturn(sellingCurrencyId);
 
         CurrencyData buyingCurrency = mock(CurrencyData.class);
-        when(buyingCurrency.asEnum()).thenReturn(CURRENCY.EUR);
         when(buyingCurrency.getCurrencyId()).thenReturn(buyingCurrencyId);
 
-        ExchangeCalculationData calculation = mock(ExchangeCalculationData.class);
+        CurrencyExchangeData calculation = mock(CurrencyExchangeData.class);
         when(calculation.getAmount()).thenReturn(amount);
         when(calculation.getCost()).thenReturn(cost);
         when(calculation.getGain()).thenReturn(gain);
@@ -136,13 +136,13 @@ public class CantorMockitoTest {
         when(calculation.getClientId()).thenReturn(clientId);
         when(calculation.isCompany()).thenReturn(true);
 
-        when(exchangeCalculationRepositoryMock.save(calculation)).thenReturn(calculation);
+        when(currencyExchangeRepositoryMock.save(calculation)).thenReturn(calculation);
 
         // when
         exchanger.exchangeMoney(calculation);
 
         // then
-        verify(exchangeCalculationRepositoryMock).save(calculation);
+        verify(currencyExchangeRepositoryMock).save(calculation);
         verify(currencyRepositoryMock).save(sellingCurrency);
         verify(currencyRepositoryMock).save(buyingCurrency);
     }
@@ -150,7 +150,7 @@ public class CantorMockitoTest {
     @Test(expectedExceptions = CantorTransactionCanceledException.class)
     public void shouldNotCommitMoneyExchangeTransactionWithoutClient() throws CantorTransactionCanceledException {
         // given
-        ExchangeCalculationData calculation = mock(ExchangeCalculationData.class);
+        CurrencyExchangeData calculation = mock(CurrencyExchangeData.class);
         when(calculation.isCustomer()).thenReturn(false);
         when(calculation.isCompany()).thenReturn(false);
 
@@ -158,21 +158,21 @@ public class CantorMockitoTest {
         exchanger.exchangeMoney(calculation);
 
         // then
-        verifyZeroInteractions(exchangeCalculationRepositoryMock);
+        verifyZeroInteractions(currencyExchangeRepositoryMock);
     }
 
     @Test(expectedExceptions = CantorTransactionCanceledException.class)
     public void shouldCancelMoneyExchangeTransactionWhenSomethingBadHappened() throws CantorTransactionCanceledException, DAOException {
         // given
-        ExchangeCalculationData calculation = mock(ExchangeCalculationData.class);
+        CurrencyExchangeData calculation = mock(CurrencyExchangeData.class);
         when(calculation.isCustomer()).thenReturn(true);
 
-        when(exchangeCalculationRepositoryMock.save(calculation)).thenReturn(null);
+        when(currencyExchangeRepositoryMock.save(calculation)).thenReturn(null);
 
         // when
         exchanger.exchangeMoney(calculation);
 
         // then
-        verifyZeroInteractions(exchangeCalculationRepositoryMock);
+        verifyZeroInteractions(currencyExchangeRepositoryMock);
     }
 }

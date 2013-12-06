@@ -90,7 +90,7 @@ public class CantorTableCreatorMockitoTest {
     @Test
     public void shouldCreateEmptyCustomerTable() throws Exception {
         //given
-        long pesel = 87122206592L;
+        long pesel = 87122235514L;
         String[] columnNames = new String[]{"IDK_PESEL", "IMIE", "NAZWISKO", "WOJEWODZTWO", "MIASTO", "ULICA", "BLOK", "NR_LOKALU", "STATUS", "UWAGI", "TELEFON", "NIP"};
 
         //when
@@ -108,7 +108,7 @@ public class CantorTableCreatorMockitoTest {
     @Test
     public void shouldCreateCustomerTableWithOneRow() throws DAOException {
         // given
-        long pesel = 87122206592L;
+        long pesel = 87122235514L;
         String[] columnNames = new String[]{"IDK_PESEL", "IMIE", "NAZWISKO", "WOJEWODZTWO", "MIASTO", "ULICA", "BLOK", "NR_LOKALU", "STATUS", "UWAGI", "TELEFON", "NIP"};
         Object[] row = new Object[]{pesel, "Piotr", "Piotrowski", "Małopolsie", "Kraków", "Zdunów", "22c", 30L, "NEW", "OK", 889225169L, 6582514L};
 

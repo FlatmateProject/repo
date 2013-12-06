@@ -1,0 +1,12 @@
+<dataset>
+    <uslugi ID_USLUGI="1" NAZWA="basen" CENA="20" TYP=""/>
+    <uslugi ID_USLUGI="2" NAZWA="silownia" CENA="20" TYP=""/>
+
+    <rezerwacje ID_REZ="1" IDK_PESEL="87122235514" IDF_KRS="0" ID_USLUGI="1" ID_POKOJU="1" TYP="1" DATA_Z="2012-02-02"
+                DATA_W="2012-03-02"/>
+    <rezerwacje ID_REZ="123456" IDK_PESEL="0" IDF_KRS="311911" ID_USLUGI="1" ID_POKOJU="1" TYP="1" DATA_Z="2012-02-02"
+                DATA_W="2012-03-02"/>
+
+    <rekreacja IDK_REKREACJI="1" ID_USLUGI="1" ID_REZ="1" CZAS="5"/>
+    <rekreacja IDK_REKREACJI="2" ID_USLUGI="1" ID_REZ="123456" CZAS="5"/>
+</dataset>

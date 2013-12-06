@@ -1,7 +1,6 @@
 package dao.impl;
 
 import dao.StatisticDao;
-import dto.SimpleNameData;
 import dto.statictic.*;
 import exception.DAOException;
 import session.SimpleSession;
@@ -107,17 +106,4 @@ public class StatisticDaoImpl implements StatisticDao {
         query += "  GROUP BY rrk.id_rez ) tab";
         return (Integer) session.simpleResult(query);
     }
-
-    @Override
-    public List<SimpleNameData> findAllServiceTypes() throws DAOException {
-        String query = "SELECT typ FROM uslugi GROUP BY typ";
-        return session.executeQuery(query, SimpleNameData.class);
-    }
-
-    @Override
-    public List<SimpleNameData> findAllRoomTypes() throws DAOException {
-        String query = "SELECT opis FROM klasy";
-        return session.executeQuery(query, SimpleNameData.class);
-    }
-
 }

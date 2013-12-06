@@ -29,7 +29,7 @@ public class CantorTableCreator {
 
     public TableContent createCurrencyTable() {
         List<ColumnData> currencyColumns = TableContent.asList(TABLE.Currency);
-        Iterable<CurrencyData> currencies = currencyRepository.findAll();
+        List<CurrencyData> currencies = currencyRepository.findAll();
         return TableContent.store(currencyColumns, currencies);
     }
 

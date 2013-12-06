@@ -1,11 +1,7 @@
 package spring;
 
-import dao.GuestBookDao;
-import dao.ManagerDao;
 import dao.ServiceDao;
 import dao.StatisticDao;
-import dao.impl.GuestBookDaoImpl;
-import dao.impl.ManagerDaoImpl;
 import dao.impl.ServiceDaoImpl;
 import dao.impl.StatisticDaoImpl;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +20,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import session.SimpleDataSource;
 import session.SimpleSession;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -62,12 +60,22 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
+    public LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean() {
         LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-        localContainerEntityManagerFactoryBean.setDataSource(dataSource);
-        localContainerEntityManagerFactoryBean.setJpaVendorAdapter(jpaVendorAdapter);
+        localContainerEntityManagerFactoryBean.setDataSource(dataSource());
+        localContainerEntityManagerFactoryBean.setJpaVendorAdapter(jpaVendorAdapter());
         localContainerEntityManagerFactoryBean.setPackagesToScan("repository", "entity");
         return localContainerEntityManagerFactoryBean;
+    }
+
+    @Bean
+    public EntityManagerFactory entityManagerFactory() {
+        return localContainerEntityManagerFactoryBean().getObject();
+    }
+
+    @Bean
+    public EntityManager entityManager() {
+        return entityManagerFactory().createEntityManager();
     }
 
     @Bean
@@ -82,7 +90,7 @@ public class ApplicationConfiguration {
     @Bean
     public PlatformTransactionManager transactionManager() {
         JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
-        jpaTransactionManager.setEntityManagerFactory(entityManagerFactory(dataSource(), jpaVendorAdapter()).getObject());
+        jpaTransactionManager.setEntityManagerFactory(entityManagerFactory());
         return jpaTransactionManager;
     }
 
@@ -104,22 +112,12 @@ public class ApplicationConfiguration {
 
     @Bean
     public ServiceDao serviceDao() {
-        return new ServiceDaoImpl(session());
+        return new ServiceDaoImpl(session(), entityManager());
     }
 
     @Bean
     public StatisticDao statisticDao() {
         return new StatisticDaoImpl(session());
-    }
-
-    @Bean
-    public ManagerDao managerDao() {
-        return new ManagerDaoImpl(session());
-    }
-
-    @Bean
-    public GuestBookDao guestBookDao() {
-        return new GuestBookDaoImpl(session());
     }
 
     @Bean
